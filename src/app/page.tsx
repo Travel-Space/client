@@ -11,7 +11,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <main>
-          그럼이건모지? 괜찮군 ㅋ<a href="/post">post</a>
+          그럼이건모지? 괜찮군 브랜치를 따보자<a href="/post">post</a>
         </main>
       </ThemeProvider>
     </>
