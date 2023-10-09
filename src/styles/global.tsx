@@ -57,8 +57,6 @@ const GlobalStyles = createGlobalStyle`
     
     body {
         font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
-        color: ${({ theme }) => theme.FONT_SIZE.es};
-        background-color: red;
     }
 
     button {
