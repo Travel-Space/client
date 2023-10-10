@@ -4,6 +4,7 @@ import { flexColumn } from "@/styles/common";
 export const Container = styled.div`
   width: 280px;
   padding: 24px;
+  display: flex;
 `;
 export const UserImg = styled.img`
   width: 20px;
