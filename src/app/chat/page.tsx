@@ -31,6 +31,7 @@ export default function Chat() {
           </S.ListBox>
         </S.ChatBox>
 
+        {/* 채팅 내용 */}
         <ChatContent />
       </S.Wrapper>
     </S.Container>
