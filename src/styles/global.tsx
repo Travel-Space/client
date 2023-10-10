@@ -53,6 +53,10 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    html {
+        height: 100%;
         background-image: url('/assets/img/background/background-1.png');
     }
     
