@@ -24,6 +24,7 @@ const FONT_SIZE = {
   xs: "12px",
   sm: "14px",
   md: "16px",
+  em: "18px",
   big: "20px",
   lg: "24px",
 };

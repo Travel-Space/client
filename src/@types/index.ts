@@ -1,1 +1,3 @@
-// test
+export interface ModalType {
+  onClose: () => void;
+}
