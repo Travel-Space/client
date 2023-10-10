@@ -1,25 +1,33 @@
 import Link from "next/link";
+import * as S from "./index.styled";
 
 export default function Header() {
   return (
-    <header>
-      <div>
+    <S.Wrap>
+      <S.Container>
         <Link href="/">
-          <span>TRAVEL</span>SPACE
+          <img src="/assets/img/icons/logo.svg" />
         </Link>
-        <ul>
+        <S.List>
+          {/* 회원 */}
           <li>
-            <button type="button">NOTIFICATION</button>
+            <button type="button">
+              <img src="/assets/img/icons/notification.svg" />
+              {/* <img src="/assets/img/icons/notifications.svg" /> */}
+            </button>
           </li>
           <li>
             <Link href="/mypage">MYPAGE</Link>
           </li>
           <li>
-            <button type="button">LOGIN</button>
             <button type="button">LOGOUT</button>
           </li>
-        </ul>
-      </div>
-    </header>
+          {/* 비회원 */}
+          <li>
+            <button type="button">LOGIN</button>
+          </li>
+        </S.List>
+      </S.Container>
+    </S.Wrap>
   );
 }
