@@ -16,7 +16,7 @@ export default function Chat() {
           <S.Line />
 
           <S.ListBox>
-            {/* chatting list */}
+            {/* 채팅 목록 */}
             <ChatList />
             <ChatList />
             <ChatList />
