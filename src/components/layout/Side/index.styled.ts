@@ -9,7 +9,7 @@ export const Container = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  width: 433px;
+  width: 443px;
   background-color: ${({ theme }) => theme.PALETTE.white};
   height: 100%;
 `;
