@@ -6,7 +6,7 @@ const GlobalStyles = createGlobalStyle`
 
     @font-face {
         font-family: 'Pretendard-Thin';
-        src: url('/assets/font/Pretendard-Bold.otf') format('opentype');
+        src: url('/assets/font/Pretendard-Thin.otf') format('opentype');
     }
 
     @font-face {
@@ -31,7 +31,7 @@ const GlobalStyles = createGlobalStyle`
 
     @font-face {
         font-family: 'Pretendard-SemiBold';
-        src: url('/assets/font/Pretendard-Medium.otf') format('opentype');
+        src: url('/assets/font/Pretendard-SemiBold.otf') format('opentype');
     }
 
     @font-face {
@@ -41,12 +41,12 @@ const GlobalStyles = createGlobalStyle`
 
     @font-face {
         font-family: 'Pretendard-ExtraBold';
-        src: url('/assets/font/Pretendard-Medium.otf') format('opentype');
+        src: url('/assets/font/Pretendard-ExtraBold.otf') format('opentype');
     }
 
     @font-face {
         font-family: 'Pretendard-Black';
-        src: url('/assets/font/Pretendard-Medium.otf') format('opentype');
+        src: url('/assets/font/Pretendard-Black.otf') format('opentype');
     }
 
     * {
@@ -61,7 +61,7 @@ const GlobalStyles = createGlobalStyle`
     }
     
     body {
-        font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+        font-family: ${({ theme }) => theme.FONT_WEIGHT.regular}, sans-serif;
     }
 
     button {
