@@ -30,6 +30,12 @@ export const flexColumn = css`
   flex-direction: column;
 `;
 
+export const flexColumnCenter = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const flexSpaceBetweenCenter = css`
   display: flex;
   align-items: center;
