@@ -1,4 +1,4 @@
-import * as S from "./NavList.styled";
+import * as S from "./index.styled";
 
 interface NavListProps {
   logo: string;
