@@ -1,19 +1,21 @@
+import * as S from "./NavList.styled";
+
 interface NavListProps {
-  logo: React.ReactNode;
+  logo: string;
   title: string;
   list: string[];
 }
 
 export default function NavList({ logo, title, list }: NavListProps) {
   return (
-    <>
-      <div>{logo}</div>
+    <S.Container>
+      <S.UserImg src={logo} />
       <div>
-        <div>{title}</div>
+        <S.Title>{title}</S.Title>
         {list.map(el => (
-          <div>{el}</div>
+          <S.SubTitle>{el}</S.SubTitle>
         ))}
       </div>
-    </>
+    </S.Container>
   );
 }
