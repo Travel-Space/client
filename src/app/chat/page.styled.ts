@@ -3,23 +3,23 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   ${bodyContainer}
-  color: ${({ theme }) => theme.PALETTE.white};
 `;
 
 export const Wrapper = styled.div`
   ${flexAlignCenter}
   gap: 8px;
-  margin: 40px 0 64px 0;
-  border: 1px solid red;
+  padding: 40px 0 64px 0;
 `;
 
 export const ChatBox = styled.div`
+  height: 100vh;
   border: 1px solid #d9d9d9;
+  border-radius: 10px;
   background-color: ${({ theme }) => theme.PALETTE.white};
 `;
 
 export const ListTitle = styled.div`
-  padding: 24px 0;
+  padding: 24px 134px;
 
   & span {
     text-align: center;
@@ -28,4 +28,12 @@ export const ListTitle = styled.div`
   }
 `;
 
-export const Line = styled.div``;
+export const Line = styled.div`
+  height: 1px;
+  border: 1px solid #d9d9d9;
+`;
+
+export const ListBox = styled.div`
+  height: calc(100vh - 88px);
+  overflow: scroll; /* 세로 스크롤을 활성화 */
+`;
