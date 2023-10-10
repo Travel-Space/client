@@ -1,7 +1,20 @@
+"use client";
+
+import HomeTitle from "./home/HomeTitle";
+import * as H from "./home/page.styled";
+import PlanetList from "./home/PlanetList";
+import SearchPlanet from "./home/SearchPlanet";
+
 export default function Home() {
   return (
-    <main>
-      그럼이건모지? 괜찮군 브랜치를 따보자<a href="/post">post</a>
-    </main>
+    <>
+      <H.Wrapper>
+        <HomeTitle />
+        <H.Content>
+          <SearchPlanet />
+          <PlanetList />
+        </H.Content>
+      </H.Wrapper>
+    </>
   );
 }
