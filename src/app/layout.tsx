@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import GlobalStyles from "@/styles/global";
 import theme from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
+import Header from "@/components/layout/Header";
 
 const metadata: Metadata = {
   title: "Travel Space",
@@ -15,7 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <html>
-        <body>{children}</body>
+        <body>
+          <Header />
+          {children}
+        </body>
       </html>
     </ThemeProvider>
   );
