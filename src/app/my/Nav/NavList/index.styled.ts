@@ -11,6 +11,12 @@ export const UserImg = styled.img`
   height: 20px;
   margin-right: 8px;
 `;
+export const List = styled.ul`
+  & > a {
+    text-decoration: none;
+    color: ${({ theme }) => theme.PALETTE.black};
+  }
+`;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
@@ -19,12 +25,21 @@ export const Title = styled.div`
   margin-bottom: 9px;
 `;
 export const SubTitle = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
-  color: ${({ theme }) => theme.PALETTE.gray[200]};
+  ${flexColumn};
 
-  line-height: 17px;
-  margin-bottom: 8px;
+  & > a {
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    color: ${({ theme }) => theme.PALETTE.gray[200]};
+    line-height: 17px;
+    margin-bottom: 8px;
+    text-decoration: none;
 
-  ${flexColumn}
+    &:hover {
+      color: ${({ theme }) => theme.PALETTE.black};
+    }
+    &:focus {
+      color: ${({ theme }) => theme.PALETTE.black};
+    }
+  }
 `;
