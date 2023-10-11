@@ -1,4 +1,4 @@
-import Side from "@/components/layout/Side";
+import Side from "@/components/common/Side";
 import { ModalType } from "@/@types";
 import { useState } from "react";
 import Login from "./Login";
