@@ -4,6 +4,7 @@ import { useState } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
+import * as S from "./index.styled";
 
 enum Page {
   Login = "Log in",
@@ -16,21 +17,35 @@ export default function Account({ onClose }: ModalType) {
 
   return (
     <Side>
-      {currentPage !== "Log in" && <button onClick={() => setCurrentPage(Page.Login)}>뒤로</button>}
+      <S.Buttons $onlyCloseBtn={currentPage === "Log in"}>
+        {currentPage !== "Log in" && (
+          <S.Button className="prev" onClick={() => setCurrentPage(Page.Login)}>
+            뒤로
+          </S.Button>
+        )}
+        <S.Button className="close" onClick={() => onClose()}>
+          닫기
+        </S.Button>
+      </S.Buttons>
+      <S.Wrap>
+        <S.Title>
+          <p>
+            {currentPage} to <br />
+            Travel Space
+          </p>
+        </S.Title>
 
-      <button onClick={() => onClose()}>닫기</button>
-      <div>{currentPage} to Travel Space</div>
-
-      {currentPage === Page.Login ? (
-        <Login
-          goToResetPassword={() => setCurrentPage(Page.ResetPassword)}
-          goToSignup={() => setCurrentPage(Page.Signup)}
-        />
-      ) : currentPage === Page.Signup ? (
-        <Signup />
-      ) : currentPage === Page.ResetPassword ? (
-        <ResetPassword />
-      ) : null}
+        {currentPage === Page.Login ? (
+          <Login
+            goToResetPassword={() => setCurrentPage(Page.ResetPassword)}
+            goToSignup={() => setCurrentPage(Page.Signup)}
+          />
+        ) : currentPage === Page.Signup ? (
+          <Signup />
+        ) : currentPage === Page.ResetPassword ? (
+          <ResetPassword />
+        ) : null}
+      </S.Wrap>
     </Side>
   );
 }
