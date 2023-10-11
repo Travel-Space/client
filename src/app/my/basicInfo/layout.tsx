@@ -10,7 +10,6 @@ const Container = styled.div`
   padding: 28px 32px;
   background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 const Tab = styled.ul`
   display: flex;
@@ -39,8 +38,8 @@ export default function BasicInfoLayout({ children }: { children: React.ReactNod
   return (
     <Container>
       <Tab>
-        <Link href="/my/profile">프로필 관리</Link>
-        <Link href="/my/planet">행성 관리</Link>
+        <Link href="/my/basicInfo/profile">프로필 관리</Link>
+        <Link href="/my/basicInfo/planet">행성 관리</Link>
       </Tab>
       <Divider />
       <MainContainer>{children}</MainContainer>
