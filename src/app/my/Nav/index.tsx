@@ -18,42 +18,42 @@ export default function Nav() {
       />
       <Divider />
       <NavList
-        href="/my/profile"
-        logo={"/assets/img/icons/default-user.svg"}
+        href="/my/basicInfo/profile"
+        logo={"/assets/img/icons/basicInfo-management.svg"}
         title={"기본 정보 관리"}
         list={[
-          { href: "/my/profile", title: "프로필" },
-          { href: "/my/planet", title: "행성" },
+          { href: "/my/basicInfo/profile", title: "프로필" },
+          { href: "/my/basicInfo/planet", title: "행성" },
         ]}
       />
       <Divider />
       <NavList
-        href="/my/postings"
+        href="/my/contents/postings"
         logo={"/assets/img/icons/contents-management.svg"}
         title={"컨텐츠 관리"}
         list={[
-          { href: "/my/postings", title: "게시글" },
-          { href: "/my/comments", title: "댓글" },
+          { href: "/my/contents/postings", title: "게시글" },
+          { href: "/my/contents/comments", title: "댓글" },
         ]}
       />
       <Divider />
       <NavList
-        href="/my/friends"
+        href="/my/friend/list"
         logo={"/assets/img/icons/friend-management.svg"}
         title={"친구 관리"}
         list={[
-          { href: "/my/friends", title: "친구 목록" },
-          { href: "/my/addFriend", title: "친구 추가" },
+          { href: "/my/friend/list", title: "친구 목록" },
+          { href: "/my/friend/add", title: "친구 추가" },
         ]}
       />
       <Divider />
       <NavList
-        href="/my/planetLike"
+        href="/my/like/planet"
         logo={"/assets/img/icons/like-management.svg"}
         title={"좋아요 관리"}
         list={[
-          { href: "/my/planetLike", title: "행성" },
-          { href: "/my/postingLike", title: "게시글" },
+          { href: "/my/like/planet", title: "행성" },
+          { href: "/my/like/posting", title: "게시글" },
         ]}
       />
     </S.Container>
