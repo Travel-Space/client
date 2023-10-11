@@ -1,11 +1,12 @@
 import * as S from "./index.styled";
+import Line from "@/components/common/Line";
 
-export default function ChatList() {
+export default function List() {
   return (
     <>
       <S.ListBox>
         <S.ChatRoomImg>
-          <S.Image src="/assets/img/icons/profile.svg" />
+          <img src="/assets/img/icons/profile.svg" />
         </S.ChatRoomImg>
 
         <S.ChatRoom>
@@ -20,7 +21,7 @@ export default function ChatList() {
         </S.ChatRoom>
       </S.ListBox>
 
-      <S.Line />
+      <Line />
     </>
   );
 }

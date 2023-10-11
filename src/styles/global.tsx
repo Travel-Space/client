@@ -64,6 +64,7 @@ const GlobalStyles = createGlobalStyle`
     
     body {
         font-family: ${({ theme }) => theme.FONT_WEIGHT.regular}, sans-serif;
+        color: ${({ theme }) => theme.PALETTE.black};
     }
 
     button {
