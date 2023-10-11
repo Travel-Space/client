@@ -15,9 +15,23 @@ export default function Chat() {
 
           <S.Line />
 
-          <ChatList />
+          <S.ListBox>
+            {/* chatting list */}
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+            <ChatList />
+          </S.ListBox>
         </S.ChatBox>
 
+        {/* 채팅 내용 */}
         <ChatContent />
       </S.Wrapper>
     </S.Container>
