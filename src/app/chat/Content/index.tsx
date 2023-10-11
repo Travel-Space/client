@@ -1,41 +1,34 @@
-import * as S from "./index.styled";
+import Message from "./Message";
 
-export default function ChatContent() {
+import * as S from "./index.styled";
+import Line from "@/components/common/Line";
+
+export default function Content() {
   return (
     <S.ContentBox>
-      <div>
-        <S.TopBox>
-          <div />
+      <S.Wrapper>
+        <S.Top>
+          <S.Wrapper />
+          <S.Title>
+            제목이 들어간다 제목이 들어간다 <strong>6/100</strong>
+          </S.Title>
+          <S.PplImage src="/assets/img/icons/person.svg" />
+        </S.Top>
 
-          <div>
-            <span>일본 도쿄 여행 </span>
-            <span>6/100</span>
-          </div>
+        <Line />
+      </S.Wrapper>
 
-          <img src="/assets/img/icons/person.svg" />
-        </S.TopBox>
-        <S.Line />
-      </div>
+      <Message />
 
-      <div>
-        <span>chatting content</span>
-      </div>
+      <S.Wrapper>
+        <Line />
 
-      <div>
-        <S.Line />
-
-        <S.BottomBox>
-          <div>
-            <S.Image src="/assets/img/icons/gallery.svg" />
-          </div>
-          <div>
-            <S.Input />
-          </div>
-          <div>
-            <S.Button>보내기</S.Button>
-          </div>
-        </S.BottomBox>
-      </div>
+        <S.Bottom>
+          <S.GalleryImage src="/assets/img/icons/gallery.svg" />
+          <S.Input />
+          <S.Button>보내기</S.Button>
+        </S.Bottom>
+      </S.Wrapper>
     </S.ContentBox>
   );
 }
