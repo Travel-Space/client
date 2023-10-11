@@ -12,7 +12,7 @@ const PALETTE = {
   error: "#FF3636",
 
   white: "#FFFFFF",
-  black: "#000000",
+  black: "#1F1F1F",
   gray: {
     100: "#D9D9D9",
     200: "#898989",

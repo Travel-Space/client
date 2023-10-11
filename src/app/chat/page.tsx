@@ -1,25 +1,28 @@
 "use client";
 
+import List from "./List";
+import Content from "./Content";
+
 import * as S from "./page.styled";
-import ChatContent from "./Content";
-import ChatList from "./List";
+import Line from "@/components/common/Line";
 
 export default function Chat() {
   return (
     <S.Container>
-      <S.Wrapper>
-        <S.ChatBox>
-          <S.ListTitle>
-            <span>채팅 그룹 목록</span>
-          </S.ListTitle>
+      <S.ChatBox>
+        <S.ListTitle>
+          <span>채팅 그룹 목록</span>
+        </S.ListTitle>
 
-          <S.Line />
+        <Line />
 
-          <ChatList />
-        </S.ChatBox>
+        <S.ListBox>
+          <List />
+          <List />
+        </S.ListBox>
+      </S.ChatBox>
 
-        <ChatContent />
-      </S.Wrapper>
+      <Content />
     </S.Container>
   );
 }

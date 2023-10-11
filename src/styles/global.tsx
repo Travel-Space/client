@@ -58,10 +58,13 @@ const GlobalStyles = createGlobalStyle`
     html {
         height: 100%;
         background-image: url('/assets/img/background/background-1.png');
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     
     body {
         font-family: ${({ theme }) => theme.FONT_WEIGHT.regular}, sans-serif;
+        color: ${({ theme }) => theme.PALETTE.black};
     }
 
     button {
