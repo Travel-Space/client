@@ -8,7 +8,7 @@ export default function Content() {
     <S.ContentBox>
       <S.Wrapper>
         <S.Top>
-          <S.Wrapper />
+          <div />
           <S.Title>
             제목이 들어간다 제목이 들어간다 <strong>6/100</strong>
           </S.Title>
@@ -17,7 +17,6 @@ export default function Content() {
 
         <Line />
       </S.Wrapper>
-
       <Message />
 
       <S.Wrapper>
