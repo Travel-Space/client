@@ -3,13 +3,14 @@
 import Image from "next/image";
 import * as S from "./page.styled";
 
-import Divider from "../../Divider";
+import NoPlanets from "./NoPlanets";
 import MyPlanet from "./MyPlanet";
 import TravelingPlanet from "./TravelingPlanet";
 
 export default function Planet() {
   return (
     <S.Container>
+      <NoPlanets />
       <S.MyPlanetInfo>
         <S.Title>내가 생성한 행성</S.Title>
         <S.NewPlanet>
