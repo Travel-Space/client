@@ -19,7 +19,7 @@ export default function Nav() {
       <Divider />
       <NavList
         href="/my-page/basic-info/profile"
-        logo={"/assets/img/icons/basic-info-management.svg"}
+        logo={"/assets/img/icons/basicInfo-management.svg"}
         title={"기본 정보 관리"}
         list={[
           { href: "/my-page/basic-info/profile", title: "프로필" },
