@@ -38,8 +38,8 @@ export default function BasicInfoLayout({ children }: { children: React.ReactNod
   return (
     <Container>
       <Tab>
-        <Link href="/my/basicInfo/profile">프로필 관리</Link>
-        <Link href="/my/basicInfo/planet">행성 관리</Link>
+        <Link href="/my-page/basic-info/profile">프로필 관리</Link>
+        <Link href="/my-page/basic-info/planet">행성 관리</Link>
       </Tab>
       <Divider />
       <MainContainer>{children}</MainContainer>
