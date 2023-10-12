@@ -56,7 +56,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     html {
-        height: 100%;
+        
         background-image: url('/assets/img/background/background-1.png');
         background-repeat: no-repeat;
         background-size: cover;
