@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import * as HT from './index.styled'
+import * as HT from "./index.styled";
 
 export default function HomeTitle() {
   return (
