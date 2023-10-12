@@ -2,8 +2,7 @@ import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 import styled from "styled-components";
 
 export const Body = styled.div`
-  height: 685px;
-  overflow: auto; /* 세로 스크롤을 활성화 */
+  overflow: scroll; /* 세로 스크롤을 활성화 */
   padding: 12px 0 12px 0;
 `;
 
@@ -16,6 +15,10 @@ export const Message = styled.div`
 
 export const PhotoMessage = styled(Message)`
   align-items: flex-end;
+
+  & img {
+    cursor: pointer;
+  }
 `;
 
 export const MessageBox = styled.div`

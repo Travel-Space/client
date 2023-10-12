@@ -1,11 +1,15 @@
 "use client";
 
+import React from "react";
 import * as RP from "./page.styled";
+import Title from "./Title";
+import QuestionMarkPlanet from "./QuestionMarkPlanet";
 
 export default function RandomPlanet() {
   return (
-    <>
-      <RP.Wrapper>게시글 상세페이지</RP.Wrapper>
-    </>
+    <RP.Wrapper>
+      <Title />
+      <QuestionMarkPlanet />
+    </RP.Wrapper>
   );
 }

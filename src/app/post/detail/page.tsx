@@ -1,11 +1,15 @@
 "use client";
 
+import PostContent from "./PostContent";
+import UserProfile from "./UserProfile";
 import * as PD from "./page.styled";
 
 export default function PostDetail() {
   return (
     <>
-      <PD.Wrapper>게시글 상세페이지</PD.Wrapper>
+      <PD.Wrapper>
+        <PostContent />
+      </PD.Wrapper>
     </>
   );
 }

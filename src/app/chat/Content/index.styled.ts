@@ -3,7 +3,7 @@ import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const ContentBox = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   ${flexColumn}
   justify-content: space-between;
   color: ${({ theme }) => theme.PALETTE.white};
