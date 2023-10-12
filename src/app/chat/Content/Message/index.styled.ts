@@ -15,6 +15,10 @@ export const Message = styled.div`
 
 export const PhotoMessage = styled(Message)`
   align-items: flex-end;
+
+  & img {
+    cursor: pointer;
+  }
 `;
 
 export const MessageBox = styled.div`
