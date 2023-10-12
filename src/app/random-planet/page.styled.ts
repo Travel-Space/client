@@ -7,9 +7,3 @@ export const Wrapper = styled.div`
   gap: 72px;
 `;
 
-// export const Content = styled.div`
-//   ${flexColumn}
-//   justify-content: space-between;
-//   align-items: center;
-//   width: 1280px;
-// `;
