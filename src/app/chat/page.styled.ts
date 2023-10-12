@@ -27,5 +27,6 @@ export const ListTitle = styled.div`
 `;
 
 export const ListBox = styled.div`
+  height: calc(100% - 75px);
   overflow: scroll; /* 세로 스크롤을 활성화 */
 `;
