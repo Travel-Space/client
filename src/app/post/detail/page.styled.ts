@@ -1,5 +1,9 @@
+import { flexColumnCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-color: ${({theme})=> theme.PALETTE.mainColor}
-`
+  ${flexColumnCenter};
+  height: 100%;
+  margin-top: 40px;
+
+`;
