@@ -1,9 +1,19 @@
 import * as S from "./index.styled";
+import Line from "@/components/common/Line";
 
 export default function Message() {
   return (
     <S.Body>
       {/* 날짜가 변경될 때마다 표시되어야 할 선 */}
+      <S.MessageBox>
+        <MyMessage />
+      </S.MessageBox>
+
+      <S.DateLine>
+        <Line />
+        <S.Date>10월 05일 (금)</S.Date>
+        <Line />
+      </S.DateLine>
 
       <S.MessageBox>
         {/* 내가 보낸 메시지 */}

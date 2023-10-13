@@ -1,4 +1,5 @@
 import Message from "./Message";
+import Modal from "./Modal";
 
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
@@ -6,6 +7,8 @@ import Line from "@/components/common/Line";
 export default function Content() {
   return (
     <S.ContentBox>
+      <Modal />
+
       <S.Wrapper>
         <S.Top>
           <div />
