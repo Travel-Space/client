@@ -1,4 +1,4 @@
-import { flexCenter } from "@/styles/common";
+import { flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled, { css } from "styled-components";
 
 const commonButton = css`
@@ -8,6 +8,22 @@ const commonButton = css`
   cursor: pointer;
 `;
 
+const inputStyle = css`
+  width: 100%;
+  outline: none;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  box-shadow: 0 0 0 0px #bdddfd;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  &:focus {
+    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+    box-shadow: 0 0 0 3px #bdddfd;
+  }
+`;
+
 export const LinkButton = styled.button`
   ${commonButton}
   border-radius: 100px;
@@ -15,6 +31,9 @@ export const LinkButton = styled.button`
   color: ${({ theme }) => theme.PALETTE.white};
   gap: 16px;
   ${flexCenter}
+  &:disabled {
+    opacity: 0.4;
+  }
 `;
 
 export const OutlineButton = styled.button`
@@ -80,18 +99,13 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  width: 100%;
-  outline: none;
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  box-shadow: 0 0 0 0px #bdddfd;
-  transition: all 0.2s;
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  &:focus {
-    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
-    box-shadow: 0 0 0 3px #bdddfd;
-  }
+  ${inputStyle}
+`;
+
+export const TextArea = styled.textarea`
+  resize: none;
+  height: 224px;
+  ${inputStyle}
 `;
 
 export const LineWithText = styled.span`
@@ -111,4 +125,36 @@ export const LineWithText = styled.span`
 
 export const InputBox = styled.div`
   position: relative;
+`;
+
+export const AdjustButtons = styled.div`
+  ${inputStyle}
+  ${flexSpaceBetweenCenter}
+`;
+
+const buttonBgReset = css`
+  background: none;
+  font-size: 0;
+  width: 32px;
+  height: 32px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  &:disabled {
+    opacity: 0.4;
+  }
+`;
+
+export const MinusButton = styled.button`
+  ${buttonBgReset}
+  background-image: url(/assets/img/icons/circle-minus.svg);
+`;
+
+export const PlusButton = styled.button`
+  ${buttonBgReset}
+  background-image: url(/assets/img/icons/circle-plus.svg);
+`;
+
+export const NumberText = styled.p`
+  font-size: ${({ theme }) => theme.FONT_SIZE.big};
 `;

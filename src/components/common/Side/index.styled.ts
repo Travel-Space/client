@@ -17,12 +17,13 @@ const slide = keyframes`
 `;
 
 export const Container = styled.div`
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   width: ${WIDTH};
   background-color: ${({ theme }) => theme.PALETTE.white};
   height: 100%;
+  z-index: 100;
 
   animation-duration: 0.25s;
   animation-timing-function: ease-out;
