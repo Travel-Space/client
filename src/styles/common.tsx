@@ -7,6 +7,7 @@ export const ModalBackground = css`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99;
 `;
 
 export const bodyContainer = css`
