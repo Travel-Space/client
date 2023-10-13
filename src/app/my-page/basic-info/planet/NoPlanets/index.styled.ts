@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 export const Explanation = styled.div`
   margin-top: 40px;
-  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
 `;
