@@ -1,19 +1,12 @@
 import styled from "styled-components";
-import { ModalBackground, flexCenter, flexColumn } from "@/styles/common";
-
-export const BackgroundBox = styled.div`
-  margin: 0 auto;
-  ${ModalBackground}
-  background-color: rgba(0, 0, 0, 0.0);
-  width: 1280px;
-`;
+import { flexCenter, flexColumn } from "@/styles/common";
 
 export const ModalBox = styled.div`
   color: ${({ theme }) => theme.PALETTE.black};
   background: ${({ theme }) => theme.PALETTE.white};
   position: absolute;
   top: 20%;
-  left: 94.5%;
+  left: 80%;
 
   ${flexColumn}
   align-items: flex-start;
