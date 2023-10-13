@@ -9,7 +9,10 @@ export default function CommentList() {
   return (
     <CL.Wrapper>
       <CL.CommentCount> 8개의 댓글</CL.CommentCount>
-      <CL.CommentInput type="text" />
+      <CL.InputBox>
+        <CL.CommentInput placeholder="댓글 내용을 입력해주세요."/>
+      </CL.InputBox>
+
       <CL.BtnDisplay>
         <CL.CommentButton>댓글 작성</CL.CommentButton>
       </CL.BtnDisplay>

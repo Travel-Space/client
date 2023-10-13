@@ -118,6 +118,8 @@ export const EditBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  cursor: pointer;
 `;
 
 export const DeleteBtn = styled.div`
@@ -126,6 +128,8 @@ export const DeleteBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  cursor: pointer;
 `;
 
 export const ReportBtn = styled.div`
@@ -134,4 +138,6 @@ export const ReportBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.error};
   color: ${({ theme }) => theme.PALETTE.error};
   background-color: ${({ theme }) => theme.PALETTE.white};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  cursor: pointer;
 `;

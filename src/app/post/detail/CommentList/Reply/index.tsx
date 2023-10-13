@@ -9,7 +9,9 @@ export default function Reply() {
     <RP.Wrapper>
       <CommentItem />
       <CommentItem />
-      <RP.CommentInput type="text" />
+      <RP.InputBox>
+        <RP.CommentInput placeholder="댓글 내용을 입력해주세요." />
+      </RP.InputBox>
       <RP.BtnDisplay>
         <RP.CancleButton>취소</RP.CancleButton>
         <RP.CommentButton>작성 완료</RP.CommentButton>

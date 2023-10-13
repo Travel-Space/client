@@ -53,12 +53,15 @@ export const CommentEdit = styled.div`
 
 export const RepotBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.error};
+  cursor: pointer;
 `;
 
 export const EditBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  cursor: pointer;
 `;
 
 export const DeleteBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  cursor: pointer;
 `;

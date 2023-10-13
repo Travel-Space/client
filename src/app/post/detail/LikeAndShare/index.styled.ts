@@ -9,11 +9,13 @@ export const Wrapper = styled.div`
 export const Like = styled.div`
   ${flexSpaceBetweenCenter}
   gap: 8px;
+  cursor: pointer;
 `;
 
 export const Share = styled.div`
   ${flexSpaceBetweenCenter}
   gap: 8px;
+  cursor: pointer;
 `;
 
 export const LikeBtn = styled.img`
