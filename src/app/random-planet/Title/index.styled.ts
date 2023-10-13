@@ -20,11 +20,11 @@ export const TitleLine = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
 `;
 
-export const TitleImg = styled.div`
+export const TitleImg = styled.img`
   width: 664px;
   height: 104px;
   background-color: transparent;
-  background-image: url(/assets/img/icons/random-travel.svg);
+
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

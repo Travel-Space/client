@@ -8,7 +8,7 @@ export default function Title() {
     <T.TitleWrapper>
       <T.TitleSection>
         <T.TitleLine />
-        <T.TitleImg />
+        <T.TitleImg src="/assets/img/icons/random-travel.svg"/>
         <T.TitleLine />
       </T.TitleSection>
       <T.InfoText>

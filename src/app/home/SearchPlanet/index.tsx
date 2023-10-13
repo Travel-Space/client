@@ -9,7 +9,9 @@ export default function SearchPlanet() {
       <S.Wrapper>
         <S.SearchContainer>
           <S.SearchInput type="text" placeholder="가고 싶은 행성을 검색해 보세요." />
-          <S.SearchBtn type="submit" />
+          <S.SearchBtn type="submit">
+            <S.SerachBtnImg src="/assets/img/icons/search.svg" />
+          </S.SearchBtn>
         </S.SearchContainer>
         <S.BtnContainer>
           <S.RandomCreateBtn>
