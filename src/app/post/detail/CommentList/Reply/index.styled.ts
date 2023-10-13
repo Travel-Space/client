@@ -9,12 +9,32 @@ export const Wrapper = styled.div`
   padding: 30px;
 `;
 
-export const CommentInput = styled.input`
+export const InputBox = styled.div`
+  display: flex;
+  align-items: flex-start;
   width: 100%;
   height: 180px;
-  border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 10px;
   margin: 40px 0 24px 0;
+`;
+
+export const CommentInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  vertical-align: top;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  resize: none;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.PALETTE.gray[100]};
+  }
 `;
 
 export const CommentCount = styled.div`
