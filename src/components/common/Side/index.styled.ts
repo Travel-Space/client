@@ -23,6 +23,7 @@ export const Container = styled.div`
   width: ${WIDTH};
   background-color: ${({ theme }) => theme.PALETTE.white};
   height: 100%;
+  z-index: 100;
 
   animation-duration: 0.25s;
   animation-timing-function: ease-out;
