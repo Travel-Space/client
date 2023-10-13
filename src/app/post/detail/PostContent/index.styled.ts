@@ -98,7 +98,7 @@ export const TextBottomDisplay = styled.div`
 export const Tags = styled.div`
   padding: 8px 16px;
   border-radius: 15px;
-  background-color: ${({ theme }) => theme.PALETTE.primary[100]};
+  background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
 `;
 
