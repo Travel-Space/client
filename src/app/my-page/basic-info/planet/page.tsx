@@ -4,7 +4,7 @@ import Image from "next/image";
 import * as S from "./page.styled";
 
 import NoPlanets from "./NoPlanets";
-import MyPlanet from "./MyPlanet";
+import MyPlanet from "@/app/my-page/MyPlanet";
 import TravelingPlanet from "./TravelingPlanet";
 
 export default function Planet() {
