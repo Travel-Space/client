@@ -11,9 +11,10 @@ export default function Radio({
   readOnly,
   disabled,
   onChange,
+  className,
 }: InputAttr) {
   return (
-    <label htmlFor={id}>
+    <>
       <S.Input
         type="radio"
         value={value}
@@ -24,8 +25,9 @@ export default function Radio({
         checked={checked}
         readOnly={readOnly}
         onChange={onChange}
+        className={className}
       />
-      {children}
-    </label>
+      <label htmlFor={id}>{children}</label>
+    </>
   );
 }

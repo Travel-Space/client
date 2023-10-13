@@ -12,4 +12,5 @@ export interface InputAttr {
   readOnly?: boolean;
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }

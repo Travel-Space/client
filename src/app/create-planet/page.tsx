@@ -1,74 +1,79 @@
 "use client";
 
 import { useState } from "react";
-import Radio from "./Radio";
+
 import * as S from "./page.style";
+import {
+  Label,
+  Input,
+  TextArea,
+  Line,
+  FillButton,
+  OutlineButton,
+  AdjustButtons,
+  MinusButton,
+  PlusButton,
+  NumberText,
+  LinkButton,
+} from "../account/common.styled";
+import Title from "./Title";
+
+const planets = [
+  { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
+  { value: "planet-2", src: "/assets/img/icons/planet-1.svg" },
+  { value: "planet-3", src: "/assets/img/icons/planet-1.svg" },
+  { value: "planet-4", src: "/assets/img/icons/planet-1.svg" },
+];
 
 export default function CreatePlanet() {
-  //   const [planetImage, setPlanetImage] = useState(planets[0].value);
-  const [planets, setPlanets] = useState([
-    { value: "planet-1", src: "/assets/img/icons/planet-1.svg", selected: true },
-    { value: "planet-2", src: "/assets/img/icons/planet-1.svg", selected: false },
-    { value: "planet-3", src: "/assets/img/icons/planet-1.svg", selected: false },
-    // { value: "planet-4", src: "/assets/img/icons/planet-1.svg", selected: false },
-  ]);
-
   return (
     <S.Form>
-      <S.Box>
-        {/* {planetImage} */}
-        <div>
-          {planets.map(planet => (
-            <Radio
-              key={planet.value}
-              id={planet.value}
-              value={planet.value}
-              name="planet"
-              //   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlanetImage(e.target.value)}
-              defaultChecked={planet.selected}
-            >
-              {planet.value}
-              <img id={`${planet.value}_img`} src={planet.src} />
-            </Radio>
-          ))}
-        </div>
-        {/* <div>
-          {planets.map(
-            planetImg =>
-              planetImage === planetImg.value && <img key={planetImg.value} id={planetImg.value} src={planetImg.src} />,
-          )}
-        </div> */}
-        <div>
-          <button
-            type="button"
-            // onClick={() => {
-            //   const currentIndex = planets.findIndex(planet => planet.value === planetImage);
-            //   if (currentIndex > 0) {
-            //     setPlanetImage(planets[currentIndex - 1].value);
-            //   } else {
-            //     setPlanetImage(planets[planets.length - 1].value);
-            //   }
-            // }}
-          >
-            PREV
-          </button>
-          <button
-            type="button"
-            // onClick={() => {
-            //   const currentIndex = planets.findIndex(planet => planet.value === planetImage);
-            //   if (currentIndex < planets.length - 1) {
-            //     setPlanetImage(planets[currentIndex + 1].value);
-            //   } else {
-            //     setPlanetImage(planets[0].value);
-            //   }
-            // }}
-          >
-            NEXT
-          </button>
-        </div>
+      <S.Box className="left">
+        <S.Center>
+          <S.ArrowLeft type="button">이전</S.ArrowLeft>
+          <img src="/assets/img/icons/planet-1.svg" />
+          {/* 행성 이미지 목록은 select로 구현 예정 */}
+          <S.ArrowRight type="button">다음</S.ArrowRight>
+        </S.Center>
+        <p>일본 맛도리 여행</p>
+        <S.FormGroup>
+          <Input type="text" placeholder="주제 해시태그 최대 5개" />
+        </S.FormGroup>
+        <LinkButton disabled>탑승 우주선으로 이동</LinkButton>
       </S.Box>
-      <S.Box>
-        <S.WhiteBox>ddd</S.WhiteBox>
+      <S.Box className="right">
+        <Title />
+        <S.FormGroup>
+          <Label htmlFor="planet-title">행성 이름</Label>
+          <Input type="text" id="planet-title" />
+        </S.FormGroup>
+        <S.FormGroup>
+          <Label htmlFor="planet-description">행성 소개</Label>
+          <TextArea id="planet-description" />
+        </S.FormGroup>
+        <S.Center>
+          <S.AdjustBtnGroup>
+            <Label>탑승 인원수</Label>
+            <AdjustButtons>
+              <MinusButton type="button">-</MinusButton>
+              <NumberText>100</NumberText>
+              <PlusButton type="button">+</PlusButton>
+            </AdjustButtons>
+          </S.AdjustBtnGroup>
+          <S.AdjustBtnGroup>
+            <Label>우주선 갯수</Label>
+            <AdjustButtons>
+              <MinusButton type="button">-</MinusButton>
+              <NumberText>15</NumberText>
+              <PlusButton type="button">+</PlusButton>
+            </AdjustButtons>
+          </S.AdjustBtnGroup>
+        </S.Center>
+        <Line />
+        <S.Center>
+          <OutlineButton type="button">취소</OutlineButton>
+          <FillButton type="submit">작성완료</FillButton>
+        </S.Center>
       </S.Box>
     </S.Form>
   );
