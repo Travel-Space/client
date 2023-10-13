@@ -1,0 +1,46 @@
+import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
+  ${flexColumn}
+  width: 100%;
+  height: 100%;
+  gap: 24px;
+`;
+
+export const CommentInput = styled.input`
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+`;
+
+export const CommentCount = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.lg};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+`;
+
+export const BtnDisplay = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+
+export const CommentButton = styled.button`
+  width: 140px;
+  height: 48px;
+  background-color: ${({ theme }) => theme.PALETTE.mainColor};
+  color: ${({ theme }) => theme.PALETTE.white};
+  border-radius: 10px;
+`;
+
+export const ProfileAndDate = styled.div`
+  ${flexSpaceBetweenCenter}
+`;
+
+export const UserComment = styled.div`
+  width: 100%;
+`;
+export const CommentDate = styled.div`
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+`;
