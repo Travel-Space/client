@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   ${flexColumnCenter}
   height: 100%;
   gap: 144px;
+  padding: 144px 0 64px 0;
 `;
 
 export const Content = styled.div`

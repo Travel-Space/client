@@ -4,6 +4,7 @@ import UserProfile from "../UserProfile";
 import * as PC from "./index.styled";
 
 export default function PostContent() {
+  
   //태그 확인용 목업데이터
   const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
 
@@ -17,15 +18,15 @@ export default function PostContent() {
         <PC.PostInfoSection>
           <UserProfile />
           <PC.PostInfo>
-            <PC.RocketImg />
+            <PC.RocketImg src="/assets/img/icons/rocket.svg"/>
             피식대학 우주선
-            <PC.PlanetImg />
+            <PC.PlanetImg src="/assets/img/icons/planet.svg" />
             일본 맛도리 행성
           </PC.PostInfo>
         </PC.PostInfoSection>
         <PC.Content>
           <PC.Location>
-            <PC.LocationImg />
+            <PC.LocationImg src="/assets/img/icons/location.svg" />
             서울특별시 강남구 논현동 332-2
           </PC.Location>
           <PC.Text>
@@ -46,7 +47,7 @@ export default function PostContent() {
             보장한다. 중앙선거관리위원회는 대통령이 임명하는 3인, 국회에서 선출하는 3인과 대법원장이 지명하는 3인의
             위원으로 구성한다. 위원장은 위원중에서 호선한다.
             <PC.TestImgBox>
-              <PC.TestImg />
+              <PC.TestImg src="/assets/img/icons/post-test-img.svg" />
             </PC.TestImgBox>
             국가는 농·어민과 중소기업의 자조조직을 육성하여야 하며, 그 자율적 활동과 발전을 보장한다.
             중앙선거관리위원회는 대통령이 임명하는 3인, 국회에서 선출하는 3인과 대법원장이 지명하는 3인의 위원으로

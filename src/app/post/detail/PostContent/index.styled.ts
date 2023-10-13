@@ -1,13 +1,7 @@
 import { flexAlignCenter, flexCenter, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  width: 1280px;
-  height: 100%;
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  border-radius: 15px;
-  padding: 88px;
-`;
+export const Wrapper = styled.div``;
 
 export const TitleSection = styled.div`
   ${flexSpaceBetweenCenter}
@@ -40,22 +34,21 @@ export const PostInfo = styled.div`
   gap: 16px;
 `;
 
-export const RocketImg = styled.div`
+export const RocketImg = styled.img`
   ${flexCenter}
   width: 24px;
   height: 24px;
   gap: 8px;
   background-color: transparent;
-  background-image: url(/assets/img/icons/rocket.svg);
   background-repeat: no-repeat;
 `;
-export const PlanetImg = styled.div`
+
+export const PlanetImg = styled.img`
   ${flexCenter}
   width: 24px;
   height: 24px;
   gap: 8px;
   background-color: transparent;
-  background-image: url(/assets/img/icons/planet.svg);
   background-repeat: no-repeat;
 `;
 
@@ -70,11 +63,10 @@ export const Location = styled.div`
   gap: 8px;
 `;
 
-export const LocationImg = styled.div`
+export const LocationImg = styled.img`
   width: 24px;
   height: 24px;
   background-color: transparent;
-  background-image: url(/assets/img/icons/location.svg);
   background-repeat: no-repeat;
 `;
 
@@ -89,14 +81,13 @@ export const TestImgBox = styled.div`
   margin: 24px 0;
 `;
 
-export const TestImg = styled.div`
+export const TestImg = styled.img`
   width: 500px;
   height: 500px;
 
   overflow: hidden;
   background-size: cover;
   background-color: transparent;
-  background-image: url(/assets/img/icons/post-test-img.svg);
   background-repeat: no-repeat;
 `;
 
@@ -122,7 +113,7 @@ export const PostActionBtn = styled.div`
 `;
 
 export const EditBtn = styled.div`
-  padding: 16px 32px;
+  padding: 16px 40px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
@@ -130,7 +121,7 @@ export const EditBtn = styled.div`
 `;
 
 export const DeleteBtn = styled.div`
-  padding: 16px 32px;
+  padding: 16px 40px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
@@ -138,7 +129,7 @@ export const DeleteBtn = styled.div`
 `;
 
 export const ReportBtn = styled.div`
-  padding: 16px 32px;
+  padding: 16px 40px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.error};
   color: ${({ theme }) => theme.PALETTE.error};

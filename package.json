@@ -9,8 +9,10 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@toast-ui/editor": "^3.2.2",
 		"antd": "^5.9.4",
 		"axios": "^1.5.1",
+		"codemirror": "^6.0.1",
 		"next": "13.5.4",
 		"react": "^18",
 		"react-dom": "^18",
