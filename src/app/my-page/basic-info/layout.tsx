@@ -41,7 +41,7 @@ export default function BasicInfoLayout({ children }: { children: React.ReactNod
         <Link href="/my-page/basic-info/profile">프로필 관리</Link>
         <Link href="/my-page/basic-info/planet">행성 관리</Link>
       </Tab>
-      <Divider />
+      <Divider width="100%" height="1px" />
       <MainContainer>{children}</MainContainer>
     </Container>
   );

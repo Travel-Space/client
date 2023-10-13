@@ -16,12 +16,7 @@ export const Filter = styled.div`
   font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;
-export const VerticalDivider = styled.div`
-  width: 1px;
-  height: 12px;
-  margin: 0 8px;
-  background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-`;
+
 export const SearchInput = styled.input`
   border: none;
   font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
