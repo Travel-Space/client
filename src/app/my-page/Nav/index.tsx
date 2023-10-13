@@ -48,11 +48,11 @@ export default function Nav() {
       />
       <Divider width="100%" height="1px" />
       <NavList
-        href="/my-page/like/planet"
+        href="/my-page/like/planets"
         logo={"/assets/img/icons/like-management.svg"}
         title={"좋아요 관리"}
         list={[
-          { href: "/my-page/like/planet", title: "행성" },
+          { href: "/my-page/like/planets", title: "행성" },
           { href: "/my-page/like/posting", title: "게시글" },
         ]}
       />
