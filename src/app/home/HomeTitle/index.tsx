@@ -8,7 +8,7 @@ export default function HomeTitle() {
     <>
       <HT.TitleContainer>
         <HT.TitleLine />
-        <HT.TitleImg />
+        <HT.TitleImg src="/assets/img/icons/travel-space.svg" />
         <HT.TitleLine />
       </HT.TitleContainer>
     </>
