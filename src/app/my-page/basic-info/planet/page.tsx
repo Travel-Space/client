@@ -1,16 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import * as S from "./page.styled";
 
-import NoPlanets from "./NoPlanets";
+import Nothing from "@/app/my-page/Nothing";
 import MyPlanet from "@/app/my-page/MyPlanet";
 import TravelingPlanet from "./TravelingPlanet";
 
 export default function Planet() {
   return (
     <S.Container>
-      <NoPlanets />
+      <Nothing
+        src="/assets/img/icons/no-planets.svg"
+        alt="no-TravelingPlanets"
+        width={148}
+        height={148}
+        comment="여행 중인 행성이 없습니다."
+      />
+
       <S.MyPlanetInfo>
         <S.Title>내가 생성한 행성</S.Title>
         <S.NewPlanet>

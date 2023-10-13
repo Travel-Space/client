@@ -5,7 +5,7 @@ import * as S from "./page.styled";
 import RecommendFriend from "./RecommendFriend";
 import SearchForm from "../../SearchForm";
 import Person from "../Person";
-import NoFriends from "../list/NoFriends";
+import Nothing from "@/app/my-page/Nothing";
 
 export default function Planet() {
   return (
@@ -24,7 +24,14 @@ export default function Planet() {
       </S.RecommendFriendWrap>
 
       <S.SearchResults>
-        <NoFriends />
+        <Nothing
+          src="/assets/img/icons/no-friends.svg"
+          alt="no-friends"
+          width={216}
+          height={216}
+          comment="검색결과가 없습니다."
+          suggest="닉네임 또는 계정을 검색해 보세요."
+        />
         <Person />
         <Person />
         <Person />
