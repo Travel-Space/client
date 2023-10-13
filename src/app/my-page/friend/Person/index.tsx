@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import * as S from "./index.styled";
 
-export default function MyFriend() {
+export default function Person() {
   return (
     <S.Container>
       <div>

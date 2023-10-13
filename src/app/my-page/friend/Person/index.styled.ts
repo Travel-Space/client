@@ -27,7 +27,10 @@ export const Email = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 export const AddButton = styled.button`
-  padding: 5px 24px;
+  width: 80px;
+  height: 24px;
+  ${flexCenter}
+
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
   color: ${({ theme }) => theme.PALETTE.white};

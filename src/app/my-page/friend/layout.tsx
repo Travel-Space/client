@@ -2,6 +2,8 @@
 import { styled } from "styled-components";
 import Link from "next/link";
 
+import Divider from "@/app/my-page/Divider";
+
 const Container = styled.div`
   width: 952px;
   min-height: 846px;
@@ -39,6 +41,8 @@ export default function FriendLayout({ children }: { children: React.ReactNode }
         <Link href="/my-page/friend/list">친구 목록</Link>
         <Link href="/my-page/friend/add">친구 추가</Link>
       </Tab>
+      <Divider width="100%" height="1px" />
+
       <MainContainer>{children}</MainContainer>
     </Container>
   );

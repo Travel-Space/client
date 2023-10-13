@@ -3,7 +3,7 @@
 import * as S from "./page.styled";
 
 import NoPlanets from "./NoFriends";
-import MyFriend from "./MyFriend";
+import Person from "../Person";
 
 export default function Planet() {
   return (
@@ -11,16 +11,16 @@ export default function Planet() {
       <NoPlanets />
 
       <S.MyFriends>
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
-        <MyFriend />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
+        <Person />
       </S.MyFriends>
       <S.ShowMoreBtn>목록 더보기</S.ShowMoreBtn>
     </S.Container>
