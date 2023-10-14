@@ -49,6 +49,8 @@ const GlobalStyles = createGlobalStyle`
         src: url('/assets/font/Pretendard-Black.otf') format('opentype');
     }
 
+    
+
     * {
         margin: 0;
         padding: 0;

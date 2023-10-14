@@ -17,7 +17,7 @@ export const SearchContainer = styled.form`
 export const SearchInput = styled.input`
   width: 440px;
   height: 40px;
-  padding: 8px;
+  padding: 8px 40px 8px 8px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
