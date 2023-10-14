@@ -78,8 +78,9 @@ export const DoubleCheck = styled.button`
   background-color: ${({ theme }) => theme.PALETTE.white};
   margin-left: 16px;
 `;
-export const Withdrawal = styled.button`
+export const Leave = styled.div`
   display: flex;
+  align-items: flex-start;
   gap: 8px;
   background-color: ${({ theme }) => theme.PALETTE.white};
 
@@ -90,8 +91,9 @@ export const Withdrawal = styled.button`
 
     line-height: 17px;
   }
-  & > button {
+  & > a {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    color: ${({ theme }) => theme.PALETTE.black};
     font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
     line-height: 17px;
     text-decoration: underline;

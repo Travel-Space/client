@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
@@ -44,10 +45,10 @@ export default function Profile() {
         </S.Row>
       </S.Main>
       <S.Footer>
-        <S.Withdrawal>
+        <S.Leave>
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
-          <button>회원탈퇴</button>
-        </S.Withdrawal>
+          <Link href="/my-page/leave">회원탈퇴</Link>
+        </S.Leave>
         <S.Save>변경 사항 저장</S.Save>
       </S.Footer>
     </S.Container>
