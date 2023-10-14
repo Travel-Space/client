@@ -53,7 +53,7 @@ export default function Nav() {
         title={"좋아요 관리"}
         list={[
           { href: "/my-page/like/planets", title: "행성" },
-          { href: "/my-page/like/posting", title: "게시글" },
+          { href: "/my-page/like/postings", title: "게시글" },
         ]}
       />
     </S.Container>

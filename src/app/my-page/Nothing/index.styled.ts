@@ -16,6 +16,7 @@ export const Comment = styled.div`
 `;
 export const Suggest = styled.div`
   margin-top: 16px;
+  color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
 `;
