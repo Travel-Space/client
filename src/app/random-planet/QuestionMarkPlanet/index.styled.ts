@@ -4,6 +4,7 @@ import { flexColumnCenter, flexCenter } from "@/styles/common";
 export const Wrapper = styled.div`
   ${flexColumnCenter}
   gap:56px;
+
 `;
 
 export const PlanetImg = styled.img`
@@ -26,10 +27,8 @@ export const RamdomBtn = styled.div`
 
 export const RightArrow = styled.img`
   width: 24px;
-  height: 8px;
-  padding: 5px;
+  height: 24px;
   background-color: transparent;
- 
   background-repeat: no-repeat;
   background-size: cover;
 `;

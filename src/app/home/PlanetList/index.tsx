@@ -1,17 +1,34 @@
-"use client";
-
 import React from "react";
-import * as PL from "./index.styled";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
 
 export default function PlanetList() {
-  // 보여주고 싶은 행성 개수
-  const planetCount = 5;
+  const planetCount = 15;
+
+  const groupedPlanets = Array.from({ length: planetCount / 5 }, (_, i) => i * 5).map(start =>
+    Array.from({ length: 5 }, (_, j) => start + j + 1),
+  );
 
   return (
-    <PL.Wrapper>
-      {Array.from({ length: planetCount }).map((_, index) => (
-        <PL.PlanetImg key={index} src="/assets/img/icons/planet1.png" />
-      ))}
-    </PL.Wrapper>
+    <SwiperContainer className="swiper">
+      <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]} >
+        {groupedPlanets.map((group, idx) => (
+          <SwiperSlide key={idx}>
+            <StyledSwiperSlide>
+              {group.map(planetIdx => (
+                <SlideImage
+                  key={planetIdx}
+                  src={`/assets/img/icons/planet1.png`}
+                  alt={`Planet ${planetIdx}`}
+                />
+              ))}
+            </StyledSwiperSlide>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </SwiperContainer>
   );
 }
