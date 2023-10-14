@@ -5,6 +5,7 @@ import GlobalStyles from "@/styles/global";
 import theme from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
 import Header from "@/components/layout/Header";
+import ChatBtn from "@/components/common/ChatBtn";
 
 const metadata: Metadata = {
   title: "Travel Space",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html>
         <body>
           <Header />
+          <ChatBtn />
           {children}
         </body>
       </html>
