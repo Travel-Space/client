@@ -1,3 +1,5 @@
+import { OutlineButton as OB } from "@/app/account/common.styled";
+import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Notification = styled.p`
@@ -9,4 +11,12 @@ export const Notification = styled.p`
   }
   margin-bottom: 24px;
   padding: 24px 0;
+`;
+
+export const OutlineButton = styled(OB)`
+  ${flexCenter}
+  gap: 8px;
+  img {
+    margin-top: -2px;
+  }
 `;
