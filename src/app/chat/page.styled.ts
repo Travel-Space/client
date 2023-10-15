@@ -22,7 +22,7 @@ export const ListTitle = styled.div`
 
   & span {
     font-size: ${({ theme }) => theme.FONT_SIZE.em};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
   }
 `;
 
