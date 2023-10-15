@@ -5,10 +5,10 @@ const WIDTH = "500px";
 
 const slide = keyframes`
   from {
-    right: -${WIDTH};
+    left: -${WIDTH};
   }
   to {
-    right: 0;
+    left: 0;
   }
 `;
 
@@ -28,6 +28,7 @@ export const Container = styled.div`
 
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
+  border-bottom: 2px solid #d9d9d9;
   ${flexSpaceBetweenCenter}
 
   > select {
@@ -46,7 +47,6 @@ export const Button = styled.button`
 
 export const ScrollBox = styled.div`
   ${flexColumn}
-  gap: 24px;
   overflow: scroll;
   padding-bottom: 100px;
   height: calc(100vh - 300px);

@@ -1,9 +1,15 @@
-import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 import styled from "styled-components";
+import { flexAlignCenter, flexColumn } from "@/styles/common";
 
 export const Post = styled.div`
   ${flexAlignCenter}
   gap: 16px;
+  padding: 24px 0;
+  border-bottom: 2px solid #d9d9d9;
+
+  &:last-child {
+    border: none;
+  }
 `;
 
 export const MainBox = styled.div`
