@@ -32,7 +32,7 @@ export default function PostWrite() {
         <QuillEditor value={value} onChange={setValue} />
         <PW.ButtonGroup>
           <PW.BackBtn>뒤로</PW.BackBtn>
-          <PW.CompletedBtn>작성완료</PW.CompletedBtn>
+          <PW.CompletedBtn>작성 완료</PW.CompletedBtn>
         </PW.ButtonGroup>
       </PW.WriteSection>
       <PW.PreviewSection dangerouslySetInnerHTML={{ __html: value }}></PW.PreviewSection>
