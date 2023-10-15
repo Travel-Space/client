@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import { flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import "react-quill/dist/quill.snow.css";
 
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 40px;
+  margin-top: 40px;
 `;
 
 export const WriteSection = styled.div`
@@ -22,9 +24,8 @@ export const TitleAndPlace = styled.div`
     width: 600px;
     height: 48px;
     border-radius: 10px;
-
     border: none;
-    padding: 20px;
+    padding: 16px;
 
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
@@ -41,9 +42,8 @@ export const TagsAndPlanet = styled.div`
     width: 600px;
     height: 48px;
     border-radius: 10px;
-
     border: none;
-    padding: 20px;
+    padding: 16px;
 
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
@@ -58,7 +58,56 @@ export const PreviewSection = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.white};
   margin-bottom: 64px;
   border-radius: 10px;
-  padding: 16px;
+  padding: 24px;
+  line-height: 1.42;
+
+  & ol {
+    padding-left: 24px;
+  }
+
+  & ol > li {
+    list-style-type: decimal;
+  }
+
+  & ul {
+    padding-left: 24px;
+  }
+
+  & ul > li {
+    list-style-type: disc;
+  }
+
+  strong {
+    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  h1 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.hg};
+  }
+
+  h2 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.lg};
+  }
+
+  h3 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  }
+
+  img {
+    text-align: center;
+    width: 100%;
+    object-fit: cover;
+    margin: 10px 0;
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+  
+  a {
+  color: ${({ theme }) => theme.PALETTE.mainColor};
+  }
 `;
 
 export const Tags = styled.div`
@@ -75,16 +124,13 @@ export const TagsDisplay = styled.div`
 `;
 
 export const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-
+  ${flexSpaceBetweenCenter}
   width: 600px;
   background-color: transparent;
 `;
 
 export const BackBtn = styled.button`
   padding: 16px 40px;
-
   border: none;
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.white};
@@ -107,23 +153,10 @@ export const CompletedBtn = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: ${({ theme }) => theme.PALETTE.primary[100]};
   }
 `;
 
 export const QuillWrapper = styled(ReactQuill)`
-
   background-color: ${({ theme }) => theme.PALETTE.white};
-
-&fixed-toolbar-editor .ql-toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: white;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-
 `;
