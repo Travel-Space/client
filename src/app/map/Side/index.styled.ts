@@ -28,7 +28,7 @@ export const Container = styled.div`
 
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
-  border-bottom: 2px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   ${flexSpaceBetweenCenter}
 
   > select {

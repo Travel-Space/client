@@ -5,7 +5,7 @@ export const Post = styled.div`
   ${flexAlignCenter}
   gap: 16px;
   padding: 24px 0;
-  border-bottom: 2px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
 
   &:last-child {
     border: none;
@@ -58,6 +58,6 @@ export const Description = styled.div`
 `;
 
 export const Date = styled.div`
-  color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+  color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
