@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexCenter, flexColumnCenter, flexSpaceBetweenCenter, flexAlignCenter, flexColumn } from "@/styles/common";
+import { flexColumnCenter, flexSpaceBetweenCenter, flexAlignCenter } from "@/styles/common";
 
 export const Container = styled.div`
   ${flexColumnCenter}
@@ -27,7 +27,8 @@ export const Planet = styled.div`
   }
 `;
 export const SelectedPlanet = styled.div`
-  ${flexAlignCenter}
+  display: flex;
+  align-items: flex-start;
   gap: 24px;
 `;
 export const Summary = styled.div`
