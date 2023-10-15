@@ -8,13 +8,13 @@ export const Container = styled.div`
 
 export const Top = styled.div`
   width: 100%;
-  ${flexSpaceBetweenCenter}
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  ${flexSpaceBetweenCenter}
 `;
 
 export const Setting = styled.div`
-  ${flexAlignCenter}
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  ${flexAlignCenter}
   gap: 8px;
 
   > span {
@@ -35,8 +35,7 @@ export const Middle = styled.div`
   }
 `;
 
-export const PlanetInfo = styled.div`
-  ${flexColumn}
+export const PlanetInfo = styled(Container)`
   gap: 8px;
 
   > strong {
@@ -57,7 +56,6 @@ export const Bottom = styled.div`
 `;
 
 export const HashTag = styled.div`
-  width: auto;
   padding: 8px 16px;
   border-radius: 20px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};

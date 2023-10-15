@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import * as S from "./map.styled";
+import * as S from "./page.styled";
 import Side from "./Side";
 
 export default function Map() {
