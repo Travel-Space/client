@@ -49,6 +49,8 @@ const GlobalStyles = createGlobalStyle`
         src: url('/assets/font/Pretendard-Black.otf') format('opentype');
     }
 
+    
+
     * {
         margin: 0;
         padding: 0;
@@ -66,6 +68,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: ${({ theme }) => theme.FONT_WEIGHT.regular}, sans-serif;
         color: ${({ theme }) => theme.PALETTE.black};
+       
     }
 
     button {

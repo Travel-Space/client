@@ -1,6 +1,14 @@
-import { bodyContainer } from "@/styles/common";
 import styled from "styled-components";
+import { flexColumn } from "@/styles/common";
 
 export const Container = styled.div`
-  ${bodyContainer}
+  width: 100%;
+  color: ${({ theme }) => theme.PALETTE.white};
+`;
+
+export const Map = styled.div`
+  ${flexColumn}
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
 `;

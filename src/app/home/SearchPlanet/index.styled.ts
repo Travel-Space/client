@@ -17,7 +17,7 @@ export const SearchContainer = styled.form`
 export const SearchInput = styled.input`
   width: 440px;
   height: 40px;
-  padding: 8px;
+  padding: 8px 40px 8px 8px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
@@ -34,14 +34,19 @@ export const SearchInput = styled.input`
 
 export const SearchBtn = styled.button`
   position: absolute;
-  top: 50%;
-  padding: 8px;
-  right: 8px;
-  transform: translateY(-50%);
   width: 24px;
   height: 24px;
+  right: 8px;
+  transform: translateY(-50%);
+  top: 50%;
   background-color: transparent;
-  background-image: url(/assets/img/icons/search.svg);
+`;
+
+export const SerachBtnImg = styled.img`
+  right: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
   background-repeat: no-repeat;
 `;
 

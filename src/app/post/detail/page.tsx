@@ -1,15 +1,19 @@
 "use client";
 
+
+import CommentList from "./CommentList";
+import LikeAndShare from "./LikeAndShare";
 import PostContent from "./PostContent";
-import UserProfile from "./UserProfile";
 import * as PD from "./page.styled";
 
 export default function PostDetail() {
   return (
-    <>
-      <PD.Wrapper>
+    <PD.Wrapper>
+      <PD.Content>
         <PostContent />
-      </PD.Wrapper>
-    </>
+        <LikeAndShare />
+        <CommentList />
+      </PD.Content>
+    </PD.Wrapper>
   );
 }

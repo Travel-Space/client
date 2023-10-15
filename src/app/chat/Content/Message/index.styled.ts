@@ -1,9 +1,27 @@
-import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 import styled from "styled-components";
+import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 
 export const Body = styled.div`
   overflow: scroll; /* 세로 스크롤을 활성화 */
   padding: 12px 0 12px 0;
+  margin: 0 16px;
+`;
+
+export const DateLine = styled.div`
+  ${flexCenter}
+  gap: 16px;
+  margin: 0 0 24px 0;
+`;
+
+export const Date = styled.div`
+  width: 30%;
+  display: flex;
+  justify-content: center;
+`;
+
+export const MessageBox = styled.div`
+  ${flexColumn}
+  gap: 16px;
 `;
 
 export const Message = styled.div`
@@ -19,11 +37,6 @@ export const PhotoMessage = styled(Message)`
   & img {
     cursor: pointer;
   }
-`;
-
-export const MessageBox = styled.div`
-  ${flexColumn}
-  gap: 16px;
 `;
 
 export const Image = styled.img`

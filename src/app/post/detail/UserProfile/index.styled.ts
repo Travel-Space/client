@@ -5,14 +5,14 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-
+  cursor: pointer;
 `;
 
 export const Profile = styled.div`
   width: 48px;
   height: 48px;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 50%;
   text-align: center;
 `;
