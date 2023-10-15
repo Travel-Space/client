@@ -17,6 +17,7 @@ import {
   LinkButton,
 } from "../account/common.styled";
 import Title from "./Title";
+import DeletePlanetModal from "./DeletePlanetModal";
 
 const planets = [
   { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
@@ -26,31 +27,59 @@ const planets = [
 ];
 
 export default function CreatePlanet() {
+  const [showDeletePlanetModal, setShowDeletePlanetModal] = useState<boolean>(false);
+
   return (
-    <S.Form>
-      <S.Box className="left">
+    <S.Wrap>
+      <S.Container className="left">
         <S.Center>
           <S.ArrowLeft type="button">이전</S.ArrowLeft>
           <img src="/assets/img/icons/planet-1.svg" />
           {/* 행성 이미지 목록은 select로 구현 예정 */}
           <S.ArrowRight type="button">다음</S.ArrowRight>
         </S.Center>
-        <p>일본 맛도리 여행</p>
-        <S.FormGroup>
+        <S.PlanetTitle>일본 맛도리 여행</S.PlanetTitle>
+        <S.TagGroup>
           <Input type="text" placeholder="주제 해시태그 최대 5개" />
-        </S.FormGroup>
+          <ul>
+            <li>
+              <span>일본 여행</span>
+              <button>삭제</button>
+            </li>
+            <li>
+              <span>일본 여행</span>
+              <button>삭제</button>
+            </li>
+            <li>
+              <span>일본 여행</span>
+              <button>삭제</button>
+            </li>
+            <li>
+              <span>일본 여행</span>
+              <button>삭제</button>
+            </li>
+            <li>
+              <span>일본 여행</span>
+              <button>삭제</button>
+            </li>
+          </ul>
+        </S.TagGroup>
         <LinkButton disabled>탑승 우주선으로 이동</LinkButton>
-      </S.Box>
-      <S.Box className="right">
+        {/* 행성 관리자만 삭제 가능 */}
+        <S.DeletePlanetBtn type="button" onClick={() => setShowDeletePlanetModal(true)}>
+          행성 삭제 💥
+        </S.DeletePlanetBtn>
+      </S.Container>
+      <S.Container className="right">
         <Title />
-        <S.FormGroup>
+        <S.InputGroup>
           <Label htmlFor="planet-title">행성 이름</Label>
           <Input type="text" id="planet-title" />
-        </S.FormGroup>
-        <S.FormGroup>
+        </S.InputGroup>
+        <S.InputGroup>
           <Label htmlFor="planet-description">행성 소개</Label>
           <TextArea id="planet-description" />
-        </S.FormGroup>
+        </S.InputGroup>
         <S.Center>
           <S.AdjustBtnGroup>
             <Label>탑승 인원수</Label>
@@ -74,7 +103,10 @@ export default function CreatePlanet() {
           <OutlineButton type="button">취소</OutlineButton>
           <FillButton type="submit">작성완료</FillButton>
         </S.Center>
-      </S.Box>
-    </S.Form>
+      </S.Container>
+      {showDeletePlanetModal ? (
+        <DeletePlanetModal onClose={() => setShowDeletePlanetModal(false)} planetTitle="일본 맛도리 여행" />
+      ) : null}
+    </S.Wrap>
   );
 }
