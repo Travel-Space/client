@@ -8,13 +8,13 @@ export const Container = styled.div`
 
 export const Top = styled.div`
   width: 100%;
-  ${flexSpaceBetweenCenter}
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  ${flexSpaceBetweenCenter}
 `;
 
 export const Setting = styled.div`
-  ${flexAlignCenter}
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  ${flexAlignCenter}
   gap: 8px;
 
   > span {
