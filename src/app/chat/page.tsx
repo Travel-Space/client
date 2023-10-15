@@ -6,6 +6,8 @@ import Content from "./Content";
 import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 
+const num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 export default function Chat() {
   return (
     <S.Container>
@@ -17,18 +19,9 @@ export default function Chat() {
         <Line />
 
         <S.ListBox>
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
+          {num.map(num => (
+            <List />
+          ))}
         </S.ListBox>
       </S.ChatBox>
 
