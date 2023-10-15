@@ -5,7 +5,6 @@ import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
-import Line from "@/components/common/Line";
 
 const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
