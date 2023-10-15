@@ -1,4 +1,4 @@
-import { flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { flexAlignCenter, flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled, { css } from "styled-components";
 
 const commonButton = css`
@@ -22,6 +22,11 @@ const inputStyle = css`
     border-color: ${({ theme }) => theme.PALETTE.primary[200]};
     box-shadow: 0 0 0 3px #bdddfd;
   }
+`;
+
+export const ButtonGroup = styled.div`
+  ${flexAlignCenter};
+  gap: 16px;
 `;
 
 export const LinkButton = styled.button`
@@ -48,6 +53,7 @@ export const FillButton = styled.button`
   ${commonButton}
   color: ${({ theme }) => theme.PALETTE.white};
   background: ${({ theme }) => theme.PALETTE.mainColor};
+  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
   border-radius: 10px;
 `;
 
