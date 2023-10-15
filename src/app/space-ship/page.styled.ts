@@ -7,4 +7,5 @@ export const Wrap = styled.div`
   ${flexColumn}
   justify-content: space-between;
   height: calc(100vh - 90px);
+  overflow: hidden;
 `;
