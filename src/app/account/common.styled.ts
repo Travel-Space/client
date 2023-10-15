@@ -6,6 +6,7 @@ const commonButton = css`
   padding: 16px;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   cursor: pointer;
+  font-family: inherit;
 `;
 
 const inputStyle = css`
