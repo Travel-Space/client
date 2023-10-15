@@ -43,8 +43,7 @@ export const GalleryImage = styled(PplImage)`
   height: 40px;
 `;
 
-export const Input = styled.input`
-  height: 40px;
+export const Input = styled(GalleryImage)`
   width: 720px;
   padding: 8px 16px;
   border-radius: 20px;
