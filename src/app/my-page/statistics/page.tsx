@@ -7,6 +7,7 @@ import * as S from "./page.styled";
 
 import Divider from "@/app/my-page/Divider";
 import PopularPosting from "./PopularPosting";
+import DropDown from "./DropDown";
 
 export default function Statistics() {
   return (
@@ -17,7 +18,7 @@ export default function Statistics() {
             <Image src="/assets/img/icons/planet-0.svg" alt="planet" width={30} height={30} />
             <span>일본 맛도리 여행</span>
           </S.Planet>
-          <div>행성 선택 드롭다운</div>
+          <DropDown />
         </S.SelectedPlanet>
         <S.Summary>
           <div>
