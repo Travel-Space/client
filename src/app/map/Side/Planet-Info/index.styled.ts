@@ -40,7 +40,7 @@ export const PlanetInfo = styled(Container)`
 
   > strong {
     font-size: ${({ theme }) => theme.FONT_SIZE.em};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.extraBold};
+    font-weight: 800;
   }
 
   > span {

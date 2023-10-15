@@ -34,7 +34,7 @@ export const Middle = styled.div`
   > select {
     border: none;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 
