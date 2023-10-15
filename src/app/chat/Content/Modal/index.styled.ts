@@ -26,7 +26,7 @@ export const Title = styled.div`
   width: 100%;
 
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const ProfileBox = styled.div`

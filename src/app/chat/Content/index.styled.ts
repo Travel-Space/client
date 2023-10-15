@@ -18,12 +18,12 @@ export const Top = styled.div`
 
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.em};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
 
   > strong {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.Medium};
+    font-weight: 500;
   }
 `;
 

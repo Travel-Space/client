@@ -5,9 +5,14 @@ export const ListBox = styled.div`
   padding: 24px 32px;
   ${flexCenter}
   gap: 16px;
+  border-bottom: 1px solid #d9d9d9;
 
   > div {
     cursor: pointer;
+  }
+
+  &:last-child {
+    border: none;
   }
 `;
 
@@ -28,11 +33,11 @@ export const ChatRoomTitle = styled.div`
   gap: 8px;
 
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const ChatPreview = styled(ChatRoomTitle)`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 
   > span {
     width: 240px; /* 표시할 너비 설정 */

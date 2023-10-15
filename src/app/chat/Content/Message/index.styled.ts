@@ -61,17 +61,17 @@ export const Intro = styled.div`
 
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const TextContent = styled.span`
-  background: #fff;
-  padding: 10px 24px;
-  ${flexAlignCenter}
-  border-radius: 20px;
-  border: 1px solid #d9d9d9;
   color: ${({ theme }) => theme.PALETTE.black};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: 1px solid #d9d9d9;
+  background: ${({ theme }) => theme.PALETTE.white};
+  ${flexAlignCenter}
 `;
 
 export const Images = styled.div`
