@@ -2,12 +2,12 @@
 import { styled } from "styled-components";
 import Link from "next/link";
 
-import Divider from "../Divider";
+import Divider from "@/app/my-page/Divider";
 
 const Container = styled.div`
   width: 952px;
   min-height: 846px;
-  padding: 28px 32px;
+  padding: 28px 32px 54px;
   background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
 `;
@@ -31,17 +31,18 @@ const Tab = styled.ul`
   }
 `;
 const MainContainer = styled.div`
-  padding: 40px 0;
+  padding-top: 40px;
 `;
 
-export default function BasicInfoLayout({ children }: { children: React.ReactNode }) {
+export default function FriendLayout({ children }: { children: React.ReactNode }) {
   return (
     <Container>
       <Tab>
-        <Link href="/my-page/basic-info/profile">프로필 관리</Link>
-        <Link href="/my-page/basic-info/planet">행성 관리</Link>
+        <Link href="/my-page/friend/list">친구 목록</Link>
+        <Link href="/my-page/friend/add">친구 추가</Link>
       </Tab>
       <Divider width="100%" height="1px" />
+
       <MainContainer>{children}</MainContainer>
     </Container>
   );

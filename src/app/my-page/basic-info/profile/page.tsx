@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
@@ -20,21 +21,21 @@ export default function Profile() {
             </S.EditImgBtn>
           </S.Content>
         </S.Row>
-        <Divider />
+        <Divider width="100%" height="1px" />
         <S.Row>
           <S.Title>이름</S.Title>
           <S.Content>
             <S.Input type="text" value={"홍길동"} readOnly />
           </S.Content>
         </S.Row>{" "}
-        <Divider />
+        <Divider width="100%" height="1px" />
         <S.Row>
           <S.Title>이메일</S.Title>
           <S.Content>
             <S.Input type="text" value={"user-email@gmail.com"} readOnly />
           </S.Content>
         </S.Row>{" "}
-        <Divider />
+        <Divider width="100%" height="1px" />
         <S.Row>
           <S.Title>닉네임</S.Title>
           <S.Content>
@@ -44,10 +45,10 @@ export default function Profile() {
         </S.Row>
       </S.Main>
       <S.Footer>
-        <S.Withdrawal>
+        <S.Leave>
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
-          <button>회원탈퇴</button>
-        </S.Withdrawal>
+          <Link href="/my-page/leave">회원탈퇴</Link>
+        </S.Leave>
         <S.Save>변경 사항 저장</S.Save>
       </S.Footer>
     </S.Container>

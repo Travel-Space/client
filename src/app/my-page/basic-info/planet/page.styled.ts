@@ -56,8 +56,8 @@ export const TravelNumber = styled.div`
   }
 `;
 export const TravelingPlanetWrap = styled.div`
-  width: 890px;
-  padding: 40px 31px;
+  width: 888px;
+  padding: 40px 42px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
 `;
