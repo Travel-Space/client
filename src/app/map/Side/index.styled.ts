@@ -20,7 +20,7 @@ export const Container = styled.div`
   width: ${WIDTH};
   background-color: ${({ theme }) => theme.PALETTE.white};
 
-  animation-duration: 0.25s;
+  animation-duration: 0.3s;
   animation-timing-function: ease-out;
   animation-name: ${slide};
   animation-fill-mode: forwards;

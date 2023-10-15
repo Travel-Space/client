@@ -35,10 +35,7 @@ export const Profile = styled.div`
   }
 `;
 
-export const Description = styled.div`
-  ${flexColumn}
-  gap: 8px;
-
+export const Description = styled(MainBox)`
   > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
