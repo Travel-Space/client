@@ -14,6 +14,7 @@ const PALETTE = {
   white: "#FFFFFF",
   black: "#1F1F1F",
   gray: {
+    0: "#F9F9F9",
     100: "#D9D9D9",
     200: "#898989",
   },
@@ -27,7 +28,7 @@ const FONT_SIZE = {
   em: "18px",
   big: "20px",
   lg: "24px",
-  hg: "40px",  
+  hg: "40px",
 };
 
 const FONT_WEIGHT = {
