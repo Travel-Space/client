@@ -6,7 +6,11 @@ export const List = styled(Swiper)`
   overflow: visible;
 
   .swiper-pagination {
-    bottom: -152px !important;
+    bottom: -152px;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+
     .swiper-pagination-bullet {
       width: 16px;
       height: 16px;

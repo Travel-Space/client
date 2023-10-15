@@ -16,13 +16,14 @@ export default function ShipList() {
       slidesPerView={5}
       slidesPerGroup={5}
       spaceBetween={24}
+      grabCursor={false}
       pagination={{
         clickable: true,
       }}
       modules={[Pagination]}
     >
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(ship => (
-        <SwiperSlide>
+        <SwiperSlide key={ship}>
           <Ship />
         </SwiperSlide>
       ))}
