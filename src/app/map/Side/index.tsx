@@ -15,7 +15,7 @@ export default function Side() {
         <S.Container>
           <PlanetInfo />
 
-          <div>
+          <S.Wrapper>
             <S.Middle>
               <select>
                 <option value="">전체</option>
@@ -32,7 +32,7 @@ export default function Side() {
                 <PostPreview />
               ))}
             </S.ScrollBox>
-          </div>
+          </S.Wrapper>
         </S.Container>,
         document.body,
       )}

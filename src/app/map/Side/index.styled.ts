@@ -26,6 +26,8 @@ export const Container = styled.div`
   animation-fill-mode: forwards;
 `;
 
+export const Wrapper = styled.div``;
+
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
   border-bottom: 1px solid #d9d9d9;
