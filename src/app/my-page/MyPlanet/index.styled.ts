@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexSpaceBetweenCenter } from "@/styles/common";
+import { flexSpaceBetweenCenter, flexCenter } from "@/styles/common";
 
 export const Container = styled.div`
   width: 152px;
@@ -11,6 +11,7 @@ export const Container = styled.div`
   padding: 16px;
   ${flexSpaceBetweenCenter}
   flex-direction: column;
+  position: relative;
 `;
 export const Header = styled.div`
   width: 100%;
@@ -24,4 +25,21 @@ export const People = styled.div`
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+`;
+export const Likes = styled.div`
+  width: 88px;
+  height: 24px;
+  background-color: ${({ theme }) => theme.PALETTE.error};
+  color: ${({ theme }) => theme.PALETTE.white};
+  border-radius: 15px;
+  border: 1px solid rgba(225, 225, 225, 0.5);
+  ${flexCenter};
+
+  position: absolute;
+  bottom: 42px;
+`;
+export const Number = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  margin-left: 4px;
 `;

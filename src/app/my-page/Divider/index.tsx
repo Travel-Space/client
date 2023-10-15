@@ -1,5 +1,9 @@
 import * as S from "./index.styled";
 
-export default function Divider() {
-  return <S.Container></S.Container>;
+interface DividerProps {
+  width?: string;
+  height?: string;
+}
+export default function Divider({ width, height }: DividerProps) {
+  return <S.Container width={width} height={height}></S.Container>;
 }

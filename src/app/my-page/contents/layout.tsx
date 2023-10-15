@@ -34,12 +34,12 @@ const MainContainer = styled.div`
   padding: 40px 0;
 `;
 
-export default function BasicInfoLayout({ children }: { children: React.ReactNode }) {
+export default function ContentsLayout({ children }: { children: React.ReactNode }) {
   return (
     <Container>
       <Tab>
-        <Link href="/my-page/basic-info/profile">프로필 관리</Link>
-        <Link href="/my-page/basic-info/planet">행성 관리</Link>
+        <Link href="/my-page/contents/postings">게시글 관리</Link>
+        <Link href="/my-page/contents/comments">댓글 관리</Link>
       </Tab>
       <Divider width="100%" height="1px" />
       <MainContainer>{children}</MainContainer>
