@@ -7,12 +7,6 @@ export const TitleContainer = styled.div`
   gap: 56px;
 `;
 
-export const TitleLine = styled.div`
-  ${flexAlignCenter}
-  flex: 1;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
-`;
-
 export const TitleImg = styled.img`
   width: 664px;
   height: 104px;

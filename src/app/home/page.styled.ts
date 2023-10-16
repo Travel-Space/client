@@ -4,8 +4,8 @@ import { flexColumnCenter, flexColumn } from "@/styles/common";
 export const Wrapper = styled.div`
   ${flexColumnCenter}
   height: 100%;
-  gap: 144px;
-  padding: 144px 0 64px 0;
+  gap: 104px;
+  padding: 40px;
 `;
 
 export const Content = styled.div`
@@ -13,6 +13,5 @@ export const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 1280px;
-
-  gap: 96px;
+  gap: 80px;
 `;
