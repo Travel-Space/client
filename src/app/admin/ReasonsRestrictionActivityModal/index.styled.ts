@@ -8,15 +8,7 @@ export const Title = styled.p`
 `;
 
 export const Content = styled.div`
-  padding: 24px 32px;
-`;
-
-export const TitleContainer = styled.div`
-  text-align: center;
-  padding: 24px 16px;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  font-weight: 700;
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  width: 281px;
 `;
 
 export const SelectWithDefaultWrapper = styled.div`
