@@ -1,7 +1,7 @@
 import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import Member from "./Member";
+import Member from "../Member";
 
 interface Type extends ModalType {}
 
