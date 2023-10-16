@@ -4,7 +4,7 @@ import {
   Input as I,
   FillButton as FB,
   LinkButton as LB,
-} from "@/app/account/common.styled";
+} from "@/components/account/common.styled";
 import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
 
