@@ -3,13 +3,14 @@ import * as S from "./index.styled";
 export default function Member() {
   return (
     <S.Wrap>
+      {/* 관리자 위임, 초대 전 일 경우 cursor: pointer */}
       <S.Label>
         <S.ProfileImg src="/assets/img/icons/user-profile-default.svg" />
         <S.InfoGroup>
           <S.NicknameRole>
             <span className="nickname">닉네임</span>
             {/* 관리자 위임 */}
-            {/* <span className="role">부관리자</span> */}
+            <span className="role">부관리자</span>
           </S.NicknameRole>
           <S.Email>aaa@email.com</S.Email>
         </S.InfoGroup>
