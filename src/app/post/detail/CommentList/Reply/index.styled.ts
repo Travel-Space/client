@@ -10,12 +10,6 @@ export const Wrapper = styled.div`
 `;
 
 export const InputBox = styled.div`
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  height: 180px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  border-radius: 10px;
   margin: 40px 0 24px 0;
 `;
 
