@@ -1,16 +1,17 @@
 import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import { ButtonGroup, FillButton } from "@/components/account/common.styled";
-import Member from "./Member";
+import { ButtonGroup, FillButton } from "@/components/Account/common.styled";
+import Member from "../Member";
 
+// 삭제 모달, 퇴장 모달 하나로 만들어 쓰기
 interface Type extends ModalType {
   planetTitle: string;
 }
 
 export default function ExitPlanetModal({ onClose, planetTitle }: Type) {
   return (
-    <BoxModal onClick={() => onClose()} title="행성 탈출">
+    <BoxModal onClose={onClose} title="행성 탈출">
       {/* 부관리자, 일반 멤버 */}
       <S.Notification>
         <b>{planetTitle}</b>
@@ -32,7 +33,7 @@ export default function ExitPlanetModal({ onClose, planetTitle }: Type) {
           <img src="/assets/img/icons/exit.svg" />
           행성 나가기
         </S.OutlineButton>
-        <FillButton onClick={() => onClose()}>다시 고민해 볼게요.</FillButton>
+        <FillButton onClick={onClose}>다시 고민해 볼게요.</FillButton>
       </ButtonGroup>
     </BoxModal>
   );

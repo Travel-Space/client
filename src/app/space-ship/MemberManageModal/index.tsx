@@ -1,13 +1,13 @@
 import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import Member from "./Member";
+import Member from "../Member";
 
 interface Type extends ModalType {}
 
 export default function MemberManageModal({ onClose }: Type) {
   return (
-    <BoxModal onClick={() => onClose()} title="행성 멤버 관리">
+    <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>
         <S.InputGroup>
           <S.Input placeholder="이메일 또는 닉네임을 검색해보세요." />

@@ -32,7 +32,7 @@ export const ShipMemberCount = styled.span`
   opacity: 0.6;
 `;
 
-export const CreateShipBtn = styled.button`
+export const ShipImg = styled.button`
   background: none;
   outline: none;
   position: absolute;

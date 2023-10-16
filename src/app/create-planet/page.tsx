@@ -15,7 +15,7 @@ import {
   PlusButton,
   NumberText,
   LinkButton,
-} from "../../components/account/common.styled";
+} from "@/components/Account/common.styled";
 import Title from "./Title";
 import DeletePlanetModal from "./DeletePlanetModal";
 
@@ -30,6 +30,7 @@ export default function CreatePlanet() {
   const [showDeletePlanetModal, setShowDeletePlanetModal] = useState<boolean>(false);
 
   return (
+    // 컴포넌트 정리 예정
     <S.Wrap>
       <S.Container className="left">
         <S.Center>
