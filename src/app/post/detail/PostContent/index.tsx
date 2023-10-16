@@ -1,16 +1,17 @@
 "use client";
 
+import DeclarationModal from "@/components/common/DeclarationModal";
 import UserProfile from "../UserProfile";
 import * as PC from "./index.styled";
 
 export default function PostContent() {
-  
   //태그 확인용 목업데이터
   const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
 
   return (
     <>
       <PC.Wrapper>
+        {/* <DeclarationModal /> */}
         <PC.TitleSection>
           <PC.Title>오늘 먹은 텐동 냠냠굿이었따.</PC.Title>
           <PC.Date>2023년 9월 25일</PC.Date>
@@ -18,7 +19,7 @@ export default function PostContent() {
         <PC.PostInfoSection>
           <UserProfile />
           <PC.PostInfo>
-            <PC.RocketImg src="/assets/img/icons/rocket.svg"/>
+            <PC.RocketImg src="/assets/img/icons/rocket.svg" />
             피식대학 우주선
             <PC.PlanetImg src="/assets/img/icons/planet.svg" />
             일본 맛도리 행성
