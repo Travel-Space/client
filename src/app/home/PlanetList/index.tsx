@@ -21,7 +21,7 @@ export default function PlanetList() {
               {group.map(planetIdx => (
                 <SlideImage
                   key={planetIdx}
-                  src={`/assets/img/icons/planet1.png`}
+                  src={`/assets/img/icons/planet-${planetIdx}.svg`}
                   alt={`Planet ${planetIdx}`}
                 />
               ))}
