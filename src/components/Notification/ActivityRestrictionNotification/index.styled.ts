@@ -1,18 +1,7 @@
 import styled from "styled-components";
-import { flexAlignCenter, flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
 
-export const TitleContainer = styled.div`
-  min-width: 320px;
-  text-align: center;
-  padding: 24px 16px;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  font-weight: 700;
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-`;
-
-export const Content = styled.div`
-  width: 320px;
-  padding: 24px 32px;
+export const Container = styled.div`
+  width: 256px;
 
   p {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
