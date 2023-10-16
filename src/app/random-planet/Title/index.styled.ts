@@ -1,4 +1,4 @@
-import { flexColumnCenter } from "@/styles/common";
+import { flexAlignCenter, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const TitleWrapper = styled.div`
@@ -9,14 +9,14 @@ export const TitleWrapper = styled.div`
 `;
 
 export const TitleSection = styled.div`
-  display: flex;
+  ${flexSpaceBetweenCenter}
   width: 100%;
   gap: 56px;
 `;
 
 export const TitleLine = styled.div`
+  ${flexAlignCenter}
   flex: 1;
-  height: 48px;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
 `;
 
@@ -36,5 +36,4 @@ export const InfoText = styled.div`
   font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
   line-height: 2;
   text-align: center;
-
 `;

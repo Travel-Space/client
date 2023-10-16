@@ -18,13 +18,17 @@ export const Top = styled.div`
 
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.em};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
 
   > strong {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.Medium};
+    font-weight: 500;
   }
+`;
+
+export const ModalBox = styled.div`
+  position: relative;
 `;
 
 export const PplImage = styled.img`
@@ -44,7 +48,6 @@ export const GalleryImage = styled(PplImage)`
 `;
 
 export const Input = styled.input`
-  height: 40px;
   width: 720px;
   padding: 8px 16px;
   border-radius: 20px;

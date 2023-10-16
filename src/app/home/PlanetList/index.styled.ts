@@ -37,3 +37,4 @@ export const SlideImage = styled.img`
   height: 220px;
   margin-bottom:56px;
 `;
+

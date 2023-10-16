@@ -5,10 +5,10 @@ const WIDTH = "500px";
 
 const slide = keyframes`
   from {
-    right: -${WIDTH};
+    left: -${WIDTH};
   }
   to {
-    right: 0;
+    left: 0;
   }
 `;
 
@@ -20,20 +20,23 @@ export const Container = styled.div`
   width: ${WIDTH};
   background-color: ${({ theme }) => theme.PALETTE.white};
 
-  animation-duration: 0.25s;
+  animation-duration: 0.3s;
   animation-timing-function: ease-out;
   animation-name: ${slide};
   animation-fill-mode: forwards;
 `;
 
+export const Wrapper = styled.div``;
+
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
+  border-bottom: 1px solid #d9d9d9;
   ${flexSpaceBetweenCenter}
 
   > select {
     border: none;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 
@@ -46,7 +49,6 @@ export const Button = styled.button`
 
 export const ScrollBox = styled.div`
   ${flexColumn}
-  gap: 24px;
   overflow: scroll;
   padding-bottom: 100px;
   height: calc(100vh - 300px);

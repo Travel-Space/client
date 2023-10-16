@@ -5,8 +5,8 @@ export const ModalBox = styled.div`
   color: ${({ theme }) => theme.PALETTE.black};
   background: ${({ theme }) => theme.PALETTE.white};
   position: absolute;
-  top: 20%;
-  left: 80%;
+  top: 30px;
+  right: 0;
 
   ${flexColumn}
   align-items: flex-start;
@@ -26,7 +26,7 @@ export const Title = styled.div`
   width: 100%;
 
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const ProfileBox = styled.div`

@@ -1,9 +1,15 @@
-import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 import styled from "styled-components";
+import { flexAlignCenter, flexColumn } from "@/styles/common";
 
 export const Post = styled.div`
   ${flexAlignCenter}
   gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid #d9d9d9;
+
+  &:last-child {
+    border: none;
+  }
 `;
 
 export const MainBox = styled.div`
@@ -29,13 +35,10 @@ export const Profile = styled.div`
   }
 `;
 
-export const Description = styled.div`
-  ${flexColumn}
-  gap: 8px;
-
+export const Description = styled(MainBox)`
   > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
   }
 
   > div {
@@ -52,6 +55,6 @@ export const Description = styled.div`
 `;
 
 export const Date = styled.div`
-  color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+  color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
