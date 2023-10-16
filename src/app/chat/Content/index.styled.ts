@@ -27,6 +27,10 @@ export const Title = styled.div`
   }
 `;
 
+export const ModalBox = styled.div`
+  position: relative;
+`;
+
 export const PplImage = styled.img`
   width: 25px;
   height: 17px;
@@ -43,7 +47,7 @@ export const GalleryImage = styled(PplImage)`
   height: 40px;
 `;
 
-export const Input = styled(GalleryImage)`
+export const Input = styled.input`
   width: 720px;
   padding: 8px 16px;
   border-radius: 20px;
