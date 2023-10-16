@@ -6,6 +6,7 @@ export const TitleWrapper = styled.div`
   display: flex;
   width: 100%;
   gap: 48px;
+  margin-top: 40px;
 `;
 
 export const TitleSection = styled.div`
@@ -13,8 +14,6 @@ export const TitleSection = styled.div`
   width: 100%;
   gap: 56px;
 `;
-
-
 
 export const TitleImg = styled.img`
   width: 664px;

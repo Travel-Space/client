@@ -5,6 +5,7 @@ export const TitleContainer = styled.div`
   ${flexSpaceBetweenCenter}
   width: 100%;
   gap: 56px;
+  margin-top: 40px;
 `;
 
 export const TitleImg = styled.img`

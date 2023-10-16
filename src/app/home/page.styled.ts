@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import { flexColumnCenter, flexColumn } from "@/styles/common";
+import { flexColumnCenter, flexColumn, bodyContainer } from "@/styles/common";
 
 export const Wrapper = styled.div`
   ${flexColumnCenter}
-  height: 100%;
-  gap: 104px;
-  padding: 40px;
+  justify-content: center;
+  height: calc(100vh - 90px);
+  gap: 120px;
 `;
 
 export const Content = styled.div`
   ${flexColumn}
+  ${bodyContainer}
   justify-content: space-between;
   align-items: center;
-  width: 1280px;
-  gap: 80px;
+  gap: 96px;
 `;

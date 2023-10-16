@@ -4,7 +4,7 @@ import { flexColumnCenter, flexCenter } from "@/styles/common";
 export const Wrapper = styled.div`
   ${flexColumnCenter}
   gap:56px;
-
+  margin-top: 72px;
 `;
 
 export const PlanetImg = styled.img`
@@ -20,6 +20,7 @@ export const RamdomBtn = styled.div`
   border-radius: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.white};
   padding: 13px 40px;
+  margin-bottom: 40px;
   text-align: center;
   color: ${({ theme }) => theme.PALETTE.white};
   gap: 16px;
