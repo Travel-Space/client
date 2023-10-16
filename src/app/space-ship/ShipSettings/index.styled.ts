@@ -1,6 +1,6 @@
 import { flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
-import { LinkButton as LB } from "../../../components/account/common.styled";
+import { LinkButton as LB } from "@/components/Account/common.styled";
 
 export const Wrap = styled.div`
   ${flexSpaceBetweenCenter}

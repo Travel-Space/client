@@ -15,7 +15,7 @@ import {
   PlusButton,
   NumberText,
   LinkButton,
-} from "../../components/account/common.styled";
+} from "@/components/Account/common.styled";
 import Title from "./Title";
 import DeletePlanetModal from "./DeletePlanetModal";
 

@@ -1,4 +1,4 @@
-import { OutlineButton as OB } from "@/components/account/common.styled";
+import { OutlineButton as OB } from "@/components/Account/common.styled";
 import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
 

@@ -1,4 +1,4 @@
-import * as S from "../common.styled";
+import * as S from "@/components/Account/common.styled";
 
 interface LoginType {
   goToSignup: () => void;
