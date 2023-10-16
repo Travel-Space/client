@@ -1,22 +1,30 @@
 import { flexSpaceBetweenCenter, flexAlignCenter } from "@/styles/common";
 import styled from "styled-components";
 
-export const TitleContainer = styled.div`
-  min-width: 320px;
-  text-align: center;
-  padding: 24px 16px;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  font-weight: 700;
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-`;
-
 export const Content = styled.div`
-  padding: 24px 16px;
+  width: 256px;
 `;
 
 export const TitleList = styled.li`
   margin-bottom: 16px;
+`;
+
+export const TitleContent = styled.div`
   ${flexAlignCenter}
+`;
+export const UserInfoBox = styled.div`
+  > div {
+    padding-left: 24px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+  p {
+    margin-bottom: 16px;
+    span {
+      color: ${({ theme }) => theme.PALETTE.gray[200]};
+      margin-right: 8px;
+    }
+  }
 `;
 
 export const TitleText = styled.p`
@@ -44,6 +52,7 @@ export const Circle = styled.div`
 export const Button = styled.button`
   width: 100%;
   padding: 8px;
+  border-radius: 4px;
   background-color: ${({ theme }) => theme.PALETTE.black};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 700;
