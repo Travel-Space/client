@@ -1,26 +1,30 @@
 import * as S from "./index.styled";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavListProps {
-  href: string;
-  logo: string;
-  title: string;
-  list: { href: string; title: string }[];
+  logo: JSX.Element;
+  parent: { name: string; href: string };
+  sub: { name: string; href: string }[];
 }
 
-export default function NavList({ href, logo, title, list }: NavListProps) {
+export default function NavList({ logo, parent, sub }: NavListProps) {
+  const pathname = usePathname();
+
   return (
     <S.Container>
-      <S.UserImg src={logo} />
+      {logo}
       <S.List>
-        <Link href={href}>
-          <S.Title>{title}</S.Title>
-        </Link>
-        {list.map(el => (
-          <S.SubTitle>
-            <Link href={el.href}>{el.title}</Link>
-          </S.SubTitle>
-        ))}
+        <S.Title>
+          <Link href={sub[0].href}>{parent.name}</Link>
+        </S.Title>
+        <S.SubTitle>
+          {sub.map((el, idx) => (
+            <Link key={idx} href={el.href} className={pathname === el.href ? "active" : ""}>
+              {el.name}
+            </Link>
+          ))}
+        </S.SubTitle>
       </S.List>
     </S.Container>
   );

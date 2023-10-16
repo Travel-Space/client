@@ -22,7 +22,7 @@ export default function Header() {
               </button>
             </li>
             <li>
-              <Link href="/mypage">MYPAGE</Link>
+              <Link href="/my-page/statistics">MYPAGE</Link>
             </li>
             <li>
               <button type="button">LOGOUT</button>
