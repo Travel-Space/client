@@ -26,7 +26,7 @@ export default function Chat() {
           <span>채팅 그룹 목록</span>
         </S.ListTitle>
 
-        <Line />
+        <Line color="gray" />
 
         <S.ListBox>
           {num.map(num => (

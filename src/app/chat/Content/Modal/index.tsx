@@ -18,7 +18,7 @@ export default function Modal() {
     <S.ModalBox>
       <S.Title>
         대화 상대
-        <Line />
+        <Line color="gray" />
       </S.Title>
 
       <S.ProfileBox>
@@ -27,7 +27,7 @@ export default function Modal() {
           <span>남경남경 (나)</span>
         </S.Profile>
 
-        <Line />
+        <Line color="gray" />
 
         {name.map(el => (
           <S.Profile>

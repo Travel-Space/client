@@ -10,9 +10,9 @@ export default function Message() {
       </S.MessageBox>
 
       <S.DateLine>
-        <Line />
+        <Line color="gray" />
         <S.Date>10월 05일 (금)</S.Date>
-        <Line />
+        <Line color="gray" />
       </S.DateLine>
 
       <S.MessageBox>
