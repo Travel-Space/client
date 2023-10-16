@@ -1,7 +1,7 @@
 import Ship from "./Ship";
 import * as S from "./index.styled";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
