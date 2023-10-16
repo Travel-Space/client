@@ -1,7 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { colorProp } from ".";
 
-export const Line = styled.div`
+const colorCSS = {
+  gray: css`
+    border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  `,
+  white: css`
+    border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
+  `,
+};
+
+export const Line = styled.div<colorProp>`
+  ${({ color }) => colorCSS[color]}
   height: 1px;
   width: 100%;
-  border-bottom: 1px solid #d9d9d9;
 `;
