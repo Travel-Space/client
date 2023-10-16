@@ -1,10 +1,11 @@
-import { flexSpaceBetweenCenter } from "@/styles/common";
+import { bodyContainer, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const SwiperContainer = styled.div`
+  ${bodyContainer}
   width: 100%;
   height: 100%;
-  
+  margin-bottom: 40px;
 
   .swiper-pagination-bullet {
     width: 40px;
@@ -26,12 +27,12 @@ export const StyledSwiperSlide = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.em};
   color: ${({ theme }) => theme.PALETTE.white};
   background-color: transparent;
-  gap: 40px;
   width: 100%;
 `;
 
 export const SlideImage = styled.img`
-  height: 100%;
+  min-width: 160px;
+  max-width: 200px;
   background-repeat: no-repeat;
   object-fit: cover;
   margin-bottom: 56px;

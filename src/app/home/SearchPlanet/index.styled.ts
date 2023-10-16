@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { flexColumn, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { bodyContainer,  flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Wrapper = styled.div`
   ${flexColumnCenter}
+  ${bodyContainer}
   width: 440px;
   height: 104px;
   gap: 24px;
