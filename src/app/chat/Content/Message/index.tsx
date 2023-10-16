@@ -35,7 +35,7 @@ export default function Message() {
 
 const PhotoMessage = () => {
   return (
-    <S.PhotoMessage message={"photo"}>
+    <S.PhotoMessage message={"my"}>
       <S.Intro>
         <div>23:23</div>
         <S.Images>

@@ -90,20 +90,20 @@ export const File = styled.div`
     border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   }
 
+  > label {
+    ${flexAlignCenter}
+    height: 40px;
+    border-radius: 4px;
+    background: none;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    color: ${({ theme }) => theme.PALETTE.primary[100]};
+    font-weight: 500;
+    cursor: pointer;
+  }
+
   > input:nth-child(3) {
     display: none;
   }
-`;
-
-export const ImgButton = styled.label`
-  ${flexAlignCenter}
-  height: 40px;
-  border-radius: 4px;
-  background: none;
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  color: ${({ theme }) => theme.PALETTE.primary[100]};
-  font-weight: 500;
-  cursor: pointer;
 `;
 
 export const Bottom = styled.div`

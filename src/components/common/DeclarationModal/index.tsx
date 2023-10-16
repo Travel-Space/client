@@ -1,3 +1,4 @@
+import Textarea from "../Textarea";
 import * as S from "./index.styled";
 
 export default function DeclarationModal({ title, onClick }: { title: string; onClick: () => void }) {
@@ -6,13 +7,18 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
       <S.Container>
         <S.Top>
           <img src="/assets/img/icons/declaration.svg" />
-          <span>게시글 신고하기</span>
+          <span>{title} 신고하기</span>
         </S.Top>
 
         <S.Middle>
           <S.Description>
             <span>신고 내용</span>
-            <textarea placeholder="신고 내용을 입력해 주세요." maxLength={"200"} />
+            <Textarea
+              name="description"
+              size="declaration"
+              placeholder={"신고 내용을 입력해 주세요."}
+              maxLength={200}
+            />
           </S.Description>
 
           {title !== "채팅" && (
@@ -35,7 +41,7 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
             <span>신고 사진</span>
             <S.File>
               <input readOnly placeholder="파일을 업로드해 주세요." />
-              <S.ImgButton for="file">사진 첨부</S.ImgButton>
+              <label htmlFor="file">사진 첨부</label>
               <input accept="image/*" type="file" id="file" />
             </S.File>
           </S.Picture>

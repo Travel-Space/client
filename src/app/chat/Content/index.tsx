@@ -15,15 +15,16 @@ export default function Content() {
 
   return (
     <S.ContentBox>
-      {showModal && <Modal />}
-
       <S.Wrapper>
         <S.Top>
           <div />
           <S.Title>
             제목이 들어간다 제목이 들어간다 <strong>6/100</strong>
           </S.Title>
-          <S.PplImage onClick={handleShowModal} src="/assets/img/icons/person.svg" />
+          <S.ModalBox>
+            <S.PplImage onClick={handleShowModal} src="/assets/img/icons/person.svg" />
+            {showModal && <Modal />}
+          </S.ModalBox>
         </S.Top>
 
         <Line />
