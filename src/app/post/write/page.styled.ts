@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import ReactQuill from "react-quill";
-import { flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { flexColumnCenter, flexSpaceBetweenCenter, bodyContainer } from "@/styles/common";
 import "react-quill/dist/quill.snow.css";
 
 export const Wrapper = styled.div`
+  ${bodyContainer}
   display: flex;
   justify-content: center;
   gap: 40px;
@@ -168,6 +169,7 @@ export const BackBtn = styled.button`
   border: none;
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.white};
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
   border-radius: 10px;
   transition: background-color 0.3s;
@@ -182,6 +184,7 @@ export const CompletedBtn = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
   border-radius: 10px;
   transition: background-color 0.3s;

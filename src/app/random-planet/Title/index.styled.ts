@@ -6,18 +6,13 @@ export const TitleWrapper = styled.div`
   display: flex;
   width: 100%;
   gap: 48px;
+  margin-top: 40px;
 `;
 
 export const TitleSection = styled.div`
   ${flexSpaceBetweenCenter}
   width: 100%;
   gap: 56px;
-`;
-
-export const TitleLine = styled.div`
-  ${flexAlignCenter}
-  flex: 1;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
 `;
 
 export const TitleImg = styled.img`

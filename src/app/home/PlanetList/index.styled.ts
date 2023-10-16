@@ -1,8 +1,11 @@
+import { bodyContainer, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const SwiperContainer = styled.div`
+  ${bodyContainer}
   width: 100%;
   height: 100%;
+  margin-bottom: 40px;
 
   .swiper-pagination-bullet {
     width: 40px;
@@ -19,22 +22,18 @@ export const SwiperContainer = styled.div`
   }
 `;
 export const StyledSwiperSlide = styled.div`
-  height: 250px;
+  ${flexSpaceBetweenCenter}
   text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
+  font-size: ${({ theme }) => theme.FONT_SIZE.em};
   color: ${({ theme }) => theme.PALETTE.white};
-  gap: 40px;
+  background-color: transparent;
+  width: 100%;
 `;
 
 export const SlideImage = styled.img`
-  display: block;
-  width: 220px; 
-  height: 220px;
-  margin-bottom:56px;
+  min-width: 160px;
+  max-width: 200px;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  margin-bottom: 56px;
 `;
-

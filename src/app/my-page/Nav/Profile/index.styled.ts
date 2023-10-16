@@ -16,7 +16,7 @@ export const UserImg = styled.img`
 `;
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.Bold};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
 
   line-height: 24px;
   margin-bottom: 8px;
