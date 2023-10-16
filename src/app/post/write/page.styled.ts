@@ -16,39 +16,111 @@ export const WriteSection = styled.div`
   max-height: 1000px;
 `;
 
-export const TitleAndPlace = styled.div`
+export const TitleAndLocation = styled.div`
   ${flexColumnCenter}
   gap:16px;
+`;
 
-  & input {
-    width: 600px;
-    height: 48px;
-    border-radius: 10px;
-    border: none;
-    padding: 16px;
+export const TitleInput = styled.input`
+  width: 600px;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
+  padding: 16px;
+  background-repeat: no-repeat;
 
-    &::placeholder {
-      color: ${({ theme }) => theme.PALETTE.gray[100]};
-    }
+  &::placeholder {
+    color: ${({ theme }) => theme.PALETTE.gray[100]};
+    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    background-image: url(@/aseets/img/icon/location.svg);
   }
 `;
 
-export const TagsAndPlanet = styled.div`
+export const LocationInput = styled.input`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: none;
+  padding-left: 48px;
+  background-repeat: no-repeat;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.PALETTE.gray[100]};
+    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+`;
+
+export const LocationWrapper = styled.div`
+  width: 600px;
+  height: 48px;
+  position: relative;
+`;
+
+export const LocationIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  background-image: url("/assets/img/icons/gray-location.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
+
+export const TagsAndRocket = styled.div`
   ${flexSpaceBetweenCenter}
   width: 600px;
   gap: 16px;
+  position: relative;
 
   & input {
-    width: 600px;
+    width: 290px;
     height: 48px;
     border-radius: 10px;
     border: none;
     padding: 16px;
-
+    padding-left: 48px;
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
+      font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
     }
   }
+`;
+export const TagIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  background-image: url("/assets/img/icons/gray-tags.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
+
+export const RocketInputWrapper = styled.div`
+  width: 290px;
+  height: 48px;
+  position: relative;
+`;
+
+export const TagsInputWrapper = styled.div`
+  width: 290px;
+  height: 48px;
+  position: relative;
+`;
+
+export const RocketIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  background-image: url("/assets/img/icons/gray-rocket.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 export const PreviewSection = styled.div`
@@ -104,23 +176,41 @@ export const PreviewSection = styled.div`
   i {
     font-style: italic;
   }
-  
+
   a {
-  color: ${({ theme }) => theme.PALETTE.mainColor};
+    color: ${({ theme }) => theme.PALETTE.mainColor};
   }
 `;
 
 export const Tags = styled.div`
-  padding: 8px 16px;
+  padding: 8px 32px 8px 16px;
   border-radius: 15px;
   background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
+  position: relative;
 `;
 
 export const TagsDisplay = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 600px;
   gap: 8px;
+`;
+
+export const TagWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const DeleteTagButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.PALETTE.white};
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 16px 0 8px;
 `;
 
 export const ButtonGroup = styled.div`
