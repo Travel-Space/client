@@ -3,11 +3,7 @@ import * as S from "./index.styled";
 
 export default function ReportNameModal() {
   return (
-    <AdminModalContainer>
-      <S.TitleContainer>
-        <p>신고 내용</p>
-      </S.TitleContainer>
-
+    <AdminModalContainer title="신고 내용">
       <S.Content>
         <ul>
           <li>
