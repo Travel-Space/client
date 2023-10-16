@@ -5,8 +5,8 @@ export const ModalBox = styled.div`
   color: ${({ theme }) => theme.PALETTE.black};
   background: ${({ theme }) => theme.PALETTE.white};
   position: absolute;
-  top: 20%;
-  left: 80%;
+  top: 30px;
+  right: 0;
 
   ${flexColumn}
   align-items: flex-start;
