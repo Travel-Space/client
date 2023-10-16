@@ -23,7 +23,7 @@ export const Textarea = styled.textarea<sizeProp>`
   ${({ size }) => sizeCSS[size]}
   border-radius: 10px;
   border: 1px solid #d9d9d9;
-  padding: 0 16px;
+  padding: 16px;
   resize: none;
   width: 100%;
 `;
