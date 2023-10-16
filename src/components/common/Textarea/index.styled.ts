@@ -11,10 +11,10 @@ const sizeCSS = {
   admin: css`
     height: 130px;
   `,
-  post: css`
+  comment: css`
     height: 160px;
   `,
-  comment: css`
+  post: css`
     height: 180px;
   `,
 };
@@ -25,4 +25,5 @@ export const Textarea = styled.textarea<sizeProp>`
   border: 1px solid #d9d9d9;
   padding: 0 16px;
   resize: none;
+  width: 100%;
 `;
