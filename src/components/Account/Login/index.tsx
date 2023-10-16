@@ -1,4 +1,5 @@
 import * as S from "../common.styled";
+import Input from "@/components/common/Input";
 
 interface LoginType {
   goToSignup: () => void;
@@ -15,12 +16,10 @@ export default function Login({ goToSignup, goToResetPassword }: LoginType) {
       <S.LineWithText>or log in with email</S.LineWithText>
       <form>
         <S.InputGroup>
-          <S.Label htmlFor="user-email">이메일</S.Label>
-          <S.Input type="text" id="user-email" />
+          <Input id="user-email" type="email" name="user-email" label="이메일" />
         </S.InputGroup>
         <S.InputGroup>
-          <S.Label htmlFor="user-password">비밀번호</S.Label>
-          <S.Input type="password" id="user-password" />
+          <Input id="user-password" type="password" name="user-password" label="비밀번호" />
           <S.UnderLineButton className="link-in-input" onClick={() => goToResetPassword()}>
             Forgot?
           </S.UnderLineButton>

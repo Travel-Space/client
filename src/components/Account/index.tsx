@@ -23,7 +23,7 @@ export default function Account({ onClose }: ModalType) {
             뒤로
           </S.Button>
         )}
-        <S.Button className="close" onClick={() => onClose()}>
+        <S.Button className="close" onClick={onClose}>
           닫기
         </S.Button>
       </S.Buttons>
