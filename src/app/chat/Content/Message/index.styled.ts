@@ -26,7 +26,7 @@ export const MessageBox = styled.div`
 
 export const Message = styled.div`
   ${flexCenter};
-  justify-content: ${props => (props.message === "my" || props.message === "photo" ? "flex-end" : "flex-start")};
+  justify-content: ${props => (props.message === "my" ? "flex-end" : "flex-start")};
   gap: 8px;
   width: 100%;
 `;
