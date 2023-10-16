@@ -3,15 +3,25 @@
 import DeclarationModal from "@/components/common/DeclarationModal";
 import UserProfile from "../UserProfile";
 import * as PC from "./index.styled";
+import React, { useState } from "react";
 
 export default function PostContent() {
   //태그 확인용 목업데이터
   const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openDeclarationModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeDeclarationModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
       <PC.Wrapper>
-        {/* <DeclarationModal /> */}
+        {isModalOpen && <DeclarationModal title={"게시글"} onClick={closeDeclarationModal} />}
         <PC.TitleSection>
           <PC.Title>오늘 먹은 텐동 냠냠굿이었따.</PC.Title>
           <PC.Date>2023년 9월 25일</PC.Date>
@@ -63,7 +73,7 @@ export default function PostContent() {
             <PC.PostActionBtn>
               <PC.EditBtn>수정</PC.EditBtn>
               <PC.DeleteBtn>삭제</PC.DeleteBtn>
-              <PC.ReportBtn>신고</PC.ReportBtn>
+              <PC.DeclarationBtn onClick={openDeclarationModal}>신고</PC.DeclarationBtn>
             </PC.PostActionBtn>
           </PC.TextBottomDisplay>
         </PC.Content>

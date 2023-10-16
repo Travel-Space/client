@@ -132,7 +132,7 @@ export const DeleteBtn = styled.div`
   cursor: pointer;
 `;
 
-export const ReportBtn = styled.div`
+export const DeclarationBtn = styled.div`
   padding: 16px 40px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.error};
