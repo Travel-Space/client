@@ -1,5 +1,4 @@
 "use client";
-import ActivityRestrictionNotification from "@/components/common/Notification/ActivityRestrictionNotification";
 import * as S from "./admin.styled";
 import SearchBar from "./SearchBar";
 import AdminTable from "./Table";
@@ -18,9 +17,6 @@ export default function Admin() {
       </S.Side>
 
       <S.TableContainer>
-        {/* <Notification /> */}
-
-        <ActivityRestrictionNotification />
         <S.AdminContent>
           <S.TopContent>
             <TotalText titleText={"사용자"} totalNum={100} unit={"명"} />
