@@ -1,14 +1,15 @@
+import { flexAlignCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const TitleContainer = styled.div`
-  display: flex;
+  ${flexSpaceBetweenCenter}
   width: 100%;
   gap: 56px;
 `;
 
 export const TitleLine = styled.div`
+  ${flexAlignCenter}
   flex: 1;
-  height: 48px;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
 `;
 

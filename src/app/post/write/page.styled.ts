@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 export const WriteSection = styled.div`
   ${flexColumnCenter}
   gap:16px;
-  max-height: 1000px;
+  height: 1000px;
 `;
 
 export const TitleAndLocation = styled.div`
@@ -31,6 +31,7 @@ export const TitleInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
     background-image: url(@/aseets/img/icon/location.svg);
   }
@@ -47,6 +48,7 @@ export const LocationInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;
 
@@ -84,6 +86,7 @@ export const TagsAndRocket = styled.div`
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
       font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+      font-size: ${({ theme }) => theme.FONT_SIZE.md};
     }
   }
 `;
@@ -121,65 +124,6 @@ export const RocketIcon = styled.div`
   background-image: url("/assets/img/icons/gray-rocket.svg");
   background-size: cover;
   background-repeat: no-repeat;
-`;
-
-export const PreviewSection = styled.div`
-  width: 600px;
-  height: 1000px;
-  overflow-y: scroll;
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  margin-bottom: 64px;
-  border-radius: 10px;
-  padding: 24px;
-  line-height: 1.42;
-
-  & ol {
-    padding-left: 24px;
-  }
-
-  & ol > li {
-    list-style-type: decimal;
-  }
-
-  & ul {
-    padding-left: 24px;
-  }
-
-  & ul > li {
-    list-style-type: disc;
-  }
-
-  strong {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  }
-
-  h1 {
-    font-size: ${({ theme }) => theme.FONT_SIZE.hg};
-  }
-
-  h2 {
-    font-size: ${({ theme }) => theme.FONT_SIZE.lg};
-  }
-
-  h3 {
-    font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  }
-
-  img {
-    text-align: center;
-    width: 100%;
-    object-fit: cover;
-    margin: 10px 0;
-  }
-
-  em,
-  i {
-    font-style: italic;
-  }
-
-  a {
-    color: ${({ theme }) => theme.PALETTE.mainColor};
-  }
 `;
 
 export const Tags = styled.div`
@@ -249,4 +193,64 @@ export const CompletedBtn = styled.button`
 
 export const QuillWrapper = styled(ReactQuill)`
   background-color: ${({ theme }) => theme.PALETTE.white};
+  height: 100%;
+`;
+
+export const PreviewSection = styled.div`
+  width: 600px;
+  height: 1000px;
+  overflow-y: scroll;
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  margin-bottom: 64px;
+  border-radius: 10px;
+  padding: 24px;
+  line-height: 1.42;
+
+  & ol {
+    padding-left: 24px;
+  }
+
+  & ol > li {
+    list-style-type: decimal;
+  }
+
+  & ul {
+    padding-left: 24px;
+  }
+
+  & ul > li {
+    list-style-type: disc;
+  }
+
+  strong {
+    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  h1 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.hg};
+  }
+
+  h2 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.lg};
+  }
+
+  h3 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  }
+
+  img {
+    text-align: center;
+    width: 100%;
+    object-fit: cover;
+    margin: 10px 0;
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+
+  a {
+    color: ${({ theme }) => theme.PALETTE.mainColor};
+  }
 `;

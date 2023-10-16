@@ -51,7 +51,7 @@ export const CommentEdit = styled.div`
   gap:16px;
 `;
 
-export const RepotBtn = styled.div`
+export const DeclarationBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.error};
   cursor: pointer;
 `;

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { flexSpaceBetweenCenter } from "@/styles/common";
 
 export const QuillWrapper = styled(ReactQuill)`
   position: relative;
   width: 600px;
   height: 100%;
-  max-height: 700px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.PALETTE.white};
   overflow-y: scroll;

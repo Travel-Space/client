@@ -1,12 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import * as CI from "./index.styled";
 import UserProfile from "../../UserProfile";
+import DeclarationModal from "@/components/common/DeclarationModal";
 
 export default function CommentItem() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openDeclarationModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeDeclarationModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <CI.Wrapper>
+      {isModalOpen && <DeclarationModal title={"댓글"} onClick={closeDeclarationModal} />}
+
       <CI.UserComment>
         <CI.ProfileAndDate>
           <UserProfile />
@@ -34,7 +47,7 @@ export default function CommentItem() {
           </CI.MinusBtn>
         </CI.ReplyBtn>
         <CI.CommentEdit>
-          <CI.RepotBtn>신고</CI.RepotBtn>
+          <CI.DeclarationBtn onClick={openDeclarationModal}>신고</CI.DeclarationBtn>
           <CI.EditBtn>수정</CI.EditBtn>
           <CI.DeleteBtn>삭제</CI.DeleteBtn>
         </CI.CommentEdit>
