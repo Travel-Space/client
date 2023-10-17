@@ -36,7 +36,7 @@ export const Title = styled.div`
   height: 280px;
   text-align: center;
   font-size: 28px;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.extraBold};
+  font-weight: 800;
   line-height: 34px;
   margin-bottom: 32px;
   ${flexCenter};

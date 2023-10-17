@@ -11,7 +11,7 @@ export const Wrap = styled.header`
     color: ${({ theme }) => theme.PALETTE.white};
     font-size: ${({ theme }) => theme.FONT_SIZE.big};
     // 너무 두꺼우면 원래대로 바꿀 예정
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
     cursor: pointer;
   }
   ${flexCenter}

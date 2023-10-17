@@ -13,7 +13,7 @@ export const Notification = styled.div`
   text-align: center;
   line-height: 32px;
   b {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
   }
   margin-bottom: 24px;
 `;

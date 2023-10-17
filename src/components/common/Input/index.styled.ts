@@ -4,7 +4,6 @@ const inputStyle = css`
   width: 100%;
   outline: none;
   padding: 16px;
-  border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   box-shadow: 0 0 0 0px #bdddfd;
   transition: all 0.2s;
@@ -19,9 +18,10 @@ const inputStyle = css`
 export const Label = styled.label`
   display: block;
   margin-bottom: 8px;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ $rounded?: boolean }>`
   ${inputStyle}
+  border-radius: ${props => (props.$rounded ? "999px" : "10px")}
 `;

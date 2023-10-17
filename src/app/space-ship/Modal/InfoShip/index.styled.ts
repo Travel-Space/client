@@ -12,7 +12,7 @@ export const Title = styled.div`
   ${flexSpaceBetweenCenter}
   h2 {
     font-size: ${({ theme }) => theme.FONT_SIZE.big};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
   }
   span {
     border-radius: 100px;

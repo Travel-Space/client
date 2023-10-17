@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import * as S from "./page.style";
+import * as S from "./page.styled";
 import {
   Label,
   Input,

@@ -14,7 +14,7 @@ export const Container = styled.div`
 
 const textStyle = css`
   color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
   position: absolute;
   left: 50%;

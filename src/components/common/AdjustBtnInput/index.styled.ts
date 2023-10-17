@@ -33,7 +33,7 @@ const buttonBgReset = css`
 export const Label = styled.label`
   display: block;
   margin-bottom: 8px;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
 `;
 
 export const Input = styled.input`

@@ -30,7 +30,7 @@ export const InfoGroup = styled.div`
 export const NicknameRole = styled.p`
   ${flexAlignCenter}
   .nickname {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
     margin-right: 8px;
   }
   .role {
