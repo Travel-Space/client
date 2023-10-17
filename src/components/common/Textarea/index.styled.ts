@@ -26,4 +26,20 @@ export const Textarea = styled.textarea<sizeProp>`
   padding: 16px;
   resize: none;
   width: 100%;
+  outline: none;
+
+  ${({ size }) =>
+    size === "admin"
+      ? css`
+          &:focus {
+            border-color: ${({ theme }) => theme.PALETTE.gray[100]};
+            box-shadow: 0 0 0 3px #d9d9d9;
+          }
+        `
+      : css`
+          &:focus {
+            border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+            box-shadow: 0 0 0 3px #bdddfd;
+          }
+        `}
 `;
