@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./index.styled";
-import ExitPlanetModal from "../ExitPlanetModal";
-import MemberManageModal from "../MemberManageModal";
+import ExitPlanetModal from "../Modal/ExitPlanet";
+import MemberManageModal from "../Modal/ManageMember";
 
 export default function ShipsSettings() {
   const [showExitPlanetModal, setShowExitPlanetModal] = useState<boolean>(false);
