@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import css from "styled-jsx/css";
 import { ModalBackground, flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 
 export const Background = styled.div`
@@ -50,14 +49,6 @@ export const Description = styled(Middle)`
   & span {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-weight: 700;
-  }
-
-  > textarea {
-    height: 116px;
-    padding: 16px 16px;
-    resize: none;
-    border-radius: 10px;
-    border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   }
 `;
 
