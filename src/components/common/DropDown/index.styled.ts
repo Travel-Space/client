@@ -58,7 +58,12 @@ export const MenuList = styled.div<{ isDropped: boolean }>`
       visibility: visible;
     `};
 `;
-export const Default = styled.div<{ comment?: boolean }>`
+
+interface DefaultProps {
+  comment?: boolean;
+  isSelected: boolean;
+}
+export const Default = styled.div<DefaultProps>`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -67,6 +72,11 @@ export const Default = styled.div<{ comment?: boolean }>`
     props.comment &&
     css`
       color: ${({ theme }) => theme.PALETTE.gray[100]};
+    `};
+  ${props =>
+    props.isSelected &&
+    css`
+      color: ${({ theme }) => theme.PALETTE.black};
     `};
 `;
 export const Menu = styled.div`
