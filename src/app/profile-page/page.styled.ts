@@ -1,13 +1,12 @@
 "use client";
 import { styled } from "styled-components";
 
-import { flexColumn, flexColumnCenter } from "@/styles/common";
+import { flexColumn, flexColumnCenter, bodyContainer } from "@/styles/common";
 
 export const Container = styled.div`
-  display: flex;
   gap: 40px;
   padding: 24px 0 40px;
-
+  ${bodyContainer}
   ${flexColumnCenter}
 `;
 export const MainContainer = styled.div`
