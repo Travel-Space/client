@@ -8,6 +8,7 @@ interface InputType {
   placeholder: string;
   disabled: boolean;
   readOnly: boolean;
+  rounded: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,11 +16,22 @@ type PartialInput = {
   [key in keyof InputType]?: InputType[key];
 };
 
-export default function Input({ type, name, id, label, placeholder, onChange, disabled, readOnly }: PartialInput) {
+export default function Input({
+  type,
+  name,
+  id,
+  label,
+  placeholder,
+  onChange,
+  disabled,
+  readOnly,
+  rounded,
+}: PartialInput) {
   return (
     <>
       {label && <S.Label htmlFor={id}>{label}</S.Label>}
       <S.Input
+        $rounded={rounded}
         type={type}
         id={id}
         name={name}
