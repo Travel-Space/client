@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import * as S from "./page.style";
+import * as S from "./page.styled";
 import {
   Label,
   Input,
@@ -10,14 +10,11 @@ import {
   Line,
   FillButton,
   OutlineButton,
-  AdjustButtons,
-  MinusButton,
-  PlusButton,
-  NumberText,
   LinkButton,
-} from "../account/common.styled";
+} from "@/components/Account/common.styled";
 import Title from "./Title";
-import DeletePlanetModal from "./DeletePlanetModal";
+import DeletePlanetModal from "./Modal/DeletePlanetModal";
+import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 
 const planets = [
   { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
@@ -30,6 +27,7 @@ export default function CreatePlanet() {
   const [showDeletePlanetModal, setShowDeletePlanetModal] = useState<boolean>(false);
 
   return (
+    // 컴포넌트 정리 예정
     <S.Wrap>
       <S.Container className="left">
         <S.Center>
@@ -78,24 +76,14 @@ export default function CreatePlanet() {
         </S.InputGroup>
         <S.InputGroup>
           <Label htmlFor="planet-description">행성 소개</Label>
-          <TextArea id="planet-description" />
+          <TextArea id="planet-description" $height="224px" />
         </S.InputGroup>
         <S.Center>
           <S.AdjustBtnGroup>
-            <Label>탑승 인원수</Label>
-            <AdjustButtons>
-              <MinusButton type="button">-</MinusButton>
-              <NumberText>100</NumberText>
-              <PlusButton type="button">+</PlusButton>
-            </AdjustButtons>
+            <AdjustBtnInput label="탑승 인원수" />
           </S.AdjustBtnGroup>
           <S.AdjustBtnGroup>
-            <Label>우주선 갯수</Label>
-            <AdjustButtons>
-              <MinusButton type="button">-</MinusButton>
-              <NumberText>15</NumberText>
-              <PlusButton type="button">+</PlusButton>
-            </AdjustButtons>
+            <AdjustBtnInput label="우주선 갯수" />
           </S.AdjustBtnGroup>
         </S.Center>
         <Line />

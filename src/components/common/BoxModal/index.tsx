@@ -1,27 +1,23 @@
+import { ModalType } from "@/@types";
 import * as S from "./index.styled";
 import { createPortal } from "react-dom";
 
-export default function BoxModal({
-  children,
-  title,
-  onClick,
-}: {
+interface BoxModalType extends ModalType {
   children: React.ReactNode;
   title: string;
-  onClick: () => void;
-}) {
-  return (
+}
+
+export default function BoxModal({ children, title, onClose }: BoxModalType) {
+  return createPortal(
     <S.Background>
-      {createPortal(
-        <S.Container>
-          <S.Header>
-            <S.Title>{title}</S.Title>
-            <S.CloseBtn onClick={() => onClick()}>닫기</S.CloseBtn>
-          </S.Header>
-          <S.Body>{children}</S.Body>
-        </S.Container>,
-        document.body,
-      )}
-    </S.Background>
+      <S.Container>
+        <S.Header>
+          <S.Title>{title}</S.Title>
+          <S.CloseBtn onClick={onClose}>닫기</S.CloseBtn>
+        </S.Header>
+        <S.Body>{children}</S.Body>
+      </S.Container>
+    </S.Background>,
+    document.body,
   );
 }

@@ -22,7 +22,7 @@ export const ShareButton = styled(Button)`
 
 export const PlanetTitle = styled.h1`
   color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   text-align: center;
   font-size: ${({ theme }) => theme.FONT_SIZE.hg};
 `;

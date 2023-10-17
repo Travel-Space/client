@@ -31,22 +31,20 @@ const FONT_SIZE = {
   hg: "40px",
 };
 
-const FONT_WEIGHT = {
-  thin: "Pretendard-Thin", // 100
-  extraLight: "Pretendard-ExtraLight", // 200
-  light: "Pretendard-Light", // 300
-  regular: "Pretendard-Regular", // 400
-  medium: "Pretendard-Medium", // 500
-  semiBold: "Pretendard-SemiBold", // 600
-  bold: "Pretendard-Bold", // 700
-  extraBold: "Pretendard-ExtraBold", // 800
-  black: "Pretendard-Black", // 900
-};
+// font-weight
+// 100 - Thin
+// 200 - ExtraLight
+// 300 - Light
+// 400 - Regular
+// 500 - Medium
+// 600 - SemiBold
+// 700 - Bold
+// 800 - ExtraBold
+// 900 - Black
 
 const theme = {
   PALETTE,
   FONT_SIZE,
-  FONT_WEIGHT,
 };
 
 export default theme;

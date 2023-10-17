@@ -1,7 +1,7 @@
 import Ship from "./Ship";
 import * as S from "./index.styled";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -24,7 +24,7 @@ export default function ShipList() {
     >
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(ship => (
         <SwiperSlide key={ship}>
-          <Ship />
+          <Ship test={ship} />
         </SwiperSlide>
       ))}
     </S.List>

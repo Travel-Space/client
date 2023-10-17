@@ -27,13 +27,13 @@ export default function Content() {
           </S.ModalBox>
         </S.Top>
 
-        <Line color="gray" />
+        <Line size="horizontal" color="gray" />
       </S.Wrapper>
 
       <Message />
 
       <S.Wrapper>
-        <Line color="gray" />
+        <Line size="horizontal" color="gray" />
 
         <S.Bottom>
           <S.GalleryImage src="/assets/img/icons/gallery.svg" />

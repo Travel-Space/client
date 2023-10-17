@@ -10,8 +10,22 @@ const colorCSS = {
   `,
 };
 
+const sizeCSS = {
+  shortVertical: css`
+    width: 1px;
+    height: 12px;
+  `,
+  vertical: css`
+    width: 1px;
+    height: 100%;
+  `,
+  horizontal: css`
+    height: 1px;
+    width: 100%;
+  `,
+};
+
 export const Line = styled.div<colorProp>`
   ${({ color }) => colorCSS[color]}
-  height: 1px;
-  width: 100%;
+  ${({ size }) => sizeCSS[size]}
 `;
