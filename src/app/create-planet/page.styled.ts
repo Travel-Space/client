@@ -56,7 +56,7 @@ export const TagGroup = styled(IG)`
       border-radius: 100px;
       gap: 8px;
       span {
-        font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+        font-weight: 600;
       }
       button {
         ${buttonBgReset}
@@ -96,7 +96,7 @@ export const DeletePlanetBtn = styled.button`
 
 export const PlanetTitle = styled.p`
   color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   text-align: center;
   font-size: ${({ theme }) => theme.FONT_SIZE.hg};
   margin: 56px 0;
