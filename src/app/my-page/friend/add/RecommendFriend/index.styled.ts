@@ -13,7 +13,7 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 export const Nickname = styled.div`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   margin: 16px 0 8px;
 `;
@@ -22,7 +22,7 @@ export const FollowBtn = styled.button`
   height: 24px;
   background-color: ${({ theme }) => theme.PALETTE.primary[100]};
   border-radius: 8px;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   color: ${({ theme }) => theme.PALETTE.white};
   ${flexCenter}

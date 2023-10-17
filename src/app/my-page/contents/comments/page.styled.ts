@@ -10,10 +10,10 @@ export const Header = styled.div`
 `;
 export const CommentsNumber = styled.div`
   & > span {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   }
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;
 

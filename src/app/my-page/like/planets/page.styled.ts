@@ -25,12 +25,12 @@ export const FavoritePlanetsInfo = styled.div`
 `;
 export const PlanetsNumber = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 
   & > span {
     color: ${({ theme }) => theme.PALETTE.gray[200]};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;
@@ -40,5 +40,5 @@ export const Row = styled.div`
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;

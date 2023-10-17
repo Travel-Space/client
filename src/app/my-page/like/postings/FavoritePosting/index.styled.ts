@@ -19,7 +19,7 @@ export const InfoRowCol = styled.div`
 export const Planet = styled.div`
   color: ${({ theme }) => theme.PALETTE.mainColor};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const Heart = styled.div`
   display: flex;
@@ -30,15 +30,15 @@ export const Likes = styled.div`
   gap: 8px;
   & > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 export const CreatedDate = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   color: ${({ theme }) => theme.PALETTE.gray[200]};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;

@@ -1,13 +1,12 @@
 "use client";
 import { styled } from "styled-components";
 
-import { flexColumn, flexColumnCenter } from "@/styles/common";
+import { flexColumn, flexColumnCenter, bodyContainer } from "@/styles/common";
 
 export const Container = styled.div`
-  display: flex;
   gap: 40px;
   padding: 24px 0 40px;
-
+  ${bodyContainer}
   ${flexColumnCenter}
 `;
 export const MainContainer = styled.div`
@@ -30,7 +29,7 @@ export const Tab = styled.div`
   text-decoration: none;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   line-height: 17px;
   padding: 10px 20px;
 

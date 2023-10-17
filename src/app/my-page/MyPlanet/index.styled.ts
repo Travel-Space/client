@@ -18,13 +18,13 @@ export const Header = styled.div`
   ${flexSpaceBetweenCenter}
 `;
 export const People = styled.div`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   line-heifht: 20px;
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 export const Likes = styled.div`
   width: 88px;
@@ -40,6 +40,6 @@ export const Likes = styled.div`
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
   margin-left: 4px;
 `;

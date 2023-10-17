@@ -19,21 +19,21 @@ export const InfoRowCol = styled.div`
 export const Planet = styled.div`
   color: ${({ theme }) => theme.PALETTE.mainColor};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 export const CreatedDate = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   color: ${({ theme }) => theme.PALETTE.gray[200]};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const Comment = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const Buttons = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ export const Buttons = styled.div`
 
   & > button {
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     padding: 8px 18px;
     border-radius: 10px;
     background-color: ${({ theme }) => theme.PALETTE.white};

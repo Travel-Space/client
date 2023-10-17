@@ -20,10 +20,10 @@ export const NewPlanet = styled.div`
 export const MyPlanetNumber = styled.div`
   & > span {
     color: ${({ theme }) => theme.PALETTE.primary[100]};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
 `;
 export const MakePlanetBtn = styled.button`
@@ -31,13 +31,13 @@ export const MakePlanetBtn = styled.button`
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   border-radius: 10px;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 
   padding: 8px 16px;
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 export const TravelingPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
@@ -46,12 +46,12 @@ export const TravelingPlanetInfo = styled.div`
 `;
 export const TravelNumber = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 
   & > span {
     color: ${({ theme }) => theme.PALETTE.gray[200]};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;

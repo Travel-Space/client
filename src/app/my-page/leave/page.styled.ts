@@ -15,17 +15,17 @@ export const CannotLeaveReason = styled.div`
 `;
 export const CannotLeaveReasonTitle = styled.div`
   gap: 8px;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 export const CannotLeaveReasonNotice = styled.div`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   & > span {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
   }
 `;
 export const EscapeGuide = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const PlanetNotice = styled.div`
   display: flex;
@@ -39,11 +39,11 @@ export const Planets = styled.div`
 `;
 export const Sort = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const EscapeNotice = styled.div`
   ${flexColumn}
@@ -68,13 +68,13 @@ export const Notice = styled.div`
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 export const NoticeContent = styled.div`
   & > div {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     line-height: 24px;
     margin-bottom: 24px;
   }
@@ -87,7 +87,7 @@ export const Period = styled.ul`
   }
   & > li {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     color: ${({ theme }) => theme.PALETTE.mainColor};
 
     line-height: 24px;
@@ -108,7 +108,7 @@ export const Check = styled.div`
 
   & > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 export const Buttons = styled.div`
@@ -122,7 +122,7 @@ export const Button = styled.button`
   border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
   border-radius: 10px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 export const FullButton = styled.button`
   padding: 8px 24px;
@@ -130,5 +130,5 @@ export const FullButton = styled.button`
   color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;

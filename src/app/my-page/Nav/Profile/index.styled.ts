@@ -16,14 +16,14 @@ export const UserImg = styled.img`
 `;
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 
   line-height: 24px;
   margin-bottom: 8px;
 `;
 export const Email = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 
   line-height: 19px;

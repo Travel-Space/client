@@ -42,7 +42,7 @@ export const Title = styled.div`
   border-right: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 
   width: 211px;
   padding-left: 24px;
@@ -60,7 +60,7 @@ export const Input = styled.input`
   height: 33px;
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
 export const NicknameInput = styled.input`
@@ -71,7 +71,7 @@ export const NicknameInput = styled.input`
   height: 33px;
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const DoubleCheck = styled.button`
   color: ${({ theme }) => theme.PALETTE.mainColor};
@@ -86,7 +86,7 @@ export const Leave = styled.div`
 
   & > div {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     color: ${({ theme }) => theme.PALETTE.gray[200]};
 
     line-height: 17px;
@@ -94,7 +94,7 @@ export const Leave = styled.div`
   & > a {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     color: ${({ theme }) => theme.PALETTE.black};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     line-height: 17px;
     text-decoration: underline;
 
@@ -111,6 +111,6 @@ export const Save = styled.button`
   background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   border-radius: 10px;
 `;

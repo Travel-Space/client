@@ -1,7 +1,7 @@
 "use client";
 import { styled } from "styled-components";
 import { usePathname } from "next/navigation";
-import { flexCenter } from "@/styles/common";
+import { flexCenter, bodyContainer } from "@/styles/common";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +9,10 @@ import Nav from "./Nav";
 import Divider from "./Divider";
 
 const Container = styled.div`
+  ${bodyContainer}
   display: flex;
   gap: 48px;
-  padding: 40px 80px;
+  padding: 40px 0;
 `;
 const MainContainer = styled.div`
   width: 952px;
@@ -29,7 +30,7 @@ const Tab = styled.ul`
     text-decoration: none;
     color: ${({ theme }) => theme.PALETTE.gray[200]};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     line-height: 17px;
     padding-bottom: 8px;
 
