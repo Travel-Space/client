@@ -109,9 +109,9 @@ export const Input = styled.input`
   ${inputStyle}
 `;
 
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea<{ $height: string }>`
   resize: none;
-  height: 224px;
+  height: ${props => (props.$height ? props.$height : "auto")};
   ${inputStyle}
 `;
 
@@ -132,36 +132,4 @@ export const LineWithText = styled.span`
 
 export const InputBox = styled.div`
   position: relative;
-`;
-
-export const AdjustButtons = styled.div`
-  ${inputStyle}
-  ${flexSpaceBetweenCenter}
-`;
-
-const buttonBgReset = css`
-  background: none;
-  font-size: 0;
-  width: 32px;
-  height: 32px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  &:disabled {
-    opacity: 0.4;
-  }
-`;
-
-export const MinusButton = styled.button`
-  ${buttonBgReset}
-  background-image: url(/assets/img/icons/circle-minus.svg);
-`;
-
-export const PlusButton = styled.button`
-  ${buttonBgReset}
-  background-image: url(/assets/img/icons/circle-plus.svg);
-`;
-
-export const NumberText = styled.p`
-  font-size: ${({ theme }) => theme.FONT_SIZE.big};
 `;

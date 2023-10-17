@@ -17,7 +17,7 @@ export default function Account({ onClose }: ModalType) {
 
   return (
     <Side>
-      <S.Buttons $onlyCloseBtn={currentPage === "Log in"}>
+      <S.Buttons $right={currentPage === "Log in"}>
         {currentPage !== "Log in" && (
           <S.Button className="prev" onClick={() => setCurrentPage(Page.Login)}>
             뒤로

@@ -8,10 +8,10 @@ export const Wrap = styled.div`
   height: calc(100vh - 77px);
 `;
 
-export const Buttons = styled.div<{ $onlyCloseBtn: boolean }>`
+export const Buttons = styled.div<{ $right: boolean }>`
   padding: 27px;
   ${flexSpaceBetweenCenter}
-  justify-content: ${props => props.$onlyCloseBtn && "right"};
+  justify-content: ${props => props.$right && "right"};
 `;
 
 export const Button = styled.button`

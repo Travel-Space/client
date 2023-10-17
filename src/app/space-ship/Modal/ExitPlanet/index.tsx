@@ -2,7 +2,7 @@ import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import { ButtonGroup, FillButton } from "@/components/Account/common.styled";
-import Member from "../Member";
+import Member from "../../../../components/Modal/Member";
 
 // 삭제 모달, 퇴장 모달 하나로 만들어 쓰기
 interface Type extends ModalType {
