@@ -1,7 +1,7 @@
 import * as S from "./index.styled";
 
 export interface sizeProp {
-  size: "spaceShip" | "declaration" | "admin" | "post" | "comment";
+  size: "spaceShip" | "declaration" | "admin" | "post" | "comment" | "planet";
 }
 
 export interface TextareaProp extends sizeProp {

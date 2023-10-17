@@ -17,6 +17,9 @@ const sizeCSS = {
   post: css`
     height: 180px;
   `,
+  planet: css`
+    height: 224px;
+  `,
 };
 
 export const Textarea = styled.textarea<sizeProp>`
