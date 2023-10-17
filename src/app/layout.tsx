@@ -1,9 +1,12 @@
 "use client";
 
 import type { Metadata } from "next";
+import { RecoilRoot } from "recoil";
+
 import GlobalStyles from "@/styles/global";
 import theme from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
+
 import Header from "@/components/layout/Header";
 import ChatBtn from "@/components/common/ChatBtn";
 
@@ -14,15 +17,17 @@ const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <html>
-        <body>
-          <Header />
-          <ChatBtn />
-          {children}
-        </body>
-      </html>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <html>
+          <body>
+            <Header />
+            <ChatBtn />
+            {children}
+          </body>
+        </html>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }
