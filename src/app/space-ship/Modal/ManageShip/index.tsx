@@ -1,14 +1,7 @@
 import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import {
-  ButtonGroup,
-  FillButton,
-  InputGroup,
-  Label,
-  OutlineButton,
-  TextArea,
-} from "@/components/Account/common.styled";
+import { ButtonGroup, FillButton, Label, OutlineButton, TextArea } from "@/components/Account/common.styled";
 import Input from "@/components/common/Input";
 import Line from "@/components/common/Line";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
@@ -18,38 +11,49 @@ interface Type extends ModalType {}
 export default function ManageShip({ onClose }: Type) {
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
-      <S.Notification>
-        <InputGroup>
-          <Input label="우주선 이름" />
-        </InputGroup>
-        <InputGroup>
+      <S.Content>
+        <S.Center>
+          <S.DefaultImg>
+            <label htmlFor="ship-profile-img">
+              <img src="/assets/img/icons/ship-profile-default.svg" />
+              <S.HoverIcon src="/assets/img/icons/circle-shadow-plus.svg" />
+            </label>
+            <input type="file" name="ship-profile-img" id="ship-profile-img" />
+          </S.DefaultImg>
+          <S.Group>
+            <Input label="우주선 이름" />
+          </S.Group>
+        </S.Center>
+        <S.Group>
           <Label>우주선 설명</Label>
           <TextArea $height="96px" />
-        </InputGroup>
+        </S.Group>
         <S.Center>
-          <S.AdjustBtnGroup>
+          <S.Group>
             <AdjustBtnInput label="인원수" />
-          </S.AdjustBtnGroup>
-          <S.AdjustBtnGroup>
-            <AdjustBtnInput label="탑승 인원수" />
-          </S.AdjustBtnGroup>
+          </S.Group>
+          <S.Group>{/* 여행 상태 */}</S.Group>
         </S.Center>
         <S.Center>
-          <S.AdjustBtnGroup>
-            <AdjustBtnInput label="탑승 인원수" />
-          </S.AdjustBtnGroup>
-          <S.AdjustBtnGroup>
-            <AdjustBtnInput label="탑승 인원수" />
-          </S.AdjustBtnGroup>
+          <S.BtnInput>
+            <Input disabled label="여행 시작일" />
+            <S.BtnIcon>
+              <img src="/assets/img/icons/calendar.svg" height={12} />
+            </S.BtnIcon>
+          </S.BtnInput>
+          <S.BtnInput>
+            <Input disabled label="여행 종료일" />
+            <S.BtnIcon>
+              <img src="/assets/img/icons/calendar.svg" height={12} />
+            </S.BtnIcon>
+          </S.BtnInput>
         </S.Center>
-        <S.LineWrap>
-          <Line color="gray" />
-        </S.LineWrap>
-      </S.Notification>
-      <ButtonGroup>
-        <OutlineButton>취소</OutlineButton>
-        <FillButton>작성 완료</FillButton>
-      </ButtonGroup>
+        <Line color="gray" />
+        <ButtonGroup>
+          <OutlineButton>취소</OutlineButton>
+          <FillButton>작성 완료</FillButton>
+        </ButtonGroup>
+      </S.Content>
     </BoxModal>
   );
 }
