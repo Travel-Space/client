@@ -29,7 +29,7 @@ export const Tab = styled.div`
   text-decoration: none;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   line-height: 17px;
   padding: 10px 20px;
 

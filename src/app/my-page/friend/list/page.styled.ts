@@ -22,7 +22,7 @@ export const ShowMoreBtn = styled.button`
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   ${flexCenter}
   margin: 40px auto 0;
 `;

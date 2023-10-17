@@ -39,12 +39,12 @@ const Title = styled.div`
     color: ${({ theme }) => theme.PALETTE.mainColor};
   }
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 const MainContainer = styled.div`
   padding: 32px 0 0;

@@ -30,7 +30,7 @@ const Tab = styled.ul`
     text-decoration: none;
     color: ${({ theme }) => theme.PALETTE.gray[200]};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     line-height: 17px;
     padding-bottom: 8px;
 

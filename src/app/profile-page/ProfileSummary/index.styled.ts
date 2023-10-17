@@ -16,12 +16,12 @@ export const UserInfo = styled.div`
 `;
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   margin-bottom: 8px;
 `;
 export const Email = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
   margin-bottom: 16px;
 `;
@@ -31,7 +31,7 @@ export const AddButton = styled.button`
   ${flexCenter}
 
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   color: ${({ theme }) => theme.PALETTE.white};
   background-color: ${({ theme }) => theme.PALETTE.primary[100]};
   border-radius: 8px;
@@ -45,12 +45,12 @@ export const FollowingNumber = styled.div`
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 export const Friends = styled.div`
   display: flex;

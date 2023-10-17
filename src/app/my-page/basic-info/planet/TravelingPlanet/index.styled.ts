@@ -24,17 +24,17 @@ export const InfoRowCol = styled.div`
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const People = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 export const Position = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   color: ${({ theme }) => theme.PALETTE.mainColor};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const TagList = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ export const TagList = styled.div`
 `;
 export const Tag = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   background-color: #f9f9f9;
   padding: 5px 16px;
   border-radius: 20px;

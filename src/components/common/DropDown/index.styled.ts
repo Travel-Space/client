@@ -142,31 +142,31 @@ const fontCSS = {
   sm: css`
     & > div:first-child {
       font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+      font-weight: 400;
     }
     & > div:nth-child(2) > div {
       font-size: ${({ theme }) => theme.FONT_SIZE.es};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+      font-weight: 400;
     }
   `,
   md: css`
     & > div:first-child {
       font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+      font-weight: 500;
     }
     & > div:nth-child(2) > div {
       font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+      font-weight: 500;
     }
   `,
   lg: css`
     & > div:first-child {
       font-size: ${({ theme }) => theme.FONT_SIZE.md};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+      font-weight: 700;
     }
     & > div:nth-child(2) > div {
       font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+      font-weight: 500;
     }
   `,
 };

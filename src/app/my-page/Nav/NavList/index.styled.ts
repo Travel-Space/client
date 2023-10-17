@@ -21,7 +21,7 @@ export const List = styled.ul`
 export const Title = styled.div`
   & > a {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
     color: ${({ theme }) => theme.PALETTE.black};
     line-height: 20px;
     text-decoration: none;
@@ -36,7 +36,7 @@ export const SubTitle = styled.div`
 
   & > a {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
     color: ${({ theme }) => theme.PALETTE.gray[200]};
     line-height: 17px;
     text-decoration: none;

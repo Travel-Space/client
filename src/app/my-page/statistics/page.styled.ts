@@ -28,7 +28,7 @@ export const Planet = styled.div`
   & > span {
     width: 135px;
     font-size: ${({ theme }) => theme.FONT_SIZE.big};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 export const SelectedPlanet = styled.div`
@@ -43,11 +43,11 @@ export const Summary = styled.div`
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 export const SummaryTitle = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 export const Statistics = styled.div`
@@ -66,7 +66,7 @@ export const Buttons = styled.div`
   & > button {
     padding: 6px 16px;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
     border-radius: 10px;
   }
 `;
@@ -81,7 +81,7 @@ export const FullButton = styled.button`
 `;
 export const Today = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: 500;
 `;
 export const Graph = styled.div`
   height: 308px;
@@ -103,7 +103,7 @@ export const TableHeader = styled.thead`
   & > th {
     padding-bottom: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
   }
 `;
 export const TdCenter = styled.th`
@@ -118,6 +118,6 @@ export const TdTitle = styled.th`
 
   & > div {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+    font-weight: 600;
   }
 `;

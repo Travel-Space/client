@@ -5,7 +5,7 @@ export const TableRow = styled.tr`
     padding-bottom: 10px;
 
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
   }
 `;
 export const TdCenter = styled.td`
@@ -16,7 +16,7 @@ export const TdLeft = styled.td`
   text-align: left;
   & > div {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
   }
 `;
 export const Ranking = styled.td`

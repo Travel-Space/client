@@ -13,17 +13,17 @@ export const Search = styled.form`
   border-radius: 10px;
 `;
 export const Filter = styled.div`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;
 
 export const SearchInput = styled.input`
   border: none;
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   flex: 1;
   &::placeholder {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    font-weight: 400;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     color: ${({ theme }) => theme.PALETTE.gray[100]};
   }
