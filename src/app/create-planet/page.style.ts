@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { bodyContainer, flexAlignCenter, flexCenter } from "@/styles/common";
-import { InputGroup as IG } from "../account/common.styled";
+import { InputGroup as IG } from "@/components/Account/common.styled";
 
 const buttonBgReset = css`
   background: none;

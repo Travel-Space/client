@@ -1,6 +1,6 @@
 import Link from "next/link";
 import * as S from "./index.styled";
-import Account from "@/app/account";
+import Account from "@/components/Account";
 import { useState } from "react";
 
 export default function Header() {
