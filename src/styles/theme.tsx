@@ -31,22 +31,9 @@ const FONT_SIZE = {
   hg: "40px",
 };
 
-const FONT_WEIGHT = {
-  thin: "Pretendard-Thin", // 100
-  extraLight: "Pretendard-ExtraLight", // 200
-  light: "Pretendard-Light", // 300
-  regular: "Pretendard-Regular", // 400
-  medium: "Pretendard-Medium", // 500
-  semiBold: "Pretendard-SemiBold", // 600
-  bold: "Pretendard-Bold", // 700
-  extraBold: "Pretendard-ExtraBold", // 800
-  black: "Pretendard-Black", // 900
-};
-
 const theme = {
   PALETTE,
   FONT_SIZE,
-  FONT_WEIGHT,
 };
 
 export default theme;
