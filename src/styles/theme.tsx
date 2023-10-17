@@ -31,6 +31,17 @@ const FONT_SIZE = {
   hg: "40px",
 };
 
+// font-weight
+// 100 - Thin
+// 200 - ExtraLight
+// 300 - Light
+// 400 - Regular
+// 500 - Medium
+// 600 - SemiBold
+// 700 - Bold
+// 800 - ExtraBold
+// 900 - Black
+
 const theme = {
   PALETTE,
   FONT_SIZE,
