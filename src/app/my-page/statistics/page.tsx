@@ -1,24 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
 import Divider from "@/app/my-page/Divider";
 import PopularPosting from "./PopularPosting";
-import DropDown from "./DropDown";
+import DropDown from "@/components/common/DropDown";
 
 export default function Statistics() {
+  const [selectedMenu, setSelectedMenu] = useState("일본 맛도리 여행");
+  const dropDownProps = {
+    comment: "행성 선택",
+    menuList: ["일본 맛도리 여행", "영국 맛도리 여행", "태국", "스위스 힐링 여행"],
+    selectedMenu: selectedMenu, //선택한 메뉴
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+  };
+
   return (
     <S.Container>
       <S.SummaryWrap>
         <S.SelectedPlanet>
           <S.Planet>
             <Image src="/assets/img/icons/planet-0.svg" alt="planet" width={30} height={30} />
-            <span>일본 맛도리 여행</span>
+            <span>{selectedMenu}</span>
           </S.Planet>
-          <DropDown />
+          <S.DropDownWrap>
+            <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
+          </S.DropDownWrap>
         </S.SelectedPlanet>
         <S.Summary>
           <div>

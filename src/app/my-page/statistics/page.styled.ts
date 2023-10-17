@@ -12,24 +12,30 @@ export const Container = styled.div`
 export const SummaryWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 
   padding: 26px 32px 35px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
 `;
+export const DropDownWrap = styled.div`
+  min-width: 200px;
+  max-width: 280px;
+`;
 export const Planet = styled.div`
   ${flexAlignCenter}
   gap:8px;
   & > span {
+    width: 135px;
     font-size: ${({ theme }) => theme.FONT_SIZE.big};
     font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
   }
 `;
 export const SelectedPlanet = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
+  gap: 8px;
 `;
 export const Summary = styled.div`
   display: flex;
