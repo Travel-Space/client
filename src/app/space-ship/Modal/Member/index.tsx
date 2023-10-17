@@ -9,12 +9,12 @@ export default function Member() {
         <S.InfoGroup>
           <S.NicknameRole>
             <span className="nickname">닉네임</span>
-            {/* 관리자 위임 */}
+            {/* 관리자 위임 (행성 퇴장) */}
             <span className="role">부관리자</span>
           </S.NicknameRole>
           <S.Email>aaa@email.com</S.Email>
         </S.InfoGroup>
-        {/* 관리자 위임 */}
+        {/* 관리자 위임 (행성/우주선 퇴장) */}
         <S.Input type="radio" name="member" />
         {/* 행성 멤버 관리 */}
         <S.Group>

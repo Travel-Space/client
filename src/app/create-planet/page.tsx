@@ -17,7 +17,7 @@ import {
   LinkButton,
 } from "@/components/Account/common.styled";
 import Title from "./Title";
-import DeletePlanetModal from "./DeletePlanetModal";
+import DeletePlanetModal from "./Modal/DeletePlanetModal";
 
 const planets = [
   { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
