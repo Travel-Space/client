@@ -23,5 +23,5 @@ export const Label = styled.label`
 
 export const Input = styled.input<{ $rounded?: boolean }>`
   ${inputStyle}
-  border-radius: ${props => props.$rounded && "999px"}
+  border-radius: ${props => (props.$rounded ? "999px" : "10px")}
 `;
