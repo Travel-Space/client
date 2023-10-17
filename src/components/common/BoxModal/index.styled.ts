@@ -25,7 +25,7 @@ export const Header = styled.div`
 
 export const Title = styled.p`
   color: ${({ theme }) => theme.PALETTE.primary[100]};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
 `;
 
 const buttonBgReset = css`

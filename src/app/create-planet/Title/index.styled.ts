@@ -7,7 +7,7 @@ export const Wrap = styled.div`
 
 export const Header = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
   ${flexAlignCenter}
   gap: 8px;
 `;
@@ -29,7 +29,7 @@ export const RadioBox = styled.div`
   }
   label {
     color: ${({ theme }) => theme.PALETTE.mainColor};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    font-weight: 500;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     display: inline-block;
     text-align: center;
