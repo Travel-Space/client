@@ -15,7 +15,7 @@ export const UserComment = styled.div`
 `;
 export const CommentDate = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[100]};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;
 
 export const CommentContent = styled.div`
