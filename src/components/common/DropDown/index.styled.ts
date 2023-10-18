@@ -14,7 +14,7 @@ export const Container = styled.div<ContainerProps>`
 
 interface DropButtonProps {
   isDropped: boolean;
-  color: "black" | "gray";
+  color?: "black" | "gray" | "none";
 }
 export const DropButton = styled.div<DropButtonProps>`
   ${flexSpaceBetweenCenter}
@@ -27,7 +27,7 @@ export const DropButton = styled.div<DropButtonProps>`
           border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
           outline: 2px solid #beddfd;
         `
-      : colorCSS[props.color]};
+      : props.color && colorCSS[props.color]};
 
   & > div {
     background: ${({ theme }) => theme.PALETTE.white};
@@ -79,12 +79,12 @@ export const Default = styled.div<DefaultProps>`
       color: ${({ theme }) => theme.PALETTE.black};
     `};
 `;
-export const Menu = styled.div`
+export const Menu = styled.div<{ color?: "black" | "gray" | "none" }>`
   width: 100%;
   display: flex;
   align-items: center;
   padding: 8px 16px;
-  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-bottom: 1px solid ${({ color }) => (color === "gray" ? "#d9d9d9" : "none")};
 
   &:hover {
     background-color: #f0f0f0;
@@ -176,5 +176,8 @@ const colorCSS = {
   `,
   gray: css`
     border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  `,
+  none: css`
+    border: 1px solid ${({ theme }) => theme.PALETTE.white};
   `,
 };
