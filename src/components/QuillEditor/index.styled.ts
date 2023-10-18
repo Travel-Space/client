@@ -11,6 +11,11 @@ export const QuillWrapper = styled(ReactQuill)`
   background-color: ${({ theme }) => theme.PALETTE.white};
   overflow-y: scroll;
 
+  .koCtnE .ql-toolbar.ql-snow {
+    position: fixed;
+    height: 100%;
+  }
+
   strong {
     font-weight: 700;
   }
@@ -51,5 +56,9 @@ export const QuillWrapper = styled(ReactQuill)`
 
   .ql-container.ql-snow {
     padding-top: 48px;
+  }
+  .ql-editor {
+    padding: 24px;
+    line-height: 1.42;
   }
 `;

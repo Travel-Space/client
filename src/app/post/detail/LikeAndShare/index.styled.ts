@@ -37,5 +37,6 @@ export const ShareBtn = styled.img`
 `;
 
 export const VerticaLine = styled.div`
+  height: 24px;
   margin: 0 24px;
 `;
