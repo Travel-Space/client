@@ -11,6 +11,16 @@ export const Wrapper = styled.div`
   margin-top: 40px;
 `;
 
+export const LeftDisplay = styled.div``;
+
+export const WriteTitleText = styled.div`
+  width: 100%;
+  margin-bottom: 24px;
+  color: ${({ theme }) => theme.PALETTE.white};
+  font-size: ${({ theme }) => theme.FONT_SIZE.lg};
+  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+`;
+
 export const WriteSection = styled.div`
   ${flexColumnCenter}
   gap:16px;
@@ -204,7 +214,7 @@ export const PreviewSection = styled.div`
   height: 1000px;
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  margin-bottom: 64px;
+  margin: 48px 0 64px;
   border-radius: 10px;
   padding: 24px;
   line-height: 1.42;
@@ -255,5 +265,17 @@ export const PreviewSection = styled.div`
 
   a {
     color: ${({ theme }) => theme.PALETTE.mainColor};
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-right {
+    text-align: right;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
   }
 `;

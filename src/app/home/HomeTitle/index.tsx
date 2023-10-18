@@ -8,9 +8,9 @@ export default function HomeTitle() {
   return (
     <>
       <HT.TitleContainer>
-        <Line color="white" />
+        <Line size="horizontal" color="white" />
         <HT.TitleImg src="/assets/img/icons/travel-space.svg" />
-        <Line color="white" />
+        <Line size="horizontal" color="white" />
       </HT.TitleContainer>
     </>
   );

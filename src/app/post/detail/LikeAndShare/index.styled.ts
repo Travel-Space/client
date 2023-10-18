@@ -36,10 +36,6 @@ export const ShareBtn = styled.img`
   background-repeat: no-repeat;
 `;
 
-export const VerticaLine = styled.img`
-  width: 24px;
-  height: 24px;
-  background-color: transparent;
-  background-repeat: no-repeat;
+export const VerticaLine = styled.div`
   margin: 0 24px;
 `;

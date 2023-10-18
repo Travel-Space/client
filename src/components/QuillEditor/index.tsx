@@ -10,11 +10,12 @@ interface QuillEditorProps {
 const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
   const modules = {
     toolbar: [
-      [{ header: [1, 2, 3,false] }],
+      [{ header: [1, 2, 3, false] }],
+      [{ align: [] }],
       ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
       [{ color: [] }, { background: [] }],
-      [ "link", "image"],
+      ["link", "image"],
     ],
   };
 
@@ -25,7 +26,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
         onChange(editor.getHTML());
       }}
       modules={modules}
-      
     />
   );
 };
