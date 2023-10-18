@@ -14,7 +14,7 @@ interface Menu {
 interface DropDownProps {
   shape?: "default" | "medium" | "round";
   font: "sm" | "md" | "lg";
-  color: "black" | "gray";
+  color?: "black" | "gray" | "none";
   props: Menu;
 }
 export default function DropDown({ shape, font, color, props }: DropDownProps) {
@@ -42,7 +42,7 @@ export default function DropDown({ shape, font, color, props }: DropDownProps) {
       </S.DropButton>
       <S.MenuList isDropped={isOpen}>
         {menuList.map((el, idx) => (
-          <S.Menu key={idx} onClick={selectMenu}>
+          <S.Menu key={idx} onClick={selectMenu} color={color}>
             {el}
           </S.Menu>
         ))}

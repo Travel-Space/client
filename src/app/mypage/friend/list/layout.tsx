@@ -17,8 +17,8 @@ const Header = styled.header`
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 27px 42px 40px;
+  align-items: center;
+  padding: 32px 42px;
 
   & > div {
     display: flex;
