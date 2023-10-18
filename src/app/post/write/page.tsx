@@ -4,16 +4,12 @@ import dynamic from "next/dynamic";
 import React from "react";
 import * as PW from "./page.styled";
 
-const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
-  ssr: false,
-  loading: () => <p>Loading...</p>,
-});
+const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 export default function PostWrite() {
   const [value, setValue] = React.useState("");
   const [tags, setTags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
-  const [Title, setTitle] = React.useState("");
 
   //태그 입력 함수
   function handleTagInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -36,10 +32,6 @@ export default function PostWrite() {
     newTags.splice(index, 1);
     setTags(newTags);
   }
-  //제목 입력 시 작성란 최상단에 입력
-  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value);
-  }
 
   return (
     <PW.Wrapper>
@@ -47,7 +39,7 @@ export default function PostWrite() {
         <PW.WriteTitleText>게시글 작성</PW.WriteTitleText>
         <PW.WriteSection>
           <PW.TitleAndLocation>
-            <PW.TitleInput type="text" placeholder="제목을 입력해주세요" onChange={handleTitleChange} />
+            <PW.TitleInput type="text" placeholder="제목을 입력해주세요" />
             <PW.LocationWrapper>
               <PW.LocationIcon />
               <PW.LocationInput type="text" placeholder="위치" />
@@ -86,7 +78,7 @@ export default function PostWrite() {
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>
-      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: value }} aria-readonly></PW.PreviewSection>
+      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: value }} aria-readonly />
     </PW.Wrapper>
   );
 }

@@ -253,9 +253,8 @@ export const PreviewSection = styled.div`
 
   img {
     text-align: center;
-    width: 100%;
     object-fit: cover;
-    margin: 10px 0;
+    max-width: 100%;
   }
 
   em,
