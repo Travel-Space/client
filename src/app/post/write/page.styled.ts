@@ -18,7 +18,7 @@ export const WriteTitleText = styled.div`
   margin-bottom: 24px;
   color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const WriteSection = styled.div`
@@ -43,7 +43,7 @@ export const TitleInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     background-image: url(@/aseets/img/icon/location.svg);
   }
 `;
@@ -58,7 +58,7 @@ export const LocationInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;
@@ -96,7 +96,7 @@ export const TagsAndRocket = styled.div`
     padding-left: 48px;
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
-      font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+      font-weight: 700;
       font-size: ${({ theme }) => theme.FONT_SIZE.md};
     }
   }
@@ -180,7 +180,7 @@ export const BackBtn = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
   border-radius: 10px;
   transition: background-color 0.3s;
 
@@ -195,7 +195,7 @@ export const CompletedBtn = styled.button`
   background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight: 600;
   border-radius: 10px;
   transition: background-color 0.3s;
 
@@ -236,7 +236,7 @@ export const PreviewSection = styled.div`
   }
 
   strong {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
   }
 
   h1 {

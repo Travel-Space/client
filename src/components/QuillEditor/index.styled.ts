@@ -12,7 +12,7 @@ export const QuillWrapper = styled(ReactQuill)`
   overflow-y: scroll;
 
   strong {
-    font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-weight: 700;
   }
 
   p {

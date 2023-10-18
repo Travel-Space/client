@@ -37,7 +37,7 @@ export const CommentInput = styled.textarea`
 
 export const CommentCount = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
 `;
 
 export const BtnDisplay = styled.div`
@@ -62,5 +62,5 @@ export const UserComment = styled.div`
 `;
 export const CommentDate = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[100]};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
 `;

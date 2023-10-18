@@ -23,7 +23,7 @@ export const NFDisplay = styled.div`
 `;
 
 export const Name = styled.div`
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: 700;
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
 `;
 
