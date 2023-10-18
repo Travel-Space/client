@@ -12,13 +12,13 @@ export const TitleSection = styled.div`
 
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.hg};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight:600;
   margin-bottom: 24px;
 `;
 
 export const Date = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 
@@ -118,7 +118,7 @@ export const EditBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight:600;
   cursor: pointer;
 `;
 
@@ -128,7 +128,7 @@ export const DeleteBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
   color: ${({ theme }) => theme.PALETTE.primary[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight:600;
   cursor: pointer;
 `;
 
@@ -138,6 +138,6 @@ export const DeclarationBtn = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.error};
   color: ${({ theme }) => theme.PALETTE.error};
   background-color: ${({ theme }) => theme.PALETTE.white};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  font-weight:600;
   cursor: pointer;
 `;

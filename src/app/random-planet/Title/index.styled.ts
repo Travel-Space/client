@@ -28,7 +28,7 @@ export const TitleImg = styled.img`
 export const InfoText = styled.div`
   color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
-  font-family: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  font-weight: 400;
   line-height: 2;
   text-align: center;
 `;

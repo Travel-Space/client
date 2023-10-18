@@ -14,12 +14,11 @@ export default function Map() {
 
   return (
     <S.Container>
-      {isOpen && <Side />}
+      {isOpen && <Side onClose={handleClickSide} />}
 
-      <S.Map>
-        지도가 들어갈 자리
-        <button onClick={handleClickSide}>클릭 시 모달 나옴</button>
-      </S.Map>
+      <S.Button onClick={handleClickSide}>→</S.Button>
+
+      <S.Map>지도가 들어갈 자리</S.Map>
     </S.Container>
   );
 }

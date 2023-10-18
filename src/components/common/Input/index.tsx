@@ -9,6 +9,7 @@ interface InputType {
   disabled: boolean;
   readOnly: boolean;
   rounded: boolean;
+  thin: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -26,11 +27,13 @@ export default function Input({
   disabled,
   readOnly,
   rounded,
+  thin,
 }: PartialInput) {
   return (
     <>
       {label && <S.Label htmlFor={id}>{label}</S.Label>}
       <S.Input
+        $thin={thin}
         $rounded={rounded}
         type={type}
         id={id}
