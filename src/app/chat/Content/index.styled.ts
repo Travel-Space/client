@@ -47,15 +47,9 @@ export const GalleryImage = styled(PplImage)`
   height: 40px;
 `;
 
-export const Input = styled.input`
-  width: 720px;
-  padding: 8px 16px;
-  border-radius: 20px;
-`;
-
 export const Button = styled.button`
+  width: 80px;
   height: 40px;
-  padding: 0 24px;
   color: ${({ theme }) => theme.PALETTE.white};
   background-color: ${({ theme }) => theme.PALETTE.primary[200]};
   border-radius: 20px;
