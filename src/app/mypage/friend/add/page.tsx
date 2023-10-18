@@ -1,5 +1,10 @@
 "use client";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+
 import * as S from "./page.styled";
 
 import RecommendFriend from "./RecommendFriend";
@@ -14,14 +19,44 @@ export default function Planet() {
         <S.Title>추천 친구</S.Title>
         <SearchForm />
       </S.Row>
-
-      <S.RecommendFriendWrap>
-        <RecommendFriend />
-        <RecommendFriend />
-        <RecommendFriend />
-        <RecommendFriend />
-        <RecommendFriend />
-      </S.RecommendFriendWrap>
+      <S.SwiperWrap>
+        <Swiper
+          slidesPerView={5}
+          slidesPerGroup={5}
+          spaceBetween={24}
+          navigation={true}
+          modules={[Navigation]}
+          className="mySwiper"
+        >
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+          <SwiperSlide>
+            <RecommendFriend />
+          </SwiperSlide>
+        </Swiper>
+      </S.SwiperWrap>
 
       <S.SearchResults>
         <Nothing
