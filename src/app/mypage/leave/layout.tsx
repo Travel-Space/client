@@ -2,7 +2,7 @@
 import { styled } from "styled-components";
 import Link from "next/link";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 
 const Container = styled.div`
   width: 952px;
@@ -40,7 +40,7 @@ export default function FriendLayout({ children }: { children: React.ReactNode }
       <Tab>
         <Link href="/mypage/leave">회원 탈퇴</Link>
       </Tab>
-      <Divider width="100%" height="1px" />
+      <Line color="gray" size="horizontal" />
 
       <MainContainer>{children}</MainContainer>
     </Container>

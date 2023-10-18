@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Image from "next/image";
 import * as S from "./page.styled";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 import PopularPosting from "./PopularPosting";
 import DropDown from "@/components/common/DropDown";
 
@@ -34,12 +34,12 @@ export default function Statistics() {
             <S.SummaryTitle>오늘 방문 수</S.SummaryTitle>
             <S.Number>102</S.Number>
           </div>
-          <Divider width="1px" height="43px" />
+          <Line color="gray" size="vertical" />
           <div>
             <S.SummaryTitle>누적 방문 수</S.SummaryTitle>
             <S.Number>3888</S.Number>
           </div>
-          <Divider width="1px" height="43px" />
+          <Line color="gray" size="vertical" />
           <div>
             <S.SummaryTitle>게시글 수</S.SummaryTitle>
             <S.Number>367</S.Number>

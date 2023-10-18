@@ -32,6 +32,10 @@ export const PlanetNotice = styled.div`
   ${flexCenter}
   gap: 152px;
   padding: 24px 0;
+
+  & > div:nth-child(2) {
+    height: 57px;
+  }
 `;
 export const Planets = styled.div`
   ${flexColumnCenter}

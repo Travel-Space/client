@@ -1,7 +1,7 @@
 import * as S from "./index.styled";
 import Image from "next/image";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 
 export default function ProfileSummary() {
   return (
@@ -19,7 +19,7 @@ export default function ProfileSummary() {
           <S.Title>팔로워</S.Title>
           <S.Number>102</S.Number>
         </S.FollowerNumber>
-        <Divider width="1px" height="43px" />
+        <Line color="gray" size="vertical" />
         <S.FollowingNumber>
           <S.Title>팔로잉</S.Title>
           <S.Number>2888</S.Number>

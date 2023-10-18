@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "./Nav";
 import Divider from "./Divider";
+import Line from "@/components/common/Line";
 
 const Container = styled.div`
   ${bodyContainer}
@@ -106,7 +107,7 @@ export default function MypageLayout({ children }: { children: React.ReactNode }
               )),
           )}
         </Tab>
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <MainContent>{children}</MainContent>
       </MainContainer>
     </Container>

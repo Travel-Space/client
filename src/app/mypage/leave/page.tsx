@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 import Checkbox from "./Checkbox";
 
 export default function Leave() {
@@ -32,13 +32,13 @@ export default function Leave() {
             <S.Sort>여행 중인 행성</S.Sort>
             <S.Number>10</S.Number>
           </S.Planets>
-          <Divider width="1px" height="57px" />
+          <Line color="gray" size="vertical" />
           <S.Planets>
             <S.Sort>관리 중인 행성</S.Sort>
             <S.Number>2</S.Number>
           </S.Planets>
         </S.PlanetNotice>
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.EscapeNotice>
           <S.EscapeGuide>
             일반 멤버로 여행 중인 행성은 일괄 탈퇴가 가능하지만, 관리 중인 행성은 관리자를 직접 다른 멤버에게 위임 후
@@ -77,7 +77,7 @@ export default function Leave() {
           </S.Period>
         </S.NoticeContent>
       </S.Notice>
-      <Divider width="100%" height="1px" />
+      <Line color="gray" size="horizontal" />
 
       <S.Confirm>
         <S.Check>

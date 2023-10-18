@@ -55,4 +55,5 @@ export const Number = styled.div`
 export const Friends = styled.div`
   display: flex;
   gap: 24px;
+  height: 43px;
 `;

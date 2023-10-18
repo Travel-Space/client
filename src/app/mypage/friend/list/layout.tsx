@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { flexColumn } from "@/styles/common";
 
 import SearchForm from "../../SearchForm";
-import Divider from "../../Divider";
+import Line from "@/components/common/Line";
 
 const Container = styled.div`
   width: 100%;
@@ -23,6 +23,7 @@ const Header = styled.header`
   & > div {
     display: flex;
     gap: 24px;
+    height: 43px;
   }
 `;
 const FollowerNumber = styled.div`
@@ -59,7 +60,7 @@ export default function FriendListLayout({ children }: { children: React.ReactNo
             <Title>팔로워</Title>
             <Number>102</Number>
           </FollowerNumber>
-          <Divider width="1px" height="43px" />
+          <Line color="gray" size="vertical" />
           <FollowingNumber>
             <Title>팔로잉</Title>
             <Number>3,888</Number>

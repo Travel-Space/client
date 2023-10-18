@@ -3,10 +3,10 @@ import { useState } from "react";
 import * as S from "./page.styled";
 
 import ProfileSummary from "./ProfileSummary";
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 import Nothing from "../mypage/Nothing";
 
-export default function ProfilePageLayout({ children }: { children: React.ReactNode }) {
+export default function Profile({ children }: { children: React.ReactNode }) {
   const [tabIndex, setTabIndex] = useState(0);
   const selectTab = (idx: number) => {
     setTabIndex(idx);
@@ -79,7 +79,7 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
             </S.Tab>
           ))}
         </S.TabListWrap>
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.MainContent>
           {TabList[tabIndex].content}
           {children}

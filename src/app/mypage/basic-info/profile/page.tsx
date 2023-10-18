@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
-import Divider from "../../Divider";
+import Line from "@/components/common/Line";
 
 export default function Profile() {
   return (
@@ -21,21 +21,21 @@ export default function Profile() {
             </S.EditImgBtn>
           </S.Content>
         </S.Row>
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.Row>
           <S.Title>이름</S.Title>
           <S.Content>
             <S.Input type="text" value={"홍길동"} readOnly />
           </S.Content>
         </S.Row>{" "}
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.Row>
           <S.Title>이메일</S.Title>
           <S.Content>
             <S.Input type="text" value={"user-email@gmail.com"} readOnly />
           </S.Content>
         </S.Row>{" "}
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.Row>
           <S.Title>닉네임</S.Title>
           <S.Content>

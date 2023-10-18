@@ -40,6 +40,7 @@ export const SelectedPlanet = styled.div`
 export const Summary = styled.div`
   display: flex;
   gap: 24px;
+  height: 43px;
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
