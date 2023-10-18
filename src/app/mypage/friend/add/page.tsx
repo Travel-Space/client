@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -8,16 +9,24 @@ import "swiper/css/navigation";
 import * as S from "./page.styled";
 
 import RecommendFriend from "./RecommendFriend";
-import SearchForm from "../../SearchForm";
+import SearchForm from "@/app/mypage/SearchForm";
 import Person from "../Person";
 import Nothing from "@/app/mypage/Nothing";
 
 export default function Planet() {
+  const [selectedMenu, setSelectedMenu] = useState("닉네임");
+  const dropDownProps = {
+    menuList: ["닉네임", "계정"],
+    selectedMenu: selectedMenu, //선택한 메뉴
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+    placeholder: "친구 추가에서 검색합니다.",
+  };
+
   return (
     <S.Container>
       <S.Row>
         <S.Title>추천 친구</S.Title>
-        <SearchForm />
+        <SearchForm select={dropDownProps} />
       </S.Row>
       <S.SwiperWrap>
         <Swiper

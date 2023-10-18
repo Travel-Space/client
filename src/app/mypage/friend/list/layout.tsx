@@ -1,8 +1,10 @@
 "use client";
+import { useState } from "react";
+
 import { styled } from "styled-components";
 import { flexColumn } from "@/styles/common";
 
-import SearchForm from "../../SearchForm";
+import SearchForm from "@/app/mypage/SearchForm";
 import Line from "@/components/common/Line";
 
 const Container = styled.div`
@@ -52,6 +54,14 @@ const MainContainer = styled.div`
 `;
 
 export default function FriendListLayout({ children }: { children: React.ReactNode }) {
+  const [selectedMenu, setSelectedMenu] = useState("닉네임");
+  const dropDownProps = {
+    menuList: ["닉네임", "계정"],
+    selectedMenu: selectedMenu, //선택한 메뉴
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+    placeholder: "친구 목록에서 검색합니다.",
+  };
+
   return (
     <Container>
       <Header>
@@ -66,7 +76,7 @@ export default function FriendListLayout({ children }: { children: React.ReactNo
             <Number>3,888</Number>
           </FollowingNumber>
         </div>
-        <SearchForm />
+        <SearchForm select={dropDownProps} />
       </Header>
       <MainContainer>{children}</MainContainer>
     </Container>

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexCenter } from "@/styles/common";
+import { flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Container = styled.div`
   border-radius: 10px;
@@ -14,4 +14,16 @@ export const MyFriends = styled.div`
   & > div:nth-child(10n) {
     border: none;
   }
+`;
+export const Header = styled.div`
+  ${flexSpaceBetweenCenter}
+  margin-bottom: 24px;
+`;
+export const CommentsNumber = styled.div`
+  & > span {
+    font-weight: 500;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  }
+  font-weight: 400;
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;
