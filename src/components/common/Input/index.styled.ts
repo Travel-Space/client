@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 const inputStyle = css`
   width: 100%;
   outline: none;
-  padding: 16px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   box-shadow: 0 0 0 0px #bdddfd;
   transition: all 0.2s;
@@ -21,7 +20,13 @@ export const Label = styled.label`
   font-weight: 600;
 `;
 
-export const Input = styled.input<{ $rounded?: boolean }>`
+interface Props {
+  $rounded?: boolean;
+  $thin?: boolean;
+}
+
+export const Input = styled.input<Props>`
   ${inputStyle}
-  border-radius: ${props => (props.$rounded ? "999px" : "10px")}
+  padding: ${props => (props.$thin ? "8px 16px" : "16px")};
+  border-radius: ${props => (props.$rounded ? "999px" : "10px")};
 `;
