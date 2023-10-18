@@ -8,9 +8,9 @@ export default function Title() {
   return (
     <T.TitleWrapper>
       <T.TitleSection>
-        <Line color="white" />
+        <Line size="horizontal" color="white" />
         <T.TitleImg src="/assets/img/icons/random-travel.svg" />
-        <Line color="white" />
+        <Line size="horizontal" color="white" />
       </T.TitleSection>
       <T.InfoText>
         랜덤으로 다양한 행성 지도를 방문해볼 수 있습니다.
