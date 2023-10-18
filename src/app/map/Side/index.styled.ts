@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { ModalBackground, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+import { ModalBackground, flexCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
 const WIDTH = "500px";
 
@@ -18,19 +18,19 @@ export const Container = styled.div`
   ${flexColumn}
   gap: 40px;
   width: ${WIDTH};
-  background-color: ${({ theme }) => theme.PALETTE.white};
+  background: ${({ theme }) => theme.PALETTE.white};
 
   animation-duration: 0.3s;
   animation-timing-function: ease-out;
   animation-name: ${slide};
   animation-fill-mode: forwards;
-`;
 
-export const Wrapper = styled.div``;
+  box-shadow: 4px 0px 4px 0px rgba(51, 51, 51, 0.1);
+`;
 
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   ${flexSpaceBetweenCenter}
 
   > select {
@@ -38,6 +38,20 @@ export const Middle = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     font-weight: 500;
   }
+`;
+
+export const CloseBtn = styled.button`
+  width: 70px;
+  height: 80px;
+  top: 50%;
+  left: 470px;
+  ${flexCenter}
+  position: fixed;
+  padding: 10px 0 10px 30px;
+  border-radius: 0px 10px 10px 0px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
 `;
 
 export const Button = styled.button`
