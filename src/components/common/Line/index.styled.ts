@@ -4,9 +4,11 @@ import { colorProp } from ".";
 const colorCSS = {
   gray: css`
     border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+    border-right: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   `,
   white: css`
     border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
+    border-right: 1px solid ${({ theme }) => theme.PALETTE.white};
   `,
 };
 
