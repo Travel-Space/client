@@ -10,7 +10,7 @@ import * as S from "./page.styled";
 
 import RecommendFriend from "./RecommendFriend";
 import SearchForm from "@/app/mypage/SearchForm";
-import Person from "../Person";
+import Person from "@/app/mypage/friend/Person";
 import Nothing from "@/app/mypage/Nothing";
 
 export default function Planet() {

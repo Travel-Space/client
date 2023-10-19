@@ -4,7 +4,7 @@ import * as S from "./page.styled";
 
 import ProfileSummary from "./ProfileSummary";
 import Line from "@/components/common/Line";
-import Nothing from "../mypage/Nothing";
+import Nothing from "@/app/mypage/Nothing";
 
 export default function Profile({ children }: { children: React.ReactNode }) {
   const [tabIndex, setTabIndex] = useState(0);

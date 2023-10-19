@@ -6,7 +6,6 @@ import { flexCenter, bodyContainer } from "@/styles/common";
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "./Nav";
-import Divider from "./Divider";
 import Line from "@/components/common/Line";
 
 const Container = styled.div`
