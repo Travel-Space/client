@@ -31,7 +31,7 @@ export default function Side({ onClose }: { onClose: () => void }) {
             <div>
               <S.Middle>
                 <div>
-                  <DropDown color="gray" font="md" shape="round" select={dropDownProps} />
+                  <DropDown color="gray" font="md" shape="round" props={dropDownProps} />
                 </div>
                 <Link href={"/post/write"}>
                   <S.Button>새 글 작성</S.Button>
