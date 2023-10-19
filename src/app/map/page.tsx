@@ -18,7 +18,10 @@ export default function Map() {
 
       <S.Button onClick={handleClickSide}>→</S.Button>
 
-      <S.Map>지도가 들어갈 자리</S.Map>
+      <S.Map>
+        지도가 들어갈 자리
+        <button onClick={handleClickSide}>button</button>
+      </S.Map>
     </S.Container>
   );
 }
