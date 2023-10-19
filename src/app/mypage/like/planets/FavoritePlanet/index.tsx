@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import * as S from "./index.styled";
+import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 export default function FavoritePlanet() {
   return (
@@ -21,7 +22,7 @@ export default function FavoritePlanet() {
           <S.Tag>#일본일본일본</S.Tag>
         </S.TagList>
       </S.Info>
-      <Image src="/assets/img/icons/red-heart.svg" alt="heart" width={24} height={24} />
+      <LikeCancelBtn />
     </S.Container>
   );
 }

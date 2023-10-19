@@ -1,9 +1,13 @@
 import * as S from "./index.styled";
 import Image from "next/image";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
+import Button from "@/components/common/Button";
 
 export default function ProfileSummary() {
+  const handleClick = () => {
+    console.log();
+  };
   return (
     <S.Container>
       <S.UserInfo>
@@ -11,7 +15,11 @@ export default function ProfileSummary() {
         <div>
           <S.Nickname>곰숨곰숨짱</S.Nickname>
           <S.Email>aaaa1234@email.com</S.Email>
-          <S.AddButton>팔로우</S.AddButton>
+          <S.FollowBtn>
+            <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+              팔로우
+            </Button>
+          </S.FollowBtn>
         </div>
       </S.UserInfo>
       <S.Friends>
@@ -19,7 +27,7 @@ export default function ProfileSummary() {
           <S.Title>팔로워</S.Title>
           <S.Number>102</S.Number>
         </S.FollowerNumber>
-        <Divider width="1px" height="43px" />
+        <Line color="gray" size="vertical" />
         <S.FollowingNumber>
           <S.Title>팔로잉</S.Title>
           <S.Number>2888</S.Number>

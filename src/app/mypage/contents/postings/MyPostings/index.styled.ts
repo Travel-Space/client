@@ -54,11 +54,3 @@ export const Buttons = styled.div`
     background-color: ${({ theme }) => theme.PALETTE.white};
   }
 `;
-export const EditBtn = styled.button`
-  color: ${({ theme }) => theme.PALETTE.mainColor};
-  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
-`;
-export const DeleteBtn = styled.button`
-  color: ${({ theme }) => theme.PALETTE.error};
-  border: 1px solid ${({ theme }) => theme.PALETTE.error};
-`;

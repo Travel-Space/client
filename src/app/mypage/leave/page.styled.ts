@@ -32,6 +32,10 @@ export const PlanetNotice = styled.div`
   ${flexCenter}
   gap: 152px;
   padding: 24px 0;
+
+  & > div:nth-child(2) {
+    height: 57px;
+  }
 `;
 export const Planets = styled.div`
   ${flexColumnCenter}
@@ -115,20 +119,15 @@ export const Buttons = styled.div`
   display: flex;
   gap: 8px;
 `;
-export const Button = styled.button`
-  padding: 8px 24px;
-  color: ${({ theme }) => theme.PALETTE.mainColor};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
-  border-radius: 10px;
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-weight: 400;
+export const Button = styled.div`
+  & > button {
+    padding: 8px 24px;
+  }
 `;
-export const FullButton = styled.button`
-  padding: 8px 24px;
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-  border-radius: 10px;
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-weight: 700;
+
+export const LeaveButton = styled.div`
+  & > button {
+    font-weight: 700;
+    padding: 9px 24px;
+  }
 `;
