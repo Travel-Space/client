@@ -1,7 +1,7 @@
 "use client";
 
 import DeclarationModal from "@/components/common/DeclarationModal";
-import UserProfile from "../UserProfile";
+import UserProfile from "@/components/common/UserProfile";
 import * as PC from "./index.styled";
 import React, { useState } from "react";
 
@@ -27,7 +27,7 @@ export default function PostContent() {
           <PC.Date>2023년 9월 25일</PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
-          <UserProfile />
+          <UserProfile size="post" />
           <PC.PostInfo>
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
             피식대학 우주선

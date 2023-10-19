@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import * as CI from "./index.styled";
-import UserProfile from "../../UserProfile";
+import UserProfile from "@/components/common/UserProfile";
 import DeclarationModal from "@/components/common/DeclarationModal";
 
 export default function CommentItem() {
@@ -22,7 +22,7 @@ export default function CommentItem() {
 
       <CI.UserComment>
         <CI.ProfileAndDate>
-          <UserProfile />
+          <UserProfile size="post" />
           <CI.CommentDate>2023년 9월 23일</CI.CommentDate>
         </CI.ProfileAndDate>
       </CI.UserComment>

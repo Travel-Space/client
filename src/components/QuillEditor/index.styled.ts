@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { flexSpaceBetweenCenter } from "@/styles/common";
 
 export const QuillWrapper = styled(ReactQuill)`
   position: relative;
@@ -57,8 +56,18 @@ export const QuillWrapper = styled(ReactQuill)`
   .ql-container.ql-snow {
     padding-top: 48px;
   }
+
   .ql-editor {
     padding: 24px;
     line-height: 1.42;
+  }
+
+  img {
+    text-align: center;
+    object-fit: cover;
+    max-width: 100%;
+    float: left;
+    margin-right: 8px;
+    vertical-align: top;
   }
 `;
