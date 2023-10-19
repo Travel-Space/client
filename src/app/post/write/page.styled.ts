@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import { flexColumnCenter, flexSpaceBetweenCenter, bodyContainer } from "@/styles/common";
@@ -101,6 +102,7 @@ export const TagsAndRocket = styled.div`
     }
   }
 `;
+
 export const TagIcon = styled.div`
   width: 24px;
   height: 24px;
@@ -255,6 +257,9 @@ export const PreviewSection = styled.div`
     text-align: center;
     object-fit: cover;
     max-width: 100%;
+    float: left;
+    margin-right: 8px;
+    vertical-align: top;
   }
 
   em,
