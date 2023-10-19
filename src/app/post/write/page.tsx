@@ -1,3 +1,4 @@
+
 "use client";
 
 import dynamic from "next/dynamic";
@@ -12,26 +13,39 @@ export default function PostWrite() {
   const [tagInput, setTagInput] = React.useState<string>("");
 
   //태그 입력 함수
-  function handleTagInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
-  }
+  };
 
   // 태그 입력 시 엔터 가능하게 하는 함수 , 태그는 5개까지만 가능
-  function handleTagInputKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+  const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && tagInput.trim() !== "" && tags.length < 5) {
       setTags([...tags, tagInput]);
       setTagInput("");
     } else if (tags.length >= 5) {
       alert("태그는 최대 5개까지만 추가할 수 있습니다.");
     }
-  }
+  };
 
   // 태그 삭제 버튼 함수
-  function handleTagDelete(index: number) {
+  const handleTagDelete = (index: number) => {
     const newTags = [...tags];
     newTags.splice(index, 1);
     setTags(newTags);
-  }
+  };
+
+  // async const createPost = () => {
+  //   try {
+  //     const response = await axios.get(``);
+  //     if (response.status === 200) {
+  //       setMembers(response.data.data);
+  //     } else {
+  //       console.error('멤버 정보 가져오기 에러:', response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error('멤버 정보 가져오기 에러:', error);
+  //   }
+  
 
   return (
     <PW.Wrapper>
