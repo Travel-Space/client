@@ -1,16 +1,28 @@
-
 "use client";
 
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useState } from "react";
 import * as PW from "./page.styled";
+import Button from "@/components/common/Button";
+import axios from "axios";
+import Input from "@/components/common/Input";
+import MESSAGE from "@/constants/message";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
+
+interface PostWriteProps {
+  title: string;
+  content: string;
+  published: boolean;
+  planetId: number;
+}
 
 export default function PostWrite() {
   const [value, setValue] = React.useState("");
   const [tags, setTags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
+  const [title, setTitle] = React.useState("");
+  const [content, setContent] = React.useState("");
 
   //태그 입력 함수
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,18 +46,28 @@ export default function PostWrite() {
     setTags(newTags);
   };
 
-  // async const createPost = () => {
-  //   try {
-  //     const response = await axios.get(``);
-  //     if (response.status === 200) {
-  //       setMembers(response.data.data);
-  //     } else {
-  //       console.error('멤버 정보 가져오기 에러:', response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error('멤버 정보 가져오기 에러:', error);
-  //   }
-  
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const createPost = async () => {
+    try {
+      const postData = {
+        title,
+        content
+      };
+
+      // 헤더에 토큰 추가하기
+      const response = await axios.post("http://localhost:8080/articles", postData);
+
+      if (response.status === 200) {
+        alert(MESSAGE.POST.COMPLETE);
+      }
+    } catch (error) {
+      console.error("게시글 작성 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
+  };
 
   return (
     <PW.Wrapper>
@@ -53,7 +75,13 @@ export default function PostWrite() {
         <PW.WriteTitleText>게시글 작성</PW.WriteTitleText>
         <PW.WriteSection>
           <PW.TitleAndLocation>
-            <PW.TitleInput type="text" placeholder="제목을 입력해주세요" />
+            <PW.TitleInput
+              type="text"
+              placeholder="제목을 입력해주세요"
+              onChange={handleTitleChange}
+              maxLength={50}
+              value={title}
+            />
             <PW.LocationWrapper>
               <PW.LocationIcon />
               <PW.LocationInput type="text" placeholder="위치" />
@@ -87,8 +115,12 @@ export default function PostWrite() {
           </PW.TagsDisplay>
           <QuillEditor value={value} onChange={setValue} />
           <PW.ButtonGroup>
-            <PW.BackBtn>뒤로</PW.BackBtn>
-            <PW.CompletedBtn>작성 완료</PW.CompletedBtn>
+            <PW.BackBtn>
+              <Button variant="reverse" size="big" shape="medium">
+                뒤로
+              </Button>
+            </PW.BackBtn>
+            <PW.CompletedBtn onClick={createPost}>작성 완료</PW.CompletedBtn>
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>

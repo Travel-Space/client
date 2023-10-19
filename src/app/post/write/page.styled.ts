@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import { flexColumnCenter, flexSpaceBetweenCenter, bodyContainer } from "@/styles/common";
@@ -40,6 +39,16 @@ export const TitleInput = styled.input`
   border: none;
   padding: 16px;
   background-repeat: no-repeat;
+  outline: none;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 0 0 0px #bdddfd;
+  transition: all 0.2s;
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  
+  &:focus {
+    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+    box-shadow: 0 0 0 3px #bdddfd;
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
@@ -53,14 +62,23 @@ export const LocationInput = styled.input`
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  border: none;
   padding-left: 48px;
   background-repeat: no-repeat;
+
+  outline: none;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 0 0 0px #bdddfd;
+  transition: all 0.2s;
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
 
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  }
+  &:focus {
+    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+    box-shadow: 0 0 0 3px #bdddfd;
   }
 `;
 
@@ -95,10 +113,21 @@ export const TagsAndRocket = styled.div`
     border: none;
     padding: 16px;
     padding-left: 48px;
+    outline: none;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 0 0px #bdddfd;
+    transition: all 0.2s;
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
+
     &::placeholder {
       color: ${({ theme }) => theme.PALETTE.gray[100]};
       font-weight: 700;
       font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    }
+
+    &:focus {
+      border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+      box-shadow: 0 0 0 3px #bdddfd;
     }
   }
 `;
@@ -177,7 +206,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const BackBtn = styled.button`
-  padding: 16px 40px;
+  width: 104px;
   border: none;
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.white};
