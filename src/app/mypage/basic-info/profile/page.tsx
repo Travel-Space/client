@@ -4,8 +4,12 @@ import Image from "next/image";
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
+import Button from "@/components/common/Button";
 
 export default function Profile() {
+  const handleClick = () => {
+    console.log();
+  };
   return (
     <S.Container>
       <S.Main>
@@ -49,7 +53,11 @@ export default function Profile() {
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
           <Link href="/mypage/leave">회원탈퇴</Link>
         </S.Leave>
-        <S.Save>변경 사항 저장</S.Save>
+        <S.Save>
+          <Button variant="confirm" shape="medium" size="big" onClick={handleClick}>
+            변경 사항 저장
+          </Button>
+        </S.Save>
       </S.Footer>
     </S.Container>
   );

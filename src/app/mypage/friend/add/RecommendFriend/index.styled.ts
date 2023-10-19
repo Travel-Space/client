@@ -17,13 +17,8 @@ export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   margin: 16px 0 8px;
 `;
-export const FollowBtn = styled.button`
-  width: 80px;
-  height: 24px;
-  background-color: ${({ theme }) => theme.PALETTE.primary[100]};
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  color: ${({ theme }) => theme.PALETTE.white};
-  ${flexCenter}
+export const FollowBtn = styled.div`
+  & > button {
+    padding: 5px 24px;
+  }
 `;

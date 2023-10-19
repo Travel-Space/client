@@ -7,11 +7,15 @@ import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
 import Checkbox from "./Checkbox";
+import Button from "@/components/common/Button";
 
 export default function Leave() {
   const [checked, setChecked] = useState(false);
   const handleClickCheckbox = () => {
     setChecked(!checked);
+  };
+  const handleClick = () => {
+    console.log();
   };
   return (
     <div>
@@ -45,8 +49,16 @@ export default function Leave() {
             탈퇴가 가능합니다.
           </S.EscapeGuide>
           <S.Buttons>
-            <S.Button>일괄 탈퇴</S.Button>
-            <S.Button>관리자 위임하기</S.Button>
+            <S.Button>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+                일괄 탈퇴
+              </Button>
+            </S.Button>
+            <S.Button>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+                관리자 위임하기
+              </Button>
+            </S.Button>
           </S.Buttons>
         </S.EscapeNotice>
       </S.Escape>
@@ -87,8 +99,16 @@ export default function Leave() {
           <span>트레블 스페이스 회원 탈퇴 안내를 읽고 확인했으며, 내용에 동의합니다.</span>
         </S.Check>
         <S.Buttons>
-          <S.Button>취소</S.Button>
-          <S.FullButton>회원 탈퇴하기</S.FullButton>
+          <S.Button>
+            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              취소
+            </Button>
+          </S.Button>
+          <S.LeaveButton>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              회원 탈퇴하기
+            </Button>
+          </S.LeaveButton>
         </S.Buttons>
       </S.Confirm>
     </div>

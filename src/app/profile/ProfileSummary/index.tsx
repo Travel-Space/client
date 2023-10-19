@@ -2,8 +2,12 @@ import * as S from "./index.styled";
 import Image from "next/image";
 
 import Line from "@/components/common/Line";
+import Button from "@/components/common/Button";
 
 export default function ProfileSummary() {
+  const handleClick = () => {
+    console.log();
+  };
   return (
     <S.Container>
       <S.UserInfo>
@@ -11,7 +15,11 @@ export default function ProfileSummary() {
         <div>
           <S.Nickname>곰숨곰숨짱</S.Nickname>
           <S.Email>aaaa1234@email.com</S.Email>
-          <S.AddButton>팔로우</S.AddButton>
+          <S.FollowBtn>
+            <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+              팔로우
+            </Button>
+          </S.FollowBtn>
         </div>
       </S.UserInfo>
       <S.Friends>
