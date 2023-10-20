@@ -6,14 +6,12 @@ const rotation = keyframes`
     transform: rotate(0deg);
   }
   50% {
-    transform: rotate(5deg);
+    transform: rotate(3deg);
   }
   100% {
     transform: rotate(0deg);
   }
 `;
-
-
 
 export const SwiperContainer = styled.div`
   ${bodyContainer}
@@ -45,15 +43,15 @@ export const StyledSwiperSlide = styled.div`
   gap: 40px;
 `;
 
-export const SlideImage = styled.img`
+export const SlideImage = styled.img<{ animateOnHover: boolean }>`
   min-width: 160px;
   max-width: 200px;
   background-repeat: no-repeat;
   object-fit: cover;
   margin-bottom: 56px;
-  transition: transform 0.3s ease;
+  animation: ${rotation} 2s ease-out 1;
 
   &:hover {
-    animation: ${rotation} 2s ease-out;
+    animation: ${props => (props.animateOnHover ? rotation : "none")} 2s ease-out;
   }
 `;
