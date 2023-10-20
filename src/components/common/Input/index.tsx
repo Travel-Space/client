@@ -1,11 +1,16 @@
 import * as S from "./index.styled";
 
+interface LabelType {
+  id: string;
+  children: React.ReactNode;
+}
+
 interface InputType {
   type: string;
   name: string;
   id: string;
-  label: string;
   placeholder: string;
+  value: string;
   disabled: boolean;
   readOnly: boolean;
   rounded: boolean;
@@ -17,12 +22,16 @@ type PartialInput = {
   [key in keyof InputType]?: InputType[key];
 };
 
+export function Label({ id, children }: LabelType) {
+  return <S.Label htmlFor={id}>{children}</S.Label>;
+}
+
 export default function Input({
   type,
   name,
   id,
-  label,
   placeholder,
+  value,
   onChange,
   disabled,
   readOnly,
@@ -30,19 +39,17 @@ export default function Input({
   thin,
 }: PartialInput) {
   return (
-    <>
-      {label && <S.Label htmlFor={id}>{label}</S.Label>}
-      <S.Input
-        $thin={thin}
-        $rounded={rounded}
-        type={type}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        disabled={disabled}
-        readOnly={readOnly}
-      />
-    </>
+    <S.Input
+      $thin={thin}
+      $rounded={rounded}
+      type={type}
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+      readOnly={readOnly}
+    />
   );
 }
