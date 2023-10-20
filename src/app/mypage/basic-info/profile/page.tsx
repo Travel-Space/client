@@ -51,7 +51,7 @@ export default function Profile() {
       <S.Footer>
         <S.Leave>
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
-          <Link href="/mypage/leave">회원탈퇴</Link>
+          <Link href="/user/leave">회원탈퇴</Link>
         </S.Leave>
         <S.Save>
           <Button variant="confirm" shape="medium" size="big" onClick={handleClick}>
