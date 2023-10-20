@@ -29,4 +29,7 @@ export const Input = styled.input<Props>`
   ${inputStyle}
   padding: ${props => (props.$thin ? "8px 16px" : "16px")};
   border-radius: ${props => (props.$rounded ? "999px" : "10px")};
+  &::placeholder {
+    color: ${({ theme }) => theme.PALETTE.gray[100]};
+  }
 `;

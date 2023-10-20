@@ -40,7 +40,8 @@ export const variantCSS = {
     color: ${({ theme }) => theme.PALETTE.error};
   `,
   white: css`
-    background: ${({ theme }) => theme.PALETTE.white};
+    border: 1px solid ${({ theme }) => theme.PALETTE.white};
+    background: transparent;
     color: ${({ theme }) => theme.PALETTE.white};
   `,
   cancel: css`
@@ -69,37 +70,37 @@ const sizeCSS = {
     width: 100%;
     padding: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-    font-weight: 400;
   `,
   smallWithSmFont: css`
     width: 100%;
     padding: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-weight: 400;
   `,
   smallWithMdFont: css`
     width: 100%;
     padding: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-weight: 400;
   `,
   normal: css`
     width: 100%;
     padding: 13px;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-weight: 400;
   `,
   medium: css`
     width: 100%;
     padding: 14px;
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-    font-weight: 400;
   `,
   big: css`
     width: 100%;
     padding: 15px;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    font-weight: 400;
+  `,
+};
+
+const fontWeightCSS = {
+  bold: css`
+    font-weight: 700;
   `,
 };
 
@@ -107,6 +108,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof variantCSS;
   shape?: keyof typeof shapeCSS;
   size?: keyof typeof sizeCSS;
+  fontWeight?: keyof typeof fontWeightCSS;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -115,4 +117,5 @@ export const Button = styled.button<ButtonProps>`
   ${({ variant }) => variant && variantCSS[variant]}
   ${({ shape }) => shape && shapeCSS[shape]}
   ${({ size }) => size && sizeCSS[size]}
+  ${({ fontWeight }) => fontWeight && fontWeightCSS[fontWeight]}
 `;
