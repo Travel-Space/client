@@ -1,7 +1,7 @@
 import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import Member from "../../../../components/Modal/Member";
+import Member from "@/components/SpaceModal/Member";
 
 interface Type extends ModalType {}
 
@@ -9,13 +9,13 @@ export default function MemberManageModal({ onClose }: Type) {
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>
-        <S.InputGroup>
+        {/* <S.InputGroup>
           <S.Input placeholder="이메일 또는 닉네임을 검색해보세요." />
           <S.SearchButton>
             <span>검색</span>
             <img src="/assets/img/icons/search.svg" height={16} />
           </S.SearchButton>
-        </S.InputGroup>
+        </S.InputGroup> */}
 
         {/* 친구 없을 때 */}
         {/* <S.NoList>
@@ -35,10 +35,10 @@ export default function MemberManageModal({ onClose }: Type) {
           ))}
         </S.MemberList>
       </S.Notification>
-      <S.LinkButton>
+      {/* <S.LinkButton>
         <img src="/assets/img/icons/invite.svg" />
         <span>초대하기</span>
-      </S.LinkButton>
+      </S.LinkButton> */}
     </BoxModal>
   );
 }
