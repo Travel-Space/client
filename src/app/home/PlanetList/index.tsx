@@ -1,28 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
+import axios from "axios";
+
+interface PlanetProps {
+  id: number;
+  name: string;
+  langth:number;
+}
 
 export default function PlanetList() {
-  const planetCount = 15;
+  const [planetList, setPlanetList] = useState<PlanetProps[]>([]);
 
-  const groupedPlanets = Array.from({ length: planetCount / 5 }, (_, i) => i * 5).map(start =>
-    Array.from({ length: 5 }, (_, j) => start + j + 1),
+  useEffect(() => {
+    fetchPlanetList();
+  }, []);
+
+  const fetchPlanetList = async () => {
+    try {
+      const response = await axios.get("/planet");
+      if (response.status === 200) {
+        setPlanetList(response.data);
+      }
+    } catch (error) {
+      console.error("행성 리스트 가져오기 에러", error);
+    }
+  };
+
+  const groupedPlanets = Array.from({ length: Math.ceil(planetList.length / 5) }, (_, i) => i * 5).map(start =>
+    planetList.slice(start, start + 5),
   );
 
   return (
     <SwiperContainer className="swiper">
-      <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]} >
+      <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]}>
         {groupedPlanets.map((group, idx) => (
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
-              {group.map(planetIdx => (
+              {group.map(planet => (
                 <SlideImage
-                  key={planetIdx}
-                  src={`/assets/img/icons/planet-${planetIdx}.svg`}
-                  alt={`Planet ${planetIdx}`}
+                  key={planet.id}
+                  src={`/assets/img/icons/planet-${planet.id}.svg`}
+                  alt={`Planet ${planet.id}`}
                 />
               ))}
             </StyledSwiperSlide>
