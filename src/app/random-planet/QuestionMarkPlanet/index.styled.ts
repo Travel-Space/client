@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 export const PlanetImg = styled.img`
   width: 240px;
   height: 240px;
-
+  cursor: pointer;
   background-color: transparent;
   background-repeat: no-repeat;
 `;
