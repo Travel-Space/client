@@ -2,6 +2,8 @@
 
 import type { Metadata } from "next";
 import { RecoilRoot } from "recoil";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import GlobalStyles from "@/styles/global";
 import theme from "@/styles/theme";
@@ -16,18 +18,22 @@ const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <html>
-          <body>
-            <Header />
-            <ChatBtn />
-            {children}
-          </body>
-        </html>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <html>
+            <body>
+              <Header />
+              <ChatBtn />
+              {children}
+            </body>
+          </html>
+        </ThemeProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }
