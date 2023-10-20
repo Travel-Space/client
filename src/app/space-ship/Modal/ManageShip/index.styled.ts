@@ -1,6 +1,5 @@
-import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
+import { flexAlignCenter, flexColumn } from "@/styles/common";
 import styled from "styled-components";
-import { OutlineButton as OB } from "@/components/Account/common.styled";
 
 export const Content = styled.div`
   ${flexColumn}
@@ -44,13 +43,13 @@ export const BtnInput = styled.div`
   }
 `;
 
-export const BtnIcon = styled(OB)`
-  display: inline-block;
-  width: 30%;
-  border-radius: 0 10px 10px 0;
-  vertical-align: top;
-  border-color: ${({ theme }) => theme.PALETTE.gray[100]};
-  img {
-    transform: scale(1.7);
-  }
-`;
+// export const BtnIcon = styled(OB)`
+//   display: inline-block;
+//   width: 30%;
+//   border-radius: 0 10px 10px 0;
+//   vertical-align: top;
+//   border-color: ${({ theme }) => theme.PALETTE.gray[100]};
+//   img {
+//     transform: scale(1.7);
+//   }
+// `;

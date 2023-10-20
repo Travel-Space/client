@@ -8,10 +8,10 @@ export default function ShipsSettings() {
   const [showMemberManageModal, setShowMemberManageModal] = useState<boolean>(false);
   return (
     <S.Wrap>
-      <S.LinkButton onClick={() => setShowMemberManageModal(true)}>
+      {/* <S.LinkButton onClick={() => setShowMemberManageModal(true)}>
         <img src="/assets/img/icons/users.svg" />
         행성 멤버 관리
-      </S.LinkButton>
+      </S.LinkButton> */}
       <S.ExitButton onClick={() => setShowExitPlanetModal(true)}>행성 탈출 💥</S.ExitButton>
 
       {showExitPlanetModal ? (
