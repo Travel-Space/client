@@ -5,17 +5,17 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
 import axios from "axios";
-import Link from "next/link"; // Next.js의 Link 컴포넌트 import
+import Link from "next/link"; 
 
 interface PlanetListProps {
   id: number;
   name: string;
   hashtags: [];
+  shape: string; 
 }
 
-export default function PlanetList(){
+export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
-
 
   useEffect(() => {
     fetchPlanetList();
@@ -36,6 +36,11 @@ export default function PlanetList(){
     planetList.slice(start, start + 5),
   );
 
+  // shape 문자열에서 숫자 부분만 추출하는 함수
+  const getShapeNumber = (shape: string) => {
+    return shape.replace(/\D/g, '');
+  };
+
   return (
     <SwiperContainer className="swiper">
       <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]}>
@@ -44,7 +49,7 @@ export default function PlanetList(){
             <StyledSwiperSlide>
               {group.map(planet => (
                 <Link key={planet.id} href={`/planet/${planet.id}`} id="link">
-                    <SlideImage src={`/assets/img/icons/planet-${planet.id}.svg`} alt={`Planet ${planet.name}`} />
+                    <SlideImage src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`} alt={`Planet ${planet.name}`} />
                 </Link>
               ))}
             </StyledSwiperSlide>

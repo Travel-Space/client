@@ -23,18 +23,14 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const PlanetImg = styled.img`
+export const PlanetImg = styled.img<{ animate?: boolean }>`
   width: 240px;
   height: 240px;
   cursor: pointer;
   background-color: transparent;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
-
-  //애니메이션
-  &:hover {
-    animation: ${rotation} 2s ease-out;
-  }
+  animation: ${props => props.animate ? rotation : "none"} 2s ease-out;
 `;
 
 export const RamdomBtn = styled.div`
