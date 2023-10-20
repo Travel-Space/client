@@ -30,11 +30,13 @@ export default function Login({ goToSignup, goToResetPassword }: LoginType) {
       <Button variant="reverse" shape="medium" size="big">
         LOGIN
       </Button>
+
       <S.MarginGroup>
         <Line size="horizontal" color="gray" />
       </S.MarginGroup>
+
       <Button variant="gradient" shape="large" size="big" onClick={() => goToSignup()}>
-        Sign Up
+        Create Account
       </Button>
     </S.Wrap>
   );
