@@ -10,6 +10,7 @@ import TravelingPlanet from "./TravelingPlanet";
 export default function Planet() {
   return (
     <S.Container>
+      <Link href="/user/profile">프로필</Link>
       <Nothing
         src="/assets/img/icons/no-planets.svg"
         alt="no-TravelingPlanets"

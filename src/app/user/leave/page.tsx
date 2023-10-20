@@ -18,7 +18,9 @@ export default function Leave() {
     console.log();
   };
   return (
-    <div>
+    <S.Container>
+      <S.MainTitle>회원 탈퇴</S.MainTitle>
+      <S.Comment>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</S.Comment>
       <S.CannotLeaveReason>
         <S.CannotLeaveReasonTitle>
           <Image src="/assets/img/icons/withdraw.svg" alt="leave" width={21} height={21} />
@@ -111,6 +113,6 @@ export default function Leave() {
           </S.LeaveButton>
         </S.Buttons>
       </S.Confirm>
-    </div>
+    </S.Container>
   );
 }
