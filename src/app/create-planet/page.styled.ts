@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { bodyContainer, flexAlignCenter, flexCenter } from "@/styles/common";
-import { InputGroup as IG } from "@/components/Account/common.styled";
 
 const buttonBgReset = css`
   background: none;
@@ -36,42 +35,42 @@ export const Center = styled.div`
   gap: 24px;
 `;
 
-export const InputGroup = styled(IG)`
-  margin-bottom: 24px;
-  width: 100%;
-`;
+// export const InputGroup = styled(IG)`
+//   margin-bottom: 24px;
+//   width: 100%;
+// `;
 
-export const TagGroup = styled(IG)`
-  margin-bottom: 88px;
-  width: 100%;
-  ul {
-    margin-top: 24px;
-    ${flexAlignCenter}
-    gap: 16px;
-    flex-wrap: wrap;
-    li {
-      ${flexAlignCenter}
-      background: ${({ theme }) => theme.PALETTE.white};
-      padding: 8px 16px;
-      border-radius: 100px;
-      gap: 8px;
-      span {
-        font-weight: 600;
-      }
-      button {
-        ${buttonBgReset}
-        width: 12px;
-        height: 12px;
-        background-image: url("/assets/img/icons/close-mini.svg");
-      }
-    }
-  }
-`;
+// export const TagGroup = styled(IG)`
+//   margin-bottom: 88px;
+//   width: 100%;
+//   ul {
+//     margin-top: 24px;
+//     ${flexAlignCenter}
+//     gap: 16px;
+//     flex-wrap: wrap;
+//     li {
+//       ${flexAlignCenter}
+//       background: ${({ theme }) => theme.PALETTE.white};
+//       padding: 8px 16px;
+//       border-radius: 100px;
+//       gap: 8px;
+//       span {
+//         font-weight: 600;
+//       }
+//       button {
+//         ${buttonBgReset}
+//         width: 12px;
+//         height: 12px;
+//         background-image: url("/assets/img/icons/close-mini.svg");
+//       }
+//     }
+//   }
+// `;
 
-export const AdjustBtnGroup = styled(IG)`
-  margin-bottom: 24px;
-  width: 100%;
-`;
+// export const AdjustBtnGroup = styled(IG)`
+//   margin-bottom: 24px;
+//   width: 100%;
+// `;
 
 export const ArrowLeft = styled.button`
   ${buttonBgReset}

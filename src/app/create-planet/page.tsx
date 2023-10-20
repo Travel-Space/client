@@ -3,18 +3,11 @@
 import { useState } from "react";
 
 import * as S from "./page.styled";
-import {
-  Label,
-  Input,
-  TextArea,
-  Line,
-  FillButton,
-  OutlineButton,
-  LinkButton,
-} from "@/components/Account/common.styled";
+
 import Title from "./Title";
 import DeletePlanetModal from "./Modal/DeletePlanetModal";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
+import Input from "@/components/common/Input";
 
 const planets = [
   { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
@@ -37,7 +30,7 @@ export default function CreatePlanet() {
           <S.ArrowRight type="button">다음</S.ArrowRight>
         </S.Center>
         <S.PlanetTitle>일본 맛도리 여행</S.PlanetTitle>
-        <S.TagGroup>
+        {/* <S.TagGroup>
           <Input type="text" placeholder="주제 해시태그 최대 5개" />
           <ul>
             <li>
@@ -61,8 +54,8 @@ export default function CreatePlanet() {
               <button>삭제</button>
             </li>
           </ul>
-        </S.TagGroup>
-        <LinkButton disabled>탑승 우주선으로 이동</LinkButton>
+        </S.TagGroup> */}
+        {/* <LinkButton disabled>탑승 우주선으로 이동</LinkButton> */}
         {/* 행성 관리자만 삭제 가능 */}
         <S.DeletePlanetBtn type="button" onClick={() => setShowDeletePlanetModal(true)}>
           행성 삭제 💥
@@ -70,26 +63,26 @@ export default function CreatePlanet() {
       </S.Container>
       <S.Container className="right">
         <Title />
-        <S.InputGroup>
+        {/* <S.InputGroup>
           <Label htmlFor="planet-title">행성 이름</Label>
           <Input type="text" id="planet-title" />
         </S.InputGroup>
         <S.InputGroup>
           <Label htmlFor="planet-description">행성 소개</Label>
           <TextArea id="planet-description" $height="224px" />
-        </S.InputGroup>
+        </S.InputGroup> */}
         <S.Center>
-          <S.AdjustBtnGroup>
+          {/* <S.AdjustBtnGroup>
             <AdjustBtnInput label="탑승 인원수" />
           </S.AdjustBtnGroup>
           <S.AdjustBtnGroup>
             <AdjustBtnInput label="우주선 갯수" />
-          </S.AdjustBtnGroup>
+          </S.AdjustBtnGroup> */}
         </S.Center>
-        <Line />
+        {/* <Line /> */}
         <S.Center>
-          <OutlineButton type="button">취소</OutlineButton>
-          <FillButton type="submit">작성완료</FillButton>
+          {/* <OutlineButton type="button">취소</OutlineButton> */}
+          {/* <FillButton type="submit">작성완료</FillButton> */}
         </S.Center>
       </S.Container>
       {showDeletePlanetModal ? (
