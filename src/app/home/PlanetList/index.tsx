@@ -5,15 +5,17 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
 import axios from "axios";
+import Link from "next/link"; // Next.js의 Link 컴포넌트 import
 
-interface PlanetProps {
+interface PlanetListProps {
   id: number;
   name: string;
-  langth:number;
+  hashtags: [];
 }
 
-export default function PlanetList() {
-  const [planetList, setPlanetList] = useState<PlanetProps[]>([]);
+export default function PlanetList(){
+  const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
+
 
   useEffect(() => {
     fetchPlanetList();
@@ -41,11 +43,9 @@ export default function PlanetList() {
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
               {group.map(planet => (
-                <SlideImage
-                  key={planet.id}
-                  src={`/assets/img/icons/planet-${planet.id}.svg`}
-                  alt={`Planet ${planet.id}`}
-                />
+                <Link key={planet.id} href={`/planet/${planet.id}`} id="link">
+                    <SlideImage src={`/assets/img/icons/planet-${planet.id}.svg`} alt={`Planet ${planet.name}`} />
+                </Link>
               ))}
             </StyledSwiperSlide>
           </SwiperSlide>

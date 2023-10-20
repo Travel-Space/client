@@ -1,10 +1,26 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { flexColumnCenter, flexCenter } from "@/styles/common";
+
+const rotation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+`;
 
 export const Wrapper = styled.div`
   ${flexColumnCenter}
   gap:56px;
   margin-top: 72px;
+
+  & a {
+    text-decoration: none;
+  }
 `;
 
 export const PlanetImg = styled.img`
@@ -13,6 +29,12 @@ export const PlanetImg = styled.img`
   cursor: pointer;
   background-color: transparent;
   background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+
+  //애니메이션
+  &:hover {
+    animation: ${rotation} 2s ease-out;
+  }
 `;
 
 export const RamdomBtn = styled.div`
