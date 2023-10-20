@@ -5,17 +5,18 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
 import axios from "axios";
-import Link from "next/link"; 
+import Link from "next/link";
 
 interface PlanetListProps {
   id: number;
   name: string;
   hashtags: [];
-  shape: string; 
+  shape: string;
 }
 
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     fetchPlanetList();
@@ -38,7 +39,7 @@ export default function PlanetList() {
 
   // shape 문자열에서 숫자 부분만 추출하는 함수
   const getShapeNumber = (shape: string) => {
-    return shape.replace(/\D/g, '');
+    return shape.replace(/\D/g, "");
   };
 
   return (
@@ -49,7 +50,13 @@ export default function PlanetList() {
             <StyledSwiperSlide>
               {group.map(planet => (
                 <Link key={planet.id} href={`/planet/${planet.id}`} id="link">
-                    <SlideImage src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`} alt={`Planet ${planet.name}`} />
+                  <SlideImage
+                    src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
+                    alt={`Planet ${planet.name}`}
+                    animateOnHover={isHovered}
+                    onMouseEnter={() => setIsHovered(true)} //마우스 호버 true 시 애니메이션
+                    onMouseLeave={() => setIsHovered(false)} //마우스 호버 false 시 애니메이션 X
+                  />
                 </Link>
               ))}
             </StyledSwiperSlide>
