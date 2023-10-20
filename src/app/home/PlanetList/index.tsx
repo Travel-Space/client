@@ -22,7 +22,7 @@ export default function PlanetList() {
   const fetchPlanetList = async () => {
     try {
       const response = await axios.get("/planet");
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.length > 0) {
         setPlanetList(response.data);
       }
     } catch (error) {
