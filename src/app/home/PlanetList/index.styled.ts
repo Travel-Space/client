@@ -1,5 +1,19 @@
-import { bodyContainer, flexSpaceBetweenCenter } from "@/styles/common";
-import styled from "styled-components";
+import { bodyContainer, flexCenter } from "@/styles/common";
+import styled, { keyframes } from "styled-components";
+
+const rotation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+`;
+
+
 
 export const SwiperContainer = styled.div`
   ${bodyContainer}
@@ -22,12 +36,13 @@ export const SwiperContainer = styled.div`
   }
 `;
 export const StyledSwiperSlide = styled.div`
-  ${flexSpaceBetweenCenter}
+  ${flexCenter}
   text-align: center;
   font-size: ${({ theme }) => theme.FONT_SIZE.em};
   color: ${({ theme }) => theme.PALETTE.white};
   background-color: transparent;
   width: 100%;
+  gap: 40px;
 `;
 
 export const SlideImage = styled.img`
@@ -36,4 +51,9 @@ export const SlideImage = styled.img`
   background-repeat: no-repeat;
   object-fit: cover;
   margin-bottom: 56px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    animation: ${rotation} 2s ease-out;
+  }
 `;
