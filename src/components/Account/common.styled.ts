@@ -22,19 +22,6 @@ export const ButtonGroup = styled.div`
   gap: 16px;
 `;
 
-export const UnderLineButton = styled.button`
-  text-decoration: underline;
-  font-weight: 300;
-  background: none;
-  cursor: pointer;
-
-  &.link-in-input {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-`;
-
 export const SmallButton = styled.button`
   cursor: pointer;
   background: ${({ theme }) => theme.PALETTE.mainColor};

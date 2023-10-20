@@ -21,11 +21,11 @@ export const LineWithText = styled.span`
   }
 `;
 
-export const Margin = styled.div`
+export const MarginGroup = styled.div`
   margin: 8px 0;
 `;
 
-export const Center = styled.div`
+export const CenterGroup = styled.div`
   ${flexCenter}
   gap: 16px;
 `;
