@@ -40,19 +40,14 @@ export const PplImage = styled.img`
 export const Bottom = styled(Top)`
   gap: 16px;
   padding: 16px 8px;
+
+  > button {
+    width: 80px;
+    height: 40px;
+  }
 `;
 
 export const GalleryImage = styled(PplImage)`
   width: 40px;
   height: 40px;
-`;
-
-export const Button = styled.button`
-  width: 80px;
-  height: 40px;
-  color: ${({ theme }) => theme.PALETTE.white};
-  background-color: ${({ theme }) => theme.PALETTE.primary[200]};
-  border-radius: 20px;
-
-  cursor: pointer;
 `;
