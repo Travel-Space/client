@@ -22,19 +22,6 @@ export const PreviewImg = styled.img`
   height: 110px;
 `;
 
-export const Profile = styled.div`
-  ${flexAlignCenter}
-  gap: 8px;
-
-  > span {
-    font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  }
-
-  > img {
-    width: 20px;
-  }
-`;
-
 export const Description = styled(MainBox)`
   > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
@@ -48,7 +35,7 @@ export const Description = styled(MainBox)`
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* 라인수 */
-    height: 32px; /* 라인수에 맞춰 길이 정해줘야함 */
+    height: 32px; /* 라인수에 맞춰 길이 정해줘야 함 */
     -webkit-box-orient: vertical;
     word-wrap: break-word;
   }
