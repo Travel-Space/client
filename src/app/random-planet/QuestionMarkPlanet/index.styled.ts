@@ -6,7 +6,7 @@ const rotation = keyframes`
     transform: rotate(0deg);
   }
   50% {
-    transform: rotate(10deg);
+    transform: rotate(8deg);
   }
   100% {
     transform: rotate(0deg);
@@ -30,7 +30,7 @@ export const PlanetImg = styled.img<{ animate?: boolean }>`
   background-color: transparent;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
-  animation: ${props => props.animate ? rotation : "none"} 2s ease-out;
+  animation: ${props => (props.animate ? rotation : "none")} 2s ease-out;
 `;
 
 export const RamdomBtn = styled.div`
