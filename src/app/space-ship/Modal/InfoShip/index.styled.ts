@@ -1,6 +1,5 @@
 import { flexAlignCenter, flexCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
-import { OutlineButton as OB, FillButton as FB } from "@/components/Account/common.styled";
 
 export const Content = styled.div`
   ${flexColumn}
@@ -35,21 +34,21 @@ export const Detail = styled.div`
   }
 `;
 
-export const OutlineButton = styled(OB)`
-  ${flexCenter}
-  gap: 8px;
-  img {
-    margin-top: -2px;
-  }
-`;
+// export const OutlineButton = styled(OB)`
+//   ${flexCenter}
+//   gap: 8px;
+//   img {
+//     margin-top: -2px;
+//   }
+// `;
 
-export const FillButton = styled(FB)`
-  ${flexCenter}
-  gap: 8px;
-  img {
-    margin-top: -2px;
-  }
-`;
+// export const FillButton = styled(FB)`
+//   ${flexCenter}
+//   gap: 8px;
+//   img {
+//     margin-top: -2px;
+//   }
+// `;
 
 export const DeleteBtn = styled.button`
   width: fit-content;

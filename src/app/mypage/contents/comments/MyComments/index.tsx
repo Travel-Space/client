@@ -1,6 +1,10 @@
 import * as S from "./index.styled";
+import Button from "@/components/common/Button";
 
 export default function MyComments() {
+  const handleClick = () => {
+    console.log();
+  };
   return (
     <S.Container>
       <S.InfoRow>
@@ -13,8 +17,12 @@ export default function MyComments() {
       <S.InfoRow>
         <S.Comment>저도 여기 가보고 싶어요!</S.Comment>
         <S.Buttons>
-          <S.EditBtn>수정</S.EditBtn>
-          <S.DeleteBtn>삭제</S.DeleteBtn>
+          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+            수정
+          </Button>
+          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+            삭제
+          </Button>
         </S.Buttons>
       </S.InfoRow>
     </S.Container>

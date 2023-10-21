@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import * as S from "./index.styled";
 
-import LikeCancelBtn from "./LikeCancelBtn";
+import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 export default function FavoritePosting() {
   return (

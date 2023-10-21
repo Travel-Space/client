@@ -1,6 +1,7 @@
 "use client";
 
 import * as S from "./page.styled";
+import Link from "next/link";
 
 import Nothing from "@/app/mypage/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
@@ -9,6 +10,7 @@ import TravelingPlanet from "./TravelingPlanet";
 export default function Planet() {
   return (
     <S.Container>
+      <Link href="/user/profile">프로필</Link>
       <Nothing
         src="/assets/img/icons/no-planets.svg"
         alt="no-TravelingPlanets"
@@ -23,7 +25,9 @@ export default function Planet() {
           <S.MyPlanetNumber>
             <span>1</span>개의 행성을 더 운영할 수 있습니다.
           </S.MyPlanetNumber>
-          <S.MakePlanetBtn>새 행성 만들기</S.MakePlanetBtn>
+          <Link href="/create-planet">
+            <S.MakePlanetBtn>새 행성 만들기</S.MakePlanetBtn>
+          </Link>
         </S.NewPlanet>
       </S.MyPlanetInfo>
       <S.MyPlanetWrap>

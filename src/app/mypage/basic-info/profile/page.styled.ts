@@ -106,11 +106,8 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-export const Save = styled.button`
-  padding: 16px 24px;
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 500;
-  border-radius: 10px;
+export const Save = styled.div`
+  & > button {
+    padding: 16px 24px;
+  }
 `;

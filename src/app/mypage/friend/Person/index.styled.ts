@@ -26,14 +26,9 @@ export const Email = styled.div`
   font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
-export const AddButton = styled.button`
-  width: 80px;
-  height: 24px;
-  ${flexCenter}
 
-  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-weight: 500;
-  color: ${({ theme }) => theme.PALETTE.white};
-  background-color: ${({ theme }) => theme.PALETTE.primary[100]};
-  border-radius: 8px;
+export const FollowBtn = styled.div`
+  & > button {
+    padding: 5px 24px;
+  }
 `;

@@ -25,16 +25,11 @@ export const Email = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
   margin-bottom: 16px;
 `;
-export const AddButton = styled.button`
+export const FollowBtn = styled.div`
   width: 80px;
-  height: 24px;
-  ${flexCenter}
-
-  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-weight: 500;
-  color: ${({ theme }) => theme.PALETTE.white};
-  background-color: ${({ theme }) => theme.PALETTE.primary[100]};
-  border-radius: 8px;
+  & > button {
+    padding: 5px 0;
+  }
 `;
 
 export const FollowerNumber = styled.div`
@@ -55,4 +50,5 @@ export const Number = styled.div`
 export const Friends = styled.div`
   display: flex;
   gap: 24px;
+  height: 43px;
 `;

@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 import { flexColumnCenter, flexSpaceBetweenCenter, flexAlignCenter } from "@/styles/common";
 
 export const Container = styled.div`
@@ -40,6 +40,7 @@ export const SelectedPlanet = styled.div`
 export const Summary = styled.div`
   display: flex;
   gap: 24px;
+  height: 43px;
 `;
 export const Number = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
@@ -59,26 +60,33 @@ export const Header = styled.div`
   ${flexSpaceBetweenCenter}
   margin-bottom: 16px;
 `;
-export const Buttons = styled.div`
+export const Buttons = styled.div<{ isActive: "daily" | "weekly" }>`
   display: flex;
   gap: 8px;
 
   & > button {
     padding: 6px 16px;
-    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-weight: 600;
-    border-radius: 10px;
+  }
+  & > button:first-child {
+    padding: 6px 16px;
+    ${({ isActive }) =>
+      isActive === "daily" &&
+      css`
+        background-color: ${({ theme }) => theme.PALETTE.mainColor};
+        color: ${({ theme }) => theme.PALETTE.white};
+      `}
+  }
+  & > button:last-child {
+    padding: 6px 16px;
+    ${({ isActive }) =>
+      isActive === "weekly" &&
+      css`
+        background-color: ${({ theme }) => theme.PALETTE.mainColor};
+        color: ${({ theme }) => theme.PALETTE.white};
+      `}
   }
 `;
-export const Button = styled.button`
-  color: ${({ theme }) => theme.PALETTE.mainColor};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
-`;
-export const FullButton = styled.button`
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-`;
+
 export const Today = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
   font-weight: 500;

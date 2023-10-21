@@ -5,16 +5,22 @@ import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
-import Divider from "@/app/mypage/Divider";
+import Line from "@/components/common/Line";
 import Checkbox from "./Checkbox";
+import Button from "@/components/common/Button";
 
 export default function Leave() {
   const [checked, setChecked] = useState(false);
   const handleClickCheckbox = () => {
     setChecked(!checked);
   };
+  const handleClick = () => {
+    console.log();
+  };
   return (
-    <div>
+    <S.Container>
+      <S.MainTitle>회원 탈퇴</S.MainTitle>
+      <S.Comment>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</S.Comment>
       <S.CannotLeaveReason>
         <S.CannotLeaveReasonTitle>
           <Image src="/assets/img/icons/withdraw.svg" alt="leave" width={21} height={21} />
@@ -32,21 +38,29 @@ export default function Leave() {
             <S.Sort>여행 중인 행성</S.Sort>
             <S.Number>10</S.Number>
           </S.Planets>
-          <Divider width="1px" height="57px" />
+          <Line color="gray" size="vertical" />
           <S.Planets>
             <S.Sort>관리 중인 행성</S.Sort>
             <S.Number>2</S.Number>
           </S.Planets>
         </S.PlanetNotice>
-        <Divider width="100%" height="1px" />
+        <Line color="gray" size="horizontal" />
         <S.EscapeNotice>
           <S.EscapeGuide>
             일반 멤버로 여행 중인 행성은 일괄 탈퇴가 가능하지만, 관리 중인 행성은 관리자를 직접 다른 멤버에게 위임 후
             탈퇴가 가능합니다.
           </S.EscapeGuide>
           <S.Buttons>
-            <S.Button>일괄 탈퇴</S.Button>
-            <S.Button>관리자 위임하기</S.Button>
+            <S.Button>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+                일괄 탈퇴
+              </Button>
+            </S.Button>
+            <S.Button>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+                관리자 위임하기
+              </Button>
+            </S.Button>
           </S.Buttons>
         </S.EscapeNotice>
       </S.Escape>
@@ -77,7 +91,7 @@ export default function Leave() {
           </S.Period>
         </S.NoticeContent>
       </S.Notice>
-      <Divider width="100%" height="1px" />
+      <Line color="gray" size="horizontal" />
 
       <S.Confirm>
         <S.Check>
@@ -87,10 +101,18 @@ export default function Leave() {
           <span>트레블 스페이스 회원 탈퇴 안내를 읽고 확인했으며, 내용에 동의합니다.</span>
         </S.Check>
         <S.Buttons>
-          <S.Button>취소</S.Button>
-          <S.FullButton>회원 탈퇴하기</S.FullButton>
+          <S.Button>
+            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              취소
+            </Button>
+          </S.Button>
+          <S.LeaveButton>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              회원 탈퇴하기
+            </Button>
+          </S.LeaveButton>
         </S.Buttons>
       </S.Confirm>
-    </div>
+    </S.Container>
   );
 }

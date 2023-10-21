@@ -1,9 +1,11 @@
 "use client";
+import { useState } from "react";
+
 import { styled } from "styled-components";
 import { flexColumn } from "@/styles/common";
 
-import SearchForm from "../../SearchForm";
-import Divider from "../../Divider";
+import SearchForm from "@/app/mypage/SearchForm";
+import Line from "@/components/common/Line";
 
 const Container = styled.div`
   width: 100%;
@@ -23,6 +25,7 @@ const Header = styled.header`
   & > div {
     display: flex;
     gap: 24px;
+    height: 43px;
   }
 `;
 const FollowerNumber = styled.div`
@@ -51,6 +54,14 @@ const MainContainer = styled.div`
 `;
 
 export default function FriendListLayout({ children }: { children: React.ReactNode }) {
+  const [selectedMenu, setSelectedMenu] = useState("닉네임");
+  const dropDownProps = {
+    menuList: ["닉네임", "계정"],
+    selectedMenu: selectedMenu, //선택한 메뉴
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+    placeholder: "친구 목록에서 검색합니다.",
+  };
+
   return (
     <Container>
       <Header>
@@ -59,13 +70,13 @@ export default function FriendListLayout({ children }: { children: React.ReactNo
             <Title>팔로워</Title>
             <Number>102</Number>
           </FollowerNumber>
-          <Divider width="1px" height="43px" />
+          <Line color="gray" size="vertical" />
           <FollowingNumber>
             <Title>팔로잉</Title>
             <Number>3,888</Number>
           </FollowingNumber>
         </div>
-        <SearchForm />
+        <SearchForm select={dropDownProps} />
       </Header>
       <MainContainer>{children}</MainContainer>
     </Container>

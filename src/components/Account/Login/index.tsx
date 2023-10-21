@@ -1,5 +1,7 @@
-import * as S from "../common.styled";
-import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
+import * as S from "./index.styled";
+import Input, { Label } from "@/components/common/Input";
+import Line from "@/components/common/Line";
 
 interface LoginType {
   goToSignup: () => void;
@@ -8,26 +10,34 @@ interface LoginType {
 
 export default function Login({ goToSignup, goToResetPassword }: LoginType) {
   return (
-    <>
-      <S.LinkButton>
-        <img src="/assets/img/icons/google.svg" />
-        <span>Log in with Google</span>
-      </S.LinkButton>
+    <S.Wrap>
+      <Button variant="gradient" shape="large" size="big">
+        <S.CenterGroup>
+          <img src="/assets/img/icons/google.svg" />
+          <span>Log in with Google</span>
+        </S.CenterGroup>
+      </Button>
       <S.LineWithText>or log in with email</S.LineWithText>
-      <form>
-        <S.InputGroup>
-          <Input id="user-email" type="email" name="user-email" label="이메일" />
-        </S.InputGroup>
-        <S.InputGroup>
-          <Input id="user-password" type="password" name="user-password" label="비밀번호" />
-          <S.UnderLineButton className="link-in-input" onClick={() => goToResetPassword()}>
-            Forgot?
-          </S.UnderLineButton>
-        </S.InputGroup>
-        <S.OutlineButton type="submit">LOGIN</S.OutlineButton>
-      </form>
-      <S.Line />
-      <S.LinkButton onClick={() => goToSignup()}>Sign Up</S.LinkButton>
-    </>
+      <S.InputGroup>
+        <Label id="user-email">이메일</Label>
+        <Input id="user-email" type="email" name="user-email" placeholder="Email" />
+      </S.InputGroup>
+      <S.InputGroup>
+        <Label id="user-password">비밀번호</Label>
+        <Input id="user-password" type="password" name="user-password" placeholder="Password" />
+        <S.UnderLine onClick={() => goToResetPassword()}>Forgot?</S.UnderLine>
+      </S.InputGroup>
+      <Button variant="reverse" shape="medium" size="big">
+        LOGIN
+      </Button>
+
+      <S.MarginGroup>
+        <Line size="horizontal" color="gray" />
+      </S.MarginGroup>
+
+      <Button variant="gradient" shape="large" size="big" onClick={() => goToSignup()}>
+        Create Account
+      </Button>
+    </S.Wrap>
   );
 }
