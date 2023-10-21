@@ -7,7 +7,7 @@ import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 
 interface Type extends ModalType {}
 
-export default function ManageShip({ onClose }: Type) {
+export default function Manage({ onClose }: Type) {
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
       <S.Content>
@@ -26,9 +26,7 @@ export default function ManageShip({ onClose }: Type) {
           <TextArea $height="96px" /> */}
         </S.Group>
         <S.Center>
-          <S.Group>
-            <AdjustBtnInput label="인원수" />
-          </S.Group>
+          <S.Group>{/* <AdjustBtnInput label="인원수" /> */}</S.Group>
           <S.Group>{/* 여행 상태 */}</S.Group>
         </S.Center>
         <S.Center>
