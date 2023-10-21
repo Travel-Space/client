@@ -41,7 +41,7 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
 
           {title !== "채팅" && (
             <S.Reason>
-              <DropDown color="gray" font="sm" shape="round" props={dropDownProps} />
+              <DropDown color="gray" font="md" shape="round" props={dropDownProps} />
             </S.Reason>
           )}
 
