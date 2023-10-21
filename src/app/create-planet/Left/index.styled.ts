@@ -14,6 +14,7 @@ const buttonBgReset = css`
 
 export const Wrap = styled.div`
   ${commonContainer}
+  padding: 56px;
   position: relative;
   ${flexColumn}
   justify-content: space-evenly;

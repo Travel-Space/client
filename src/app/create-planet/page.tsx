@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import * as S from "./page.styled";
 
 import Left from "./Left";
