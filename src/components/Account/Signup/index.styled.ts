@@ -15,9 +15,17 @@ export const InputGroup = styled.div<{ $marginBottom?: number }>`
     `};
 `;
 
-export const SmallBtnGroup = styled.div`
+export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  ${props =>
+    props.$country &&
+    css`
+      width: 48px;
+      img {
+        width: 100%;
+      }
+    `};
 `;

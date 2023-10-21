@@ -25,6 +25,7 @@ export default function Login({ goToSignup, goToResetPassword }: PropsType) {
 
   async function googleLogin() {
     console.log("구글 로그인");
+    window.open("/auth/google");
     // try {
     //   const response = await axios.post("/auth/google-login");
     // } catch (error) {
