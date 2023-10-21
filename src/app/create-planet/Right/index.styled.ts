@@ -25,7 +25,7 @@ export const Header = styled.div`
 `;
 
 export const RadioBox = styled.div`
-  border: 2px solid ${({ theme }) => theme.PALETTE.mainColor};
+  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
   border-radius: 10px;
   overflow: hidden;
 `;
