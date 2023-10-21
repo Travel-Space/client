@@ -4,14 +4,20 @@ import Account from "@/components/Account";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import axios from "axios";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const { isAuth } = useRecoilValue(userAtom);
   const [_, setAuth] = useRecoilState(userAtom);
 
-  function handleLogout() {
-    console.log("로그아웃 되었습니다.");
+  async function handleLogout() {
+    try {
+      await axios.delete("/auth/logout");
+      setAuth(prev => ({ ...prev, isAuth: false }));
+    } catch (error) {
+      console.error("로그아웃 에러", error);
+    }
   }
 
   return (
