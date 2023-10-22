@@ -1,11 +1,16 @@
-import { flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
-import styled from "styled-components";
+import { flexCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+import styled, { css } from "styled-components";
 
 export const Wrap = styled.div`
   padding: 0 70px;
   padding-bottom: 70px;
   overflow: scroll;
   height: calc(100vh - 77px);
+`;
+
+export const Container = styled.div`
+  ${flexColumn}
+  gap: 24px;
 `;
 
 export const Buttons = styled.div<{ $right: boolean }>`
@@ -40,4 +45,41 @@ export const Title = styled.div`
   line-height: 34px;
   margin-bottom: 32px;
   ${flexCenter};
+`;
+
+export const InputGroup = styled.div<{ $marginBottom?: number }>`
+  position: relative;
+  ${props =>
+    props.$marginBottom &&
+    css`
+      margin-bottom: ${props.$marginBottom}px;
+    `};
+`;
+
+export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  ${props =>
+    props.$country &&
+    css`
+      width: 48px;
+      img {
+        width: 100%;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+      }
+    `};
+`;
+
+export const MarginGroup = styled.div`
+  margin: 8px 0;
+`;
+
+export const Error = styled.span`
+  color: ${({ theme }) => theme.PALETTE.error};
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
 `;

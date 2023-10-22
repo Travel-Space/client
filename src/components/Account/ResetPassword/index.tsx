@@ -1,47 +1,47 @@
 import Line from "@/components/common/Line";
-import * as S from "./index.styled";
 import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
+import { Container, InputGroup, MarginGroup, SmallBtnGroup } from "../index.styled";
 
 export default function ResetPassword() {
   return (
-    <S.Wrap>
-      <S.InputGroup>
+    <Container>
+      <InputGroup>
         <Label id="user-email">이메일</Label>
-        <S.InputGroup $marginBottom={8}>
+        <InputGroup $marginBottom={8}>
           <Input id="user-email" type="email" name="user-email" placeholder="Email" />
-          <S.SmallBtnGroup>
+          <SmallBtnGroup>
             <Button variant="confirm" shape="small" size="smallWithXsFont">
               인증요청
             </Button>
-          </S.SmallBtnGroup>
-        </S.InputGroup>
-        <S.InputGroup>
+          </SmallBtnGroup>
+        </InputGroup>
+        <InputGroup>
           <Input id="email-code" type="text" name="email-code" placeholder="인증번호 입력" />
-          <S.SmallBtnGroup>
+          <SmallBtnGroup>
             <Button variant="confirm" shape="small" size="smallWithXsFont">
               인증확인
             </Button>
-          </S.SmallBtnGroup>
-        </S.InputGroup>
-      </S.InputGroup>
+          </SmallBtnGroup>
+        </InputGroup>
+      </InputGroup>
 
-      <S.MarginGroup>
+      <MarginGroup>
         <Line size="horizontal" color="gray" />
-      </S.MarginGroup>
+      </MarginGroup>
 
-      <S.InputGroup>
+      <InputGroup>
         <Label id="user-password">비밀번호</Label>
         <Input id="user-password" type="password" name="user-password" placeholder="Password" />
-      </S.InputGroup>
-      <S.InputGroup>
+      </InputGroup>
+      <InputGroup>
         <Label id="user-password-check">비밀번호 확인</Label>
         <Input id="user-password-check" type="password" name="user-password-check" placeholder="Password Check" />
-      </S.InputGroup>
+      </InputGroup>
 
       <Button variant="confirm" shape="medium" size="big">
         Reset Password
       </Button>
-    </S.Wrap>
+    </Container>
   );
 }
