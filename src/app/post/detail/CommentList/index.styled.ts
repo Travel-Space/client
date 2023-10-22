@@ -47,9 +47,8 @@ export const BtnDisplay = styled.div`
 
 export const CommentButton = styled.button`
   width: 140px;
-  height: 51px;
+  height: 100%;
   background: ${({ theme }) => theme.PALETTE.white};
-
 `;
 
 export const ProfileAndDate = styled.div`

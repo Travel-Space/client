@@ -14,7 +14,9 @@ export default function CommentList() {
       <Textarea placeholder="댓글 내용을 입력해주세요." name="" maxLength={200} size="comment" />
       <CL.BtnDisplay>
         <CL.CommentButton>
-          <Button variant="confirm" size="big" shape="medium" children="댓글 작성" fontWeight="bold" />
+          <Button variant="confirm" size="big" shape="medium" fontWeight="bold">
+            댓글 작성
+          </Button>
         </CL.CommentButton>
       </CL.BtnDisplay>
       <CommentItem />

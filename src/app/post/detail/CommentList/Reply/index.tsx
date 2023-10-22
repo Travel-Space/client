@@ -16,10 +16,14 @@ export default function Reply() {
       </RP.InputBox>
       <RP.BtnDisplay>
         <RP.CancleButton>
-          <Button variant="cancel" size="big" shape="medium" children="취소" fontWeight="bold" />
+          <Button variant="cancel" size="big" shape="medium" fontWeight="bold">
+            취소
+          </Button>
         </RP.CancleButton>
         <RP.CommentButton>
-          <Button variant="confirm" size="big" shape="medium" children="작성 완료" fontWeight="bold" />
+          <Button variant="confirm" size="big" shape="medium" fontWeight="bold">
+            작성 완료
+          </Button>
         </RP.CommentButton>
       </RP.BtnDisplay>
     </RP.Wrapper>

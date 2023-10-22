@@ -44,7 +44,7 @@ export const BtnDisplay = styled.div`
 
 export const CommentButton = styled.button`
   width: 140px;
-  height: 51px;
+  height: 100%;
   background-color: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
@@ -52,7 +52,8 @@ export const CommentButton = styled.button`
 
 export const CancleButton = styled.button`
   width: 140px;
-  height: 51px;
+  height: 100%;
+  background-color: ${({ theme }) => theme.PALETTE.white};
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
 `;

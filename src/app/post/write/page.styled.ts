@@ -207,23 +207,16 @@ export const ButtonGroup = styled.div`
 
 export const BackBtn = styled.button`
   width: 104px;
+  height: 100%;
   border: none;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
   border-radius: 10px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-  }
 `;
 export const CompletedBtn = styled.button`
   width: 144px;
+  height: 100%;
   border: none;
   border-radius: 10px;
   transition: background-color 0.3s;
-
 `;
 
 export const QuillWrapper = styled(ReactQuill)`

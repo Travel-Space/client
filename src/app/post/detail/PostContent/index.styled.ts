@@ -114,15 +114,15 @@ export const PostActionBtn = styled.div`
 
 export const EditBtn = styled.div`
   width: 104px;
-  height: 48px;
+  height: 100%;
 `;
 
 export const DeleteBtn = styled.div`
   width: 104px;
-  height: 48px;
+  height: 100%;
 `;
 
 export const DeclarationBtn = styled.div`
   width: 104px;
-  height: 48px;
+  height: 100%;
 `;

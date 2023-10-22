@@ -119,17 +119,14 @@ export default function PostWrite() {
           <QuillEditor value={content} onChange={setContent} />
           <PW.ButtonGroup>
             <PW.BackBtn>
-              <Button variant="cancel" size="big" shape="medium" children="뒤로" fontWeight="bold" />
+              <Button variant="cancel" size="big" shape="medium" fontWeight="bold">
+                뒤로
+              </Button>
             </PW.BackBtn>
             <PW.CompletedBtn>
-              <Button
-                variant="confirm"
-                size="big"
-                shape="medium"
-                children="작성 완료"
-                fontWeight="bold"
-                onClick={createPost}
-              />
+              <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={createPost}>
+                작성 완료
+              </Button>
             </PW.CompletedBtn>
           </PW.ButtonGroup>
         </PW.WriteSection>

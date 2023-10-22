@@ -84,20 +84,19 @@ export default function PostContent() {
             </PC.TagsDisplay>
             <PC.PostActionBtn>
               <PC.EditBtn>
-                <Button variant="reverse" size="big" shape="medium" children="수정" fontWeight="bold" />
+                <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                  수정
+                </Button>
               </PC.EditBtn>
               <PC.DeleteBtn>
-                <Button variant="reverse" size="big" shape="medium" children="삭제" fontWeight="bold" />
+                <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                  삭제
+                </Button>
               </PC.DeleteBtn>
               <PC.DeclarationBtn>
-                <Button
-                  variant="error"
-                  size="big"
-                  shape="medium"
-                  children="신고"
-                  fontWeight="bold"
-                  onClick={openDeclarationModal}
-                />
+                <Button variant="error" size="big" shape="medium" fontWeight="bold" onClick={openDeclarationModal}>
+                  신고
+                </Button>
               </PC.DeclarationBtn>
             </PC.PostActionBtn>
           </PC.TextBottomDisplay>
