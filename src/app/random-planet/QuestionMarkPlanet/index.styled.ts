@@ -35,13 +35,17 @@ export const PlanetImg = styled.img<{ animate?: boolean }>`
 
 export const RamdomBtn = styled.div`
   ${flexCenter}
+  width: 256px;
+  height: 54px;
   border-radius: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.white};
-  padding: 13px 40px;
+  padding: 15px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.em};
   margin-bottom: 40px;
   text-align: center;
   color: ${({ theme }) => theme.PALETTE.white};
   gap: 16px;
+  font-weight: 700;
 `;
 
 export const RightArrow = styled.img`

@@ -3,6 +3,7 @@
 import React from "react";
 import * as S from "./index.styled";
 import Link from "next/link";
+import Button from "@/components/common/Button";
 
 export default function SearchPlanet() {
   return (
@@ -15,11 +16,15 @@ export default function SearchPlanet() {
           </S.SearchBtn>
         </S.SearchContainer>
         <S.BtnContainer>
-          <S.RandomCreateBtn>
-            <Link href="/create-planet">새로운 행성 만들기</Link>
-          </S.RandomCreateBtn>
+          <S.NewCreateBtn>
+            <Link href="/create-planet">
+              <Button variant="white" shape="large" size="big" fontWeight="bold" children="새로운 행성 만들기" />
+            </Link>
+          </S.NewCreateBtn>
           <S.RandomPlanetBtn>
-            <Link href="/random-planet">랜덤 행성 구경하기</Link>
+            <Link href="/random-planet">
+              <Button variant="white" shape="large" size="big" fontWeight="bold" children="랜덤 행성 구경하기" />
+            </Link>
           </S.RandomPlanetBtn>
         </S.BtnContainer>
       </S.Wrapper>
