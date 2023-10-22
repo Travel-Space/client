@@ -5,7 +5,7 @@ import Line from "@/components/common/Line";
 
 interface Type extends ModalType {}
 
-export default function InfoShip({ onClose }: Type) {
+export default function Info({ onClose }: Type) {
   return (
     <BoxModal onClose={onClose} title="우주선 정보">
       <S.Content>

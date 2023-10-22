@@ -12,23 +12,24 @@ const slide = keyframes`
   }
 `;
 
-export const Wrapper = styled.div`
-  width: ${WIDTH};
-  animation-duration: 0.5s;
-  animation-timing-function: ease-out;
-  animation-name: ${slide};
-  animation-fill-mode: forwards;
-  position: relative;
-`;
-
 export const Container = styled.div`
   ${ModalBackground}
-  padding: 32px 56px;
   ${flexColumn}
   gap: 40px;
   width: ${WIDTH};
   background: ${({ theme }) => theme.PALETTE.white};
   box-shadow: 4px 0px 4px 0px rgba(51, 51, 51, 0.1);
+
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${slide};
+  animation-fill-mode: forwards;
+`;
+
+export const Wrapper = styled.div`
+  padding: 32px 56px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  z-index: 1;
 `;
 
 export const Middle = styled.div`
@@ -47,9 +48,9 @@ export const CloseBtn = styled.button`
   width: 70px;
   height: 80px;
   top: 50%;
-  left: 470px;
+  right: -40px;
   ${flexCenter}
-  position: relative;
+  position: absolute;
   padding: 10px 0 10px 30px;
   border-radius: 0px 10px 10px 0px;
   background: ${({ theme }) => theme.PALETTE.white};

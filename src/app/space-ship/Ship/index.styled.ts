@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 
 export const Wrap = styled.div`
-  // width: 222px;
   height: 424px;
 `;
 
@@ -21,18 +20,18 @@ const textStyle = css`
   transform: translateX(-50%);
 `;
 
-export const ShipTitle = styled.p`
+export const Title = styled.p`
   ${textStyle}
   bottom: 144px;
 `;
 
-export const ShipMemberCount = styled.span`
+export const MemberCount = styled.span`
   ${textStyle}
   bottom: 80px;
   opacity: 0.6;
 `;
 
-export const ShipImg = styled.button`
+export const Img = styled.button`
   background: none;
   outline: none;
   position: absolute;

@@ -7,7 +7,7 @@ interface Type extends ModalType {
   planetTitle: string;
 }
 
-export default function DeletePlanetModal({ onClose, planetTitle }: Type) {
+export default function Delete({ onClose, planetTitle }: Type) {
   return (
     <BoxModal onClose={onClose} title="행성 삭제">
       <S.Notification>

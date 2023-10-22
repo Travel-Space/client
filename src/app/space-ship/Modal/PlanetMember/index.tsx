@@ -5,7 +5,7 @@ import Member from "@/components/SpaceModal/Member";
 
 interface Type extends ModalType {}
 
-export default function MemberManageModal({ onClose }: Type) {
+export default function PlanetMember({ onClose }: Type) {
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>

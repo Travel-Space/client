@@ -6,6 +6,7 @@ import Message from "./Message";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
 
 export default function Content() {
   const [showModal, setShowModal] = useState(false);
@@ -39,7 +40,9 @@ export default function Content() {
         <S.Bottom>
           <S.GalleryImage src="/assets/img/icons/gallery.svg" />
           <Input rounded thin />
-          <S.Button>보내기</S.Button>
+          <Button variant="confirm" shape="extraLarge" size="smallWithXsFont" fontWeight="bold">
+            보내기
+          </Button>
         </S.Bottom>
       </S.Wrapper>
     </S.ContentBox>
