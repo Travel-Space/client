@@ -1,5 +1,5 @@
 import * as S from "./index.styled";
-import Side from "../Side";
+import Side from "../../components/common/Side";
 import NotificationList from "./NotificationList";
 
 export default function Notification() {
