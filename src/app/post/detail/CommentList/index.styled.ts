@@ -47,10 +47,9 @@ export const BtnDisplay = styled.div`
 
 export const CommentButton = styled.button`
   width: 140px;
-  height: 48px;
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-  border-radius: 10px;
+  height: 51px;
+  background: ${({ theme }) => theme.PALETTE.white};
+
 `;
 
 export const ProfileAndDate = styled.div`

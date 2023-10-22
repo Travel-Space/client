@@ -44,7 +44,7 @@ export const TitleInput = styled.input`
   box-shadow: 0 0 0 0px #bdddfd;
   transition: all 0.2s;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  
+
   &:focus {
     border-color: ${({ theme }) => theme.PALETTE.primary[200]};
     box-shadow: 0 0 0 3px #bdddfd;
@@ -211,7 +211,6 @@ export const BackBtn = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.PALETTE.white};
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 600;
   border-radius: 10px;
   transition: background-color 0.3s;
 
@@ -220,19 +219,11 @@ export const BackBtn = styled.button`
   }
 `;
 export const CompletedBtn = styled.button`
-  padding: 16px 40px;
+  width: 144px;
   border: none;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 600;
   border-radius: 10px;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.PALETTE.primary[100]};
-  }
 `;
 
 export const QuillWrapper = styled(ReactQuill)`
