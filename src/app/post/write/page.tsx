@@ -23,7 +23,8 @@ export default function PostWrite() {
   const [tagInput, setTagInput] = React.useState<string>("");
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
-
+  const [planetId, setPlanetId] = React.useState<number>(1);
+  const [published, setPublished] = React.useState<boolean>(true);
   //태그 입력 함수
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
@@ -54,14 +55,16 @@ export default function PostWrite() {
     try {
       const postData = {
         title,
-        content
+        content,
+        planetId,
+        published,
       };
 
       // 헤더에 토큰 추가하기
-      const response = await axios.post("http://localhost:8080/articles", postData);
+      const response = await axios.post("/articles", postData);
 
-      if (response.status === 200) {
-        alert(MESSAGE.POST.COMPLETE);
+      if (response.status === 200 || response.status === 201) {
+        alert("게시글 작성이 완료되었습니다.");
       }
     } catch (error) {
       console.error("게시글 작성 중 오류가 발생했습니다.", error);
@@ -113,7 +116,7 @@ export default function PostWrite() {
               </PW.TagWrapper>
             ))}
           </PW.TagsDisplay>
-          <QuillEditor value={value} onChange={setValue} />
+          <QuillEditor value={content} onChange={setContent} />
           <PW.ButtonGroup>
             <PW.BackBtn>
               <Button variant="reverse" size="big" shape="medium">
@@ -124,7 +127,7 @@ export default function PostWrite() {
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>
-      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: value }} aria-readonly />
+      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: content }} aria-readonly />
     </PW.Wrapper>
   );
 }

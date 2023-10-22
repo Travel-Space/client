@@ -1,11 +1,16 @@
 "use client";
 
+import React, { useState } from "react";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import UserProfile from "@/components/common/UserProfile";
 import * as PC from "./index.styled";
-import React, { useState } from "react";
+import axios from "axios";
 
-export default function PostContent() {
+interface PostContentProps {
+  postId: number;
+}
+
+export default function PostContent({ postId }: PostContentProps) {
   //태그 확인용 목업데이터
   const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +22,15 @@ export default function PostContent() {
   const closeDeclarationModal = () => {
     setIsModalOpen(false);
   };
+
+const fetchPostDetail = async () => {
+  try{
+    const response =  await axios.get('/articles')
+  }catch{
+    
+  }
+}
+
 
   return (
     <>
