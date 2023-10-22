@@ -24,7 +24,7 @@ export default function Side({ onClose }: { onClose: () => void }) {
     <>
       {createPortal(
         <S.Container>
-          <div style={{ padding: "32px 56px", background: "white", zIndex: 1 }}>
+          <S.Wrapper>
             <PlanetInfo />
 
             <div>
@@ -43,7 +43,7 @@ export default function Side({ onClose }: { onClose: () => void }) {
                 ))}
               </S.ScrollBox>
             </div>
-          </div>
+          </S.Wrapper>
           <S.CloseBtn onClick={onClose}>←</S.CloseBtn>
         </S.Container>,
         document.body,
