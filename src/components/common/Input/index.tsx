@@ -16,23 +16,23 @@ interface InputType {
   readOnly: boolean;
   rounded: boolean;
   thin: boolean;
+  warning: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
-type PartialInput = Partial<InputType>;
 
 export function Label({ id, children }: LabelType) {
   return <S.Label htmlFor={id}>{children}</S.Label>;
 }
 
 export default React.forwardRef(function Input(
-  { type, name, id, placeholder, value, onChange, disabled, readOnly, rounded, thin }: PartialInput,
+  { type, name, id, placeholder, value, onChange, disabled, readOnly, rounded, thin, warning }: Partial<InputType>,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   return (
     <S.Input
       $thin={thin}
       $rounded={rounded}
+      $warning={warning}
       type={type}
       id={id}
       name={name}
