@@ -26,6 +26,12 @@ export const Container = styled.div`
   animation-fill-mode: forwards;
 `;
 
+export const Wrapper = styled.div`
+  padding: 32px 56px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  z-index: 1;
+`;
+
 export const Middle = styled.div`
   padding: 0 8px 16px 8px;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
