@@ -8,7 +8,7 @@ interface Type extends ModalType {
   planetTitle: string;
 }
 
-export default function ExitPlanetModal({ onClose, planetTitle }: Type) {
+export default function Exit({ onClose, planetTitle }: Type) {
   return (
     <BoxModal onClose={onClose} title="행성 탈출">
       {/* 부관리자, 일반 멤버 */}

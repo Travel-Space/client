@@ -25,7 +25,7 @@ export default function PlanetInfo() {
         <img src="/assets/img/icons/planet-1.svg" />
         <S.PlanetInfo>
           <strong>일본 맛도리 여행</strong>
-          <Line />
+          <Line size="horizontal" color="gray" />
           <span>일본 여행을 가 봅시다. 일본 여행을 가 봅시다. 일본 여행을 가 봅시다. 일본 여행을 가 봅시다.</span>
         </S.PlanetInfo>
       </S.Middle>
