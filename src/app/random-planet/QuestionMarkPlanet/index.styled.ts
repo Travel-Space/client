@@ -6,7 +6,7 @@ const rotation = keyframes`
     transform: rotate(0deg);
   }
   50% {
-    transform: rotate(10deg);
+    transform: rotate(8deg);
   }
   100% {
     transform: rotate(0deg);
@@ -30,18 +30,22 @@ export const PlanetImg = styled.img<{ animate?: boolean }>`
   background-color: transparent;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
-  animation: ${props => props.animate ? rotation : "none"} 2s ease-out;
+  animation: ${props => (props.animate ? rotation : "none")} 2s ease-out;
 `;
 
 export const RamdomBtn = styled.div`
   ${flexCenter}
+  width: 256px;
+  height: 54px;
   border-radius: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.white};
-  padding: 13px 40px;
+  padding: 15px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.em};
   margin-bottom: 40px;
   text-align: center;
   color: ${({ theme }) => theme.PALETTE.white};
   gap: 16px;
+  font-weight: 700;
 `;
 
 export const RightArrow = styled.img`
