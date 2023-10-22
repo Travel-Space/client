@@ -1,3 +1,4 @@
+import React from "react";
 import * as S from "./index.styled";
 
 interface LabelType {
@@ -18,26 +19,16 @@ interface InputType {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-type PartialInput = {
-  [key in keyof InputType]?: InputType[key];
-};
+type PartialInput = Partial<InputType>;
 
 export function Label({ id, children }: LabelType) {
   return <S.Label htmlFor={id}>{children}</S.Label>;
 }
 
-export default function Input({
-  type,
-  name,
-  id,
-  placeholder,
-  value,
-  onChange,
-  disabled,
-  readOnly,
-  rounded,
-  thin,
-}: PartialInput) {
+export default React.forwardRef(function Input(
+  { type, name, id, placeholder, value, onChange, disabled, readOnly, rounded, thin }: PartialInput,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) {
   return (
     <S.Input
       $thin={thin}
@@ -50,6 +41,7 @@ export default function Input({
       onChange={onChange}
       disabled={disabled}
       readOnly={readOnly}
+      ref={ref}
     />
   );
-}
+});
