@@ -1,16 +1,19 @@
 "use client";
 
-
 import CommentList from "./CommentList";
 import LikeAndShare from "./LikeAndShare";
 import PostContent from "./PostContent";
-import * as PD from "./page.styled";
+import { useRouter } from "next/router";
+import * as PD from "./[id].styled";
 
 export default function PostDetail() {
+  const router = useRouter();
+  const { id } = router.query;
+
   return (
     <PD.Wrapper>
       <PD.Content>
-        <PostContent />
+        <PostContent postId={Number(id)} />
         <LikeAndShare />
         <CommentList />
       </PD.Content>
