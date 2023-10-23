@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
 import axios from "axios";
-import Input from "@/components/common/Input";
 import MESSAGE from "@/constants/message";
+import DropDown from "@/components/common/DropDown";
+import LocationInput from "./LocationInput";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
@@ -25,6 +26,23 @@ export default function PostWrite() {
   const [content, setContent] = React.useState("");
   const [planetId, setPlanetId] = React.useState<number>(1);
   const [published, setPublished] = React.useState<boolean>(true);
+  const [selectedMenu, setSelectedMenu] = useState("우주선");
+  const dropDownProps = {
+    //로고 필요할 때만 추가
+    logo: (
+      <img
+        src={selectedMenu !== "우주선" ? "/assets/img/icons/rocket.svg" : "/assets/img/icons/gray-rocket.svg"}
+        alt="rocket"
+        width={24}
+        height={24}
+      />
+    ),
+    comment: "우주선", //미선택시 보여질 문구(필요할 때만 추가)
+    menuList: ["가입한 우주선", "가입한 우주선2", "어쩌고 우주선", "우주선우주선"],
+    selectedMenu: selectedMenu, //선택한 메뉴를 저장할 변수
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
+  };
+
   //태그 입력 함수
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
@@ -87,7 +105,7 @@ export default function PostWrite() {
             />
             <PW.LocationWrapper>
               <PW.LocationIcon />
-              <PW.LocationInput type="text" placeholder="위치" />
+              <LocationInput placeholder="위치" type="text" />
             </PW.LocationWrapper>
           </PW.TitleAndLocation>
           <PW.TagsAndRocket>
@@ -102,8 +120,7 @@ export default function PostWrite() {
               />
             </PW.TagsInputWrapper>
             <PW.RocketInputWrapper>
-              <PW.RocketIcon />
-              <input type="text" placeholder="우주선" />
+              <DropDown font="lg" shape="round" color="gray" props={dropDownProps} />
             </PW.RocketInputWrapper>
           </PW.TagsAndRocket>
           <PW.TagsDisplay>
@@ -119,11 +136,15 @@ export default function PostWrite() {
           <QuillEditor value={content} onChange={setContent} />
           <PW.ButtonGroup>
             <PW.BackBtn>
-              <Button variant="reverse" size="big" shape="medium">
+              <Button variant="cancel" size="big" shape="medium" fontWeight="bold">
                 뒤로
               </Button>
             </PW.BackBtn>
-            <PW.CompletedBtn onClick={createPost}>작성 완료</PW.CompletedBtn>
+            <PW.CompletedBtn>
+              <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={createPost}>
+                작성 완료
+              </Button>
+            </PW.CompletedBtn>
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>

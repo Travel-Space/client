@@ -18,12 +18,16 @@ export default function SearchPlanet() {
         <S.BtnContainer>
           <S.NewCreateBtn>
             <Link href="/create-planet">
-              <Button variant="white" shape="large" size="big" fontWeight="bold" children="새로운 행성 만들기" />
+              <Button variant="white" shape="large" size="big" fontWeight="bold">
+                새로운 행성 만들기
+              </Button>
             </Link>
           </S.NewCreateBtn>
           <S.RandomPlanetBtn>
             <Link href="/random-planet">
-              <Button variant="white" shape="large" size="big" fontWeight="bold" children="랜덤 행성 구경하기" />
+              <Button variant="white" shape="large" size="big" fontWeight="bold">
+                랜덤 행성 구경하기
+              </Button>
             </Link>
           </S.RandomPlanetBtn>
         </S.BtnContainer>
