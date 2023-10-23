@@ -21,15 +21,26 @@ export const Label = styled.label`
 `;
 
 interface Props {
-  $rounded?: boolean;
-  $thin?: boolean;
+  $rounded: boolean;
+  $thin: boolean;
+  $warning: boolean;
 }
 
-export const Input = styled.input<Props>`
+export const Input = styled.input<Partial<Props>>`
   ${inputStyle}
   padding: ${props => (props.$thin ? "8px 16px" : "16px")};
   border-radius: ${props => (props.$rounded ? "999px" : "10px")};
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[100]};
   }
+  ${props =>
+    props.$warning &&
+    css`
+      border-color: ${({ theme }) => theme.PALETTE.error};
+      box-shadow: 0 0 0 3px #ff363638;
+      &:focus {
+        border-color: ${({ theme }) => theme.PALETTE.error};
+        box-shadow: 0 0 0 3px #ff363638;
+      }
+    `};
 `;
