@@ -4,7 +4,12 @@ import * as S from "./index.styled";
 import DropDown from "../DropDown";
 
 export default function DeclarationModal({ title, onClick }: { title: string; onClick: () => void }) {
-  const [selectedMenu, setSelectedMenu] = useState("");
+  const [selectedMenu, setSelectedMenu] = useState({
+    type: title, // chat or post or comment
+    declaration: "", // 신고 드롭다운
+    description: "", // 신고 내용
+    reportPhoto: "", // 신고 사진
+  });
 
   const dropDownProps = {
     comment: "신고 사유를 선택해 주세요.", //미선택시 보여질 문구(필요할 때만 추가)
@@ -56,7 +61,7 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
         </S.Middle>
 
         <S.Bottom>
-          <S.CancelBtn>취소</S.CancelBtn>
+          <S.CancelBtn onClick={onClick}>취소</S.CancelBtn>
           <S.CheckBtn>확인</S.CheckBtn>
         </S.Bottom>
       </S.Container>
