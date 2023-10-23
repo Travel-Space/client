@@ -8,7 +8,8 @@ export const variantCSS = {
     cursor: pointer;
     &:disabled {
       background: ${({ theme }) => theme.PALETTE.gray[100]};
-      color: ${({ theme }) => theme.PALETTE.black};
+      border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+      color: ${({ theme }) => theme.PALETTE.white};
     }
   `,
   reverse: css`
@@ -18,7 +19,8 @@ export const variantCSS = {
 
     &:disabled {
       background: ${({ theme }) => theme.PALETTE.gray[100]};
-      color: ${({ theme }) => theme.PALETTE.black};
+      border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+      color: ${({ theme }) => theme.PALETTE.white};
     }
   `,
   gradient: css`
@@ -27,7 +29,8 @@ export const variantCSS = {
 
     &:disabled {
       background: ${({ theme }) => theme.PALETTE.gray[100]};
-      color: ${({ theme }) => theme.PALETTE.black};
+      border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+      color: ${({ theme }) => theme.PALETTE.white};
     }
   `,
   basic: css`
