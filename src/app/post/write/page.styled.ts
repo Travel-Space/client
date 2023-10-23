@@ -54,7 +54,6 @@ export const TitleInput = styled.input`
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-weight: 700;
-    background-image: url(@/aseets/img/icon/location.svg);
   }
 `;
 
@@ -147,25 +146,28 @@ export const TagIcon = styled.div`
 export const RocketInputWrapper = styled.div`
   width: 290px;
   height: 48px;
-  position: relative;
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  border-radius: 10px;
+
+  & > div {
+    & > div:first-child {
+      padding: 11px 16px;
+    }
+    & > div:nth-child(2) > div {
+      color: ${({ theme }) => theme.PALETTE.gray[100]};
+      padding: 11px 16px;
+      font-weight: 700;
+      &:hover {
+        color: ${({ theme }) => theme.PALETTE.black};
+      }
+    }
+  }
 `;
 
 export const TagsInputWrapper = styled.div`
   width: 290px;
   height: 48px;
   position: relative;
-`;
-
-export const RocketIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-  background-image: url("/assets/img/icons/gray-rocket.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 export const Tags = styled.div`

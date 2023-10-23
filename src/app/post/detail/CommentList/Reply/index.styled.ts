@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   background-color: #fcfcfc;
   border-radius: 10px;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
 `;
 
 export const InputBox = styled.div`
