@@ -1,13 +1,16 @@
-import Button from "@/components/common/Button";
-import * as S from "./index.styled";
-import Input, { Label } from "@/components/common/Input";
-import Line from "@/components/common/Line";
 import axios, { AxiosError } from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
-import { Container, InputGroup, MarginGroup } from "../index.styled";
+
+import Button from "@/components/common/Button";
+import Input, { Label } from "@/components/common/Input";
+import Line from "@/components/common/Line";
+import * as S from "./index.styled";
+import { Container, Error, InputGroup, MarginGroup } from "../index.styled";
+import VALIDATE from "@/constants/regex";
+import MESSAGE from "@/constants/message";
 
 interface PropsType {
   goToSignup: () => void;
@@ -15,39 +18,51 @@ interface PropsType {
 }
 
 export default function Login({ goToSignup, goToResetPassword }: PropsType) {
-  const emailInput = useRef<HTMLInputElement | null>(null);
-  const passwordInput = useRef<HTMLInputElement | null>(null);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
   const [_, setAuth] = useRecoilState(userAtom);
+
   const router = useRouter();
+
+  const regexEmail = new RegExp(VALIDATE.email);
+  const regexPassword = new RegExp(VALIDATE.password);
 
   async function googleLogin() {
     console.log("구글 로그인");
     router.push("/auth/google");
-    //   try {
-    //     await axios.get("/auth/google/callback");
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
   }
 
-  async function handleLogin() {
-    const emailValue = emailInput.current?.value;
-    const passwordValue = passwordInput.current?.value;
+  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+    setEmail(e.target.value);
+    regexEmail.test(email) ? setEmailValid(true) : setEmailValid(false);
+  }
 
-    if (!emailValue || !passwordValue) {
-      !passwordValue && passwordInput.current?.focus();
-      !emailValue && emailInput.current?.focus();
-    } else
-      try {
-        await axios.post("/auth/login", { email: emailValue, password: passwordValue });
-        setAuth(prev => ({ ...prev, isAuth: true }));
-        // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
-      } catch (error) {
-        const errorResponse = (error as AxiosError<{ message: string }>).response;
-        alert(errorResponse?.data.message);
-        emailInput.current?.focus();
-      }
+  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
+    setPassword(e.target.value);
+    regexPassword.test(password) ? setPasswordValid(true) : setPasswordValid(false);
+  }
+
+  useEffect(() => {
+    if (emailValid && passwordValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [emailValid, passwordValid]);
+
+  async function submitLogin() {
+    try {
+      await axios.post("/auth/login", { email, password });
+      setAuth(prev => ({ ...prev, isAuth: true }));
+      // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
+    } catch (error) {
+      // console.error("로그인 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
   }
 
   return (
@@ -58,17 +73,37 @@ export default function Login({ goToSignup, goToResetPassword }: PropsType) {
           <span>Log in with Google</span>
         </S.CenterGroup>
       </Button>
+
       <S.LineWithText>or log in with email</S.LineWithText>
+
       <InputGroup>
         <Label id="email">이메일</Label>
-        <Input id="email" type="email" name="email" placeholder="Email" ref={emailInput} />
+        <Input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleEmail}
+          value={email}
+          warning={!emailValid && email.length > 0}
+        />
+        {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.FAILURE_EMAIL}</Error>}
       </InputGroup>
       <InputGroup>
         <Label id="user-password">비밀번호</Label>
-        <Input id="password" type="password" name="password" placeholder="Password" ref={passwordInput} />
+        <Input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handlePassword}
+          value={password}
+          warning={!passwordValid && password.length > 0}
+        />
+        {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.FAILURE_PASSWORD}</Error>}
         <S.UnderLine onClick={() => goToResetPassword()}>Forgot?</S.UnderLine>
       </InputGroup>
-      <Button variant="reverse" shape="medium" size="big" onClick={handleLogin}>
+      <Button variant="reverse" shape="medium" size="big" onClick={submitLogin} disabled={notAllow}>
         LOGIN
       </Button>
 

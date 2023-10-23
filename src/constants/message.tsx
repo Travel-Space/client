@@ -3,7 +3,8 @@ const MESSAGE = {
     FAILURE: "회원가입에 실패했습니다.",
   },
   LOGIN: {
-    FAILURE: "아이디 또는 비밀번호를 다시 확인해 주세요.",
+    FAILURE_EMAIL: "올바른 이메일을 입력해주세요.",
+    FAILURE_PASSWORD: "영문, 숫자 포함 6글자 이상 입력해주세요.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
     REQUIRED: "로그인이 필요해요.",
   },
