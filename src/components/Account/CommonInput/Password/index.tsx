@@ -26,7 +26,15 @@ export default function Password({ onPasswordCompare }: PropsType) {
     <>
       <InputGroup>
         <Label id="password">비밀번호</Label>
-        <Input id="password" type="password" name="password" placeholder="Password" onChange={handleChange} />
+        <Input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          warning={password !== "" && password.length < 6}
+        />
+        {password && <Error>{password.length < 6 && "6글자 이상으로 입력해주세요."}</Error>}
       </InputGroup>
       <InputGroup>
         <Label id="passwordCheck">비밀번호 확인</Label>

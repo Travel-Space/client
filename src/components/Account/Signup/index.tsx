@@ -1,46 +1,39 @@
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
-import { useState } from "react";
-import axios from "axios";
-import { Container, InputGroup, SmallBtnGroup } from "../index.styled";
-import Password from "../CheckInput/Password";
-import Email from "../CheckInput/Email";
+import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { Container, Error, InputGroup } from "../index.styled";
+import Password from "../CommonInput/Password";
+import Email from "../CommonInput/Email";
+import Country from "../CommonInput/Country";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
 
-let countryData = { name: "", engName: "", imageUrl: "" };
-
-async function currentCountry() {
-  try {
-    // 현재 ip 기준 국적 코드
-    const countryCode = await axios.get("https://ipapi.co/country");
-    // 국적 정보
-    const country = await axios.get(
-      `https://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2?serviceKey=sCpHMLPz%2FblcixtApQnF3nZPFJsIZH3AbF4f67%2BSbTTtFvQzHvZFufYkHaVZawgvV2%2B%2BnAyP7uiiO7HTnQNXoQ%3D%3D&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
-    );
-    const { country_nm, country_eng_nm, download_url } = country.data.data[0];
-    countryData = { name: country_nm, engName: country_eng_nm, imageUrl: download_url };
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-currentCountry();
-
 export default function Signup() {
-  const [country, setCountry] = useState({
-    name: countryData.name,
-    engName: countryData.engName,
-    imageUrl: countryData.imageUrl,
-  });
   const [signupInput, setSignupInput] = useState({
     name: "",
     nickName: "",
     email: "",
     password: "",
+    nationality: "",
   });
-  const { name, nickName, email, password } = signupInput;
+  const { name, nickName, email, password, nationality } = signupInput;
+  const [errorList, setErrorList] = useState({
+    name: { state: false, message: "2글자 이상 8글자 이하로 입력해주세요." },
+    nickName: {
+      state: false,
+      message: "2글자 이상 8글자 이하로 입력해주세요.",
+    },
+    // email: {
+    //   state: false,
+    //   message: "이메일 형식에 맞게 입력해주세요.",
+    // },
+    // password: {
+    //   state: false,
+    //   message: "6글자 이상으로 입력해주세요.",
+    // },
+  });
 
   const [isPasswordMatching, setIsPasswordMatching] = useState(true);
 
@@ -59,6 +52,13 @@ export default function Signup() {
     }));
   }
 
+  function handleCountry(country: string) {
+    setSignupInput(prev => ({
+      ...prev,
+      nationality: country,
+    }));
+  }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
     setSignupInput(prev => ({
@@ -68,18 +68,35 @@ export default function Signup() {
   }
 
   async function handleSignup() {
+    // console.log(Object.hasOwn(errorList.name, "state"));
+    // setErrorList(prev => ({
+    //   ...prev,
+    //   name: { ...prev.name, state: !name && (name.length < 2 || name.length > 8) },
+    //   nickName: { ...prev.nickName, state: !nickName && (name.length < 2 || name.length > 8) },
+    // }));
+
     try {
       await axios.post("/auth/register", {
         email,
         name,
         nickName,
         password,
-        nationality: country.name,
+        nationality,
       });
     } catch (error) {
-      console.error("회원가입 에러", error);
+      // console.error("회원가입 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      console.log(errorResponse?.data.message);
     }
   }
+
+  useEffect(() => {
+    setErrorList(prev => ({
+      ...prev,
+      name: { ...prev.name, state: name !== "" && (name.length < 2 || name.length > 8) },
+      nickName: { ...prev.nickName, state: nickName !== "" && (nickName.length < 2 || nickName.length > 8) },
+    }));
+  }, [name, nickName]);
 
   return (
     <Container>
@@ -87,17 +104,28 @@ export default function Signup() {
       <InputGroup>
         <Label id="name">이름</Label>
         {/* 소셜 로그인 시 disabled */}
-        <Input id="name" type="text" name="name" placeholder="Name" onChange={handleChange} />
+        <Input
+          id="name"
+          type="text"
+          name="name"
+          placeholder="Name"
+          onChange={handleChange}
+          warning={errorList.name.state}
+        />
+        {errorList.name.state && <Error>{errorList.name.message}</Error>}
       </InputGroup>
       <InputGroup>
         <Label id="nickName">닉네임</Label>
         <InputGroup>
-          <Input id="nickName" type="text" name="nickName" placeholder="NickName" onChange={handleChange} />
-          {/* <SmallBtnGroup>
-            <Button variant="confirm" shape="small" size="smallWithXsFont" disabled={isDisabled.confirmNickName}>
-              중복확인
-            </Button>
-          </SmallBtnGroup> */}
+          <Input
+            id="nickName"
+            type="text"
+            name="nickName"
+            placeholder="NickName"
+            onChange={handleChange}
+            warning={errorList.nickName.state}
+          />
+          {errorList.nickName.state && <Error>{errorList.nickName.message}</Error>}
         </InputGroup>
       </InputGroup>
 
@@ -106,21 +134,8 @@ export default function Signup() {
       <Password onPasswordCompare={handlePasswordCompare} />
 
       {/* 필수 */}
-      <InputGroup>
-        <Label id="nationality">국적</Label>
-        <InputGroup>
-          <Input
-            id="nationality"
-            type="text"
-            name="nationality"
-            readOnly
-            value={`${country.name}, ${country.engName}`}
-          />
-          <SmallBtnGroup $country>
-            <img src={country.imageUrl} alt={country.name} />
-          </SmallBtnGroup>
-        </InputGroup>
-      </InputGroup>
+      <Country onCountry={handleCountry} />
+
       <Button variant="confirm" shape="medium" size="big" onClick={handleSignup}>
         Sign Up
       </Button>

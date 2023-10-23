@@ -1,5 +1,5 @@
 import Input, { Label } from "@/components/common/Input";
-import { InputGroup, SmallBtnGroup } from "../../index.styled";
+import { Error, InputGroup, SmallBtnGroup } from "../../index.styled";
 import Button from "@/components/common/Button";
 import { useEffect, useState } from "react";
 import VALIDATE from "@/constants/regex";
@@ -82,7 +82,15 @@ export default function Email({ onEmail }: PropsType) {
       <InputGroup>
         <Label id="email">이메일</Label>
         <InputGroup $marginBottom={8}>
-          <Input id="email" type="email" name="email" placeholder="Email" onChange={handleEmail} />
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleEmail}
+            warning={email !== "" && isDisabled.sendCode}
+          />
+          {email && <Error>{isDisabled.sendCode && "이메일 형식에 맞게 입력해주세요."}</Error>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
