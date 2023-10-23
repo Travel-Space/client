@@ -21,46 +21,44 @@ export default function Header() {
   }
 
   return (
-    <>
-      <S.Wrap>
-        <S.Container>
-          <Link href="/">
-            <img src="/assets/img/icons/logo.svg" />
-          </Link>
-          <S.List>
-            {isAuth ? (
-              <>
-                <li>
-                  <button type="button">
-                    <img src="/assets/img/icons/notification.svg" />
-                    {/* <img src="/assets/img/icons/notifications.svg" /> */}
-                  </button>
-                </li>
-                <li>
-                  <Link href="/mypage/statistics">MYPAGE</Link>
-                </li>
-                <li>
-                  <button type="button" onClick={handleLogout}>
-                    LOGOUT
-                  </button>
-                </li>
-              </>
-            ) : (
+    <S.Wrap>
+      <S.Container>
+        <Link href="/">
+          <img src="/assets/img/icons/logo.svg" />
+        </Link>
+        <S.List>
+          {isAuth ? (
+            <>
               <li>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowLogin(true);
-                  }}
-                >
-                  LOGIN
+                <button type="button">
+                  <img src="/assets/img/icons/notification.svg" />
+                  {/* <img src="/assets/img/icons/notifications.svg" /> */}
                 </button>
               </li>
-            )}
-          </S.List>
-        </S.Container>
-      </S.Wrap>
+              <li>
+                <Link href="/mypage/statistics">MYPAGE</Link>
+              </li>
+              <li>
+                <button type="button" onClick={handleLogout}>
+                  LOGOUT
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowLogin(true);
+                }}
+              >
+                LOGIN
+              </button>
+            </li>
+          )}
+        </S.List>
+      </S.Container>
       {showLogin ? <Account onClose={() => setShowLogin(false)} /> : null}
-    </>
+    </S.Wrap>
   );
 }

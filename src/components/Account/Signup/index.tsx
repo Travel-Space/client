@@ -1,102 +1,86 @@
-import Button from "@/components/common/Button";
-import Input, { Label } from "@/components/common/Input";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-import { Container, Error, InputGroup } from "../index.styled";
+import VALIDATE from "@/constants/regex";
+import MESSAGE from "@/constants/message";
+
+import Button from "@/components/common/Button";
+import Input, { Label } from "@/components/common/Input";
 import Password from "../CommonInput/Password";
 import Email from "../CommonInput/Email";
 import Country from "../CommonInput/Country";
 
+import { Container, Error, InputGroup } from "../index.styled";
+
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
 
-export default function Signup() {
-  const [signupInput, setSignupInput] = useState({
-    name: "",
-    nickName: "",
-    email: "",
-    password: "",
-    nationality: "",
-  });
-  const { name, nickName, email, password, nationality } = signupInput;
-  const [errorList, setErrorList] = useState({
-    name: { state: false, message: "2글자 이상 8글자 이하로 입력해주세요." },
-    nickName: {
-      state: false,
-      message: "2글자 이상 8글자 이하로 입력해주세요.",
-    },
-    // email: {
-    //   state: false,
-    //   message: "이메일 형식에 맞게 입력해주세요.",
-    // },
-    // password: {
-    //   state: false,
-    //   message: "6글자 이상으로 입력해주세요.",
-    // },
-  });
+interface PropsType {
+  goToLogin: () => void;
+}
 
-  const [isPasswordMatching, setIsPasswordMatching] = useState(true);
+export default function Signup({ goToLogin }: PropsType) {
+  const [name, setName] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nationality, setNationality] = useState("");
 
-  function handlePasswordCompare(result: boolean, password: string) {
-    setIsPasswordMatching(result);
-    setSignupInput(prev => ({
-      ...prev,
-      password,
-    }));
+  const [nameValid, setNameValid] = useState(false);
+  const [nickNameValid, setNickNameValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
+
+  const [isPasswordMatching, setIsPasswordMatching] = useState(false);
+  const [isEmailConfirm, setIsEmailConfirm] = useState(false);
+
+  const regexName = new RegExp(VALIDATE.name);
+  const regexNickName = new RegExp(VALIDATE.nickName);
+  const regexPassword = new RegExp(VALIDATE.password);
+
+  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+    setName(e.target.value);
+    regexName.test(name) ? setNameValid(true) : setNameValid(false);
   }
 
-  function handleEmail(email: string) {
-    setSignupInput(prev => ({
-      ...prev,
-      email,
-    }));
+  function handleNickName(e: React.ChangeEvent<HTMLInputElement>) {
+    setNickName(e.target.value);
+    regexNickName.test(nickName) ? setNickNameValid(true) : setNickNameValid(false);
+  }
+
+  function handlePasswordCompare(result: boolean, value: string) {
+    setIsPasswordMatching(result);
+    setPassword(value);
+    regexPassword.test(password) ? setPasswordValid(true) : setPasswordValid(false);
+  }
+
+  function handleEmail(result: boolean, value: string) {
+    setIsEmailConfirm(result);
+    setEmail(value);
   }
 
   function handleCountry(country: string) {
-    setSignupInput(prev => ({
-      ...prev,
-      nationality: country,
-    }));
+    setNationality(country);
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value, name } = e.target;
-    setSignupInput(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  async function handleSignup() {
-    // console.log(Object.hasOwn(errorList.name, "state"));
-    // setErrorList(prev => ({
-    //   ...prev,
-    //   name: { ...prev.name, state: !name && (name.length < 2 || name.length > 8) },
-    //   nickName: { ...prev.nickName, state: !nickName && (name.length < 2 || name.length > 8) },
-    // }));
-
+  async function submitSignin() {
     try {
-      await axios.post("/auth/register", {
-        email,
-        name,
-        nickName,
-        password,
-        nationality,
-      });
+      const response = await axios.post("/auth/register", { email, name, nickName, password, nationality });
+      response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
+      return goToLogin();
     } catch (error) {
       // console.error("회원가입 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      console.log(errorResponse?.data.message);
+      alert(errorResponse?.data.message);
     }
   }
 
   useEffect(() => {
-    setErrorList(prev => ({
-      ...prev,
-      name: { ...prev.name, state: name !== "" && (name.length < 2 || name.length > 8) },
-      nickName: { ...prev.nickName, state: nickName !== "" && (nickName.length < 2 || nickName.length > 8) },
-    }));
-  }, [name, nickName]);
+    if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm]);
 
   return (
     <Container>
@@ -109,10 +93,11 @@ export default function Signup() {
           type="text"
           name="name"
           placeholder="Name"
-          onChange={handleChange}
-          warning={errorList.name.state}
+          value={name}
+          onChange={handleName}
+          warning={!nameValid && name.length > 0}
         />
-        {errorList.name.state && <Error>{errorList.name.message}</Error>}
+        {!nameValid && name.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NAME}</Error>}
       </InputGroup>
       <InputGroup>
         <Label id="nickName">닉네임</Label>
@@ -122,21 +107,22 @@ export default function Signup() {
             type="text"
             name="nickName"
             placeholder="NickName"
-            onChange={handleChange}
-            warning={errorList.nickName.state}
+            value={nickName}
+            onChange={handleNickName}
+            warning={!nickNameValid && nickName.length > 0}
           />
-          {errorList.nickName.state && <Error>{errorList.nickName.message}</Error>}
+          {!nickNameValid && nickName.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NICKNAME}</Error>}
         </InputGroup>
       </InputGroup>
 
       {/* 일반 회원가입 시 추가 입력 */}
       <Email onEmail={handleEmail} />
-      <Password onPasswordCompare={handlePasswordCompare} />
+      <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
 
       {/* 필수 */}
       <Country onCountry={handleCountry} />
 
-      <Button variant="confirm" shape="medium" size="big" onClick={handleSignup}>
+      <Button variant="confirm" shape="medium" size="big" onClick={submitSignin} disabled={notAllow}>
         Sign Up
       </Button>
     </Container>

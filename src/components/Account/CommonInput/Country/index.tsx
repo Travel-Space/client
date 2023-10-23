@@ -1,7 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { InputGroup, SmallBtnGroup } from "../../index.styled";
+import axios from "axios";
+
 import Input, { Label } from "@/components/common/Input";
+
+import { InputGroup, SmallBtnGroup } from "../../index.styled";
 
 interface PropsType {
   onCountry: (country: string) => void;

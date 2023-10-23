@@ -47,12 +47,17 @@ export const Title = styled.div`
   ${flexCenter};
 `;
 
-export const InputGroup = styled.div<{ $marginBottom?: number }>`
+export const InputGroup = styled.div<{ $marginBottom?: number; $marginTop?: number }>`
   position: relative;
   ${props =>
     props.$marginBottom &&
     css`
       margin-bottom: ${props.$marginBottom}px;
+    `};
+  ${props =>
+    props.$marginTop &&
+    css`
+      margin-top: ${props.$marginTop}px;
     `};
 `;
 

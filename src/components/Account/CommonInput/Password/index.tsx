@@ -1,12 +1,16 @@
-import Input, { Label } from "@/components/common/Input";
-import { Error, InputGroup } from "../../index.styled";
 import { useEffect, useState } from "react";
+import MESSAGE from "@/constants/message";
+
+import Input, { Label } from "@/components/common/Input";
+
+import { Error, InputGroup } from "../../index.styled";
 
 interface PropsType {
-  onPasswordCompare: (result: boolean, password: string) => void;
+  onPasswordCompare: (result: boolean, value: string) => void;
+  valid: boolean;
 }
 
-export default function Password({ onPasswordCompare }: PropsType) {
+export default function Password({ onPasswordCompare, valid }: PropsType) {
   const [input, setInput] = useState({ password: "", passwordCheck: "" });
   const { password, passwordCheck } = input;
 
@@ -32,9 +36,10 @@ export default function Password({ onPasswordCompare }: PropsType) {
           name="password"
           placeholder="Password"
           onChange={handleChange}
-          warning={password !== "" && password.length < 6}
+          warning={valid}
+          value={password}
         />
-        {password && <Error>{password.length < 6 && "6글자 이상으로 입력해주세요."}</Error>}
+        {valid && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
       </InputGroup>
       <InputGroup>
         <Label id="passwordCheck">비밀번호 확인</Label>
@@ -44,9 +49,10 @@ export default function Password({ onPasswordCompare }: PropsType) {
           name="passwordCheck"
           placeholder="Password Check"
           onChange={handleChange}
-          warning={password !== passwordCheck}
+          value={passwordCheck}
+          warning={password !== passwordCheck && passwordCheck.length > 0}
         />
-        {passwordCheck && <Error>{password !== passwordCheck && "비밀번호가 일치하지 않습니다."}</Error>}
+        {password !== passwordCheck && passwordCheck.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_PASSWORD_CHECK}</Error>}
       </InputGroup>
     </>
   );
