@@ -1,3 +1,4 @@
+import UserProfile from "@/components/common/UserProfile";
 import * as S from "./index.styled";
 
 const post = [
@@ -19,12 +20,7 @@ export default function PostPreview() {
       {post.map(el => (
         <S.Post id={el.id}>
           <S.MainBox>
-            <S.Profile>
-              <img src={el.profileImg} />
-              <span>
-                {el.nickname} {el.country}
-              </span>
-            </S.Profile>
+            <UserProfile size="chat" />
 
             <S.Description>
               <span>{el.title}</span>

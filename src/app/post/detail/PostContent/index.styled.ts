@@ -12,7 +12,7 @@ export const TitleSection = styled.div`
 
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.hg};
-  font-weight:600;
+  font-weight: 600;
   margin-bottom: 24px;
 `;
 
@@ -113,31 +113,16 @@ export const PostActionBtn = styled.div`
 `;
 
 export const EditBtn = styled.div`
-  padding: 16px 40px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
-  color: ${({ theme }) => theme.PALETTE.primary[100]};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-weight:600;
-  cursor: pointer;
+  width: 104px;
+  height: 100%;
 `;
 
 export const DeleteBtn = styled.div`
-  padding: 16px 40px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
-  color: ${({ theme }) => theme.PALETTE.primary[100]};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-weight:600;
-  cursor: pointer;
+  width: 104px;
+  height: 100%;
 `;
 
 export const DeclarationBtn = styled.div`
-  padding: 16px 40px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.error};
-  color: ${({ theme }) => theme.PALETTE.error};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-weight:600;
-  cursor: pointer;
+  width: 104px;
+  height: 100%;
 `;

@@ -53,14 +53,9 @@ export const Description = styled(Middle)`
 `;
 
 export const Reason = styled(Description)`
-  > select {
-    height: 40px;
-    padding: 0 16px;
-    border-radius: 10px;
-    border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-
-    & option {
-      color: ${({ theme }) => theme.PALETTE.gray[100]};
+  > div {
+    > div:first-child {
+      padding: 10px 16px;
     }
   }
 `;

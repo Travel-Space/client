@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { bodyContainer,  flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { bodyContainer, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Wrapper = styled.div`
   ${flexColumnCenter}
@@ -56,11 +56,9 @@ export const BtnContainer = styled.div`
   gap:32px;
 `;
 
-export const RandomCreateBtn = styled.div`
-  border-radius: 32px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.white};
-  padding: 13px 40px;
-  text-align: center;
+export const NewCreateBtn = styled.div`
+  width: 196px;
+  height: 100%;
 
   & a {
     text-decoration: none;
@@ -69,10 +67,8 @@ export const RandomCreateBtn = styled.div`
 `;
 
 export const RandomPlanetBtn = styled.div`
-  border-radius: 32px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.white};
-  padding: 13px 40px;
-  text-align: center;
+  width: 196px;
+  height: 100%;
 
   & a {
     text-decoration: none;

@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   ${flexColumnCenter};
-  margin-top: 40px;
+  margin: 40px 0 64px;
   height: 100%;
   background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 15px;

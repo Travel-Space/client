@@ -5,6 +5,7 @@ import * as CL from "./index.styled";
 import CommentItem from "./CommentItem";
 import Reply from "./Reply";
 import Textarea from "@/components/common/Textarea";
+import Button from "@/components/common/Button";
 
 export default function CommentList() {
   return (
@@ -12,7 +13,11 @@ export default function CommentList() {
       <CL.CommentCount> 8개의 댓글</CL.CommentCount>
       <Textarea placeholder="댓글 내용을 입력해주세요." name="" maxLength={200} size="comment" />
       <CL.BtnDisplay>
-        <CL.CommentButton>댓글 작성</CL.CommentButton>
+        <CL.CommentButton>
+          <Button variant="confirm" size="big" shape="medium" fontWeight="bold">
+            댓글 작성
+          </Button>
+        </CL.CommentButton>
       </CL.BtnDisplay>
       <CommentItem />
       <Reply />

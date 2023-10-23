@@ -5,15 +5,18 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
 import axios from "axios";
+import Link from "next/link";
 
-interface PlanetProps {
+interface PlanetListProps {
   id: number;
   name: string;
-  langth:number;
+  hashtags: [];
+  shape: string;
 }
 
 export default function PlanetList() {
-  const [planetList, setPlanetList] = useState<PlanetProps[]>([]);
+  const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     fetchPlanetList();
@@ -34,6 +37,11 @@ export default function PlanetList() {
     planetList.slice(start, start + 5),
   );
 
+  // shape 문자열에서 숫자 부분만 추출하는 함수
+  const getShapeNumber = (shape: string) => {
+    return shape.replace(/\D/g, "");
+  };
+
   return (
     <SwiperContainer className="swiper">
       <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]}>
@@ -41,11 +49,15 @@ export default function PlanetList() {
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
               {group.map(planet => (
-                <SlideImage
-                  key={planet.id}
-                  src={`/assets/img/icons/planet-${planet.id}.svg`}
-                  alt={`Planet ${planet.id}`}
-                />
+                <Link key={planet.id} href={`/planet/${planet.id}`} id="link">
+                  <SlideImage
+                    src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
+                    alt={`Planet ${planet.name}`}
+                    animateOnHover={isHovered}
+                    onMouseEnter={() => setIsHovered(true)} //마우스 호버 true 시 애니메이션
+                    onMouseLeave={() => setIsHovered(false)} //마우스 호버 false 시 애니메이션 X
+                  />
+                </Link>
               ))}
             </StyledSwiperSlide>
           </SwiperSlide>
