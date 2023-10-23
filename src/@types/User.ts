@@ -4,6 +4,7 @@ import { ChatMembership, Message } from "./Chat";
 import { Planet, PlanetBookmark, PlanetMembership } from "./Planet";
 import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
 import { UserFriend } from "./Friend";
+import { Comment } from "./Comment";
 
 export interface User {
   id: number;
