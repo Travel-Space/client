@@ -1,6 +1,7 @@
 import { User } from "./User";
 import { Planet } from "./Planet";
 import { Like } from "./Like";
+import { Comment } from "./Comment";
 
 export interface Posting {
   id: number;
