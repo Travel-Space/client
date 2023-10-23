@@ -1,7 +1,7 @@
 import React from "react";
 import "react-quill/dist/quill.snow.css";
 import { QuillWrapper } from "./index.styled";
-import ReactQuill, { Quill } from "react-quill";
+import { Quill } from "react-quill";
 import ImageResize from "quill-image-resize";
 
 Quill.register("modules/ImageResize", ImageResize);

@@ -44,7 +44,7 @@ export const TitleInput = styled.input`
   box-shadow: 0 0 0 0px #bdddfd;
   transition: all 0.2s;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  
+
   &:focus {
     border-color: ${({ theme }) => theme.PALETTE.primary[200]};
     box-shadow: 0 0 0 3px #bdddfd;
@@ -54,7 +54,6 @@ export const TitleInput = styled.input`
     color: ${({ theme }) => theme.PALETTE.gray[100]};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-weight: 700;
-    background-image: url(@/aseets/img/icon/location.svg);
   }
 `;
 
@@ -147,25 +146,28 @@ export const TagIcon = styled.div`
 export const RocketInputWrapper = styled.div`
   width: 290px;
   height: 48px;
-  position: relative;
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  border-radius: 10px;
+
+  & > div {
+    & > div:first-child {
+      padding: 11px 16px;
+    }
+    & > div:nth-child(2) > div {
+      color: ${({ theme }) => theme.PALETTE.gray[100]};
+      padding: 11px 16px;
+      font-weight: 700;
+      &:hover {
+        color: ${({ theme }) => theme.PALETTE.black};
+      }
+    }
+  }
 `;
 
 export const TagsInputWrapper = styled.div`
   width: 290px;
   height: 48px;
   position: relative;
-`;
-
-export const RocketIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-  background-image: url("/assets/img/icons/gray-rocket.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 export const Tags = styled.div`
@@ -207,32 +209,16 @@ export const ButtonGroup = styled.div`
 
 export const BackBtn = styled.button`
   width: 104px;
+  height: 100%;
   border: none;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 600;
   border-radius: 10px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-  }
 `;
 export const CompletedBtn = styled.button`
-  padding: 16px 40px;
+  width: 144px;
+  height: 100%;
   border: none;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.PALETTE.mainColor};
-  color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 600;
   border-radius: 10px;
   transition: background-color 0.3s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.PALETTE.primary[100]};
-  }
 `;
 
 export const QuillWrapper = styled(ReactQuill)`

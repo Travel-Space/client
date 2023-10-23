@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { RecoilRoot } from "recoil";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 
 import GlobalStyles from "@/styles/global";
 import theme from "@/styles/theme";
@@ -20,6 +21,9 @@ const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
+  // pathname === chat 일 경우 채팅 버튼 삭제
+  const pathname = usePathname();
+
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -28,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <html>
             <body>
               <Header />
-              <ChatBtn />
+              {pathname !== "/chat" && <ChatBtn />}
               {children}
             </body>
           </html>

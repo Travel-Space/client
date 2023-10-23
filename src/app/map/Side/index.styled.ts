@@ -14,11 +14,10 @@ const slide = keyframes`
 
 export const Container = styled.div`
   ${ModalBackground}
-  ${flexColumn}
-  gap: 40px;
   width: ${WIDTH};
   background: ${({ theme }) => theme.PALETTE.white};
   box-shadow: 4px 0px 4px 0px rgba(51, 51, 51, 0.1);
+  z-index: 1111;
 
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
@@ -27,6 +26,8 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
+  ${flexColumn}
+  gap: 40px;
   padding: 32px 56px;
   background: ${({ theme }) => theme.PALETTE.white};
   z-index: 1;
@@ -56,6 +57,7 @@ export const CloseBtn = styled.button`
   background: ${({ theme }) => theme.PALETTE.white};
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  z-index: -1;
 `;
 
 export const Button = styled.button`
