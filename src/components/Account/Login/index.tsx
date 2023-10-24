@@ -29,22 +29,19 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const [_, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
 
-  const regexEmail = new RegExp(VALIDATE.email);
-  const regexPassword = new RegExp(VALIDATE.password);
-
   async function googleLogin() {
     console.log("구글 로그인");
-    router.push("/auth/google");
+    router.push("/auth/google/callback");
   }
 
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
-    regexEmail.test(email) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   }
 
   function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
-    regexPassword.test(password) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.password.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
   }
 
   async function submitLogin() {
