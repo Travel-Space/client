@@ -1,9 +1,15 @@
 const MESSAGE = {
   JOIN: {
+    SYNTAX_NAME: "2글자 이상 8글자 이하 한글로 입력해주세요.",
+    SYNTAX_NICKNAME: "2글자 이상 8글자 이하 한글/영문으로 입력해주세요.",
+    SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
+    SYNTAX_CODE: "숫자만 입력해주세요.",
     FAILURE: "회원가입에 실패했습니다.",
   },
   LOGIN: {
-    FAILURE: "아이디 또는 비밀번호를 다시 확인해 주세요.",
+    SYNTAX_EMAIL: "올바른 이메일을 입력해주세요.",
+    SYNTAX_PASSWORD: "영문, 숫자 포함 8글자 이상 입력해주세요.",
+    FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
     REQUIRED: "로그인이 필요해요.",
   },

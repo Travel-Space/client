@@ -1,10 +1,5 @@
-import { flexCenter, flexColumn } from "@/styles/common";
+import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
-
-export const Wrap = styled.div`
-  ${flexColumn}
-  gap: 24px;
-`;
 
 export const LineWithText = styled.span`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
@@ -21,17 +16,9 @@ export const LineWithText = styled.span`
   }
 `;
 
-export const MarginGroup = styled.div`
-  margin: 8px 0;
-`;
-
 export const CenterGroup = styled.div`
   ${flexCenter}
   gap: 16px;
-`;
-
-export const InputGroup = styled.div`
-  position: relative;
 `;
 
 export const UnderLine = styled.button`
