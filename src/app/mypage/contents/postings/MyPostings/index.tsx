@@ -1,3 +1,4 @@
+import WEEKDAY from "@/constants/weekDay";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -16,24 +17,11 @@ export default function MyPostings({ data }: MyPostingsProps) {
 
   //UTC->LOCAL 날짜 변환
   const FormatDate = (createdAt: Date) => {
-    type ObjType = {
-      [index: number]: string;
-    };
-    const weekDay: ObjType = {
-      0: "일요일",
-      1: "월요일",
-      2: "화요일",
-      3: "수요일",
-      4: "목요일",
-      5: "금요일",
-      6: "토요일",
-    };
-
     const localDate = new Date(createdAt);
     const year = localDate.getFullYear();
     const month = localDate.getMonth() + 1;
     const date = localDate.getDate();
-    const day = weekDay[localDate.getDay()];
+    const day = WEEKDAY[localDate.getDay()];
     return `${year}년 ${month}월 ${date}일 ${day}`;
   };
   const handleClick = () => {

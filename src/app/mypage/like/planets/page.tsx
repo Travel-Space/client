@@ -1,4 +1,8 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Planet } from "@/@types/Planet";
+
 import * as S from "./page.styled";
 
 import MyPlanet from "@/app/mypage/MyPlanet";
@@ -11,6 +15,19 @@ export default function Planets() {
     placeholder: "행성 이름으로 검색해보세요.",
   };
 
+  //행성 불러오기(임시-api완성되면 수정예정)
+  const fetchPlanets = async () => {
+    return axios.get("/planet").then(response => response.data);
+  };
+
+  const { isLoading, data, isError, error } = useQuery<Planet[], Error, Planet[]>({
+    queryKey: ["get-myplanets"],
+    queryFn: fetchPlanets,
+  });
+  console.log("fetchPlanets", data);
+  if (isLoading) return <>Loading...</>;
+  if (isError) return <>{error.message}</>;
+
   return (
     <S.Container>
       <S.Row>
@@ -18,13 +35,7 @@ export default function Planets() {
         <SearchForm select={dropDownProps} />
       </S.Row>
 
-      <S.MyPlanets>
-        <MyPlanet hasLikes={true} />
-        <MyPlanet hasLikes={true} />
-        <MyPlanet hasLikes={true} />
-        <MyPlanet hasLikes={true} />
-        <MyPlanet hasLikes={true} />
-      </S.MyPlanets>
+      <S.MyPlanets>{data && data.map((planet, idx) => <MyPlanet key={idx} data={planet} />)}</S.MyPlanets>
 
       <S.FavoritePlanetsInfo>
         <S.Title>내가 좋아요한 행성</S.Title>
@@ -33,13 +44,15 @@ export default function Planets() {
         </S.PlanetsNumber>
       </S.FavoritePlanetsInfo>
       <S.FavoritePlanets>
-        <Nothing
-          src="/assets/img/icons/no-planets.svg"
-          alt="no-favoritePlanets"
-          width={148}
-          height={148}
-          comment="좋아하는 행성이 없습니다."
-        />
+        {!data && (
+          <Nothing
+            src="/assets/img/icons/no-planets.svg"
+            alt="no-favoritePlanets"
+            width={148}
+            height={148}
+            comment="좋아하는 행성이 없습니다."
+          />
+        )}
         <FavoritePlanet />
         <FavoritePlanet />
         <FavoritePlanet />
