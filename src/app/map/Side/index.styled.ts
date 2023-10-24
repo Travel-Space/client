@@ -30,7 +30,6 @@ export const Wrapper = styled.div`
   gap: 40px;
   padding: 32px 56px;
   background: ${({ theme }) => theme.PALETTE.white};
-  z-index: 1;
 `;
 
 export const Middle = styled.div`
