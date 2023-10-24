@@ -23,26 +23,29 @@ export default function Postings() {
 
   //게시글 불러오기
   const fetchArticles = async () => {
-    return axios.get("/articles/my-articles").then(response => response.data);
+    // api 완료되면 수정예정
+    return axios.get("/articles").then(response => response.data);
   };
 
   const { isLoading, data, isError, error } = useQuery<Posting[], Error, Posting[]>({
     queryKey: ["get-articles"],
     queryFn: fetchArticles,
   });
-  console.log("data", data);
+  // console.log("fetchArticles", data);
   if (isLoading) return <>Loading...</>;
   if (isError) return <>{error.message}</>;
 
   return (
     <S.Container>
-      <Nothing
-        src="/assets/img/icons/no-postings.svg"
-        alt="no-postings"
-        width={96}
-        height={96}
-        comment="작성된 게시글이 없습니다."
-      />
+      {!data && (
+        <Nothing
+          src="/assets/img/icons/no-postings.svg"
+          alt="no-postings"
+          width={96}
+          height={96}
+          comment="작성된 게시글이 없습니다."
+        />
+      )}
       <S.Header>
         <S.PostingsNumber>
           총 <span>{data && data.length}</span>개의 게시글
