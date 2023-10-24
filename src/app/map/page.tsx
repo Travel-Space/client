@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 
 import * as S from "./page.styled";
 import Side from "./Side";
-import { GoogleMap, Marker, MarkerF, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
