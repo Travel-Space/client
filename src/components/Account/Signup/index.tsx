@@ -33,24 +33,20 @@ export default function Signup({ goToLogin }: PropsType) {
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
 
-  const regexName = new RegExp(VALIDATE.name);
-  const regexNickName = new RegExp(VALIDATE.nickName);
-  const regexPassword = new RegExp(VALIDATE.password);
-
   function handleName(e: React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
-    regexName.test(name) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   }
 
   function handleNickName(e: React.ChangeEvent<HTMLInputElement>) {
     setNickName(e.target.value);
-    regexNickName.test(nickName) ? setNickNameValid(true) : setNickNameValid(false);
+    VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
   }
 
   function handlePasswordCompare(result: boolean, value: string) {
     setIsPasswordMatching(result);
     setPassword(value);
-    regexPassword.test(password) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   }
 
   function handleEmail(result: boolean, value: string) {
