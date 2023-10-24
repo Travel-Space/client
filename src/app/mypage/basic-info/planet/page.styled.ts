@@ -6,12 +6,15 @@ export const Container = styled.div`
 `;
 
 export const MyPlanetWrap = styled.div`
-  ${flexSpaceBetweenCenter}
+  display: flex;
+  gap: 32px;
 `;
+
 export const MyPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
   margin-bottom: 24px;
 `;
+
 export const NewPlanet = styled.div`
   display: flex;
   align-items: center;
