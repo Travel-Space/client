@@ -15,7 +15,6 @@ export const Profile = styled.div<ProfileSize>`
   width: ${({ size }) => (size === "chat" ? "20px" : "48px")};
   height: ${({ size }) => (size === "chat" ? "20px" : "48px")};
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 50%;
   text-align: center;
   background-image: url("/assets/img/icons/profile.svg");
