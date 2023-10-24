@@ -58,7 +58,7 @@ export const BtnContainer = styled.div`
 
 export const NewCreateBtn = styled.div`
   width: 196px;
-  height: 43px;
+  height: 100%;
 
   & a {
     text-decoration: none;
@@ -68,7 +68,7 @@ export const NewCreateBtn = styled.div`
 
 export const RandomPlanetBtn = styled.div`
   width: 196px;
-  height: 43px;
+  height: 100%;
 
   & a {
     text-decoration: none;

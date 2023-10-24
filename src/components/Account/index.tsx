@@ -1,9 +1,11 @@
-import Side from "@/components/common/Side";
-import { ModalType } from "@/@types";
 import { useState } from "react";
+import { ModalType } from "@/@types";
+
+import Side from "@/components/common/Side";
 import Login from "./Login";
 import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
+
 import * as S from "./index.styled";
 
 enum Page {
@@ -39,11 +41,12 @@ export default function Account({ onClose }: ModalType) {
           <Login
             goToResetPassword={() => setCurrentPage(Page.ResetPassword)}
             goToSignup={() => setCurrentPage(Page.Signup)}
+            onClose={onClose}
           />
         ) : currentPage === Page.Signup ? (
-          <Signup />
+          <Signup goToLogin={() => setCurrentPage(Page.Login)} />
         ) : currentPage === Page.ResetPassword ? (
-          <ResetPassword />
+          <ResetPassword goToLogin={() => setCurrentPage(Page.Login)} />
         ) : null}
       </S.Wrap>
     </Side>

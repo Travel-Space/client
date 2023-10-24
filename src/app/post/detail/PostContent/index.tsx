@@ -1,11 +1,17 @@
 "use client";
 
+import React, { useState } from "react";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import UserProfile from "@/components/common/UserProfile";
 import * as PC from "./index.styled";
-import React, { useState } from "react";
+import axios from "axios";
+import Button from "@/components/common/Button";
 
+interface PostContentProps {
+  postId: number;
+}
 export default function PostContent() {
+  // export default function PostContent({ postId }: PostContentProps) {
   //태그 확인용 목업데이터
   const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +22,12 @@ export default function PostContent() {
 
   const closeDeclarationModal = () => {
     setIsModalOpen(false);
+  };
+
+  const fetchPostDetail = async () => {
+    try {
+      const response = await axios.get("/articles");
+    } catch {}
   };
 
   return (
@@ -71,9 +83,21 @@ export default function PostContent() {
               ))}
             </PC.TagsDisplay>
             <PC.PostActionBtn>
-              <PC.EditBtn>수정</PC.EditBtn>
-              <PC.DeleteBtn>삭제</PC.DeleteBtn>
-              <PC.DeclarationBtn onClick={openDeclarationModal}>신고</PC.DeclarationBtn>
+              <PC.EditBtn>
+                <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                  수정
+                </Button>
+              </PC.EditBtn>
+              <PC.DeleteBtn>
+                <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                  삭제
+                </Button>
+              </PC.DeleteBtn>
+              <PC.DeclarationBtn>
+                <Button variant="error" size="big" shape="medium" fontWeight="bold" onClick={openDeclarationModal}>
+                  신고
+                </Button>
+              </PC.DeclarationBtn>
             </PC.PostActionBtn>
           </PC.TextBottomDisplay>
         </PC.Content>
