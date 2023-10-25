@@ -1,10 +1,21 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { PlanetContext, PlanetContextType } from "../page";
+import PLANETSHAPE from "@/constants/planetShape";
+import { PlanetShape } from "@/@types/Planet";
+
+const planetImg: {
+  name: PlanetShape;
+  src: string;
+}[] = [
+  { name: "SHAPE1", src: PLANETSHAPE.SHAPE1 },
+  { name: "SHAPE2", src: PLANETSHAPE.SHAPE2 },
+  { name: "SHAPE3", src: PLANETSHAPE.SHAPE3 },
+];
 
 export default function Left() {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -51,9 +62,27 @@ export default function Left() {
   return (
     <S.Wrap>
       <S.CenterGroup>
-        {/* 행성 이미지 목록은 select로 구현 예정 */}
         <S.ArrowLeft type="button">이전</S.ArrowLeft>
-        <img src="/assets/img/icons/planet-1.svg" />
+
+        {planetImg.map(img => (
+          <label key={img.name} style={{ display: planetInfo.shape !== img.name ? "none" : "block" }}>
+            {img.name}
+            <img src={img.src} alt={img.name} />
+            <input
+              type="radio"
+              name="shape"
+              value={img.name}
+              checked={planetInfo.shape === img.name}
+              onChange={() =>
+                setPlanetInfo({
+                  ...planetInfo,
+                  shape: img.name,
+                })
+              }
+            />
+          </label>
+        ))}
+
         <S.ArrowRight type="button">다음</S.ArrowRight>
       </S.CenterGroup>
       <S.Title>{planetInfo.name}</S.Title>
