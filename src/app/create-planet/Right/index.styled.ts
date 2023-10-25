@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { commonContainer } from "../page.styled";
 import { flexAlignCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
@@ -12,9 +12,16 @@ export const Wrap = styled.div`
   gap: 24px;
 `;
 
-export const BetweenGroup = styled.div`
+export const BetweenGroup = styled.div<{ $half?: boolean }>`
   ${flexSpaceBetweenCenter}
   gap: 16px;
+  ${({ $half }) =>
+    $half &&
+    css`
+      > * {
+        flex: 1;
+      }
+    `}
 `;
 
 export const Header = styled.div`
@@ -61,5 +68,9 @@ export const MarginGroup = styled.div`
 export const InputGroup = styled.div`
   textarea {
     font-size: inherit;
+    transition: all 0.2s;
+    &::placeholder {
+      color: ${({ theme }) => theme.PALETTE.gray[100]};
+    }
   }
 `;

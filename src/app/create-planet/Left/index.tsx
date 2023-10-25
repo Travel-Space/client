@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+
 import * as S from "./index.styled";
+
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import { PlanetContext, PlanetContextType } from "../page";
 
 export default function Left() {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+
+  if (!planetContext) {
+    return;
+  }
+
+  const { planetInfo, setPlanetInfo } = planetContext;
+
   return (
     <S.Wrap>
       <S.CenterGroup>
@@ -13,7 +24,7 @@ export default function Left() {
         <img src="/assets/img/icons/planet-1.svg" />
         <S.ArrowRight type="button">다음</S.ArrowRight>
       </S.CenterGroup>
-      <S.Title>일본 맛도리 여행</S.Title>
+      <S.Title>{planetInfo.name}</S.Title>
       <S.Group>
         <Input type="text" name="planet-hashTag" id="planet-hashTag" placeholder="주제 해시태그 최대 5개" />
         <S.TagGroup>
@@ -27,15 +38,15 @@ export default function Left() {
           </S.Tag>
         </S.TagGroup>
       </S.Group>
-      {/* 행성 관리모드 일 때만 노출 */}
+      {/* 행성 수정 시 */}
       <div>
-        <Button variant="gradient" shape="large" size="big">
+        {/* <Button variant="gradient" shape="large" size="big">
           탑승 우주선으로 이동
-        </Button>
+        </Button> */}
         {/* 행성 관리자만 삭제 가능 */}
-        <S.DeleteBtn type="button" onClick={() => setShowDeleteModal(true)}>
+        {/* <S.DeleteBtn type="button" onClick={() => setShowDeleteModal(true)}>
           행성 삭제 💥
-        </S.DeleteBtn>
+        </S.DeleteBtn> */}
       </div>
       {/* {showDeletePlanetModal ? (
         <DeletePlanetModal onClose={() => setShowDeletePlanetModal(false)} planetTitle="일본 맛도리 여행" />
