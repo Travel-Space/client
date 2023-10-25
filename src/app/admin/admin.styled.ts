@@ -38,10 +38,12 @@ export const MenuItem = styled(Menu.Item)`
   font-weight: bold;
 `;
 
-export const AdminContent = styled(Content)``;
+export const AdminContent = styled(Content)`
+  min-width: 1239px;
+`;
 
 export const TableContainer = styled.div`
-  padding: 64px 100px;
+  /* padding: 64px 100px; */
   width: 100%;
 `;
 
