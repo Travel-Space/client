@@ -5,7 +5,7 @@ import * as S from "./page.styled";
 import Left from "./Left";
 import Right from "./Right";
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Planet, PlanetShape } from "@/@types/Planet";
 
 export type PlanetType = Partial<Planet>;
@@ -22,9 +22,15 @@ export default function CreatePlanet() {
     name: "",
     description: "",
     published: true,
-    shape: PlanetShape.SHAPE1,
+    shape: "SHAPE1",
     hashtags: [],
   });
+
+  useEffect(() => {
+    setPlanetInfo({
+      ...planetInfo,
+    });
+  }, []);
 
   return (
     <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>
