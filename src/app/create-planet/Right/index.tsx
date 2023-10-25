@@ -26,6 +26,13 @@ export default function Right() {
     });
   }
 
+  function handlePublished(isPublic: boolean) {
+    setPlanetInfo({
+      ...planetInfo,
+      published: isPublic,
+    });
+  }
+
   function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setPlanetInfo({
       ...planetInfo,
@@ -44,10 +51,24 @@ export default function Right() {
             {/* <h1>행성 관리</h1> */}
           </S.Header>
           <S.RadioBox>
-            <S.Radio type="radio" value="public" name="planet-type" id="public" defaultChecked className="checked" />
+            <S.Radio
+              type="radio"
+              value="public"
+              name="planet-type"
+              id="public"
+              checked={planetInfo.published === true}
+              onChange={() => handlePublished(true)}
+            />
             <S.Label htmlFor="public">공개</S.Label>
-            <S.Radio type="radio" value="private" name="planet-type" id="private" />
-            <S.Label htmlFor="public">비공개</S.Label>
+            <S.Radio
+              type="radio"
+              value="private"
+              name="planet-type"
+              id="private"
+              checked={planetInfo.published === false}
+              onChange={() => handlePublished(false)}
+            />
+            <S.Label htmlFor="private">비공개</S.Label>
           </S.RadioBox>
         </S.BetweenGroup>
         <S.MarginGroup>

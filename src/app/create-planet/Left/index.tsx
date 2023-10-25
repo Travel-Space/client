@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import * as S from "./index.styled";
 
@@ -9,12 +9,44 @@ import { PlanetContext, PlanetContextType } from "../page";
 export default function Left() {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+  const [tagInput, setTagInput] = useState("");
 
   if (!planetContext) {
     return;
   }
 
   const { planetInfo, setPlanetInfo } = planetContext;
+
+  function handleTagInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setTagInput(e.target.value);
+  }
+
+  function handleTags(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.nativeEvent.isComposing) return;
+    if (!tagInput) return;
+
+    const newTag = tagInput.trim().split(" ").join("_");
+
+    if (e.key === "Enter") {
+      if (planetInfo.hashtags && planetInfo.hashtags.length < 5) {
+        setPlanetInfo({
+          ...planetInfo,
+          hashtags: [...planetInfo.hashtags, newTag],
+        });
+      } else {
+        alert("최대 5개만 작성 가능합니다.");
+      }
+      setTagInput("");
+    }
+  }
+
+  function deleteTag(index: number) {
+    const filterTag = planetInfo.hashtags?.filter((_, idx) => idx !== index);
+    setPlanetInfo({
+      ...planetInfo,
+      hashtags: filterTag,
+    });
+  }
 
   return (
     <S.Wrap>
@@ -26,16 +58,24 @@ export default function Left() {
       </S.CenterGroup>
       <S.Title>{planetInfo.name}</S.Title>
       <S.Group>
-        <Input type="text" name="planet-hashTag" id="planet-hashTag" placeholder="주제 해시태그 최대 5개" />
+        <Input
+          type="text"
+          name="planet-hashTag"
+          id="planet-hashTag"
+          placeholder="주제 해시태그 최대 5개"
+          onKeyDown={handleTags}
+          onChange={handleTagInput}
+          value={tagInput}
+        />
         <S.TagGroup>
-          <S.Tag>
-            <span>일본여행</span>
-            <button type="button">삭제</button>
-          </S.Tag>
-          <S.Tag>
-            <span>오사카맛집</span>
-            <button type="button">삭제</button>
-          </S.Tag>
+          {planetInfo.hashtags?.map((tag, index) => (
+            <S.Tag key={index}>
+              <span>{tag}</span>
+              <button type="button" onClick={() => deleteTag(index)}>
+                삭제
+              </button>
+            </S.Tag>
+          ))}
         </S.TagGroup>
       </S.Group>
       {/* 행성 수정 시 */}

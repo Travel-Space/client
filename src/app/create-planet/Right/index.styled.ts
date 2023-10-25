@@ -39,7 +39,7 @@ export const RadioBox = styled.div`
 
 export const Radio = styled.input`
   display: none;
-  &.checked + label {
+  &:checked + label {
     color: ${({ theme }) => theme.PALETTE.white};
     background-color: ${({ theme }) => theme.PALETTE.mainColor};
   }

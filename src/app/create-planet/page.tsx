@@ -10,14 +10,6 @@ import { Planet, PlanetShape } from "@/@types/Planet";
 
 export type PlanetType = Partial<Planet>;
 
-// export interface PlanetType {
-//   name: string;
-//   description: string;
-//   published: boolean;
-//   shape: PlanetShape;
-//   hashtags: string[];
-// }
-
 export interface PlanetContextType {
   planetInfo: PlanetType;
   setPlanetInfo: (value: PlanetType) => void;

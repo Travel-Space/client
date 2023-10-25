@@ -18,6 +18,7 @@ interface InputType {
   thin: boolean;
   warning: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export function Label({ id, children }: LabelType) {
@@ -25,7 +26,20 @@ export function Label({ id, children }: LabelType) {
 }
 
 export default React.forwardRef(function Input(
-  { type, name, id, placeholder, value, onChange, disabled, readOnly, rounded, thin, warning }: Partial<InputType>,
+  {
+    type,
+    name,
+    id,
+    placeholder,
+    value,
+    onChange,
+    onKeyDown,
+    disabled,
+    readOnly,
+    rounded,
+    thin,
+    warning,
+  }: Partial<InputType>,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   return (
@@ -39,6 +53,7 @@ export default React.forwardRef(function Input(
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       disabled={disabled}
       readOnly={readOnly}
       ref={ref}
