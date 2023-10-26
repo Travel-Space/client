@@ -1,8 +1,12 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+import { User } from "@/@types/User";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
+import { userAtom } from "@/recoil/atoms/user.atom";
+
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
 
@@ -46,17 +50,16 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   async function submitLogin() {
     try {
-      const response = await axios.post("/auth/login", { email, password });
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/login", { email, password });
+
       if (response.status === 201) {
         alert("로그인이 성공적으로 완료되었습니다!");
         setAuth(prev => ({ ...prev, isAuth: true }));
         return onClose();
       }
-      // response.status === 201 && alert("로그인이 성공적으로 완료되었습니다!");
-      // return setAuth(prev => ({ ...prev, isAuth: true }));
       // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
     } catch (error) {
-      // console.error("로그인 에러", error);
+      console.error("로그인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
