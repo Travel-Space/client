@@ -5,6 +5,7 @@ import { Planet } from "@/@types/Planet";
 
 import * as S from "./page.styled";
 import Link from "next/link";
+import Image from "next/image";
 
 import Nothing from "@/app/mypage/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
@@ -23,6 +24,9 @@ export default function Planet() {
   console.log("fetchPlanets", data);
   if (isLoading) return <>Loading...</>;
   if (isError) return <>{error.message}</>;
+
+  let myPlanet = new Array(5).fill(null);
+  data?.map((el, idx) => (myPlanet[idx] = el));
 
   return (
     <S.Container>
@@ -48,7 +52,15 @@ export default function Planet() {
           </Link>
         </S.NewPlanet>
       </S.MyPlanetInfo>
-      <S.MyPlanetWrap>{data?.map((planet, idx) => <MyPlanet key={idx} data={planet} />)}</S.MyPlanetWrap>
+      <S.MyPlanetWrap>
+        {myPlanet.map((planet, idx) =>
+          planet === null ? (
+            <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
+          ) : (
+            <MyPlanet key={idx} data={planet} />
+          ),
+        )}
+      </S.MyPlanetWrap>
       <S.TravelingPlanetInfo>
         <S.Title>여행 중인 행성</S.Title>
         <S.TravelNumber>

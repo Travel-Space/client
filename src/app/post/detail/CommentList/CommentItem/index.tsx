@@ -1,24 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import * as CI from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
 import DeclarationModal from "@/components/common/DeclarationModal";
+import { useModal } from "@/hooks/useModal"; 
 
 export default function CommentItem() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { modalDataState, openModal, closeModal } = useModal();
 
   const openDeclarationModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeDeclarationModal = () => {
-    setIsModalOpen(false);
+    openModal({
+      title: "댓글",
+      content: <DeclarationModal title={"댓글"} onClick={closeModal} /> // This may change depending on the design of the DeclarationModal
+    });
   };
 
   return (
     <CI.Wrapper>
-      {isModalOpen && <DeclarationModal title={"댓글"} onClick={closeDeclarationModal} />}
+       {modalDataState.isOpen && modalDataState.content} 
 
       <CI.UserComment>
         <CI.ProfileAndDate>
