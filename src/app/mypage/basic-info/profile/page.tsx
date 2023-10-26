@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axiosRequest from "@/api/index";
 import axios from "axios";
 import { ResData, User } from "@/@types/index";
@@ -10,14 +10,17 @@ import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
+import ProfileImage from "./ProfileImage";
 
 export default function Profile() {
   const [profile, setProfile] = useState<User>();
   //내 프로필 조회
   async function getProfile() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile", {});
-      setProfile(response.data);
+      const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
+      const profile = response.data;
+      setProfile(profile);
+      // console.log("response.data", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -25,20 +28,18 @@ export default function Profile() {
   }
   useEffect(() => {
     getProfile();
+    console.log("profile", profile);
   }, []);
-  // const [nickname, setNickname] = useState(nickName);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setNickname(e.target.value);
-    console.log();
-  };
+
   //닉네임 변경
-  // const NicknameInput = ({ prev }: { prev: string }) => {
-  //   const [nickname, setNickname] = useState(prev);
-  //   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setNickname(e.target.value);
-  //   };
-  //   return <S.NicknameInput type="text" value={nickname} onChange={handleChange} />;
-  // };
+  const NicknameInput = ({ prev }: { prev?: string }) => {
+    const [nickname, setNickname] = useState(prev);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNickname(e.target.value);
+    };
+    return <S.NicknameInput type="text" value={nickname} onChange={handleChange} />;
+  };
+
   // //변경사항 저장
   // interface updateProfileProps {
   //   nickName: string;
@@ -62,13 +63,16 @@ export default function Profile() {
           <S.Title>프로필 사진</S.Title>
           <S.Content>
             {/* 기본이미지 픽스 후 수정예정 */}
-            {/* <S.UserImg>{<Image src={profile?.profileImage} alt="default-image" width={120} height={120} />}</S.UserImg> */}
+            <ProfileImage prev="/assets/img/icons/default-user.svg" />
             <S.DeleteImgBtn>
               <Image src="/assets/img/icons/black-minus.svg" alt="delete-button" width={24} height={24} />
             </S.DeleteImgBtn>
-            <S.EditImgBtn>
+            {/* <S.EditImgBtn>
+              <input type="file" />
+            </S.EditImgBtn> */}
+            {/* <S.EditImgBtn>
               <Image src="/assets/img/icons/modify.svg" alt="edit-button" width={24} height={24} />
-            </S.EditImgBtn>
+            </S.EditImgBtn> */}
           </S.Content>
         </S.Row>
         <Line color="gray" size="horizontal" />
@@ -89,7 +93,7 @@ export default function Profile() {
         <S.Row>
           <S.Title>닉네임</S.Title>
           <S.Content>
-            <S.NicknameInput type="text" value={profile?.nickName} onChange={handleChange} />
+            <NicknameInput prev={profile?.nickName} />
             {/* 중복확인 api 완료 후 수정예정 */}
             <S.DoubleCheck>중복확인</S.DoubleCheck>
           </S.Content>
