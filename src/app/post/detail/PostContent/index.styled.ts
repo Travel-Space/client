@@ -1,7 +1,9 @@
-import { flexAlignCenter, flexCenter, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { bodyContainer, flexAlignCenter, flexCenter, flexColumnCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  ${bodyContainer}
+`;
 
 export const TitleSection = styled.div`
   ${flexSpaceBetweenCenter}
