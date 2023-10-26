@@ -21,13 +21,16 @@ export default function Country({ onCountry }: PropsType) {
 
   async function fetchCountryList() {
     try {
-      const response = await axios.get("/data/getCountryFlagList.json");
+      const response = await axios.get("http://localhost:3000/data/getCountryFlagList.json");
+      console.log(response);
+
       setCountryList(response.data);
     } catch (error) {
       console.error(error);
     }
   }
 
+  // CORS 에러 수정 예정
   async function currentCountry() {
     try {
       // 현재 ip 기준 국적 코드
@@ -89,7 +92,10 @@ export default function Country({ onCountry }: PropsType) {
           </span>
           <ul>
             {countryList.map((country: { country_eng_nm: string; country_nm: string; download_url: string }) => (
-              <li key={country.country_eng_nm} onClick={() => onChangeCountry(country)}>
+              <li
+                key={country.country_eng_nm}
+                // onClick={() => onChangeCountry(country)}
+              >
                 <p>
                   {country.country_nm}, {country.country_eng_nm}
                 </p>
