@@ -81,3 +81,18 @@ export const Tag = styled.li`
     margin-bottom: 1px;
   }
 `;
+
+export const ImageWrap = styled.div`
+  width: 200px;
+  overflow: hidden;
+`;
+
+export const ImageList = styled.div<{ $left: number }>`
+  display: flex;
+  position: relative;
+  z-index: -1;
+  left: ${props => props.$left}%;
+  input {
+    display: none;
+  }
+`;

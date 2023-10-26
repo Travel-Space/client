@@ -7,6 +7,7 @@ import Input from "@/components/common/Input";
 import { PlanetContext, PlanetContextType } from "../page";
 import PLANETSHAPE from "@/constants/planetShape";
 import { PlanetShape } from "@/@types/Planet";
+import Image from "next/image";
 
 const planetImg: {
   name: PlanetShape;
@@ -27,6 +28,7 @@ export default function Left() {
   }
 
   const { planetInfo, setPlanetInfo } = planetContext;
+  const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
 
   function handleTagInput(e: React.ChangeEvent<HTMLInputElement>) {
     setTagInput(e.target.value);
@@ -59,31 +61,56 @@ export default function Left() {
     });
   }
 
+  function calcArrow(value: number) {
+    const currentIndex = planetImg.findIndex(img => img.name === planetInfo.shape);
+    const arrowIndex = (currentIndex + value + planetImg.length) % planetImg.length;
+    const arrowShape = planetImg[arrowIndex].name;
+    setImgPosition(arrowIndex * -100);
+
+    const newPlanetInfo = {
+      ...planetInfo,
+      shape: arrowShape,
+    };
+    setPlanetInfo(newPlanetInfo);
+  }
+
+  function prevPlanetImg() {
+    calcArrow(-1);
+  }
+  function nextPlanetImg() {
+    calcArrow(1);
+  }
+
   return (
     <S.Wrap>
       <S.CenterGroup>
-        <S.ArrowLeft type="button">이전</S.ArrowLeft>
-
-        {planetImg.map(img => (
-          <label key={img.name} style={{ display: planetInfo.shape !== img.name ? "none" : "block" }}>
-            {img.name}
-            <img src={img.src} alt={img.name} />
-            <input
-              type="radio"
-              name="shape"
-              value={img.name}
-              checked={planetInfo.shape === img.name}
-              onChange={() =>
-                setPlanetInfo({
-                  ...planetInfo,
-                  shape: img.name,
-                })
-              }
-            />
-          </label>
-        ))}
-
-        <S.ArrowRight type="button">다음</S.ArrowRight>
+        <S.ArrowLeft type="button" onClick={prevPlanetImg}>
+          이전
+        </S.ArrowLeft>
+        <S.ImageWrap>
+          <S.ImageList $left={imgPosition}>
+            {planetImg.map(img => (
+              <label key={img.name}>
+                <input
+                  type="radio"
+                  name="shape"
+                  value={img.name}
+                  checked={planetInfo.shape === img.name}
+                  onChange={() =>
+                    setPlanetInfo({
+                      ...planetInfo,
+                      shape: img.name,
+                    })
+                  }
+                />
+                <Image src={img.src} alt={img.name} width={200} height={200} />
+              </label>
+            ))}
+          </S.ImageList>
+        </S.ImageWrap>
+        <S.ArrowRight type="button" onClick={nextPlanetImg}>
+          다음
+        </S.ArrowRight>
       </S.CenterGroup>
       <S.Title>{planetInfo.name}</S.Title>
       <S.Group>

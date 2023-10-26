@@ -6,13 +6,13 @@ import Left from "./Left";
 import Right from "./Right";
 
 import { createContext, useEffect, useState } from "react";
-import { Planet, PlanetShape } from "@/@types/Planet";
+import { Planet } from "@/@types/Planet";
 
 export type PlanetType = Partial<Planet>;
 
 export interface PlanetContextType {
   planetInfo: PlanetType;
-  setPlanetInfo: (value: PlanetType) => void;
+  setPlanetInfo: React.Dispatch<React.SetStateAction<PlanetType>>;
 }
 
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
