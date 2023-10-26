@@ -1,10 +1,15 @@
+import { AxiosError } from "axios";
+import { ResData, User } from "@/@types";
+import axiosRequest from "@/api";
+
 import Link from "next/link";
-import * as S from "./index.styled";
-import Account from "@/components/Account";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
-import axios from "axios";
+
+import Account from "@/components/Account";
+
+import * as S from "./index.styled";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -13,10 +18,14 @@ export default function Header() {
 
   async function handleLogout() {
     try {
-      await axios.delete("/auth/logout");
+      const response = await axiosRequest.requestAxios<ResData<User>>("delete", "/auth/logout", {});
+
+      response.status === 200 && alert("로그아웃이 성공적으로 완료되었습니다!");
       setAuth(prev => ({ ...prev, isAuth: false }));
     } catch (error) {
       console.error("로그아웃 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
     }
   }
 
