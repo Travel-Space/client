@@ -1,22 +1,56 @@
+import { useEffect, useState } from "react";
 import * as S from "./index.styled";
 
 interface InputType {
   name: string;
   id: string;
-  placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  min: number;
+  max: number;
+  onNumber: (value: string) => void;
 }
 
-type PartialInput = {
-  [key in keyof InputType]?: InputType[key];
-};
+export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: InputType) {
+  const [number, setNumber] = useState<string>(value);
 
-export default function AdjustBtnInput({ name, id, placeholder, onChange }: PartialInput) {
+  function calcNumber(newNumber: number) {
+    if (max && newNumber > max) {
+      newNumber = max;
+    }
+    if (min && newNumber < min) {
+      newNumber = min;
+    }
+    return newNumber;
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    let newNumber = parseFloat(e.target.value);
+
+    setNumber(calcNumber(newNumber).toString());
+  }
+
+  function handleDirection(value: number) {
+    setNumber(prev => {
+      const numberPrev = parseFloat(prev);
+      let newNumber = numberPrev + value;
+
+      return calcNumber(newNumber).toString();
+    });
+  }
+
+  useEffect(() => {
+    onNumber(number);
+  }, [number]);
+
   return (
     <S.AdjustInput>
-      <S.MinusButton type="button">-</S.MinusButton>
-      <S.Input type="number" id={id} name={name} placeholder={placeholder} onChange={onChange} />
-      <S.PlusButton type="button">+</S.PlusButton>
+      <S.MinusButton type="button" onClick={() => handleDirection(-1)}>
+        증감
+      </S.MinusButton>
+      <S.Input type="number" id={id} name={name} onChange={handleChange} value={number} min={min} max={max} />
+      <S.PlusButton type="button" onClick={() => handleDirection(1)}>
+        증가
+      </S.PlusButton>
     </S.AdjustInput>
   );
 }

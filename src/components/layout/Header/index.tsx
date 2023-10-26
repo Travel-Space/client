@@ -10,6 +10,7 @@ import { userAtom } from "@/recoil/atoms/user.atom";
 import Account from "@/components/Account";
 
 import * as S from "./index.styled";
+import Image from "next/image";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -33,15 +34,15 @@ export default function Header() {
     <S.Wrap>
       <S.Container>
         <Link href="/">
-          <img src="/assets/img/icons/logo.svg" />
+          <Image width={259} height={35} alt="트래블스페이스 로고" src="/assets/img/icons/logo.svg" />
         </Link>
         <S.List>
           {isAuth ? (
             <>
               <li>
                 <button type="button">
-                  <img src="/assets/img/icons/notification.svg" />
-                  {/* <img src="/assets/img/icons/notifications.svg" /> */}
+                  <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
+                  {/* <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" /> */}
                 </button>
               </li>
               <li>

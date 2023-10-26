@@ -37,8 +37,4 @@ export interface PlanetMembership {
   user: User;
 }
 
-export enum PlanetShape {
-  "SHAPE1",
-  "SHAPE2",
-  "SHAPE3",
-}
+export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
