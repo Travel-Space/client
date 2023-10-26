@@ -6,6 +6,11 @@ import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
 import { UserFriend } from "./Friend";
 import { Comment } from "./Comment";
 
+export interface Login {
+  email: string;
+  password: string;
+}
+
 export interface User {
   id: number;
   name: string;
