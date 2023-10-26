@@ -20,17 +20,14 @@ export default function Email({ onEmail }: PropsType) {
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
-  const regexEmail = new RegExp(VALIDATE.email);
-  const regexNumber = new RegExp(VALIDATE.onlyNumber);
-
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
-    regexEmail.test(email) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   }
 
   function handleCode(e: React.ChangeEvent<HTMLInputElement>) {
     setCode(e.target.value);
-    regexNumber.test(code) ? setCodeValid(true) : setCodeValid(false);
+    VALIDATE.onlyNumber.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
   }
 
   async function sendCode() {
