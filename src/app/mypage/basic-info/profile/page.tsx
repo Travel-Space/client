@@ -9,11 +9,16 @@ import Image from "next/image";
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
-import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
 
 export default function Profile() {
   const [profile, setProfile] = useState<User>();
+  //변경된 프로필이미지
+  const [changedProfileImg, setChangedProfileImg] = useState<string | null>(profile?.profileImage || null);
+  const handleChangeImg = (src: string) => {
+    setChangedProfileImg(src);
+  };
+
   //내 프로필 조회
   async function getProfile() {
     try {
@@ -63,16 +68,7 @@ export default function Profile() {
           <S.Title>프로필 사진</S.Title>
           <S.Content>
             {/* 기본이미지 픽스 후 수정예정 */}
-            <ProfileImage prev="/assets/img/icons/default-user.svg" />
-            <S.DeleteImgBtn>
-              <Image src="/assets/img/icons/black-minus.svg" alt="delete-button" width={24} height={24} />
-            </S.DeleteImgBtn>
-            {/* <S.EditImgBtn>
-              <input type="file" />
-            </S.EditImgBtn> */}
-            {/* <S.EditImgBtn>
-              <Image src="/assets/img/icons/modify.svg" alt="edit-button" width={24} height={24} />
-            </S.EditImgBtn> */}
+            <ProfileImage prev={changedProfileImg} onChange={handleChangeImg} />
           </S.Content>
         </S.Row>
         <Line color="gray" size="horizontal" />

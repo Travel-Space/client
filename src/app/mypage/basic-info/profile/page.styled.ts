@@ -18,26 +18,6 @@ export const Main = styled.div`
   }
 `;
 
-export const DeleteImgBtn = styled.button`
-  background-color: transparent;
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
-export const EditImgBtn = styled.label`
-  background-image: url("/assets/img/icons/modify.svg");
-  background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  & > input {
-    display: none;
-  }
-`;
 export const Row = styled.div`
   display: flex;
 `;

@@ -15,6 +15,7 @@ export const Buttons = styled.div`
     width: 200px;
   }
 `;
+
 export const Modal = styled.div`
   width: 800px;
   background-color: white;

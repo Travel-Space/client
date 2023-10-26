@@ -5,12 +5,22 @@ export const EditImgBtn = styled.label`
   background-image: url("/assets/img/icons/modify.svg");
   background-repeat: no-repeat;
   width: 24px;
-  height: 24px;
+  height: 25px;
   cursor: pointer;
 
   position: absolute;
   right: 0;
   bottom: 0;
+`;
+export const DeleteImgBtn = styled.button`
+  background-color: transparent;
+  background-image: url("/assets/img/icons/black-minus.svg");
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
 export const ProfileImage = styled.div`
   width: 120px;

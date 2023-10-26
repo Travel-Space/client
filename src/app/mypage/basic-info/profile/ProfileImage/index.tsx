@@ -39,8 +39,12 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
     // console.log("compressedImage", compressedImage);
   }, [uploadImage]);
 
+  const deleteImg = () => {
+    setCompressedImage(defaultImage);
+  };
   return (
     <>
+      <S.DeleteImgBtn onClick={deleteImg} />
       <S.ProfileImage>
         {compressedImage ? (
           <Image src={compressedImage} alt="profile-image" width={120} height={120} />
