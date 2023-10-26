@@ -23,12 +23,10 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
 
-  const regexPassword = new RegExp(VALIDATE.password);
-
   function handlePasswordCompare(result: boolean, value: string) {
     setIsPasswordMatching(result);
     setPassword(value);
-    regexPassword.test(password) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   }
 
   function handleEmail(result: boolean, value: string) {
