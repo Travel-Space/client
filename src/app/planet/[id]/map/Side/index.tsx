@@ -3,18 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Posting } from "@/@types/Posting";
+import { ArticleProps } from "../page";
 
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
-
-export interface ArticleProps {
-  params: Number;
-  article: Posting[];
-  onClose?: () => void;
-}
 
 export default function Side({ onClose, article, params }: ArticleProps) {
   const [selectedMenu, setSelectedMenu] = useState("전체");
@@ -44,7 +39,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
               </S.Middle>
 
               <S.ScrollBox>
-                {article.map(article => (
+                {article.map((article: Posting) => (
                   <PostPreview article={article} params={params} />
                 ))}
               </S.ScrollBox>
