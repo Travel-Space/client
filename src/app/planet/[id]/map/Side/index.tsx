@@ -7,10 +7,14 @@ import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
+import { Posting } from "@/@types/Posting";
 
-const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export interface ArticleProps {
+  article: Posting[];
+  onClose?: () => void;
+}
 
-export default function Side({ onClose }: { onClose: () => void }) {
+export default function Side({ onClose, article }: ArticleProps) {
   const [selectedMenu, setSelectedMenu] = useState("전체");
 
   const dropDownProps = {
@@ -38,8 +42,8 @@ export default function Side({ onClose }: { onClose: () => void }) {
               </S.Middle>
 
               <S.ScrollBox>
-                {number.map(num => (
-                  <PostPreview />
+                {article.map(article => (
+                  <PostPreview article={article} />
                 ))}
               </S.ScrollBox>
             </div>
