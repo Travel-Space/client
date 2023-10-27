@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { flexAlignCenter, flexColumn } from "@/styles/common";
+import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Post = styled.div`
-  ${flexAlignCenter}
+  ${flexSpaceBetweenCenter}
   gap: 16px;
   padding: 24px 0;
   border-bottom: 1px solid #d9d9d9;
