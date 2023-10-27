@@ -7,6 +7,9 @@ import Right from "./Right";
 
 import { createContext, useEffect, useState } from "react";
 import { Planet } from "@/@types/Planet";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+import { AxiosError } from "axios";
 
 export type PlanetType = Partial<Planet>;
 
@@ -17,7 +20,7 @@ export interface PlanetContextType {
 
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
-export default function CreatePlanet() {
+export default function CreatePlanet({ id }: { id: number | undefined }) {
   const [planetInfo, setPlanetInfo] = useState<PlanetType>({
     name: "",
     description: "",
@@ -26,7 +29,20 @@ export default function CreatePlanet() {
     hashtags: [],
   });
 
+  async function fetchPlanetData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
+      // const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/6`, {});
+      setPlanetInfo(response.data);
+    } catch (error) {
+      console.error("특정 행성 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   useEffect(() => {
+    id && fetchPlanetData();
     setPlanetInfo({
       ...planetInfo,
     });

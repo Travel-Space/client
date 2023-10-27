@@ -9,6 +9,10 @@ import Textarea from "@/components/common/Textarea";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import Button from "@/components/common/Button";
 import { PlanetContext, PlanetContextType } from "../page";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+import { Planet } from "@/@types/Planet";
+import { AxiosError } from "axios";
 
 export default function Right() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
@@ -40,15 +44,42 @@ export default function Right() {
     });
   }
 
+  async function submitCreatePlanet() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
+      // console.log(response);
+      response.status === 201 && alert("새로운 행성이 생성되었습니다!");
+    } catch (error) {
+      console.error("새 행성 생성하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  async function submitModifyPlanet() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, planetInfo);
+      console.log(response);
+      response.status === 201 && alert("행성이 수정되었습니다!");
+    } catch (error) {
+      console.error("행성 수정하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   return (
     <S.Wrap>
       <div>
         <S.BetweenGroup>
           <S.Header>
-            <Image width={21} height={21} src="/assets/img/icons/create-plus.svg" alt="새 행성 만들기 아이콘" />
-            {/* <Image width={21} height={21} src="/assets/img/icons/create-pencil.svg" alt="행성 관리 아이콘" /> */}
-            <h1>새 행성 만들기</h1>
-            {/* <h1>행성 관리</h1> */}
+            <Image
+              width={21}
+              height={21}
+              src={`/assets/img/icons/create-${planetInfo.id ? "pencil" : "plus"}.svg`}
+              alt={`${planetInfo.id ? "행성 관리" : "새 행성 만들기"} 아이콘`}
+            />
+            <h1>{planetInfo.id ? "행성 관리" : "새 행성 만들기"}</h1>
           </S.Header>
           <S.RadioBox>
             <S.Radio
@@ -130,8 +161,13 @@ export default function Right() {
         <Button variant="reverse" shape="medium" size="big">
           취소
         </Button>
-        <Button variant="confirm" shape="medium" size="big">
-          완료
+        <Button
+          variant="confirm"
+          shape="medium"
+          size="big"
+          onClick={planetInfo.id ? submitModifyPlanet : submitCreatePlanet}
+        >
+          {planetInfo.id ? "수정" : "완료"}
         </Button>
       </S.BetweenGroup>
     </S.Wrap>
