@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { ArticleProps } from "..";
+
+import { getDateInfo } from "@/utils/getDateInfo";
+import { ArticleProps } from "../../page";
 
 import * as S from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
@@ -8,6 +10,9 @@ const previewImg = "/assets/img/icons/post-test-img.svg";
 
 export default function PostPreview({ article, params }: ArticleProps) {
   const { id, title, content, createdAt, author } = article;
+
+  // 날짜와 프로필 이미지
+  const { dateString } = getDateInfo(createdAt);
 
   return (
     <S.Container>
@@ -21,7 +26,7 @@ export default function PostPreview({ article, params }: ArticleProps) {
               <div>{content}</div>
             </S.Description>
 
-            <S.Date>{createdAt}</S.Date>
+            <S.Date>{dateString}</S.Date>
           </S.MainBox>
 
           <S.PreviewImg src={previewImg} alt="프리뷰 이미지" />

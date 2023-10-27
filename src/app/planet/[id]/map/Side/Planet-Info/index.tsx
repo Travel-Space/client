@@ -8,7 +8,7 @@ import { Planet } from "@/@types/Planet";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 
-const Guest = {
+const role = {
   관리자: ["행성 관리", "우주선"], // 관리자 및 부관리자
   일반: "우주선",
   게스트: "행성 탑승",

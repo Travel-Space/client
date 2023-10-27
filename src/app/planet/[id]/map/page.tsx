@@ -10,6 +10,12 @@ import { Posting } from "@/@types/Posting";
 import * as S from "./page.styled";
 import Side from "./Side";
 
+export interface ArticleProps {
+  params: Number;
+  article: Posting[] | Posting;
+  onClose?: () => void;
+}
+
 const containerStyle = {
   width: "100%",
   height: "calc(100vh - 90px)",
