@@ -49,7 +49,7 @@ export default function PlanetList() {
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
               {group.map(planet => (
-                <Link key={planet.id} href={`/planet/${planet.id}`} id="link">
+                <Link key={planet.id} href={`/planet/${planet.id}/map`} id="link">
                   <SlideImage
                     src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
                     alt={`Planet ${planet.name}`}
