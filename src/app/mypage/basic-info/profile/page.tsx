@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types/index";
 
@@ -7,11 +7,14 @@ import Link from "next/link";
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
+import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
 import Item from "./Item";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<User>();
+  const [profile, setProfile] = useState<User | null>(null);
+  const nicknameInputRef = useRef<HTMLInputElement>(null);
+  const nationalityInputRef = useRef<HTMLInputElement>(null);
 
   //내 프로필 조회
   async function getProfile() {
@@ -19,7 +22,7 @@ export default function Profile() {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
       const profile = response.data;
       setProfile(profile);
-      // console.log("response.data", profile);
+      console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -27,11 +30,11 @@ export default function Profile() {
   }
   useEffect(() => {
     getProfile();
-    console.log("profile", profile);
+    // console.log("profile", profile);
   }, []);
 
   //프로필이미지 변경
-  const [changedProfileImg, setChangedProfileImg] = useState<string | null>(profile?.profileImage || null);
+  const [changedProfileImg, setChangedProfileImg] = useState(profile?.profileImage);
   const handleChangeImg = (src: string) => {
     setChangedProfileImg(src);
   };
@@ -42,34 +45,55 @@ export default function Profile() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setNickname(e.target.value);
     };
-    return <S.NicknameInput type="text" value={nickname} onChange={handleChange} />;
+    return <S.NicknameInput type="text" ref={nicknameInputRef} value={nickname} onChange={handleChange} />;
   };
 
   //국적
-  const [nationality, setNationality] = useState(profile?.nationality);
+  // 슬언니꺼 완료되면 가져오기-수정예정
+  const NationalityInput = ({ prev }: { prev?: string }) => {
+    const [nationality, setNationality] = useState(profile?.nationality);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNationality(e.target.value);
+    };
+    return <S.NicknameInput type="text" ref={nationalityInputRef} value={nationality} onChange={handleChange} />;
+  };
 
   // //변경사항 저장
-  // interface updateProfileProps {
-  //   nickName: string;
-  //   nationality: string;
-  //   profileImage: string;
-  // }
-  // const updateProfile = async (data: updateProfileProps) => {
-  //   return await axios.put(`/auth/update`, data);
-  // };
-  // const { mutate: updateProfileMutation } = useMutation({
-  //   mutationFn: updateProfile,
-  // });
+  interface updateProfileProps {
+    nickName?: string;
+    nationality?: string;
+    profileImage?: string;
+  }
+  const updateProfile = async (data: updateProfileProps) => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<User>>("put", "/auth/update", data);
+      // console.log(response.status);
+      if (response.status === 200) {
+        getProfile();
+        alert("프로필이 변경되었습니다.");
+        return;
+      }
+    } catch (error) {
+      alert("프로필 정보를 수정하는 중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error updating profile data: ", error);
+    }
+  };
+  const saveData = () => {
+    const changedData = {
+      nickName: nicknameInputRef.current?.value,
+      nationality: nationalityInputRef.current?.value,
+      profileImage: changedProfileImg,
+    };
+    // console.log(changedData);
+    updateProfile(changedData);
+  };
 
-  // const handleClick = (updatedData: updateProfileProps) => {
-  //   updateProfileMutation(updatedData);
-  // };
   return (
     <S.Container>
       <S.Main>
         <Item name="프로필 사진">
           {/* 기본이미지 픽스 후 수정예정 */}
-          <ProfileImage prev={changedProfileImg} onChange={handleChangeImg} />
+          <ProfileImage prev={profile?.profileImage} onChange={handleChangeImg} />
         </Item>
 
         <Line color="gray" size="horizontal" />
@@ -94,7 +118,7 @@ export default function Profile() {
         <Line color="gray" size="horizontal" />
         <Item name="국적">
           {/* 슬언니꺼 완료되면 가져오기-수정예정 */}
-          <div>{nationality}</div>
+          <NationalityInput prev={profile?.nationality} />
         </Item>
       </S.Main>
       <S.Footer>
@@ -103,14 +127,9 @@ export default function Profile() {
           <Link href="/user/leave">회원탈퇴</Link>
         </S.Leave>
         <S.Save>
-          {/* <Button
-            variant="confirm"
-            shape="medium"
-            size="big"
-            onClick={() => handleClick({ nickName: nickname, nationality: nationality, profileImage: profileImage })}
-          >
+          <Button variant="confirm" shape="medium" size="big" onClick={saveData}>
             변경 사항 저장
-          </Button> */}
+          </Button>
         </S.Save>
       </S.Footer>
     </S.Container>
