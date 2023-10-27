@@ -47,7 +47,7 @@ export default function Right() {
   async function submitCreatePlanet() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
-      // console.log(response);
+      console.log(response);
       response.status === 201 && alert("새로운 행성이 생성되었습니다!");
     } catch (error) {
       console.error("새 행성 생성하기 에러", error);

@@ -8,7 +8,7 @@ import { PlanetContext, PlanetContextType } from "..";
 import PLANETSHAPE from "@/constants/planetShape";
 import { PlanetShape } from "@/@types/Planet";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 const planetImg: {
   name: PlanetShape;
@@ -24,6 +24,7 @@ export default function Left() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
   const router = useRouter();
+  const params = useParams();
 
   if (!planetContext) {
     return;
@@ -139,7 +140,12 @@ export default function Left() {
       {/* 행성 수정 시 */}
       {planetInfo.id && (
         <div>
-          <Button variant="gradient" shape="large" size="big" onClick={() => router.push("/space-ship")}>
+          <Button
+            variant="gradient"
+            shape="large"
+            size="big"
+            onClick={() => router.push(`/planet/${params.id}/space-ship`)}
+          >
             탑승 우주선으로 이동
           </Button>
           {/* 행성 관리자만 삭제 가능 */}

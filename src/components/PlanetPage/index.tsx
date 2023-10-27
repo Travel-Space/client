@@ -20,7 +20,7 @@ export interface PlanetContextType {
 
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
-export default function PlanetPage({ id }: { id: number | undefined }) {
+export default function PlanetPage({ id }: { id: string[] | string | undefined }) {
   const [planetInfo, setPlanetInfo] = useState<PlanetType>({
     name: "",
     description: "",
