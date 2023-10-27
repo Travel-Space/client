@@ -19,6 +19,7 @@ export const Header = styled.div`
 `;
 export const People = styled.div`
   font-weight: 400;
+  color: #666666;
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   line-heifht: 20px;
 `;

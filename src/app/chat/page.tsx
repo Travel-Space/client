@@ -24,7 +24,7 @@ export default function Chat() {
 
   return (
     <S.Container>
-      {modalDataState.isOpen && <DeclarationModal onClick={closeModal} title="r" />}
+      {modalDataState.isOpen && <DeclarationModal onClick={closeModal} title="채팅" />}
 
       <S.ChatBox>
         <button onClick={() => openModal(modal)}>button</button>

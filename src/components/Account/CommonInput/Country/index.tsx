@@ -15,7 +15,22 @@ export default function Country({ onCountry }: PropsType) {
     engName: "",
     imageUrl: "",
   });
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [countryList, setCountryList] = useState([]);
 
+  async function fetchCountryList() {
+    try {
+      const response = await axios.get("http://localhost:3000/data/getCountryFlagList.json");
+      console.log(response);
+
+      setCountryList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // CORS 에러 수정 예정
   async function currentCountry() {
     try {
       // 현재 ip 기준 국적 코드
@@ -31,18 +46,32 @@ export default function Country({ onCountry }: PropsType) {
     }
   }
 
+  function onSearchInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchInput(e.target.value);
+  }
+
   useEffect(() => {
     currentCountry();
+    fetchCountryList();
   }, []);
 
   useEffect(() => {
     onCountry(country.name);
   }, [country]);
+
+  useEffect(() => {
+    // setCountryList(
+    //   countryList.filter(country => {
+    //     const re = new RegExp(searchInput, "gi");
+    //     return country.name.match(re);
+    //   }),
+    // );
+  }, [searchInput]);
   return (
     <>
       <InputGroup>
         <Label id="nationality">국적</Label>
-        <InputGroup>
+        <InputGroup onClick={() => setShowSearch(prev => !prev)}>
           <Input
             id="nationality"
             type="text"
@@ -55,6 +84,27 @@ export default function Country({ onCountry }: PropsType) {
           </SmallBtnGroup>
         </InputGroup>
       </InputGroup>
+      {showSearch && (
+        <div>
+          <input type="text" onChange={onSearchInput} placeholder="나라이름을 검색해보세요." />
+          <span className="length">
+            {countryList.length > 0 ? `검색 결과: ${countryList.length}건` : "검색 결과 없음"}
+          </span>
+          <ul>
+            {countryList.map((country: { country_eng_nm: string; country_nm: string; download_url: string }) => (
+              <li
+                key={country.country_eng_nm}
+                // onClick={() => onChangeCountry(country)}
+              >
+                <p>
+                  {country.country_nm}, {country.country_eng_nm}
+                </p>
+                <img src={country.download_url} alt={country.country_nm} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 }
