@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
+export const Container = styled.div`
+  > a {
+    text-decoration: none;
+    color: black;
+  }
+`;
+
 export const Post = styled.div`
   ${flexSpaceBetweenCenter}
   gap: 16px;
