@@ -11,15 +11,17 @@ import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper/modules";
+import { useRouter } from "next/navigation";
 
 export default function SpaceShip() {
   const [showExitModal, setShowExitModal] = useState<boolean>(false);
   const [showMemberModal, setShowMemberModal] = useState<boolean>(false);
+  const router = useRouter();
 
   return (
     <S.Wrap>
       <S.Header>
-        <Button variant="basic" size="normal" shape="large">
+        <Button variant="basic" size="normal" shape="large" onClick={() => router.back()}>
           <img src="/assets/img/icons/prev-white.svg" height={16} />
         </Button>
         <S.Title>일본 맛도리 여행</S.Title>
