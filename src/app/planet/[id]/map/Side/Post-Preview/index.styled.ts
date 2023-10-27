@@ -6,17 +6,18 @@ export const Container = styled.div`
     text-decoration: none;
     color: black;
   }
+
+  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+
+  &:last-child {
+    border: none;
+  }
 `;
 
 export const Post = styled.div`
   ${flexSpaceBetweenCenter}
   gap: 16px;
   padding: 24px 0;
-  border-bottom: 1px solid #d9d9d9;
-
-  &:last-child {
-    border: none;
-  }
 `;
 
 export const MainBox = styled.div`
