@@ -8,6 +8,7 @@ import { PlanetContext, PlanetContextType } from "../page";
 import PLANETSHAPE from "@/constants/planetShape";
 import { PlanetShape } from "@/@types/Planet";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const planetImg: {
   name: PlanetShape;
@@ -22,6 +23,7 @@ export default function Left() {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
+  const router = useRouter();
 
   if (!planetContext) {
     return;
@@ -135,15 +137,17 @@ export default function Left() {
         </S.TagGroup>
       </S.Group>
       {/* 행성 수정 시 */}
-      <div>
-        {/* <Button variant="gradient" shape="large" size="big">
-          탑승 우주선으로 이동
-        </Button> */}
-        {/* 행성 관리자만 삭제 가능 */}
-        {/* <S.DeleteBtn type="button" onClick={() => setShowDeleteModal(true)}>
+      {planetInfo.id && (
+        <div>
+          <Button variant="gradient" shape="large" size="big" onClick={() => router.push("/space-ship")}>
+            탑승 우주선으로 이동
+          </Button>
+          {/* 행성 관리자만 삭제 가능 */}
+          {/* <S.DeleteBtn type="button" onClick={() => setShowDeleteModal(true)}>
           행성 삭제 💥
         </S.DeleteBtn> */}
-      </div>
+        </div>
+      )}
       {/* {showDeletePlanetModal ? (
         <DeletePlanetModal onClose={() => setShowDeletePlanetModal(false)} planetTitle="일본 맛도리 여행" />
       ) : null} */}
