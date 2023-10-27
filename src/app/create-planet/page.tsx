@@ -5,18 +5,39 @@ import * as S from "./page.styled";
 import Left from "./Left";
 import Right from "./Right";
 
-const planets = [
-  { value: "planet-1", src: "/assets/img/icons/planet-1.svg" },
-  { value: "planet-2", src: "/assets/img/icons/planet-1.svg" },
-  { value: "planet-3", src: "/assets/img/icons/planet-1.svg" },
-  { value: "planet-4", src: "/assets/img/icons/planet-1.svg" },
-];
+import { createContext, useEffect, useState } from "react";
+import { Planet } from "@/@types/Planet";
+
+export type PlanetType = Partial<Planet>;
+
+export interface PlanetContextType {
+  planetInfo: PlanetType;
+  setPlanetInfo: React.Dispatch<React.SetStateAction<PlanetType>>;
+}
+
+export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
 export default function CreatePlanet() {
+  const [planetInfo, setPlanetInfo] = useState<PlanetType>({
+    name: "",
+    description: "",
+    published: true,
+    shape: "SHAPE1",
+    hashtags: [],
+  });
+
+  useEffect(() => {
+    setPlanetInfo({
+      ...planetInfo,
+    });
+  }, []);
+
   return (
-    <S.Wrap>
-      <Left />
-      <Right />
-    </S.Wrap>
+    <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>
+      <S.Wrap>
+        <Left />
+        <Right />
+      </S.Wrap>
+    </PlanetContext.Provider>
   );
 }

@@ -1,10 +1,16 @@
+import { AxiosError } from "axios";
+import { ResData, User } from "@/@types";
+import axiosRequest from "@/api";
+
 import Link from "next/link";
-import * as S from "./index.styled";
-import Account from "@/components/Account";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
-import axios from "axios";
+
+import Account from "@/components/Account";
+
+import * as S from "./index.styled";
+import Image from "next/image";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -13,10 +19,14 @@ export default function Header() {
 
   async function handleLogout() {
     try {
-      await axios.delete("/auth/logout");
+      const response = await axiosRequest.requestAxios<ResData<User>>("delete", "/auth/logout", {});
+
+      response.status === 200 && alert("로그아웃이 성공적으로 완료되었습니다!");
       setAuth(prev => ({ ...prev, isAuth: false }));
     } catch (error) {
       console.error("로그아웃 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
     }
   }
 
@@ -24,15 +34,15 @@ export default function Header() {
     <S.Wrap>
       <S.Container>
         <Link href="/">
-          <img src="/assets/img/icons/logo.svg" />
+          <Image width={259} height={35} alt="트래블스페이스 로고" src="/assets/img/icons/logo.svg" />
         </Link>
         <S.List>
           {isAuth ? (
             <>
               <li>
                 <button type="button">
-                  <img src="/assets/img/icons/notification.svg" />
-                  {/* <img src="/assets/img/icons/notifications.svg" /> */}
+                  <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
+                  {/* <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" /> */}
                 </button>
               </li>
               <li>

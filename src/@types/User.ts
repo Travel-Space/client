@@ -6,12 +6,19 @@ import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
 import { UserFriend } from "./Friend";
 import { Comment } from "./Comment";
 
+export interface Country {
+  country_eng_nm: string;
+  country_nm: string;
+  download_url: string;
+}
+
 export interface User {
   id: number;
   name: string;
   nickName: string;
   nationality: string;
   email: string;
+  code: string;
   createdAt: Date;
   oauthId: string | null;
   password: string;

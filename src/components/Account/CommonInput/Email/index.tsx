@@ -1,5 +1,8 @@
+import { AxiosError } from "axios";
+import { ResData } from "@/@types";
+import { User } from "@/@types/User";
+import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
 
@@ -20,28 +23,25 @@ export default function Email({ onEmail }: PropsType) {
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
-  const regexEmail = new RegExp(VALIDATE.email);
-  const regexNumber = new RegExp(VALIDATE.onlyNumber);
-
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
-    regexEmail.test(email) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   }
 
   function handleCode(e: React.ChangeEvent<HTMLInputElement>) {
     setCode(e.target.value);
-    regexNumber.test(code) ? setCodeValid(true) : setCodeValid(false);
+    VALIDATE.onlyNumber.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
   }
 
   async function sendCode() {
     setShowCodeInput(true);
     try {
-      const response = await axios.post("/auth/send-verification-code", {
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/send-verification-code", {
         email,
       });
-      response.data.success && alert("인증번호가 전송되었습니다!");
+      response.status === 201 && alert("인증번호가 전송되었습니다!");
     } catch (error) {
-      // console.error("인증코드 전송 에러", error);
+      console.error("인증코드 전송 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -49,14 +49,15 @@ export default function Email({ onEmail }: PropsType) {
 
   async function verifyCode() {
     try {
-      const response = await axios.post("/auth/verify-code", {
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/verify-code", {
         email,
         code,
       });
-      response.data.success && alert("인증되었습니다!");
+
+      response.status === 201 && alert("인증되었습니다!");
       return setConfirm(true);
     } catch (error) {
-      // console.error("인증코드 전송 에러", error);
+      console.error("인증코드 확인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
       return setCode("");
