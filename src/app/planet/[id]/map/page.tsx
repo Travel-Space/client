@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import axiosRequest from "@/api";
+import { ResData } from "@/@types";
 import { Posting } from "@/@types/Posting";
 
 import * as S from "./page.styled";
@@ -36,7 +37,10 @@ export default function Map({ params }: { params: { id: number } }) {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   // 게시글 정보
-  const [article, setArticle] = useState([]);
+  const [article, setArticle] = useState<Partial<Posting[]>>([]);
+
+  // 게시글 정보에서 위치 정보만 담기
+  const [location, setLocation] = useState([]);
 
   // google map key
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY || "";
@@ -46,10 +50,13 @@ export default function Map({ params }: { params: { id: number } }) {
     googleMapsApiKey,
   });
 
-  // 게시글 정보 받아오는 api
+  // 특정 행성 게시글 정보 받아오는 api
   const getArticle = async () => {
     try {
-      const response = await axiosRequest.requestAxios<Posting[]>("get", `/articles/byPlanet?planetId=${params.id}`);
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
+        "get",
+        `/articles/byPlanet?planetId=${params.id}`,
+      );
       const data = response.data;
 
       setArticle(data);
@@ -83,7 +90,7 @@ export default function Map({ params }: { params: { id: number } }) {
 
   return (
     <S.Container>
-      {isOpen && <Side onClose={handleClickSide} article={article} />}
+      {isOpen && <Side onClose={handleClickSide} article={article} params={params.id} />}
 
       <S.Button onClick={handleClickSide}>→</S.Button>
 
