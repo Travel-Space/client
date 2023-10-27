@@ -45,7 +45,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
 
               <S.ScrollBox>
                 {article.map(article => (
-                  <PostPreview article={article} />
+                  <PostPreview article={article} params={params} />
                 ))}
               </S.ScrollBox>
             </div>
