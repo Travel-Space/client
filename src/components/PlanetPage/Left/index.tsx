@@ -4,7 +4,7 @@ import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import { PlanetContext, PlanetContextType } from "../page";
+import { PlanetContext, PlanetContextType } from "..";
 import PLANETSHAPE from "@/constants/planetShape";
 import { PlanetShape } from "@/@types/Planet";
 import Image from "next/image";

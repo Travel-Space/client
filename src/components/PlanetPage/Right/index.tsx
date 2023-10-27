@@ -8,7 +8,7 @@ import Input, { Label } from "@/components/common/Input";
 import Textarea from "@/components/common/Textarea";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import Button from "@/components/common/Button";
-import { PlanetContext, PlanetContextType } from "../page";
+import { PlanetContext, PlanetContextType } from "..";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
