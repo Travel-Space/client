@@ -1,6 +1,7 @@
+import { ArticleProps } from "..";
+
 import * as S from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
-import { ArticleProps } from "..";
 
 const previewImg = "/assets/img/icons/post-test-img.svg";
 
