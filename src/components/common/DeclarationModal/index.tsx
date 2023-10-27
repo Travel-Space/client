@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+
 import { userAtom } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
@@ -11,6 +12,7 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
   const { id } = useRecoilValue(userAtom);
 
   const [selectedMenu, setSelectedMenu] = useState("");
+
   const [data, setData] = useState({
     reason: "", // 신고 내용
     dropdown: selectedMenu, // 신고 사유
