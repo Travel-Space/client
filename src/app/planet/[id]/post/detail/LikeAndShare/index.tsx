@@ -4,11 +4,17 @@ import React from "react";
 import * as LS from "./index.styled";
 import Line from "@/components/common/Line";
 
-export default function LikeAndShare() {
+interface LikeAndShareProps {
+  likedStatus: boolean;
+  onLikeToggle: () => void;
+}
+
+export default function LikeAndShare({ likedStatus, onLikeToggle }: LikeAndShareProps) {
   return (
     <LS.Wrapper>
-      <LS.Like>
-        좋아요 <LS.LikeBtn src="/assets/img/icons/gray-heart.svg" />
+      <LS.Like onClick={onLikeToggle}>
+        좋아요 
+        <LS.LikeBtn src={likedStatus ? "/assets/img/icons/red-heart.svg" : "/assets/img/icons/gray-heart.svg"} />
       </LS.Like>
       <LS.VerticaLine>
         <Line size="vertical" color="gray" />
@@ -20,3 +26,4 @@ export default function LikeAndShare() {
     </LS.Wrapper>
   );
 }
+

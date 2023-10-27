@@ -16,4 +16,5 @@ export interface Posting {
   planet: Planet;
   likes: Like[];
   comments: Comment[];
+  isLiked: boolean;
 }
