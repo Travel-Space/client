@@ -19,6 +19,7 @@ interface InputType {
   warning: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 
 export function Label({ id, children }: LabelType) {
@@ -34,6 +35,7 @@ export default React.forwardRef(function Input(
     value,
     onChange,
     onKeyDown,
+    onClick,
     disabled,
     readOnly,
     rounded,
@@ -54,6 +56,7 @@ export default React.forwardRef(function Input(
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      onClick={onClick}
       disabled={disabled}
       readOnly={readOnly}
       ref={ref}

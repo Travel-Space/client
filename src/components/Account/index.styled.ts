@@ -72,6 +72,7 @@ export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
       width: 48px;
       img {
         width: 100%;
+        object-fit: cover;
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
       }
     `};

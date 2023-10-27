@@ -4,10 +4,24 @@ import axios from "axios";
 import Input, { Label } from "@/components/common/Input";
 
 import { InputGroup, SmallBtnGroup } from "../../index.styled";
+import * as S from "./index.styled";
+import { CountryInfo } from "@/@types/User";
 
 interface PropsType {
   onCountry: (country: string) => void;
 }
+
+let initCountryList: CountryInfo[];
+
+async function fetchCountryList() {
+  try {
+    const response = await axios.get("http://localhost:3000/data/getCountryFlagList.json");
+    initCountryList = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+fetchCountryList();
 
 export default function Country({ onCountry }: PropsType) {
   const [country, setCountry] = useState({
@@ -17,18 +31,7 @@ export default function Country({ onCountry }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [countryList, setCountryList] = useState([]);
-
-  async function fetchCountryList() {
-    try {
-      const response = await axios.get("http://localhost:3000/data/getCountryFlagList.json");
-      console.log(response);
-
-      setCountryList(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const [countryList, setCountryList] = useState<CountryInfo[]>(initCountryList);
 
   // CORS 에러 수정 예정
   async function currentCountry() {
@@ -50,6 +53,13 @@ export default function Country({ onCountry }: PropsType) {
     setSearchInput(e.target.value);
   }
 
+  function onChangeCountry(value: CountryInfo) {
+    const { country_nm, country_eng_nm, download_url } = value;
+    setCountry({ name: country_nm, engName: country_eng_nm, imageUrl: download_url });
+    setShowSearch(false);
+    setSearchInput("");
+  }
+
   useEffect(() => {
     currentCountry();
     fetchCountryList();
@@ -60,51 +70,48 @@ export default function Country({ onCountry }: PropsType) {
   }, [country]);
 
   useEffect(() => {
-    // setCountryList(
-    //   countryList.filter(country => {
-    //     const re = new RegExp(searchInput, "gi");
-    //     return country.name.match(re);
-    //   }),
-    // );
+    const re = new RegExp(searchInput, "gi");
+    const filterdList = initCountryList.filter(country => {
+      return re.test(country.country_nm) || re.test(country.country_eng_nm);
+    });
+    setCountryList(filterdList);
   }, [searchInput]);
+
   return (
     <>
       <InputGroup>
         <Label id="nationality">국적</Label>
-        <InputGroup onClick={() => setShowSearch(prev => !prev)}>
+        <S.Group>
           <Input
             id="nationality"
             type="text"
             name="nationality"
             readOnly
             value={`${country.name}, ${country.engName}`}
+            onClick={() => setShowSearch(prev => !prev)}
           />
           <SmallBtnGroup $country>
             <img src={country.imageUrl} alt={country.name} />
           </SmallBtnGroup>
-        </InputGroup>
+          {showSearch && (
+            <S.SearchBox>
+              <S.Search>
+                <input type="text" onChange={onSearchInput} placeholder="나라이름을 검색해보세요." />
+              </S.Search>
+              <S.SearchList>
+                {countryList.map((country: CountryInfo) => (
+                  <li key={country.country_eng_nm} onClick={() => onChangeCountry(country)}>
+                    <p>
+                      {country.country_nm}, <span>{country.country_eng_nm}</span>
+                    </p>
+                    <img src={country.download_url} alt={country.country_nm} />
+                  </li>
+                ))}
+              </S.SearchList>
+            </S.SearchBox>
+          )}
+        </S.Group>
       </InputGroup>
-      {showSearch && (
-        <div>
-          <input type="text" onChange={onSearchInput} placeholder="나라이름을 검색해보세요." />
-          <span className="length">
-            {countryList.length > 0 ? `검색 결과: ${countryList.length}건` : "검색 결과 없음"}
-          </span>
-          <ul>
-            {countryList.map((country: { country_eng_nm: string; country_nm: string; download_url: string }) => (
-              <li
-                key={country.country_eng_nm}
-                // onClick={() => onChangeCountry(country)}
-              >
-                <p>
-                  {country.country_nm}, {country.country_eng_nm}
-                </p>
-                <img src={country.download_url} alt={country.country_nm} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </>
   );
 }
