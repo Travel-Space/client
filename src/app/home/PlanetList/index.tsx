@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { SwiperContainer, StyledSwiperSlide, SlideImage } from "./index.styled";
+import { SwiperContainer, StyledSwiperSlide, PlanetImageContainer, PlanetName, SlideImage } from "./index.styled";
 import axios from "axios";
 import Link from "next/link";
 
@@ -14,9 +14,10 @@ interface PlanetListProps {
   shape: string;
 }
 
+
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
-  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
 
   useEffect(() => {
     fetchPlanetList();
@@ -50,13 +51,19 @@ export default function PlanetList() {
             <StyledSwiperSlide>
               {group.map(planet => (
                 <Link key={planet.id} href={`/planet/${planet.id}/map`} id="link">
-                  <SlideImage
-                    src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
-                    alt={`Planet ${planet.name}`}
-                    animateOnHover={isHovered}
-                    onMouseEnter={() => setIsHovered(true)} //마우스 호버 true 시 애니메이션
-                    onMouseLeave={() => setIsHovered(false)} //마우스 호버 false 시 애니메이션 X
-                  />
+                  <PlanetImageContainer
+                    onMouseEnter={() => setHoveredPlanet(planet.id)}
+                    onMouseLeave={() => setHoveredPlanet(null)}
+                  >
+                    <SlideImage
+                      src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
+                      alt={`Planet ${planet.name}`}
+                      animateOnHover={hoveredPlanet === planet.id}
+                    />
+                    {hoveredPlanet === planet.id && (
+                      <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
+                    )}
+                  </PlanetImageContainer>
                 </Link>
               ))}
             </StyledSwiperSlide>
