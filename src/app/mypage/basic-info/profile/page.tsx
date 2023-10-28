@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types/index";
+import { useRecoilState } from "recoil";
+import { profileState } from "@/recoil/atoms/user.atom";
 
 import Link from "next/link";
 import * as S from "./page.styled";
@@ -12,16 +14,15 @@ import ProfileImage from "./ProfileImage";
 import Item from "./Item";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<User | null>(null);
+  const [profile, setProfile] = useRecoilState(profileState);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
   const nationalityInputRef = useRef<HTMLInputElement>(null);
 
-  //내 프로필 조회
+  //프로필 불러오기
   async function getProfile() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
-      const profile = response.data;
-      setProfile(profile);
+      setProfile(response.data);
       console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -29,8 +30,7 @@ export default function Profile() {
     }
   }
   useEffect(() => {
-    getProfile();
-    // console.log("profile", profile);
+    if (profile === null) getProfile();
   }, []);
 
   //프로필이미지 변경
@@ -58,7 +58,7 @@ export default function Profile() {
     return <S.NicknameInput type="text" ref={nationalityInputRef} value={nationality} onChange={handleChange} />;
   };
 
-  // //변경사항 저장
+  //변경사항 저장
   interface updateProfileProps {
     nickName?: string;
     nationality?: string;

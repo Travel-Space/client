@@ -1,8 +1,10 @@
 "use client";
-import { useEffect } from "react";
 import axiosRequest from "@/api";
 import { ResData, Planet } from "@/@types";
-import { useRecoilState } from "recoil";
+
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileState } from "@/recoil/atoms/user.atom";
 import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
 
 import * as S from "./page.styled";
@@ -15,6 +17,7 @@ import MyPlanet from "@/app/mypage/MyPlanet";
 import PlanetItem from "@/components/User/PlanetItem";
 
 export default function Planet() {
+  const profile = useRecoilValue(profileState);
   const [planets, setPlanets] = useRecoilState(myPlanetsState);
 
   //행성 불러오기
@@ -34,13 +37,13 @@ export default function Planet() {
     }
   }, []);
 
-  //role추가되면 수정예정
-  //planets 중 내가 owner인 것도 아닌것을 나눈다
-  //내가 owner인것 -> myPlanets
-  //아닌것 -> travelingPlanets
+  //내가 생성한 행성
+  const myPlanets = planets.filter(el => profile?.id === el.ownerId);
 
-  let myPlanet = new Array(5).fill(null);
-  planets?.map((el, idx) => (myPlanet[idx] = el));
+  //여행중인 행성
+  const travelingPlanets = planets.filter(el => profile?.id !== el.ownerId);
+  let myPlanetsWithNull = new Array(5).fill(null);
+  myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   return (
     <S.Container>
@@ -67,7 +70,7 @@ export default function Planet() {
         </S.NewPlanet>
       </S.MyPlanetInfo>
       <S.MyPlanetWrap>
-        {myPlanet.map((planet, idx) =>
+        {myPlanetsWithNull.map((planet, idx) =>
           planet === null ? (
             <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
           ) : (
@@ -78,11 +81,11 @@ export default function Planet() {
       <S.TravelingPlanetInfo>
         <S.Title>여행 중인 행성</S.Title>
         <S.TravelNumber>
-          총 <span>{planets.length}</span>개의 행성
+          총 <span>{travelingPlanets.length}</span>개의 행성
         </S.TravelNumber>
       </S.TravelingPlanetInfo>
       <S.TravelingPlanetList>
-        {planets.map((planet, idx) => (
+        {travelingPlanets.map((planet, idx) => (
           <PlanetItem key={idx} data={planet} />
         ))}
       </S.TravelingPlanetList>
