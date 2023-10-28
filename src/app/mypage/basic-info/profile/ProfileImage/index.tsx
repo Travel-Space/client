@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
+
 import ImageCropper from "../ImageCropper";
 import useImageCompress from "@/hooks/useImageCompess";
-import { dataURItoFile } from "@/utils/common";
 
 import * as S from "./index.styled";
+
+import { dataURItoFile } from "@/utils/common";
+
 import Image from "next/image";
 
 interface ProfileImageProps {
-  prev: string | null;
+  prev?: string;
   onChange: (src: string) => void;
 }
 export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
   const defaultImage = "/assets/img/icons/default-user.svg";
-  const [uploadImage, setUploadImage] = useState<string | null>(prev);
+  const [uploadImage, setUploadImage] = useState<string | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const { isLoading: isCompressLoading, compressImage } = useImageCompress();
 
+  //crop된 이미지
   const handleUploadImage = (image: string) => setUploadImage(image);
 
+  //압축된 이미지
   const handleCompressImage = async () => {
     if (!uploadImage) return;
 
@@ -53,7 +58,7 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
             {isCompressLoading ? (
               <S.Loading>이미지 압축 중..</S.Loading>
             ) : (
-              <Image src={defaultImage} alt="profile-image" width={120} height={120} />
+              <Image src={prev ? prev : defaultImage} alt="profile-image" width={120} height={120} />
             )}
           </S.ProfileCover>
         )}

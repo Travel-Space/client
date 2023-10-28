@@ -1,15 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
-import * as S from "./page.styled";
 import axiosRequest from "@/api/index";
 import { ResData, Planet } from "@/@types/index";
+
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
-import Planets from "@/app/user/profile/Planets";
 
-import ProfileSummary from "./ProfileSummary";
+import * as S from "./page.styled";
+
 import Line from "@/components/common/Line";
 import Nothing from "@/app/mypage/Nothing";
+import Planets from "@/app/user/profile/Planets";
+import ProfileSummary from "./ProfileSummary";
 
 export default function Profile({ children }: { children: React.ReactNode }) {
   const [tabIndex, setTabIndex] = useState(0);
@@ -105,6 +107,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
             </S.Tab>
           ))}
         </S.TabListWrap>
+
         <Line color="gray" size="horizontal" />
 
         <S.MainContent>

@@ -1,13 +1,14 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
 import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types/index";
+
+import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
 
-import Link from "next/link";
 import * as S from "./page.styled";
 
+import Link from "next/link";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";

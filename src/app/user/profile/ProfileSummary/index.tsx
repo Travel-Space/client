@@ -1,6 +1,6 @@
 import * as S from "./index.styled";
-import Image from "next/image";
 
+import Image from "next/image";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 

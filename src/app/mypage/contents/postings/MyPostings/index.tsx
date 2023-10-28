@@ -1,13 +1,14 @@
-import WEEKDAY from "@/constants/weekDay";
-import Image from "next/image";
-
-import * as S from "./index.styled";
-
-import Button from "@/components/common/Button";
+import axios from "axios";
 import { Posting } from "@/@types/Posting";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+
+import * as S from "./index.styled";
+
+import WEEKDAY from "@/constants/weekDay";
+
+import Image from "next/image";
+import Button from "@/components/common/Button";
 
 interface MyPostingsProps {
   data: Posting;

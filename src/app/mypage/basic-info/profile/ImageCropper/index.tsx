@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
+
 import "cropperjs/dist/cropper.css";
 import * as S from "./index.styled";
+
 import Button from "@/components/common/Button";
 
 interface PropsType {

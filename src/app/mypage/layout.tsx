@@ -1,10 +1,11 @@
 "use client";
-import MYPAGENAV from "@/constants/mypageNav";
-import { styled } from "styled-components";
 import { usePathname } from "next/navigation";
+
+import { styled } from "styled-components";
 import { flexCenter, bodyContainer } from "@/styles/common";
 
 import Link from "next/link";
+import MYPAGENAV from "@/constants/mypageNav";
 import Nav from "./Nav";
 import Line from "@/components/common/Line";
 

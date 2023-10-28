@@ -1,5 +1,4 @@
 "use client";
-
 import * as S from "./page.styled";
 
 import Nothing from "@/app/mypage/Nothing";

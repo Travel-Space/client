@@ -1,6 +1,7 @@
+import { Planet } from "@/@types";
+
 import * as S from "./index.styled";
 
-import { Planet } from "@/@types";
 import PlanetItem from "@/components/User/PlanetItem";
 
 const Planets = ({ data }: { data: Planet[] }) => {

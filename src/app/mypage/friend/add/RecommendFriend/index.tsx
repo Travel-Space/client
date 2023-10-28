@@ -1,6 +1,6 @@
-import Image from "next/image";
-
 import * as S from "./index.styled";
+
+import Image from "next/image";
 import Button from "@/components/common/Button";
 
 export default function RecommendFriend() {

@@ -1,9 +1,11 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import axiosRequest from "@/api/index";
-import { ResData, Posting } from "@/@types/index";
+import axiosRequest from "@/api";
+import { ResData, Posting } from "@/@types";
+
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import myPostingsState from "@/recoil/atoms/myPostings.atom";
+
 import * as S from "./page.styled";
 
 import Nothing from "@/app/mypage/Nothing";
