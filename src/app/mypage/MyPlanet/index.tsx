@@ -1,9 +1,12 @@
 import { Planet } from "@/@types/Planet";
-import PLANETSHAPE from "@/constants/planetShape";
-import Image from "next/image";
+
 import { usePathname } from "next/navigation";
 
+import PLANETSHAPE from "@/constants/planetShape";
+
 import * as S from "./index.styled";
+
+import Image from "next/image";
 
 interface MyPlanetProps {
   data: Planet;

@@ -1,7 +1,7 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Planet } from "@/@types/Planet";
+import { useQuery } from "@tanstack/react-query";
 
 import * as S from "./page.styled";
 

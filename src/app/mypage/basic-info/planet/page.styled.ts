@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
+import { flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Container = styled.div`
   border-radius: 10px;
@@ -58,9 +58,16 @@ export const TravelNumber = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;
-export const TravelingPlanetWrap = styled.div`
+export const TravelingPlanetList = styled.div`
   width: 888px;
   padding: 40px 42px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
+
+  & > div:nth-child(10n) {
+    border-bottom: none;
+  }
+  & > div:last-child {
+    border-bottom: none;
+  }
 `;

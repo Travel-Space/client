@@ -1,8 +1,8 @@
-import * as S from "./index.styled";
 import useDetectClose from "@/hooks/useDetectClose";
 
-import Image from "next/image";
+import * as S from "./index.styled";
 
+import Image from "next/image";
 import Line from "@/components/common/Line";
 
 interface Select {

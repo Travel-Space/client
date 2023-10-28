@@ -1,37 +1,53 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Planet } from "@/@types/Planet";
+import axiosRequest from "@/api";
+import { ResData, Planet } from "@/@types";
+
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileState } from "@/recoil/atoms/user.atom";
+import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
 
 import * as S from "./page.styled";
+
 import Link from "next/link";
 import Image from "next/image";
-
 import Nothing from "@/app/mypage/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
-import TravelingPlanet from "./TravelingPlanet";
+import PlanetItem from "@/components/User/PlanetItem";
 
 export default function Planet() {
-  //행성 불러오기(임시-api완성되면 수정예정)
-  const fetchPlanets = async () => {
-    return axios.get("/planet").then(response => response.data);
-  };
+  const profile = useRecoilValue(profileState);
+  const [planets, setPlanets] = useRecoilState(myPlanetsState);
 
-  const { isLoading, data, isError, error } = useQuery<Planet[], Error, Planet[]>({
-    queryKey: ["get-myplanets"],
-    queryFn: fetchPlanets,
-  });
-  console.log("fetchPlanets", data);
-  if (isLoading) return <>Loading...</>;
-  if (isError) return <>{error.message}</>;
+  //행성 불러오기
+  async function getPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", "/planet/my-planets");
+      setPlanets(response.data);
+      console.log("planets", planets);
+    } catch (error) {
+      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching planet data: ", error);
+    }
+  }
+  useEffect(() => {
+    if (planets.length === 0) {
+      getPlanets();
+    }
+  }, []);
 
-  let myPlanet = new Array(5).fill(null);
-  data?.map((el, idx) => (myPlanet[idx] = el));
+  //내가 생성한 행성
+  const myPlanets = planets.filter(el => profile?.id === el.ownerId);
+
+  //여행중인 행성
+  const travelingPlanets = planets.filter(el => profile?.id !== el.ownerId);
+  let myPlanetsWithNull = new Array(5).fill(null);
+  myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   return (
     <S.Container>
       {/* 데이터가 없을 경우 */}
-      {!data && (
+      {planets.length === 0 && (
         <Nothing
           src="/assets/img/icons/no-planets.svg"
           alt="no-TravelingPlanets"
@@ -45,7 +61,7 @@ export default function Planet() {
         <S.Title>내가 생성한 행성</S.Title>
         <S.NewPlanet>
           <S.MyPlanetNumber>
-            <span>{data && 5 - data.length}</span>개의 행성을 더 운영할 수 있습니다.
+            <span>{5 - planets.length}</span>개의 행성을 더 운영할 수 있습니다.
           </S.MyPlanetNumber>
           <Link href="/create-planet">
             <S.MakePlanetBtn>새 행성 만들기</S.MakePlanetBtn>
@@ -53,7 +69,7 @@ export default function Planet() {
         </S.NewPlanet>
       </S.MyPlanetInfo>
       <S.MyPlanetWrap>
-        {myPlanet.map((planet, idx) =>
+        {myPlanetsWithNull.map((planet, idx) =>
           planet === null ? (
             <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
           ) : (
@@ -64,12 +80,14 @@ export default function Planet() {
       <S.TravelingPlanetInfo>
         <S.Title>여행 중인 행성</S.Title>
         <S.TravelNumber>
-          {/* 여행중인행성데이터가 추가되면 수정예정 */}총 <span>{data?.length}</span>개의 행성
+          총 <span>{travelingPlanets.length}</span>개의 행성
         </S.TravelNumber>
       </S.TravelingPlanetInfo>
-      <S.TravelingPlanetWrap>
-        {data && data.map((planet, idx) => <TravelingPlanet key={idx} data={planet} />)}
-      </S.TravelingPlanetWrap>
+      <S.TravelingPlanetList>
+        {travelingPlanets.map((planet, idx) => (
+          <PlanetItem key={idx} data={planet} />
+        ))}
+      </S.TravelingPlanetList>
     </S.Container>
   );
 }
