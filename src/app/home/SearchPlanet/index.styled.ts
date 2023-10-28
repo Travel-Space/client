@@ -18,7 +18,7 @@ export const SearchContainer = styled.form`
 export const SearchInput = styled.input`
   width: 440px;
   height: 40px;
-  padding: 8px 40px 8px 8px;
+  padding: 8px 40px 16px 8px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
@@ -38,7 +38,7 @@ export const SearchBtn = styled.button`
   width: 24px;
   height: 24px;
   right: 8px;
-  transform: translateY(-50%);
+  transform: translateY(-60%);
   top: 50%;
   background-color: transparent;
 `;

@@ -1,11 +1,14 @@
+import { AxiosError } from "axios";
+import axiosRequest from "@/api";
+import { ResData, User } from "@/@types";
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-import VALIDATE from "@/constants/regex";
 
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import Email from "../CommonInput/Email";
 import Password from "../CommonInput/Password";
+
+import VALIDATE from "@/constants/regex";
 
 import { Container, MarginGroup } from "../index.styled";
 
@@ -36,11 +39,14 @@ export default function ResetPassword({ goToLogin }: PropsType) {
 
   async function submitSignin() {
     try {
-      const response = await axios.post("/auth/passwordChange", { email, password });
-      response.data.success && alert(response.data.message);
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/passwordChange", {
+        email,
+        password,
+      });
+      response.status === 201 && alert("비밀번호가 성공적으로 변경되었습니다.");
       return goToLogin();
     } catch (error) {
-      // console.error("비밀번호 재설정 에러", error);
+      console.error("비밀번호 재설정 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }

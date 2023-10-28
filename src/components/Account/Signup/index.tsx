@@ -1,5 +1,7 @@
+import { AxiosError } from "axios";
+import { ResData, User } from "@/@types";
+import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
 
@@ -60,11 +62,18 @@ export default function Signup({ goToLogin }: PropsType) {
 
   async function submitSignin() {
     try {
-      const response = await axios.post("/auth/register", { email, name, nickName, password, nationality });
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register", {
+        email,
+        name,
+        nickName,
+        password,
+        nationality,
+      });
+
       response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
       return goToLogin();
     } catch (error) {
-      // console.error("회원가입 에러", error);
+      console.error("회원가입 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }

@@ -35,13 +35,6 @@ export interface PlanetMembership {
   status: MembershipStatus;
 }
 
-export enum PlanetShape {
-  "SHAPE1",
-  "SHAPE2",
-  "SHAPE3",
-}
-export enum Role {
-  "OWNER",
-  "ADMIN",
-  "MEMBER",
-}
+export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
+
+export type Role = "OWNER" | "ADMIN" | "MEMBER";

@@ -1,4 +1,4 @@
-import { bodyContainer, flexCenter } from "@/styles/common";
+import { bodyContainer, flexAlignCenter, flexCenter } from "@/styles/common";
 import styled, { keyframes } from "styled-components";
 
 const rotation = keyframes`
@@ -12,6 +12,10 @@ const rotation = keyframes`
     transform: rotate(0deg);
   }
 `;
+
+type PlanetNameProps = {
+  offset?: boolean;
+};
 
 export const SwiperContainer = styled.div`
   ${bodyContainer}
@@ -50,8 +54,28 @@ export const SlideImage = styled.img<{ animateOnHover: boolean }>`
   object-fit: cover;
   margin-bottom: 56px;
   animation: ${rotation} 2s ease-out 1;
+`;
 
-  &:hover {
-    animation: ${props => (props.animateOnHover ? rotation : "none")} 2s ease-out;
+export const PlanetName = styled.div<PlanetNameProps>`
+  width: 70%;
+  position: absolute;
+  top:  ${({ offset }) => (offset ? "35%" : "39%")};
+  left: ${({ offset }) => (offset ? "60%" : "50%")}; 
+  transform: translate(-50%, -50%);
+  color: ${({ theme }) => theme.PALETTE.white};
+  padding: 5px;
+  font-weight: 600;
+  font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  cursor: pointer;
+`;
+
+export const PlanetImageContainer = styled.div`
+  ${flexAlignCenter}
+  position: relative;
+  min-width: 160px;
+  max-width: 200px;
+
+  &:hover ${SlideImage} {
+    opacity: 0.7;
   }
 `;

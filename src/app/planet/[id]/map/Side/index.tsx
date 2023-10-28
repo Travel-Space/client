@@ -2,15 +2,16 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useState } from "react";
 
+import { Posting } from "@/@types/Posting";
+import { ArticleProps } from "../page";
+
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
 
-const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-export default function Side({ onClose }: { onClose: () => void }) {
+export default function Side({ onClose, article, params }: ArticleProps) {
   const [selectedMenu, setSelectedMenu] = useState("전체");
 
   const dropDownProps = {
@@ -32,14 +33,14 @@ export default function Side({ onClose }: { onClose: () => void }) {
                 <div>
                   <DropDown color="none" font="md" shape="round" props={dropDownProps} />
                 </div>
-                <Link href={"/post/write"}>
+                <Link href={`/planet/${params}/post/write`}>
                   <S.Button>새 글 작성</S.Button>
                 </Link>
               </S.Middle>
 
               <S.ScrollBox>
-                {number.map(num => (
-                  <PostPreview />
+                {article.map((article: Posting) => (
+                  <PostPreview article={article} params={params} />
                 ))}
               </S.ScrollBox>
             </div>

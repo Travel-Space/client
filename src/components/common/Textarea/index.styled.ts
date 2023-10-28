@@ -29,6 +29,8 @@ export const Textarea = styled.textarea<sizeProp>`
   padding: 16px;
   resize: none;
   width: 100%;
+  transition: all 0.2s;
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   outline: none;
 
   ${({ size }) =>
@@ -45,4 +47,8 @@ export const Textarea = styled.textarea<sizeProp>`
             box-shadow: 0 0 0 3px #bdddfd;
           }
         `}
+
+  &::placeholder {
+    color: ${({ theme }) => theme.PALETTE.gray[100]};
+  }
 `;
