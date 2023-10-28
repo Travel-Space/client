@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { commonContainer } from "../page.styled";
+import { commonContainer } from "../index.styled";
 import { flexAlignCenter, flexCenter, flexColumn } from "@/styles/common";
 
 const buttonBgReset = css`

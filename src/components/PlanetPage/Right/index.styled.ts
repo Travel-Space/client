@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { commonContainer } from "../page.styled";
+import { commonContainer } from "../index.styled";
 import { flexAlignCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Wrap = styled.div`
