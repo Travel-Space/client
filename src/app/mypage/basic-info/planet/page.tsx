@@ -1,17 +1,18 @@
 "use client";
 import { useEffect } from "react";
-import axiosRequest from "@/api/index";
-import { ResData, Planet } from "@/@types/index";
+import axiosRequest from "@/api";
+import { ResData, Planet } from "@/@types";
 import { useRecoilState } from "recoil";
 import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
 
 import * as S from "./page.styled";
+
 import Link from "next/link";
 import Image from "next/image";
 
 import Nothing from "@/app/mypage/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
-import TravelingPlanet from "./TravelingPlanet";
+import PlanetItem from "@/components/User/PlanetItem";
 
 export default function Planet() {
   const [planets, setPlanets] = useRecoilState(myPlanetsState);
@@ -80,11 +81,11 @@ export default function Planet() {
           총 <span>{planets.length}</span>개의 행성
         </S.TravelNumber>
       </S.TravelingPlanetInfo>
-      <S.TravelingPlanetWrap>
+      <S.TravelingPlanetList>
         {planets.map((planet, idx) => (
-          <TravelingPlanet key={idx} data={planet} />
+          <PlanetItem key={idx} data={planet} />
         ))}
-      </S.TravelingPlanetWrap>
+      </S.TravelingPlanetList>
     </S.Container>
   );
 }

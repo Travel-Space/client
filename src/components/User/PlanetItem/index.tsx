@@ -1,13 +1,14 @@
 import { Planet } from "@/@types/Planet";
 import PLANETSHAPE from "@/constants/planetShape";
-import Image from "next/image";
 
 import * as S from "./index.styled";
 
-interface TravelingPlanetProps {
+import Image from "next/image";
+
+interface PlanetItemProps {
   data: Planet;
 }
-export default function TravelingPlanet({ data }: TravelingPlanetProps) {
+export default function PlanetItem({ data }: PlanetItemProps) {
   const { name, hashtags, memberLimit, published, shape, members } = data;
   return (
     <S.Container>
