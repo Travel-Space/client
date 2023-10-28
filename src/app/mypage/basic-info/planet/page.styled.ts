@@ -19,6 +19,10 @@ export const NewPlanet = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+
+  & > a > button {
+    padding: 8px 16px;
+  }
 `;
 export const MyPlanetNumber = styled.div`
   & > span {
@@ -29,15 +33,7 @@ export const MyPlanetNumber = styled.div`
   font-weight: 500;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
 `;
-export const MakePlanetBtn = styled.button`
-  color: ${({ theme }) => theme.PALETTE.primary[100]};
-  border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-weight: 500;
 
-  padding: 8px 16px;
-`;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 700;
