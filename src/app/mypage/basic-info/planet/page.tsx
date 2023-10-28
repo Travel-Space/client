@@ -1,7 +1,9 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import axiosRequest from "@/api/index";
 import { ResData, Planet } from "@/@types/index";
+import { useRecoilState } from "recoil";
+import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
 
 import * as S from "./page.styled";
 import Link from "next/link";
@@ -12,14 +14,13 @@ import MyPlanet from "@/app/mypage/MyPlanet";
 import TravelingPlanet from "./TravelingPlanet";
 
 export default function Planet() {
-  const [planets, setPlanets] = useState<Planet[]>([]);
+  const [planets, setPlanets] = useRecoilState(myPlanetsState);
 
   //행성 불러오기
   async function getPlanets() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", "/planet/my-planets");
-      const planets = response.data;
-      setPlanets(planets);
+      setPlanets(response.data);
       console.log("planets", planets);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -27,9 +28,12 @@ export default function Planet() {
     }
   }
   useEffect(() => {
-    getPlanets();
+    if (planets.length === 0) {
+      getPlanets();
+    }
   }, []);
 
+  //role추가되면 수정예정
   //planets 중 내가 owner인 것도 아닌것을 나눈다
   //내가 owner인것 -> myPlanets
   //아닌것 -> travelingPlanets

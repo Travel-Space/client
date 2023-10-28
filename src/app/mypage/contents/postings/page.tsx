@@ -1,15 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import axiosRequest from "@/api/index";
+import { ResData, Posting } from "@/@types/index";
+import { useRecoilState } from "recoil";
+import myPostingsState from "@/recoil/atoms/myPostings.atom";
 import * as S from "./page.styled";
 
 import Nothing from "@/app/mypage/Nothing";
 import MyPostings from "./MyPostings";
 import SearchForm from "@/app/mypage/SearchForm";
-
-import { useQuery } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import axios from "axios";
-import { Posting } from "@/@types/Posting";
 
 export default function Postings() {
   //드롭다운 데이터
@@ -21,23 +20,30 @@ export default function Postings() {
     placeholder: "글 관리에서 검색합니다.",
   };
 
-  //게시글 불러오기
-  const fetchArticles = async () => {
-    // api 완료되면 수정예정
-    return axios.get("/articles").then(response => response.data);
-  };
+  const [postings, setPostings] = useRecoilState(myPostingsState);
 
-  const { isLoading, data, isError, error } = useQuery<Posting[], Error, Posting[]>({
-    queryKey: ["get-articles"],
-    queryFn: fetchArticles,
-  });
-  // console.log("fetchArticles", data);
-  if (isLoading) return <>Loading...</>;
-  if (isError) return <>{error.message}</>;
+  //게시글 불러오기
+  async function getPostings() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles/my-articles");
+      const postings = response.data;
+      setPostings(postings);
+      console.log("Postings", Postings);
+    } catch (error) {
+      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching posting data: ", error);
+    }
+  }
+
+  useEffect(() => {
+    if (postings.length === 0) {
+      getPostings();
+    }
+  }, []);
 
   return (
     <S.Container>
-      {!data && (
+      {postings.length === 0 && (
         <Nothing
           src="/assets/img/icons/no-postings.svg"
           alt="no-postings"
@@ -48,12 +54,15 @@ export default function Postings() {
       )}
       <S.Header>
         <S.PostingsNumber>
-          총 <span>{data && data.length}</span>개의 게시글
+          총 <span>{postings.length}</span>개의 게시글
         </S.PostingsNumber>
         <SearchForm select={dropDownProps} />
       </S.Header>
-      <S.MyPostingsWrap>{data && data.map(posting => <MyPostings data={posting} />)}</S.MyPostingsWrap>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <S.MyPostingsWrap>
+        {postings.map(posting => (
+          <MyPostings data={posting} />
+        ))}
+      </S.MyPostingsWrap>
     </S.Container>
   );
 }
