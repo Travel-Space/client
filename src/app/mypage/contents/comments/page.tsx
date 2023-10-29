@@ -1,7 +1,7 @@
 "use client";
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import MyComments from "./MyComments";
 
 export default function Comments() {

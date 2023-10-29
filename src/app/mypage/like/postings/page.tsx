@@ -8,7 +8,7 @@ import myPostingsState from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import SearchForm from "@/app/mypage/SearchForm";
 import PostingItem from "@/components/User/PostingItem";
 

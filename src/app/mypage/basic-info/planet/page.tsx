@@ -11,7 +11,7 @@ import * as S from "./page.styled";
 
 import Link from "next/link";
 import Image from "next/image";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
 import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";

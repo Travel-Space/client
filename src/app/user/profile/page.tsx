@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
 import Postings from "@/app/user/profile/Postings";
 import ProfileSummary from "./ProfileSummary";

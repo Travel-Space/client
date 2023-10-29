@@ -8,7 +8,7 @@ import * as S from "./page.styled";
 import MyPlanet from "@/app/mypage/MyPlanet";
 import SearchForm from "@/app/mypage/SearchForm";
 import FavoritePlanet from "./FavoritePlanet";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 
 export default function Planets() {
   const dropDownProps = {

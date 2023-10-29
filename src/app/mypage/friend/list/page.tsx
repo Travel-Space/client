@@ -2,7 +2,7 @@
 
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
 export default function Planet() {

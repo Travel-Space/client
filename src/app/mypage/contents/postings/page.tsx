@@ -8,7 +8,7 @@ import myPostingsState from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import MyPostings from "./MyPostings";
 import SearchForm from "@/app/mypage/SearchForm";
 
@@ -25,9 +25,10 @@ export default function Postings() {
   const [postings, setPostings] = useRecoilState(myPostingsState);
 
   //게시글 불러오기
+  // 내 게시글 조회 에러 없어지면 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles/my-articles");
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
       const postings = response.data;
       setPostings(postings);
       console.log("Postings", Postings);
