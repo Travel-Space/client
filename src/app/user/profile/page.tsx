@@ -62,6 +62,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
           width={216}
           height={216}
           comment="등록된 친구가 없습니다."
+          font="lg"
         />
       ),
     },
@@ -74,6 +75,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
           width={216}
           height={216}
           comment="등록된 친구가 없습니다."
+          font="lg"
         />
       ),
     },
@@ -87,6 +89,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
             width={148}
             height={148}
             comment="여행 중인 행성이 없습니다."
+            font="lg"
           />
         ) : (
           <Planets data={planets} />
@@ -102,6 +105,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
             width={96}
             height={96}
             comment="작성된 게시글이 없습니다."
+            font="lg"
           />
         ) : (
           <Postings data={postings} />

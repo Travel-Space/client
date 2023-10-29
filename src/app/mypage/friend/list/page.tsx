@@ -15,6 +15,7 @@ export default function Planet() {
         height={216}
         comment="등록된 친구가 없습니다."
         suggest="닉네임 또는 계정을 검색해 보세요."
+        font="lg"
       />
 
       <S.MyFriends>

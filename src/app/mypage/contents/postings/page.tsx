@@ -53,6 +53,7 @@ export default function Postings() {
           width={96}
           height={96}
           comment="작성된 게시글이 없습니다."
+          font="lg"
         />
       )}
       <S.Header>

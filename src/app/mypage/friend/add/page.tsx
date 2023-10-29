@@ -75,6 +75,7 @@ export default function Planet() {
           height={216}
           comment="검색결과가 없습니다."
           suggest="닉네임 또는 계정을 검색해 보세요."
+          font="lg"
         />
         <Person />
         <Person />
