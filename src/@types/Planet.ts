@@ -9,6 +9,7 @@ export interface Planet {
   description: string | null;
   ownerId: number;
   memberLimit: number;
+  spaceshipLimit: number;
   published: boolean;
   isActive: boolean;
   shape: PlanetShape;
