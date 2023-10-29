@@ -1,27 +1,37 @@
-import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
+import Button from "@/components/common/Button";
 
-// 삭제 모달, 퇴장 모달 하나로 만들어 쓰기
-interface Type extends ModalType {
-  planetTitle: string;
+export enum ItemType {
+  SpaceShip = "우주선",
+  Planet = "행성",
 }
 
-export default function Delete({ onClose, planetTitle }: Type) {
+interface Type {
+  onClose: () => void;
+  title: string | undefined;
+  type: ItemType;
+}
+
+export default function Delete({ onClose, title, type }: Type) {
   return (
-    <BoxModal onClose={onClose} title="행성 삭제">
+    <BoxModal onClose={onClose} title={`${type} 삭제`}>
       <S.Notification>
-        <b>{planetTitle}</b>
+        <b>{title}</b>
         <br />
-        행성을 정말로 <b>삭제</b>하시겠습니까?
+        {type}을 정말로 <b>삭제</b>하시겠습니까?
       </S.Notification>
-      {/* <ButtonGroup> */}
-      {/* <S.OutlineButton> */}
-      <img src="/assets/img/icons/trash.svg" />
-      행성 삭제하기
-      {/* </S.OutlineButton> */}
-      {/* <FillButton onClick={onClose}>다시 고민해 볼게요.</FillButton> */}
-      {/* </ButtonGroup> */}
+      <S.CenterGroup>
+        <Button variant="reverse" shape="medium" size="big">
+          <S.CenterGroup>
+            <img src="/assets/img/icons/trash.svg" />
+            <span>{type} 삭제하기</span>
+          </S.CenterGroup>
+        </Button>
+        <Button variant="confirm" shape="medium" size="big" onClick={onClose}>
+          다시 고민해 볼게요.
+        </Button>
+      </S.CenterGroup>
     </BoxModal>
   );
 }

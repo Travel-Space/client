@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
@@ -9,9 +9,10 @@ import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
 import Password from "../CommonInput/Password";
 import Email from "../CommonInput/Email";
-import Country from "../CommonInput/Country";
 
-import { Container, Error, InputGroup } from "../index.styled";
+import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
+import { CountryInfo } from "@/@types/User";
+import SearchCountry from "@/components/common/SearchCountry";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -25,7 +26,6 @@ export default function Signup({ goToLogin }: PropsType) {
   const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nationality, setNationality] = useState("");
 
   const [nameValid, setNameValid] = useState(false);
   const [nickNameValid, setNickNameValid] = useState(false);
@@ -34,6 +34,28 @@ export default function Signup({ goToLogin }: PropsType) {
 
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
+
+  const [country, setCountry] = useState<CountryInfo>({
+    country_nm: "",
+    country_eng_nm: "",
+    download_url: "",
+  });
+  const [showSearch, setShowSearch] = useState(false);
+
+  // CORS 에러 수정 예정
+  async function currentCountry() {
+    try {
+      // 현재 ip 기준 국적 코드
+      const countryCode = await axios.get("https://ipapi.co/country");
+      // 국적 정보
+      const country = await axios.get(
+        `https://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2?serviceKey=sCpHMLPz%2FblcixtApQnF3nZPFJsIZH3AbF4f67%2BSbTTtFvQzHvZFufYkHaVZawgvV2%2B%2BnAyP7uiiO7HTnQNXoQ%3D%3D&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
+      );
+      setCountry(country.data.data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handleName(e: React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
@@ -56,8 +78,8 @@ export default function Signup({ goToLogin }: PropsType) {
     setEmail(value);
   }
 
-  function handleCountry(country: string) {
-    setNationality(country);
+  function handleCountry(country: CountryInfo) {
+    setCountry(country);
   }
 
   async function submitSignin() {
@@ -67,7 +89,7 @@ export default function Signup({ goToLogin }: PropsType) {
         name,
         nickName,
         password,
-        nationality,
+        nationality: country.country_nm,
       });
 
       response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
@@ -86,6 +108,10 @@ export default function Signup({ goToLogin }: PropsType) {
     }
     setNotAllow(true);
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm]);
+
+  useEffect(() => {
+    // currentCountry();
+  }, []);
 
   return (
     <Container>
@@ -125,7 +151,24 @@ export default function Signup({ goToLogin }: PropsType) {
       <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
 
       {/* 필수 */}
-      <Country onCountry={handleCountry} />
+      {/* <Country onCountry={handleCountry} /> */}
+      <InputGroup>
+        <Label id="nationality">국적</Label>
+        <CountryGroup>
+          <Input
+            id="nationality"
+            type="text"
+            name="nationality"
+            readOnly
+            value={`${country.country_nm}, ${country.country_eng_nm}`}
+            onClick={() => setShowSearch(prev => !prev)}
+          />
+          <SmallBtnGroup $country>
+            <img src={country.download_url} alt={country.country_nm} />
+          </SmallBtnGroup>
+          {showSearch && <SearchCountry onCountry={handleCountry} />}
+        </CountryGroup>
+      </InputGroup>
 
       <Button variant="confirm" shape="medium" size="big" onClick={submitSignin} disabled={notAllow}>
         Sign Up

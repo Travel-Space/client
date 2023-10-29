@@ -1,8 +1,8 @@
-import { ModalType } from "@/@types";
 import * as S from "./index.styled";
 import { createPortal } from "react-dom";
 
-interface BoxModalType extends ModalType {
+interface BoxModalType {
+  onClose: () => void;
   children: React.ReactNode;
   title: string;
 }

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -44,6 +44,20 @@ export default function Right() {
     });
   }
 
+  function handleMemberLimit(number: number) {
+    setPlanetInfo({
+      ...planetInfo,
+      memberLimit: number,
+    });
+  }
+
+  function handleSpaceshipLimit(number: number) {
+    setPlanetInfo({
+      ...planetInfo,
+      spaceshipLimit: number,
+    });
+  }
+
   async function submitCreatePlanet() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
@@ -67,6 +81,12 @@ export default function Right() {
       alert(errorResponse?.data.message);
     }
   }
+
+  useEffect(() => {
+    // const newMemberLimit = planetInfo.memberLimit;
+    console.log(planetInfo.spaceshipLimit);
+    // setPlanetInfo({ ...planetInfo, memberLimit: newMemberLimit });
+  }, [planetInfo]);
 
   return (
     <S.Wrap>
@@ -127,7 +147,7 @@ export default function Right() {
           name="planet-description"
           maxLength={100}
           onChange={handleDescription}
-          // value={planetInfo.description}
+          value={planetInfo.description}
         />
       </S.InputGroup>
       <S.BetweenGroup $half>
@@ -136,10 +156,10 @@ export default function Right() {
           <AdjustBtnInput
             name="planet-people-number"
             id="planet-people-number"
-            value="10"
+            value={planetInfo.memberLimit}
             min={2}
             max={100}
-            onNumber={number => console.log(number)}
+            onNumber={handleMemberLimit}
           />
         </S.InputGroup>
         <S.InputGroup>
@@ -147,10 +167,10 @@ export default function Right() {
           <AdjustBtnInput
             name="planet-ship-number"
             id="planet-ship-number"
-            value="10"
+            value={planetInfo.spaceshipLimit}
             min={1}
-            max={10}
-            onNumber={number => console.log(number)}
+            max={100}
+            onNumber={handleSpaceshipLimit}
           />
         </S.InputGroup>
       </S.BetweenGroup>
