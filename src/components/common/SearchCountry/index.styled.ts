@@ -1,12 +1,5 @@
 import { flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
-import { InputGroup } from "../../index.styled";
-
-export const Group = styled(InputGroup)`
-  > input {
-    cursor: pointer;
-  }
-`;
 
 export const SearchBox = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};

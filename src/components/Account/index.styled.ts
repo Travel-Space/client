@@ -89,3 +89,9 @@ export const Error = styled.span`
   bottom: -20px;
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
 `;
+
+export const CountryGroup = styled(InputGroup)`
+  > input {
+    cursor: pointer;
+  }
+`;
