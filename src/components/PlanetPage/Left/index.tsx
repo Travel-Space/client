@@ -10,6 +10,9 @@ import { PlanetShape } from "@/@types/Planet";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 
+import { useModal } from "@/hooks/useModal";
+import Delete, { ItemType } from "@/components/SpaceModal/Delete";
+
 const planetImg: {
   name: PlanetShape;
   src: string;
@@ -20,11 +23,11 @@ const planetImg: {
 ];
 
 export default function Left() {
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-  const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
-  const [tagInput, setTagInput] = useState("");
   const router = useRouter();
   const params = useParams();
+  const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+  const [tagInput, setTagInput] = useState("");
+  const { modalDataState, openModal, closeModal } = useModal();
 
   if (!planetContext) {
     return;
@@ -32,6 +35,10 @@ export default function Left() {
 
   const { planetInfo, setPlanetInfo } = planetContext;
   const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
+  const deleteModal = {
+    title: "행성 삭제",
+    content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} />,
+  };
 
   function handleTagInput(e: React.ChangeEvent<HTMLInputElement>) {
     setTagInput(e.target.value);
@@ -90,6 +97,7 @@ export default function Left() {
 
   return (
     <S.Wrap>
+      {modalDataState.isOpen && modalDataState.content}
       <S.CenterGroup>
         <S.ArrowLeft type="button" onClick={prevPlanetImg}>
           이전
@@ -153,14 +161,11 @@ export default function Left() {
             탑승 우주선으로 이동
           </Button>
           {/* 행성 관리자만 삭제 가능 */}
-          {/* <S.DeleteBtn type="button" onClick={() => setShowDeleteModal(true)}>
-          행성 삭제 💥
-        </S.DeleteBtn> */}
+          <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
+            행성 삭제 💥
+          </S.DeleteBtn>
         </div>
       )}
-      {/* {showDeletePlanetModal ? (
-        <DeletePlanetModal onClose={() => setShowDeletePlanetModal(false)} planetTitle="일본 맛도리 여행" />
-      ) : null} */}
     </S.Wrap>
   );
 }
