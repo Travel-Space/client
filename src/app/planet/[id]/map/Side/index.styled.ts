@@ -69,6 +69,6 @@ export const Button = styled.button`
 export const ScrollBox = styled.div`
   ${flexColumn}
   overflow: scroll;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
   height: calc(100vh - 300px);
 `;

@@ -11,13 +11,13 @@ export const Wrapper = styled.div<ProfileSize>`
   cursor: pointer;
 `;
 
-export const Profile = styled.div<ProfileSize>`
+export const Profile = styled.img<ProfileSize>`
   width: ${({ size }) => (size === "chat" ? "20px" : "48px")};
   height: ${({ size }) => (size === "chat" ? "20px" : "48px")};
   overflow: hidden;
   border-radius: 50%;
   text-align: center;
-  background-image: url("/assets/img/icons/profile.svg");
+  /* background-image: url("/assets/img/icons/profile.svg"); */
   background-size: cover;
   background-repeat: no-repeat;
 `;
