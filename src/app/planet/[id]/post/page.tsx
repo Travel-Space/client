@@ -72,7 +72,7 @@ export default function PostDetail() {
       <PD.Content>
         <PostContent data={data} />
         <LikeAndShare likedStatus={likedStatus} onLikeToggle={handleLikeAction} />
-        <CommentList />
+        <CommentList data={data}/>
       </PD.Content>
     </PD.Wrapper>
   );

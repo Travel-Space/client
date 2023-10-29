@@ -77,6 +77,78 @@ export const Text = styled.div`
   margin-bottom: 48px;
 `;
 
+export const TextData = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  margin: 48px 0 64px;
+  border-radius: 10px;
+  padding: 24px;
+  line-height: 1.42;
+
+  & ol {
+    padding-left: 48px;
+  }
+
+  & ol > li {
+    list-style-type: decimal;
+  }
+
+  & ul {
+    padding-left: 48px;
+  }
+
+  & ul > li {
+    list-style-type: disc;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.hg};
+  }
+
+  h2 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.lg};
+  }
+
+  h3 {
+    font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  }
+
+  img {
+    text-align: center;
+    object-fit: cover;
+    max-width: 100%;
+    float: left;
+    margin-right: 8px;
+    vertical-align: top;
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+
+  a {
+    color: ${({ theme }) => theme.PALETTE.mainColor};
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-right {
+    text-align: right;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
+  }
+`;
+
 export const TestImgBox = styled.div`
   ${flexCenter}
   text-align: center;
@@ -106,7 +178,7 @@ export const Tags = styled.div`
 
 export const TagsDisplay = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 12px;
 `;
 
 export const PostActionBtn = styled.div`
