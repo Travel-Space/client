@@ -1,32 +1,46 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import axiosRequest from "@/api";
+import MESSAGE from "@/constants/message";
+import { PostWrite } from "@/@types/PostWrite";
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
-import axios from "axios";
-import MESSAGE from "@/constants/message";
 import DropDown from "@/components/common/DropDown";
 import LocationInput from "./LocationInput";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
-  title: string;
-  content: string;
-  published: boolean;
-  planetId: number;
+  data?: PostWrite;
 }
 
-export default function PostWrite() {
-  const [value, setValue] = React.useState("");
-  const [tags, setTags] = React.useState<string[]>([]);
+interface LatLng {
+  equals(other: LatLng): boolean;
+  lat(): number;
+  lng(): number;
+}
+interface GeocoderGeometry {
+  location: LatLng;
+}
+interface GeocoderResult {
+  formatted_address: string;
+  geometry: GeocoderGeometry;
+}
+export default function PostWrite({ params }: { params: { id: number } }) {
+  const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
+  const [selectedMenu, setSelectedMenu] = useState("우주선");
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
-  const [planetId, setPlanetId] = React.useState<number>(1);
+  const [planetId, setPlanetId] = React.useState<number>(params.id);
+  const [address, setAddress] = React.useState<GeocoderResult>();
+  const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
-  const [selectedMenu, setSelectedMenu] = useState("우주선");
+  const latitude = locations?.geometry?.location.lat;
+  const longitude = locations?.geometry?.location.lng;
+
   const dropDownProps = {
     //로고 필요할 때만 추가
     logo: (
@@ -40,50 +54,68 @@ export default function PostWrite() {
     comment: "우주선", //미선택시 보여질 문구(필요할 때만 추가)
     menuList: ["가입한 우주선", "가입한 우주선2", "어쩌고 우주선", "우주선우주선"],
     selectedMenu: selectedMenu, //선택한 메뉴를 저장할 변수
-    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
+    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달
   };
 
-  //태그 입력 함수
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
   };
 
-  // 태그 입력 시 엔터 가능하게 하는 함수 , 태그는 5개까지만 가능
   const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && tagInput.trim() !== "" && tags.length < 5) {
-      setTags([...tags, tagInput]);
+    if (event.key === "Enter" && tagInput.trim() !== "" && hashtags.length < 5) {
+      setHashtags([...hashtags, tagInput]);
       setTagInput("");
-    } else if (tags.length >= 5) {
+    } else if (hashtags.length >= 5) {
       alert("태그는 최대 5개까지만 추가할 수 있습니다.");
     }
   };
 
-  // 태그 삭제 버튼 함수
   const handleTagDelete = (index: number) => {
-    const newTags = [...tags];
+    const newTags = [...hashtags];
     newTags.splice(index, 1);
-    setTags(newTags);
+    setHashtags(newTags);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
-  const createPost = async () => {
+  const handleLocationSelect = (address: GeocoderResult, locations: GeocoderResult) => {
+    setAddress(address);
+    setLocation(locations);
+  };
+
+  const handlePostWrite = async () => {
     try {
+      if (!location) {
+        alert("Please select a location before posting.");
+        return;
+      }
+
       const postData = {
         title,
         content,
-        planetId,
         published,
+        planetId: Math.round(planetId),
+        address,
+        locations:[{
+          latitude,
+          longitude
+        }],
+        imageUrls: [],
+        hashtags,
       };
 
-      // 헤더에 토큰 추가하기
-      const response = await axios.post("/articles", postData);
+      console.log(address);
+      console.log(planetId);
+      console.log(published);
+      console.log(location);
+      console.log(latitude);
+      console.log(longitude);
+      console.log(hashtags);
 
-      if (response.status === 200 || response.status === 201) {
-        alert("게시글 작성이 완료되었습니다.");
-      }
+      const response = await axiosRequest.requestAxios("post", "/articles", postData);
+      console.log("게시물 작성에 성공했습니다.", response);
     } catch (error) {
       console.error("게시글 작성 중 오류가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
@@ -105,7 +137,7 @@ export default function PostWrite() {
             />
             <PW.LocationWrapper>
               <PW.LocationIcon />
-              <LocationInput placeholder="위치" type="text" />
+              <LocationInput placeholder="위치" type="text" onLocationSelect={handleLocationSelect} />
             </PW.LocationWrapper>
           </PW.TitleAndLocation>
           <PW.TagsAndRocket>
@@ -124,10 +156,10 @@ export default function PostWrite() {
             </PW.RocketInputWrapper>
           </PW.TagsAndRocket>
           <PW.TagsDisplay>
-            {tags.map((tag, index) => (
+            {hashtags.map((hashtag, index) => (
               <PW.TagWrapper key={index}>
                 <PW.Tags>
-                  {tag}
+                  {hashtag}
                   <PW.DeleteTagButton onClick={() => handleTagDelete(index)}>X</PW.DeleteTagButton>
                 </PW.Tags>
               </PW.TagWrapper>
@@ -141,7 +173,7 @@ export default function PostWrite() {
               </Button>
             </PW.BackBtn>
             <PW.CompletedBtn>
-              <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={createPost}>
+              <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handlePostWrite}>
                 작성 완료
               </Button>
             </PW.CompletedBtn>
