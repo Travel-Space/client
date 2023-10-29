@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import * as S from "./index.styled";
 
@@ -83,6 +83,10 @@ export default function Left() {
   function nextPlanetImg() {
     calcArrow(1);
   }
+
+  useEffect(() => {
+    setImgPosition(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
+  }, [planetInfo]);
 
   return (
     <S.Wrap>

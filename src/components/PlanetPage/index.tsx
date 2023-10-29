@@ -27,12 +27,14 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
     published: true,
     shape: "SHAPE1",
     hashtags: [],
+    memberLimit: 10,
+    spaceshipLimit: 10,
   });
 
   async function fetchPlanetData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
-      // const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/6`, {});
+      console.log(response);
       setPlanetInfo(response.data);
     } catch (error) {
       console.error("특정 행성 조회 에러", error);
@@ -43,10 +45,12 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
 
   useEffect(() => {
     id && fetchPlanetData();
-    setPlanetInfo({
-      ...planetInfo,
-    });
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    // console.log(planetInfo.shape);
+    // setPlanetInfo(planetInfo);
+  }, [planetInfo]);
 
   return (
     <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>
