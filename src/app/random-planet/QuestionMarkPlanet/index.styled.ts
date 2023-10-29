@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { flexColumnCenter, flexCenter } from "@/styles/common";
+import { flexColumnCenter, flexCenter, flexAlignCenter } from "@/styles/common";
 
 const rotation = keyframes`
   0% {
@@ -13,10 +13,15 @@ const rotation = keyframes`
   }
 `;
 
+type PlanetNameProps = {
+  offset?: boolean;
+};
+
 export const Wrapper = styled.div`
   ${flexColumnCenter}
   gap:56px;
   margin-top: 72px;
+  text-align: center;
 
   & a {
     text-decoration: none;
@@ -24,6 +29,7 @@ export const Wrapper = styled.div`
 `;
 
 export const PlanetImg = styled.img<{ animate?: boolean }>`
+  ${flexCenter}
   width: 240px;
   height: 240px;
   cursor: pointer;
@@ -54,4 +60,28 @@ export const RightArrow = styled.img`
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: cover;
+`;
+
+export const PlanetName = styled.div<PlanetNameProps>`
+  width: 65%;
+  position: absolute;
+  top: ${({ offset }) => (offset ? "43%" : "50%")};
+  left: ${({ offset }) => (offset ? "60%" : "50%")};
+  transform: translate(-50%, -50%);
+  color: ${({ theme }) => theme.PALETTE.white};
+  padding: 5px;
+  font-weight: 600;
+  font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  cursor: pointer;
+`;
+
+export const PlanetImageContainer = styled.div`
+  ${flexAlignCenter}
+  position: relative;
+  min-width: 240px;
+  max-width: 240px;
+
+  &:hover ${PlanetImg}:not([data-src="/assets/img/icons/random-planet.svg"]) {
+    opacity: 0.7;
+  }
 `;

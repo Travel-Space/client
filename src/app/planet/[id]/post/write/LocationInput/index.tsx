@@ -4,6 +4,7 @@ import { Input } from "./index.styled";
 interface LocationInputProps {
   placeholder?: string;
   type?: string;
+  onLocationSelect: (address: GeocoderResult, location: GeocoderResult) => void;
 }
 
 declare global {
@@ -11,46 +12,49 @@ declare global {
     initializeAutocomplete: () => void;
   }
 }
-export default function LocationInput({ placeholder, type }: LocationInputProps) {
-  const [address, setAddress] = useState("");
+
+interface LatLng {
+  equals(other: LatLng): boolean;
+  lat(): number;
+  lng(): number;
+}
+interface GeocoderGeometry {
+  location: LatLng;
+}
+interface GeocoderResult {
+  formatted_address: string;
+  geometry: GeocoderGeometry;
+}
+
+
+
+
+export default function LocationInput({ placeholder, type, onLocationSelect }: LocationInputProps) {
+  const [address, setAddress] = useState<string>("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    // Google Maps API 스크립트가 로드된 후에만 Autocomplete 초기화
     window.initializeAutocomplete = function () {
       if (!inputRef.current) return;
 
       const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
         types: ["geocode"],
       });
-
-      autocomplete.addListener("place_changed", () => {
-        const selectedPlace = autocomplete.getPlace();
-        const selectedAddress = selectedPlace.formatted_address;
-
-        if (selectedAddress) {
-          setAddress(selectedAddress);
-        }
-      });
     };
-
     if (window.google) {
-      initializeAutocomplete();
+      window.initializeAutocomplete();
     } else {
-      // API 스크립트가 아직 로드되지 않았다면 로드 후에 initializeAutocomplete를 호출
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
       script.async = true;
       document.body.appendChild(script);
 
-      // 컴포넌트가 언마운트될 때 스크립트 제거
       return () => {
         document.body.removeChild(script);
       };
     }
   }, []);
 
-  // 지오코딩으로 주소 검색
   const searchAddress = async (searchTerm: string) => {
     const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
     const GEOCODE_ENDPOINT = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
@@ -62,8 +66,16 @@ export default function LocationInput({ placeholder, type }: LocationInputProps)
       const data = await response.json();
 
       if (data.status === "OK") {
-        const location = data.results[0].formatted_address;
-        setAddress(location);
+        const selectedAddress = data.results[0].formatted_address;
+        const location = {
+          formatted_address: selectedAddress,
+          geometry: {
+            location: data.results[0].geometry.location
+          }
+        };
+      
+        setAddress(selectedAddress);
+        onLocationSelect(selectedAddress, location);
       } else {
         console.error("Failed to get the location.");
       }
@@ -72,13 +84,11 @@ export default function LocationInput({ placeholder, type }: LocationInputProps)
     }
   };
 
-  // 인풋 변경 이벤트 핸들러
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setAddress(value);
   };
 
-  // 인풋에서 'Enter' 키를 눌렀을 때 지오코딩 시작
   const handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && address) {
       searchAddress(address);
@@ -97,7 +107,4 @@ export default function LocationInput({ placeholder, type }: LocationInputProps)
       />
     </div>
   );
-}
-function initializeAutocomplete() {
-  throw new Error("Function not implemented.");
 }

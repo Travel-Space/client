@@ -1,7 +1,7 @@
 "use client";
 import { styled } from "styled-components";
 
-import { flexColumn, flexColumnCenter, bodyContainer } from "@/styles/common";
+import { flexColumn, flexColumnCenter } from "@/styles/common";
 
 export const Container = styled.div`
   gap: 40px;

@@ -1,15 +1,23 @@
 import styled from "styled-components";
 import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
-export const Post = styled.div`
-  ${flexSpaceBetweenCenter}
-  gap: 16px;
-  padding: 24px 0;
-  border-bottom: 1px solid #d9d9d9;
+export const Container = styled.div`
+  > a {
+    text-decoration: none;
+    color: black;
+  }
+
+  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 
   &:last-child {
     border: none;
   }
+`;
+
+export const Post = styled.div`
+  ${flexSpaceBetweenCenter}
+  gap: 16px;
+  padding: 24px 0;
 `;
 
 export const MainBox = styled.div`

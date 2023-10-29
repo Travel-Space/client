@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 
-import Image from "next/image";
 import * as S from "./page.styled";
 
+import Image from "next/image";
 import Line from "@/components/common/Line";
 import PopularPosting from "./PopularPosting";
 import DropDown from "@/components/common/DropDown";

@@ -1,6 +1,6 @@
-import Image from "next/image";
-
 import * as S from "./index.styled";
+
+import Image from "next/image";
 
 interface NothingProps {
   src: string;

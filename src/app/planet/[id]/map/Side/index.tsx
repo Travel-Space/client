@@ -2,19 +2,16 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useState } from "react";
 
+import { Posting } from "@/@types/Posting";
+import { ArticleProps } from "../page";
+
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
-import { Posting } from "@/@types/Posting";
 
-export interface ArticleProps {
-  article: Posting[];
-  onClose?: () => void;
-}
-
-export default function Side({ onClose, article }: ArticleProps) {
+export default function Side({ onClose, article, params }: ArticleProps) {
   const [selectedMenu, setSelectedMenu] = useState("전체");
 
   const dropDownProps = {
@@ -36,14 +33,14 @@ export default function Side({ onClose, article }: ArticleProps) {
                 <div>
                   <DropDown color="none" font="md" shape="round" props={dropDownProps} />
                 </div>
-                <Link href={"/post/write"}>
+                <Link href={`/planet/${params}/post/write`}>
                   <S.Button>새 글 작성</S.Button>
                 </Link>
               </S.Middle>
 
               <S.ScrollBox>
-                {article.map(article => (
-                  <PostPreview article={article} />
+                {article.map((article: Posting) => (
+                  <PostPreview article={article} params={params} />
                 ))}
               </S.ScrollBox>
             </div>

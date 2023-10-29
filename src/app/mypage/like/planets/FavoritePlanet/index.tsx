@@ -1,6 +1,6 @@
-import Image from "next/image";
-
 import * as S from "./index.styled";
+
+import Image from "next/image";
 import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 export default function FavoritePlanet() {

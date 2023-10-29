@@ -1,6 +1,8 @@
-import * as S from "./index.styled";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import * as S from "./index.styled";
+
+import Link from "next/link";
 
 interface NavListProps {
   logo: JSX.Element;

@@ -31,10 +31,10 @@ export interface PlanetBookmark {
 export interface PlanetMembership {
   planetId: number;
   userId: number;
-  administrator: boolean;
+  role: Role;
   status: MembershipStatus;
-  planet: Planet;
-  user: User;
 }
 
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
+
+export type Role = "OWNER" | "ADMIN" | "MEMBER";

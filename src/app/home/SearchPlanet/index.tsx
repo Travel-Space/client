@@ -4,8 +4,12 @@ import React from "react";
 import * as S from "./index.styled";
 import Link from "next/link";
 import Button from "@/components/common/Button";
+import { useRecoilValue } from 'recoil';
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 export default function SearchPlanet() {
+  const user = useRecoilValue(userAtom);
+
   return (
     <>
       <S.Wrapper>
@@ -16,13 +20,15 @@ export default function SearchPlanet() {
           </S.SearchBtn>
         </S.SearchContainer>
         <S.BtnContainer>
-          <S.NewCreateBtn>
-            <Link href="/create-planet">
-              <Button variant="white" shape="large" size="big" fontWeight="bold">
-                새로운 행성 만들기
-              </Button>
-            </Link>
-          </S.NewCreateBtn>
+          {user.isAuth && (
+            <S.NewCreateBtn>
+              <Link href="/create-planet">
+                <Button variant="white" shape="large" size="big" fontWeight="bold">
+                  새로운 행성 만들기
+                </Button>
+              </Link>
+            </S.NewCreateBtn>
+          )}
           <S.RandomPlanetBtn>
             <Link href="/random-planet">
               <Button variant="white" shape="large" size="big" fontWeight="bold">

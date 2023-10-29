@@ -1,4 +1,7 @@
 import { User } from "./User";
+import { Like } from "./Like";
+import { Planet } from "./Planet";
+import { Posting } from "./Posting";
 
 interface ResData<D> {
   status: number;
@@ -6,4 +9,4 @@ interface ResData<D> {
   data: D;
 }
 
-export type { ResData, User };
+export type { ResData, User, Posting, Like, Planet };

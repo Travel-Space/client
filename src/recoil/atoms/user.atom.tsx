@@ -1,6 +1,8 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
+import { User } from "@/@types";
+
 const { persistAtom } = recoilPersist();
 
 type UserType = {
@@ -18,5 +20,11 @@ export const userAtom = atom<UserType>({
     nickName: "",
     email: "",
   },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const profileState = atom<User | null>({
+  key: "profile",
+  default: null,
   effects_UNSTABLE: [persistAtom],
 });
