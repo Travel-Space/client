@@ -23,17 +23,21 @@ export const SwiperContainer = styled.div`
   height: 100%;
   margin-bottom: 40px;
 
+  .swiper-pagination {
+    padding-top: 50px;
+  }
   .swiper-pagination-bullet {
-    width: 40px;
-    height: 5px;
+    width: 50px;
+    height: 8px;
     border-radius: 12px;
     background-color: ${({ theme }) => theme.PALETTE.white};
 
     &.swiper-pagination-bullet-active {
-      width: 40px;
-      height: 5px;
+      width: 50px;
+      height: 8px;
       border-radius: 12px;
       background-color: ${({ theme }) => theme.PALETTE.white};
+      margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 8px);
     }
   }
 `;
@@ -52,15 +56,15 @@ export const SlideImage = styled.img<{ animateOnHover: boolean }>`
   max-width: 200px;
   background-repeat: no-repeat;
   object-fit: cover;
-  margin-bottom: 56px;
+  margin-bottom: 60px;
   animation: ${rotation} 2s ease-out 1;
 `;
 
 export const PlanetName = styled.div<PlanetNameProps>`
   width: 70%;
   position: absolute;
-  top:  ${({ offset }) => (offset ? "35%" : "39%")};
-  left: ${({ offset }) => (offset ? "60%" : "50%")}; 
+  top: ${({ offset }) => (offset ? "35%" : "39%")};
+  left: ${({ offset }) => (offset ? "60%" : "50%")};
   transform: translate(-50%, -50%);
   color: ${({ theme }) => theme.PALETTE.white};
   padding: 5px;
