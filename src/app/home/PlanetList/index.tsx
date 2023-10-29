@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect,useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -14,19 +15,20 @@ interface PlanetListProps {
   shape: string;
 }
 
-
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(25);
 
   useEffect(() => {
     fetchPlanetList();
-  }, []);
+  }, [page]);
 
   const fetchPlanetList = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/planet");
-      if (response.status === 200 && response.data.length > 0) {
+      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=${limit}`);
+      if (response.status && response.data.length > 0) {
         setPlanetList(response.data);
       }
     } catch (error) {
@@ -45,7 +47,14 @@ export default function PlanetList() {
 
   return (
     <SwiperContainer className="swiper">
-      <Swiper spaceBetween={30} pagination={{ clickable: true }} modules={[Pagination]}>
+
+
+      <Swiper
+        spaceBetween={30}
+        pagination={{ clickable: true }}
+        modules={[Pagination]}
+        onSlideChange={swiper => setPage(swiper.activeIndex + 1)}
+      >
         {groupedPlanets.map((group, idx) => (
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
