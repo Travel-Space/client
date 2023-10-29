@@ -25,13 +25,13 @@ export default function Postings() {
   const [postings, setPostings] = useRecoilState(myPostingsState);
 
   //게시글 불러오기
-  // 내 게시글 조회 에러 없어지면 수정예정
+  //무한스크롤 추후 적용 - 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/articles`);
       const postings = response.data;
       setPostings(postings);
-      console.log("Postings", Postings);
+      // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
