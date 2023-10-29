@@ -51,7 +51,7 @@ export const StyledSwiperSlide = styled.div`
   gap: 40px;
 `;
 
-export const SlideImage = styled.img<{ animateOnHover: boolean }>`
+export const SlideImage = styled.img`
   min-width: 160px;
   max-width: 200px;
   background-repeat: no-repeat;
