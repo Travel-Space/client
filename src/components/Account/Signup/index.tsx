@@ -113,6 +113,10 @@ export default function Signup({ goToLogin }: PropsType) {
     // currentCountry();
   }, []);
 
+  useEffect(() => {
+    // console.log(country);
+  }, [country]);
+
   return (
     <Container>
       {/* 필수 */}
@@ -151,7 +155,6 @@ export default function Signup({ goToLogin }: PropsType) {
       <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
 
       {/* 필수 */}
-      {/* <Country onCountry={handleCountry} /> */}
       <InputGroup>
         <Label id="nationality">국적</Label>
         <CountryGroup>
@@ -166,7 +169,7 @@ export default function Signup({ goToLogin }: PropsType) {
           <SmallBtnGroup $country>
             <img src={country.download_url} alt={country.country_nm} />
           </SmallBtnGroup>
-          {showSearch && <SearchCountry onCountry={handleCountry} />}
+          {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
         </CountryGroup>
       </InputGroup>
 

@@ -6,6 +6,7 @@ import { CountryInfo } from "@/@types/User";
 
 interface PropsType {
   onCountry: (country: CountryInfo) => void;
+  onClose: () => void;
 }
 
 let initCountryList: CountryInfo[];
@@ -20,12 +21,7 @@ async function fetchCountryList() {
 }
 fetchCountryList();
 
-export default function SearchCountry({ onCountry }: PropsType) {
-  const [country, setCountry] = useState<CountryInfo>({
-    country_nm: "",
-    country_eng_nm: "",
-    download_url: "",
-  });
+export default function SearchCountry({ onCountry, onClose }: PropsType) {
   const [searchInput, setSearchInput] = useState("");
   const [countryList, setCountryList] = useState<CountryInfo[]>(initCountryList);
 
@@ -34,17 +30,13 @@ export default function SearchCountry({ onCountry }: PropsType) {
   }
 
   function onChangeCountry(value: CountryInfo) {
-    setCountry(value);
-    setSearchInput("");
+    onCountry(value);
+    onClose();
   }
 
   useEffect(() => {
     fetchCountryList();
   }, []);
-
-  useEffect(() => {
-    onCountry(country);
-  }, [country]);
 
   useEffect(() => {
     const re = new RegExp(searchInput, "gi");
