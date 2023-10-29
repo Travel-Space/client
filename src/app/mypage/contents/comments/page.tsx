@@ -13,6 +13,7 @@ export default function Comments() {
         width={96}
         height={96}
         comment="작성된 댓글이 없습니다."
+        font="lg"
       />
 
       <S.Header>

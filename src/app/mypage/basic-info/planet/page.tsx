@@ -56,6 +56,7 @@ export default function Planet() {
           width={148}
           height={148}
           comment="여행 중인 행성이 없습니다."
+          font="lg"
         />
       )}
 

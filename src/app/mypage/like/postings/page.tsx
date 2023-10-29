@@ -53,6 +53,7 @@ export default function FavoritePostings() {
           width={96}
           height={96}
           comment="좋아하는 게시글이 없습니다."
+          font="lg"
         />
       ) : (
         <S.Postings>
