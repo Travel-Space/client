@@ -1,23 +1,25 @@
 "use client";
 
+import { User } from "@/@types";
 import * as UP from "./index.styled";
 
+interface UserProfileProp {
+  size: "post" | "chat";
+  author?: User;
+}
 
- interface UserProfileProp {
-  size : "post" | "chat"
- }
+export default function UserProfile({ size, author }: UserProfileProp) {
+  const { nationality, nickName, profileImage } = author;
 
+  const images = profileImage ? profileImage : "/assets/img/icons/profile.svg";
 
-export default function UserProfile({size}:UserProfileProp) {
   return (
-    <>
-      <UP.Wrapper size={size}>
-        <UP.Profile size={size}></UP.Profile>
-        <UP.NFDisplay size={size}>
-          <UP.Name size={size}>에스파</UP.Name>
-          <UP.Flag size={size}>🇯🇵</UP.Flag>
-        </UP.NFDisplay>
-      </UP.Wrapper>
-    </>
+    <UP.Wrapper size={size}>
+      <UP.Profile size={size} src={`${images}`} />
+      <UP.NFDisplay size={size}>
+        <UP.Name size={size}>{nickName}</UP.Name>
+        <UP.Flag size={size}>{nationality}</UP.Flag>
+      </UP.NFDisplay>
+    </UP.Wrapper>
   );
 }
