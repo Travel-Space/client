@@ -17,16 +17,16 @@ interface PlanetListProps {
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  
   useEffect(() => {
     fetchPlanetList(currentPage);
   }, []);
 
   const fetchPlanetList = async (page: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=5`);
-      if (response.status === 200 && response.data.length > 0) {
+      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=6`);
+      if (response.status === 200) {
         setPlanetList(prevPlanets => [...prevPlanets, ...response.data]);
       }
     } catch (error) {
@@ -34,7 +34,7 @@ export default function PlanetList() {
     }
   };
 
-  const onSlideChange = (swiper: any) => {
+  const onSlideChange = async (swiper: any) => {
     if (swiper.activeIndex === swiper.slides.length - 1) {
       setCurrentPage(prevPage => prevPage + 1);
       fetchPlanetList(currentPage + 1);
@@ -52,12 +52,7 @@ export default function PlanetList() {
 
   return (
     <SwiperContainer className="swiper">
-      <Swiper 
-        spaceBetween={40} 
-        pagination={{ clickable: true }} 
-        modules={[Pagination]}
-        onSlideChange={onSlideChange}
-      >
+      <Swiper spaceBetween={40} pagination={{ clickable: true }} modules={[Pagination]} onSlideChange={onSlideChange}>
         {groupedPlanets.map((group, idx) => (
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
@@ -70,7 +65,6 @@ export default function PlanetList() {
                     <SlideImage
                       src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
                       alt={`Planet ${planet.name}`}
-                      animateOnHover={hoveredPlanet === planet.id}
                     />
                     {hoveredPlanet === planet.id && (
                       <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
@@ -85,8 +79,3 @@ export default function PlanetList() {
     </SwiperContainer>
   );
 }
-
-
-
-
-
