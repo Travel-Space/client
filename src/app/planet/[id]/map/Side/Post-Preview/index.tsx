@@ -9,7 +9,7 @@ import UserProfile from "@/components/common/UserProfile";
 const previewImg = "/assets/img/icons/post-test-img.svg";
 
 export default function PostPreview({ article, params }: ArticleProps) {
-  const { id, title, content, createdAt, author } = article;
+  const { id, title, content, createdAt, author, images } = article;
 
   // 날짜와 프로필 이미지
   const { dateString } = getDateInfo(createdAt);
@@ -29,7 +29,7 @@ export default function PostPreview({ article, params }: ArticleProps) {
             <S.Date>{dateString}</S.Date>
           </S.MainBox>
 
-          <S.PreviewImg src={previewImg} alt="프리뷰 이미지" />
+          <S.PreviewImg src={images.length > 0 ? images[0].url : previewImg} alt="프리뷰 이미지" />
         </S.Post>
       </Link>
     </S.Container>
