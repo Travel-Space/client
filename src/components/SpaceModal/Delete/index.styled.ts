@@ -12,10 +12,7 @@ export const Notification = styled.p`
   padding: 24px 0;
 `;
 
-// export const OutlineButton = styled(OB)`
-//   ${flexCenter}
-//   gap: 8px;
-//   img {
-//     margin-top: -2px;
-//   }
-// `;
+export const CenterGroup = styled.div`
+  ${flexCenter}
+  gap: 16px;
+`;

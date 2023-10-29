@@ -6,7 +6,7 @@ import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
 import { UserFriend } from "./Friend";
 import { Comment } from "./Comment";
 
-export interface Country {
+export interface CountryInfo {
   country_eng_nm: string;
   country_nm: string;
   download_url: string;

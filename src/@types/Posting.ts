@@ -21,6 +21,7 @@ export interface Posting {
   likes: Like[];
   comments: Comment[];
   isLiked: boolean;
+  hashtags: [];
 }
 
 interface Images {

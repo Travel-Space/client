@@ -6,14 +6,15 @@ import { Spaceship } from "./Spaceship";
 export interface Planet {
   id: number;
   name: string;
-  description: string | null;
+  description: string;
   ownerId: number;
   memberLimit: number;
+  spaceshipLimit: number;
   published: boolean;
   isActive: boolean;
   shape: PlanetShape;
-  hashtags: string[] | null;
-  deletedAt: Date | null;
+  hashtags: string[];
+  deletedAt: Date;
   articles: Posting[];
   owner: User;
   planetBookMark: PlanetBookmark[];
