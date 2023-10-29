@@ -4,7 +4,7 @@ type ObjType = {
 const ROLE: ObjType = {
   OWNER: "관리자",
   ADMIN: "부관리자",
-  MEMBER: "회원",
+  MEMBER: "일반",
 };
 
 export default ROLE;
