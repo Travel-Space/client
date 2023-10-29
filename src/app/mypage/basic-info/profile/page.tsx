@@ -1,8 +1,9 @@
 "use client";
 import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types/index";
+import { CountryInfo } from "@/@types/User";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
 
@@ -14,11 +15,23 @@ import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
 import Item from "./Item";
 import NicknameInput from "./Nickname";
+import SearchCountry from "@/components/common/SearchCountry";
 
 export default function Profile() {
   const [profile, setProfile] = useRecoilState(profileState);
-  const nationalityInputRef = useRef<HTMLInputElement>(null);
+  const [showSearch, setShowSearch] = useState(false);
+  const [changedNickname, setChangedNickname] = useState(profile?.nickName || "");
 
+  //국적
+  const [country, setCountry] = useState<CountryInfo>({
+    country_nm: profile?.nationality || "",
+    country_eng_nm: "",
+    download_url: "",
+  });
+
+  function handleCountry(country: CountryInfo) {
+    setCountry(country);
+  }
   //프로필 불러오기
   async function getProfile() {
     try {
@@ -43,15 +56,6 @@ export default function Profile() {
   useEffect(() => {
     if (profile === null) getProfile();
   }, []);
-  //국적
-  // 슬언니꺼 완료되면 가져오기-수정예정
-  const NationalityInput = ({ prev }: { prev?: string }) => {
-    const [nationality, setNationality] = useState(profile?.nationality);
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNationality(e.target.value);
-    };
-    return <S.NicknameInput type="text" ref={nationalityInputRef} value={nationality} onChange={handleChange} />;
-  };
 
   //변경사항 저장
   interface updateProfileProps {
@@ -75,11 +79,12 @@ export default function Profile() {
   };
   const saveData = () => {
     const changedData = {
-      nickName: nicknameInputRef.current?.value,
-      nationality: nationalityInputRef.current?.value,
+      nickName: changedNickname,
+      nationality: country.country_nm,
       profileImage: changedProfileImg,
     };
-    console.log(changedData);
+    // console.log(changedData);
+
     updateProfile(changedData);
   };
 
@@ -106,12 +111,16 @@ export default function Profile() {
         <Line color="gray" size="horizontal" />
 
         <Item name="닉네임">
-          <NicknameInput prev={profile?.nickName} />
+          <NicknameInput nickname={changedNickname} onChange={(nickname: string) => setChangedNickname(nickname)} />
         </Item>
+
         <Line color="gray" size="horizontal" />
+
         <Item name="국적">
-          {/* 슬언니꺼 완료되면 가져오기-수정예정 */}
-          <NationalityInput prev={profile?.nationality} />
+          <S.Nationality>
+            <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
+            {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
+          </S.Nationality>
         </Item>
       </S.Main>
       <S.Footer>

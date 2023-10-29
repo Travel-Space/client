@@ -1,14 +1,13 @@
 import axiosRequest from "@/api/index";
 import { ResData, NicknameCheck } from "@/@types/index";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import * as S from "./index.styled";
 
 //닉네임 변경
-const NicknameInput = ({ prev }: { prev?: string }) => {
+const NicknameInput = ({ nickname, onChange }: { nickname: string; onChange: (nickname: string) => void }) => {
   const [isAvailableNickname, setIsAvailableNickname] = useState(false);
-  const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   //닉네임 중복확인
   async function checkNickname(nickname: string) {
@@ -17,7 +16,7 @@ const NicknameInput = ({ prev }: { prev?: string }) => {
         "get",
         `/user/check-nickname?nickname=${nickname}`,
       );
-      console.log("checkNickname", response.data);
+      //   console.log("checkNickname", response.data);
       const isAvailable = response.data.available;
       setIsAvailableNickname(isAvailable);
       if (isAvailable) alert("사용가능한 닉네임입니다.");
@@ -28,14 +27,13 @@ const NicknameInput = ({ prev }: { prev?: string }) => {
     }
   }
 
-  const [nickname, setNickname] = useState<string>(prev || "");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    onChange(e.target.value);
     setIsAvailableNickname(false);
   };
   return (
     <>
-      <S.NicknameInput type="text" ref={nicknameInputRef} value={nickname} onChange={handleChange} />;
+      <S.NicknameInput type="text" value={nickname} onChange={handleChange} />
       <S.DoubleCheck onClick={() => checkNickname(nickname)} disabled={isAvailableNickname}>
         중복확인
       </S.DoubleCheck>
