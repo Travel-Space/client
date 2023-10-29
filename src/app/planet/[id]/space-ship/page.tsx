@@ -3,7 +3,8 @@
 import Ship from "./Ship";
 import * as S from "./page.styled";
 import Button from "@/components/common/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 // Import Swiper React components
 import { SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -12,11 +13,40 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper/modules";
 import { useRouter } from "next/navigation";
+import axiosRequest from "@/api";
+import { AxiosError } from "axios";
+import { Planet, ResData } from "@/@types";
+import { Spaceship } from "@/@types/Spaceship";
 
 export default function SpaceShip() {
   const [showExitModal, setShowExitModal] = useState<boolean>(false);
   const [showMemberModal, setShowMemberModal] = useState<boolean>(false);
+
+  const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
+  const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
+  const [planetName, setPlanetName] = useState<string>();
+
   const router = useRouter();
+  const params = useParams();
+
+  const limitNumber = Array.from({ length: spaceShipLimit }, (_, index) => index + 1);
+
+  async function fetchPlanetData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${params.id}`, {});
+      console.log(response);
+      setSpaceShipLimit(response.data.spaceshipLimit);
+      setPlanetName(response.data.name);
+    } catch (error) {
+      console.error("우주선 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchPlanetData();
+  }, []);
 
   return (
     <S.Wrap>
@@ -24,7 +54,7 @@ export default function SpaceShip() {
         <Button variant="basic" size="normal" shape="large" onClick={() => router.back()}>
           <img src="/assets/img/icons/prev-white.svg" height={16} />
         </Button>
-        <S.Title>일본 맛도리 여행</S.Title>
+        <S.Title>{planetName}</S.Title>
         <Button variant="basic" size="normal" shape="large">
           <S.CenterGroup>
             <span>탑승링크</span>
@@ -43,7 +73,7 @@ export default function SpaceShip() {
         }}
         modules={[Pagination]}
       >
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(ship => (
+        {limitNumber.map(ship => (
           <SwiperSlide key={ship}>
             <Ship test={ship} />
           </SwiperSlide>
@@ -59,14 +89,8 @@ export default function SpaceShip() {
             </S.CenterGroup>
           </Button>
         </S.MemberBtn>
-        <S.ExitBtn onClick={() => setShowExitModal(true)}>행성 탈출 💥</S.ExitBtn>
+        <S.ExitBtn onClick={() => setShowExitModal(true)}>우주선 탈출 💥</S.ExitBtn>
       </S.Footer>
-
-      {/* 
-      {showExitPlanetModal ? (
-        <ExitPlanetModal onClose={() => setShowExitModal(false)} planetTitle="일본 맛도리 여행" />
-      ) : null}
-      {showMemberManageModal ? <MemberManageModal onClose={() => setShowMemberModal(false)} /> : null} */}
     </S.Wrap>
   );
 }
