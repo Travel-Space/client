@@ -30,7 +30,11 @@ export default function PlanetItem({ data }: PlanetItemProps) {
         </S.InfoRow>
         <S.TagList>{hashtags?.map((el, idx) => <S.Tag key={idx}>{el}</S.Tag>)}</S.TagList>
       </S.Info>
-      {!published && <Image src="/assets/img/icons/lock.svg" alt="lock" width={24} height={24} />}
+      {published ? (
+        <Image src="/assets/img/icons/unlock.svg" alt="lock" width={24} height={24} />
+      ) : (
+        <Image src="/assets/img/icons/lock.svg" alt="lock" width={24} height={24} />
+      )}
     </S.Container>
   );
 }

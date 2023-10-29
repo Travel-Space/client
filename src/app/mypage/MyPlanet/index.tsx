@@ -25,7 +25,11 @@ export default function MyPlanet({ data }: MyPlanetProps) {
           {/* 멤버수 추가되면 수정예정 */}
           {members ? members.length : 1}/{memberLimit ? memberLimit : 15}
         </S.People>
-        {!published && <Image src="/assets/img/icons/lock.svg" alt="lock" width={20} height={20} />}
+        {published ? (
+          <Image src="/assets/img/icons/unlock.svg" alt="lock" width={20} height={20} />
+        ) : (
+          <Image src="/assets/img/icons/lock.svg" alt="lock" width={20} height={20} />
+        )}
       </S.Header>
       <Image src={PLANETSHAPE[shape]} alt="planet" width={96} height={96} />
       {/* 행성좋아요 추가되면 수정예정 */}
