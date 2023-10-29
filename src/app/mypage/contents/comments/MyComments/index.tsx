@@ -1,8 +1,20 @@
+import { Comment } from "@/@types";
+
 import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 
-export default function MyComments() {
+import { getDateInfo } from "@/utils/getDateInfo";
+
+interface MyCommentsProps {
+  data: Comment;
+}
+
+export default function MyComments({ data }: MyCommentsProps) {
+  const { id, content, createdAt } = data;
+
+  //UTC->LOCAL 날짜 변환
+  const { dateString, dayName } = getDateInfo(createdAt);
   const handleClick = () => {
     console.log();
   };
@@ -10,13 +22,15 @@ export default function MyComments() {
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
+          {/* 스키마 추가 시 수정예정 */}
           <S.Planet>지구지구행성</S.Planet>
-          <S.Title>일본 여행 후쿠오카 온천온천온천 가고싶다!</S.Title>
+          <S.Title>글제목</S.Title>
         </S.InfoRowCol>
-        <S.CreatedDate>2023년 10월 09일 월요일</S.CreatedDate>
+        <S.CreatedDate>{` ${dateString}
+           ${dayName}`}</S.CreatedDate>
       </S.InfoRow>
       <S.InfoRow>
-        <S.Comment>저도 여기 가보고 싶어요!</S.Comment>
+        <S.Comment>{content}</S.Comment>
         <S.Buttons>
           <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClick}>
             수정
