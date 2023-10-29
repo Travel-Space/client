@@ -5,7 +5,7 @@ export const Container = styled.div`
   border-radius: 10px;
 `;
 
-export const MyFriends = styled.div`
+export const Postings = styled.div`
   width: 100%;
   padding: 24px 42px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};

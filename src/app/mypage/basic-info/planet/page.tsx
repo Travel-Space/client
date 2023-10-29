@@ -2,7 +2,7 @@
 import axiosRequest from "@/api";
 import { ResData, Planet } from "@/@types";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
 import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
@@ -11,13 +11,15 @@ import * as S from "./page.styled";
 
 import Link from "next/link";
 import Image from "next/image";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
 import PlanetItem from "@/components/User/PlanetItem";
+import Button from "@/components/common/Button";
 
 export default function Planet() {
   const profile = useRecoilValue(profileState);
   const [planets, setPlanets] = useRecoilState(myPlanetsState);
+  const [overLimit, setOverLimit] = useState(false);
 
   //행성 불러오기
   async function getPlanets() {
@@ -30,11 +32,6 @@ export default function Planet() {
       console.error("Error fetching planet data: ", error);
     }
   }
-  useEffect(() => {
-    if (planets.length === 0) {
-      getPlanets();
-    }
-  }, []);
 
   //내가 생성한 행성
   const myPlanets = planets.filter(el => profile?.id === el.ownerId);
@@ -44,6 +41,11 @@ export default function Planet() {
   let myPlanetsWithNull = new Array(5).fill(null);
   myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
+  useEffect(() => {
+    getPlanets();
+
+    if (myPlanets.length >= 5) setOverLimit(true);
+  }, []);
   return (
     <S.Container>
       {/* 데이터가 없을 경우 */}
@@ -61,10 +63,12 @@ export default function Planet() {
         <S.Title>내가 생성한 행성</S.Title>
         <S.NewPlanet>
           <S.MyPlanetNumber>
-            <span>{5 - planets.length}</span>개의 행성을 더 운영할 수 있습니다.
+            <span>{5 - myPlanets.length}</span>개의 행성을 더 운영할 수 있습니다.
           </S.MyPlanetNumber>
           <Link href="/create-planet">
-            <S.MakePlanetBtn>새 행성 만들기</S.MakePlanetBtn>
+            <Button variant="reverse" shape="medium" size="smallWithSmFont" disabled={overLimit}>
+              새 행성 만들기
+            </Button>
           </Link>
         </S.NewPlanet>
       </S.MyPlanetInfo>
