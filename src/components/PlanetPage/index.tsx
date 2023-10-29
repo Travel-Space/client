@@ -10,6 +10,7 @@ import { Planet } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 export type PlanetType = Partial<Planet>;
 
@@ -30,6 +31,7 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
     memberLimit: 10,
     spaceshipLimit: 10,
   });
+  const router = useRouter();
 
   async function fetchPlanetData() {
     try {
@@ -40,17 +42,14 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
       console.error("특정 행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
+      // alert("잘못된 경로입니다.");
+      // return router.back();
     }
   }
 
   useEffect(() => {
     id && fetchPlanetData();
   }, [id]);
-
-  useEffect(() => {
-    // console.log(planetInfo.shape);
-    // setPlanetInfo(planetInfo);
-  }, [planetInfo]);
 
   return (
     <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>
