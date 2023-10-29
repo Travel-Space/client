@@ -28,6 +28,7 @@ export const Input = styled.input`
   font-weight: 500;
   color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
+
 export const NicknameInput = styled.input`
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
@@ -37,11 +38,6 @@ export const NicknameInput = styled.input`
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: 500;
-`;
-export const DoubleCheck = styled.button`
-  color: ${({ theme }) => theme.PALETTE.mainColor};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  margin-left: 16px;
 `;
 export const Leave = styled.div`
   display: flex;

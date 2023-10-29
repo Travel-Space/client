@@ -13,10 +13,10 @@ import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
 import Item from "./Item";
+import NicknameInput from "./Nickname";
 
 export default function Profile() {
   const [profile, setProfile] = useRecoilState(profileState);
-  const nicknameInputRef = useRef<HTMLInputElement>(null);
   const nationalityInputRef = useRef<HTMLInputElement>(null);
 
   //프로필 불러오기
@@ -40,15 +40,9 @@ export default function Profile() {
     setChangedProfileImg(src);
   };
 
-  //닉네임 변경
-  const NicknameInput = ({ prev }: { prev?: string }) => {
-    const [nickname, setNickname] = useState(prev);
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNickname(e.target.value);
-    };
-    return <S.NicknameInput type="text" ref={nicknameInputRef} value={nickname} onChange={handleChange} />;
-  };
-
+  useEffect(() => {
+    if (profile === null) getProfile();
+  }, []);
   //국적
   // 슬언니꺼 완료되면 가져오기-수정예정
   const NationalityInput = ({ prev }: { prev?: string }) => {
@@ -85,7 +79,7 @@ export default function Profile() {
       nationality: nationalityInputRef.current?.value,
       profileImage: changedProfileImg,
     };
-    // console.log(changedData);
+    console.log(changedData);
     updateProfile(changedData);
   };
 
@@ -113,8 +107,6 @@ export default function Profile() {
 
         <Item name="닉네임">
           <NicknameInput prev={profile?.nickName} />
-          {/* 중복확인 api 완료 후 수정예정 */}
-          <S.DoubleCheck>중복확인</S.DoubleCheck>
         </Item>
         <Line color="gray" size="horizontal" />
         <Item name="국적">

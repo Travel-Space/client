@@ -57,3 +57,6 @@ enum UserRole {
   "MEMBER",
   "ADMIN",
 }
+export interface NicknameCheck {
+  available: boolean;
+}
