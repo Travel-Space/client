@@ -67,7 +67,7 @@ export default function PostContent({ data }: PostContentProps) {
           <PC.Date>{dateString}</PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
-          <UserProfile size="post" posting={data}  />
+          <UserProfile size="post" author={data?.author}/>
           <PC.PostInfo>
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
             피식대학 우주선
