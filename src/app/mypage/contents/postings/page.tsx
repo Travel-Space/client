@@ -3,8 +3,8 @@ import axiosRequest from "@/api";
 import { ResData, Posting } from "@/@types";
 
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
-import myPostingsState from "@/recoil/atoms/myPostings.atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import myPostingsState, { postsExceptDeleteState } from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
@@ -23,15 +23,16 @@ export default function Postings() {
   };
 
   const [postings, setPostings] = useRecoilState(myPostingsState);
+  const postsExceptDelete = useRecoilValue(postsExceptDeleteState);
 
   //게시글 불러오기
-  // 내 게시글 조회 에러 없어지면 수정예정
+  //무한스크롤 추후 적용 - 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/articles`);
       const postings = response.data;
       setPostings(postings);
-      console.log("Postings", Postings);
+      // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -46,7 +47,7 @@ export default function Postings() {
 
   return (
     <S.Container>
-      {postings.length === 0 && (
+      {postsExceptDelete.length === 0 && (
         <Nothing
           src="/assets/img/icons/no-postings.svg"
           alt="no-postings"
@@ -58,12 +59,12 @@ export default function Postings() {
       )}
       <S.Header>
         <S.PostingsNumber>
-          총 <span>{postings.length}</span>개의 게시글
+          총 <span>{postsExceptDelete.length}</span>개의 게시글
         </S.PostingsNumber>
         <SearchForm select={dropDownProps} />
       </S.Header>
       <S.MyPostingsWrap>
-        {postings.map(posting => (
+        {postsExceptDelete.map(posting => (
           <MyPostings data={posting} />
         ))}
       </S.MyPostingsWrap>

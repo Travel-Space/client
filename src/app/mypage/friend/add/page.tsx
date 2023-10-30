@@ -1,5 +1,10 @@
 "use client";
-import { useState } from "react";
+import axiosRequest from "@/api";
+import { ResData, Follower } from "@/@types";
+
+import { useRecoilState, useRecoilValue } from "recoil";
+import { followerState, notMutualState } from "@/recoil/atoms/friend.atom";
+import { useState, useEffect } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -22,6 +27,27 @@ export default function Planet() {
     placeholder: "친구 추가에서 검색합니다.",
   };
 
+  const [followers, setFollowers] = useRecoilState(followerState);
+  const notMutual = useRecoilValue(notMutualState);
+
+  //팔로워 조회
+  //무한스크롤 추후 적용 - 수정예정
+  async function getFollowers() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Follower[]>>("get", `/user/followers`);
+      setFollowers(response.data);
+      console.log("followers", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+
+  useEffect(() => {
+    console.log(notMutual);
+    if (followers.length === 0) getFollowers();
+  }, []);
+
   return (
     <S.Container>
       <S.Row>
@@ -37,33 +63,12 @@ export default function Planet() {
           modules={[Navigation]}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
-          <SwiperSlide>
-            <RecommendFriend />
-          </SwiperSlide>
+          {/* notMutual 수정되면 수정예정 */}
+          {followers.map((el, idx) => (
+            <SwiperSlide>
+              <RecommendFriend key={`notMutualFriend${idx}`} data={el} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </S.SwiperWrap>
 
@@ -77,15 +82,7 @@ export default function Planet() {
           suggest="닉네임 또는 계정을 검색해 보세요."
           font="lg"
         />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
-        <Person />
+        {/* 검색기능추가되면 수정예정 */}
       </S.SearchResults>
       <S.ShowMoreBtn>목록 더보기</S.ShowMoreBtn>
     </S.Container>
