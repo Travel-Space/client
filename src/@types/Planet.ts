@@ -20,6 +20,10 @@ export interface Planet {
   planetBookMark: PlanetBookmark[];
   members: PlanetMembership[];
   spaceships: Spaceship[];
+  totalPages: number;
+  totalCount: number;
+  currentPage:number;
+  planets: Planet[];
 }
 
 export interface PlanetBookmark {
