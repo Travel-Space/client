@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -18,43 +17,42 @@ interface PlanetListProps {
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(25);
-
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  
   useEffect(() => {
-    fetchPlanetList();
-  }, [page]);
+    fetchPlanetList(currentPage);
+  }, []);
 
-  const fetchPlanetList = async () => {
+  const fetchPlanetList = async (page: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=${limit}`);
-      if (response.status && response.data.length > 0) {
-        setPlanetList(response.data);
+      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=6`);
+      if (response.status === 200) {
+        setPlanetList(prevPlanets => [...prevPlanets, ...response.data]);
       }
     } catch (error) {
       console.error("행성 리스트 가져오기 에러", error);
     }
   };
 
-  const groupedPlanets = Array.from({ length: Math.ceil(planetList.length / 5) }, (_, i) => i * 5).map(start =>
-    planetList.slice(start, start + 5),
-  );
+  const onSlideChange = async (swiper: any) => {
+    if (swiper.activeIndex === swiper.slides.length - 1) {
+      setCurrentPage(prevPage => prevPage + 1);
+      fetchPlanetList(currentPage + 1);
+    }
+  };
 
-  // shape 문자열에서 숫자 부분만 추출하는 함수
   const getShapeNumber = (shape: string) => {
     return shape.replace(/\D/g, "");
   };
 
+  // 행성을 5개씩 그룹화
+  const groupedPlanets = Array.from({ length: Math.ceil(planetList.length / 5) }, (_, i) => i * 5).map(start =>
+    planetList.slice(start, start + 5),
+  );
+
   return (
     <SwiperContainer className="swiper">
-
-
-      <Swiper
-        spaceBetween={30}
-        pagination={{ clickable: true }}
-        modules={[Pagination]}
-        onSlideChange={swiper => setPage(swiper.activeIndex + 1)}
-      >
+      <Swiper spaceBetween={40} pagination={{ clickable: true }} modules={[Pagination]} onSlideChange={onSlideChange}>
         {groupedPlanets.map((group, idx) => (
           <SwiperSlide key={idx}>
             <StyledSwiperSlide>
@@ -67,7 +65,6 @@ export default function PlanetList() {
                     <SlideImage
                       src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
                       alt={`Planet ${planet.name}`}
-                      animateOnHover={hoveredPlanet === planet.id}
                     />
                     {hoveredPlanet === planet.id && (
                       <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
