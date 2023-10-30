@@ -29,6 +29,7 @@ export const Email = styled.div`
 
 export const FollowBtn = styled.div`
   & > button {
-    padding: 5px 24px;
+    padding: 5px 0;
+    width: 80px;
   }
 `;
