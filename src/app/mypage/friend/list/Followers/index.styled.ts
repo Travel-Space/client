@@ -7,6 +7,9 @@ export const MyFriends = styled.div`
   border-radius: 10px;
 
   & > div:nth-child(10n) {
-    border: none;
+    border-bottom: none;
+  }
+  & > div:last-child {
+    border-bottom: none;
   }
 `;
