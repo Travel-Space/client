@@ -1,10 +1,15 @@
+"use client";
+
 import { useEffect, useState, useRef } from "react";
 import { Input } from "./index.styled";
+import { GeocoderResult } from "@/@types/GeocoderResult";
+import * as LI from "./index.styled";
 
 interface LocationInputProps {
   placeholder?: string;
   type?: string;
   onLocationSelect: (address: GeocoderResult, location: GeocoderResult) => void;
+  setIsAddressChecked: (value: boolean) => void; 
 }
 
 declare global {
@@ -13,25 +18,10 @@ declare global {
   }
 }
 
-interface LatLng {
-  equals(other: LatLng): boolean;
-  lat(): number;
-  lng(): number;
-}
-interface GeocoderGeometry {
-  location: LatLng;
-}
-interface GeocoderResult {
-  formatted_address: string;
-  geometry: GeocoderGeometry;
-}
-
-
-
-
-export default function LocationInput({ placeholder, type, onLocationSelect }: LocationInputProps) {
+export default function LocationInput({ placeholder, type, onLocationSelect, setIsAddressChecked }: LocationInputProps) {
   const [address, setAddress] = useState<string>("");
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   useEffect(() => {
     window.initializeAutocomplete = function () {
@@ -40,7 +30,16 @@ export default function LocationInput({ placeholder, type, onLocationSelect }: L
       const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
         types: ["geocode"],
       });
+
+      autocomplete.addListener("place_changed", function () {
+        const selectedPlace = autocomplete.getPlace();
+        if (selectedPlace.formatted_address) {
+          const fullAddress = selectedPlace.formatted_address;
+          setAddress(fullAddress);
+        }
+      });
     };
+
     if (window.google) {
       window.initializeAutocomplete();
     } else {
@@ -70,13 +69,16 @@ export default function LocationInput({ placeholder, type, onLocationSelect }: L
         const location = {
           formatted_address: selectedAddress,
           geometry: {
-            location: data.results[0].geometry.location
-          }
+            location: data.results[0].geometry.location,
+          },
         };
-      
+        setIsChecked(true);
         setAddress(selectedAddress);
         onLocationSelect(selectedAddress, location);
+        setIsAddressChecked(true); 
       } else {
+        setIsChecked(false);
+        setIsAddressChecked(false);
         console.error("Failed to get the location.");
       }
     } catch (error) {
@@ -95,8 +97,14 @@ export default function LocationInput({ placeholder, type, onLocationSelect }: L
     }
   };
 
+  const handleSearchButtonClick = () => {
+    if (address) {
+      searchAddress(address);
+    }
+  };
+
   return (
-    <div>
+    <LI.InputContainer>
       <Input
         type={type || "text"}
         ref={inputRef}
@@ -105,6 +113,7 @@ export default function LocationInput({ placeholder, type, onLocationSelect }: L
         onChange={handleInputChange}
         onKeyPress={handleInputKeyPress}
       />
-    </div>
+      <LI.SearchButton onClick={handleSearchButtonClick}>선택 {isChecked && "✔"}</LI.SearchButton>
+    </LI.InputContainer>
   );
 }

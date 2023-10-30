@@ -1,13 +1,11 @@
-import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Input from "@/components/common/Input";
 import Line from "@/components/common/Line";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
+import { Default } from "@/@types/Modal";
 
-interface Type extends ModalType {}
-
-export default function Manage({ onClose }: Type) {
+export default function Manage({ onClose }: Default) {
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
       <S.Content>

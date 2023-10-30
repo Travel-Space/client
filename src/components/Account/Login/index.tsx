@@ -16,11 +16,11 @@ import Line from "@/components/common/Line";
 
 import * as S from "./index.styled";
 import { Container, Error, InputGroup, MarginGroup } from "../index.styled";
+import { Default } from "@/@types/Modal";
 
-interface PropsType {
+interface PropsType extends Default {
   goToSignup: () => void;
   goToResetPassword: () => void;
-  onClose: () => void;
 }
 
 export default function Login({ goToSignup, goToResetPassword, onClose }: PropsType) {

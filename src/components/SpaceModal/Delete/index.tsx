@@ -1,16 +1,11 @@
 import BoxModal from "@/components/common/BoxModal";
-import * as S from "./index.styled";
 import Button from "@/components/common/Button";
+import { Default, Title } from "@/@types/Modal";
+import * as S from "../index.styled";
 
-export enum ItemType {
-  SpaceShip = "우주선",
-  Planet = "행성",
-}
-
-interface Type {
-  onClose: () => void;
+interface Type extends Default {
   title: string | undefined;
-  type: ItemType;
+  type: Title;
 }
 
 export default function Delete({ onClose, title, type }: Type) {

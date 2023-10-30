@@ -11,7 +11,8 @@ import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 
 import { useModal } from "@/hooks/useModal";
-import Delete, { ItemType } from "@/components/SpaceModal/Delete";
+import Delete from "@/components/SpaceModal/Delete";
+import { ItemType } from "@/@types/Modal";
 
 const planetImg: {
   name: PlanetShape;

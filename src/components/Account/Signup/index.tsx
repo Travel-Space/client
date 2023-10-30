@@ -29,6 +29,7 @@ export default function Signup({ goToLogin }: PropsType) {
 
   const [nameValid, setNameValid] = useState(false);
   const [nickNameValid, setNickNameValid] = useState(false);
+  const [nickNameCheck, setNickNameCheck] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
@@ -65,6 +66,7 @@ export default function Signup({ goToLogin }: PropsType) {
   function handleNickName(e: React.ChangeEvent<HTMLInputElement>) {
     setNickName(e.target.value);
     VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
+    setNickNameCheck(false);
   }
 
   function handlePasswordCompare(result: boolean, value: string) {
@@ -101,21 +103,39 @@ export default function Signup({ goToLogin }: PropsType) {
     }
   }
 
+  async function checkNickName() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<{ available: boolean }>>(
+        "get",
+        `/user/check-nickname?nickname=${nickName}`,
+        {},
+      );
+      console.log(response);
+      setNickNameCheck(response.data.available);
+      if (response.data.available) {
+        alert("사용가능한 닉네임입니다.");
+      } else {
+        alert("중복된 닉네임입니다. 다시 작성해주세요.");
+        setNickName("");
+      }
+    } catch (error) {
+      console.error("닉네임 중복확인 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   useEffect(() => {
-    if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm) {
+    if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm && nickNameCheck) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm]);
+  }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
   useEffect(() => {
     // currentCountry();
   }, []);
-
-  useEffect(() => {
-    // console.log(country);
-  }, [country]);
 
   return (
     <Container>
@@ -147,6 +167,17 @@ export default function Signup({ goToLogin }: PropsType) {
             warning={!nickNameValid && nickName.length > 0}
           />
           {!nickNameValid && nickName.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NICKNAME}</Error>}
+          <SmallBtnGroup>
+            <Button
+              variant="confirm"
+              shape="small"
+              size="smallWithXsFont"
+              disabled={!nickNameValid || !nickName}
+              onClick={checkNickName}
+            >
+              중복확인
+            </Button>
+          </SmallBtnGroup>
         </InputGroup>
       </InputGroup>
 

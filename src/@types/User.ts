@@ -41,6 +41,7 @@ export interface User {
   spaceshipMemberships: SpaceshipMember[];
   friendedBy: UserFriend[];
   friends: UserFriend[];
+  reportCount?: number | string;
 }
 
 enum SocialProvider {
