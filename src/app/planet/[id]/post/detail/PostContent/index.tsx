@@ -11,6 +11,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
 import { getDateInfo } from "@/utils/getDateInfo";
+import axiosRequest from "@/api";
 
 interface PostContentProps {
   data?: Posting;
@@ -23,30 +24,30 @@ export default function PostContent({ data }: PostContentProps) {
   const currentUser = useRecoilValue(userAtom);
   const isMyPost = currentUser.id === data?.authorId;
 
-  //게시글 삭제 함수
-  const handlePostDelete = async () => {
-    if (!data?.id) return;
+ //게시글 삭제 함수
+ const handlePostDelete = async () => {
+  if (!data?.id) return;
 
-    const isConfirmed = window.confirm("게시글을 삭제하시겠습니까?");
-    if (!isConfirmed) return;
+  const isConfirmed = window.confirm("게시글을 삭제하시겠습니까?");
+  if (!isConfirmed) return;
 
-    try {
-      await axios.delete(`/articles/${data.id}`);
-      alert("게시글이 성공적으로 삭제되었습니다.");
+  try {
+    await axiosRequest.requestAxios("delete", `/articles/${data.id}`);
+    alert("게시글이 성공적으로 삭제되었습니다.");
 
-      // 현재 URL에서 planet의 동적 값을 추출
-      const planetId = searchParams.get("planetId");
+    // 현재 URL에서 planet의 동적 값을 추출
+    const planetId = searchParams.get("planetId");
 
-      if (planetId) {
-        router.push(`/planet/${planetId}/map`);
-      } else {
-        router.push("/"); // 행성 경로가 없을 경우 홈 화면으로
-      }
-    } catch (error) {
-      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error deleting post: ", error);
+    if (planetId) {
+      router.push(`/planet/${planetId}/map`);
+    } else {
+      router.push("/"); // 행성 경로가 없을 경우 홈 화면으로
     }
-  };
+  } catch (error) {
+    alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
+    console.error("Error deleting post: ", error);
+  }
+};
 
   const openDeclarationModal = () => {
     openModal({
@@ -66,7 +67,7 @@ export default function PostContent({ data }: PostContentProps) {
           <PC.Date>{dateString}</PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
-          <UserProfile size="post" />
+          <UserProfile size="post" posting={data}  />
           <PC.PostInfo>
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
             피식대학 우주선
