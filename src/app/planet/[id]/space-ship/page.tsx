@@ -19,6 +19,7 @@ import Ship from "./Ship";
 
 import * as S from "./page.styled";
 import { ItemType } from "@/@types/Modal";
+import PlanetMember from "./Modal/PlanetMember";
 
 export default function SpaceShip() {
   const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
@@ -30,6 +31,11 @@ export default function SpaceShip() {
     title: "행성 탈출",
     // 현재 내 user recoil 행성별 role 정보에 맞게 보여줘야 함
     content: <Exit onClose={closeModal} title={planetName} type={ItemType.Planet} role={"OWNER"} />,
+  };
+
+  const planetMemberModal = {
+    title: "행성 멤버 관리",
+    content: <PlanetMember onClose={closeModal} />,
   };
 
   const router = useRouter();
@@ -88,8 +94,9 @@ export default function SpaceShip() {
       </S.List>
 
       <S.Footer>
+        {/* 현재 내 user recoil 행성별 role이 OWNER일 경우 관리버튼 노출 */}
         <S.MemberBtn>
-          <Button variant="gradient" shape="large" size="big">
+          <Button variant="gradient" shape="large" size="big" onClick={() => openModal(planetMemberModal)}>
             <S.CenterGroup>
               <img src="/assets/img/icons/users.svg" />
               <span>행성 멤버 관리</span>
