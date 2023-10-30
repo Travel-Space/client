@@ -1,4 +1,4 @@
-import { UserFriend } from "@/@types";
+import { Following } from "@/@types";
 
 import * as S from "./index.styled";
 
@@ -6,7 +6,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
 interface FollowingsProps {
-  data: UserFriend[];
+  data: Following[];
 }
 
 export default function Followings({ data }: FollowingsProps) {
@@ -24,7 +24,9 @@ export default function Followings({ data }: FollowingsProps) {
         />
       ) : (
         <S.MyFriends>
-          <Person />
+          {data.map((el, idx) => (
+            <Person key={`following${idx}`} data={el.friend} />
+          ))}
         </S.MyFriends>
       )}
     </>

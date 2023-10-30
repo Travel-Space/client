@@ -3,6 +3,7 @@ import { Like } from "./Like";
 import { Planet } from "./Planet";
 import { Posting } from "./Posting";
 import { Comment } from "./Comment";
+import { Follower, Following } from "./Friend";
 
 interface ResData<D> {
   status: number;
@@ -10,4 +11,4 @@ interface ResData<D> {
   data: D;
 }
 
-export type { ResData, User, Posting, Like, Planet, NicknameCheck, Comment };
+export type { ResData, User, Posting, Like, Planet, NicknameCheck, Comment, Follower, Following };

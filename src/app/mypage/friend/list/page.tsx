@@ -1,17 +1,17 @@
 "use client";
-// import axiosRequest from "@/api";
-// import { ResData, UserFriend } from "@/@types";
+import axiosRequest from "@/api";
+import { ResData, Follower, Following } from "@/@types";
 
 import { useState, useEffect } from "react";
-// import { useRecoilState } from "recoil";
-// import { followerState, followingState } from "@/recoil/atoms/friend.atom";
+import { useRecoilState } from "recoil";
+import { followerState, followingState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./page.styled";
 
 import SearchForm from "@/app/mypage/SearchForm";
 import Line from "@/components/common/Line";
-// import Followers from "./Followers";
-// import Followings from "./Followings";
+import Followers from "./Followers";
+import Followings from "./Followings";
 
 export default function FriendList() {
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
@@ -23,37 +23,37 @@ export default function FriendList() {
   };
 
   const [tab, setTab] = useState("followers");
-  // const [followers, setFollowers] = useRecoilState(followerState);
-  // const [followings, setFollowings] = useRecoilState(followingState);
+  const [followers, setFollowers] = useRecoilState(followerState);
+  const [followings, setFollowings] = useRecoilState(followingState);
 
-  // //팔로워 조회
-  // //무한스크롤 추후 적용 - 수정예정
-  // async function getFollowers() {
-  //   try {
-  //     const response = await axiosRequest.requestAxios<ResData<UserFriend[]>>("get", `/user/followers`);
-  //     setFollowers(response.data);
-  //     console.log("followers", response.data);
-  //   } catch (error) {
-  //     alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-  //     console.error("Error fetching followers data: ", error);
-  //   }
-  // }
-  // //팔로잉 조회
-  // //무한스크롤 추후 적용 - 수정예정
-  // async function getFollowings() {
-  //   try {
-  //     const response = await axiosRequest.requestAxios<ResData<UserFriend[]>>("get", `/user/following`);
-  //     setFollowings(response.data);
-  //     console.log("followers", response.data);
-  //   } catch (error) {
-  //     alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-  //     console.error("Error fetching followings data: ", error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   if (followers.length === 0) getFollowers();
-  //   if (followings.length === 0) getFollowings();
-  // }, []);
+  //팔로워 조회
+  //무한스크롤 추후 적용 - 수정예정
+  async function getFollowers() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Follower[]>>("get", `/user/followers`);
+      setFollowers(response.data);
+      console.log("followers", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+  //팔로잉 조회
+  //무한스크롤 추후 적용 - 수정예정
+  async function getFollowings() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Following[]>>("get", `/user/following`);
+      setFollowings(response.data);
+      console.log("followers", response.data);
+    } catch (error) {
+      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followings data: ", error);
+    }
+  }
+  useEffect(() => {
+    if (followers.length === 0) getFollowers();
+    if (followings.length === 0) getFollowings();
+  }, []);
 
   return (
     <S.Container>
