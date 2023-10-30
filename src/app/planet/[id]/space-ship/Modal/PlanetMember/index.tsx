@@ -1,11 +1,9 @@
-import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Member from "@/components/SpaceModal/Member";
+import { Default } from "@/@types/Modal";
 
-interface Type extends ModalType {}
-
-export default function PlanetMember({ onClose }: Type) {
+export default function PlanetMember({ onClose }: Default) {
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>
@@ -29,11 +27,11 @@ export default function PlanetMember({ onClose }: Type) {
         </S.NoList> */}
 
         {/* 친구 있을 때 */}
-        <S.MemberList>
+        {/* <S.MemberList>
           {[1, 2, 3, 4, 5].map(member => (
             <Member key={member} />
           ))}
-        </S.MemberList>
+        </S.MemberList> */}
       </S.Notification>
       {/* <S.LinkButton>
         <img src="/assets/img/icons/invite.svg" />

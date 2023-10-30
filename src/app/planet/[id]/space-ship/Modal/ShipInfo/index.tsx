@@ -1,11 +1,9 @@
-import { ModalType } from "@/@types";
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
+import { Default } from "@/@types/Modal";
 
-interface Type extends ModalType {}
-
-export default function Info({ onClose }: Type) {
+export default function ShipInfo({ onClose }: Default) {
   return (
     <BoxModal onClose={onClose} title="우주선 정보">
       <S.Content>

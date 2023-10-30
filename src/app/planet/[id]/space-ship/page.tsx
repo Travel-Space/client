@@ -1,30 +1,42 @@
 "use client";
 
-import Ship from "./Ship";
-import * as S from "./page.styled";
-import Button from "@/components/common/Button";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-// Import Swiper React components
-import { SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-// import required modules
-import { Pagination } from "swiper/modules";
-import { useRouter } from "next/navigation";
-import axiosRequest from "@/api";
+import { useParams, useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
+import { useModal } from "@/hooks/useModal";
+
+import { SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+
+import Exit from "@/components/SpaceModal/Exit";
+import Button from "@/components/common/Button";
+import Ship from "./Ship";
+
+import * as S from "./page.styled";
+import { ItemType } from "@/@types/Modal";
+import PlanetMember from "./Modal/PlanetMember";
 
 export default function SpaceShip() {
-  const [showExitModal, setShowExitModal] = useState<boolean>(false);
-  const [showMemberModal, setShowMemberModal] = useState<boolean>(false);
-
   const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
   const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
   const [planetName, setPlanetName] = useState<string>();
+  const { modalDataState, openModal, closeModal } = useModal();
+
+  const exitModal = {
+    title: "행성 탈출",
+    // 현재 내 user recoil 행성별 role 정보에 맞게 보여줘야 함
+    content: <Exit onClose={closeModal} title={planetName} type={ItemType.Planet} role={"OWNER"} />,
+  };
+
+  const planetMemberModal = {
+    title: "행성 멤버 관리",
+    content: <PlanetMember onClose={closeModal} />,
+  };
 
   const router = useRouter();
   const params = useParams();
@@ -50,6 +62,7 @@ export default function SpaceShip() {
 
   return (
     <S.Wrap>
+      {modalDataState.isOpen && modalDataState.content}
       <S.Header>
         <Button variant="basic" size="normal" shape="large" onClick={() => router.back()}>
           <img src="/assets/img/icons/prev-white.svg" height={16} />
@@ -81,15 +94,16 @@ export default function SpaceShip() {
       </S.List>
 
       <S.Footer>
+        {/* 현재 내 user recoil 행성별 role이 OWNER일 경우 관리버튼 노출 */}
         <S.MemberBtn>
-          <Button variant="gradient" shape="large" size="big" onClick={() => setShowMemberModal(true)}>
+          <Button variant="gradient" shape="large" size="big" onClick={() => openModal(planetMemberModal)}>
             <S.CenterGroup>
               <img src="/assets/img/icons/users.svg" />
               <span>행성 멤버 관리</span>
             </S.CenterGroup>
           </Button>
         </S.MemberBtn>
-        <S.ExitBtn onClick={() => setShowExitModal(true)}>우주선 탈출 💥</S.ExitBtn>
+        <S.ExitBtn onClick={() => openModal(exitModal)}>행성 탈출 💥</S.ExitBtn>
       </S.Footer>
     </S.Wrap>
   );
