@@ -47,6 +47,7 @@ export default function Email({ onEmail }: PropsType) {
       console.error("인증코드 전송 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
+      setEmail("");
     }
   }
 
@@ -87,7 +88,13 @@ export default function Email({ onEmail }: PropsType) {
           />
           {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
           <SmallBtnGroup>
-            <Button variant="confirm" shape="small" size="smallWithXsFont" disabled={!emailValid} onClick={sendCode}>
+            <Button
+              variant="confirm"
+              shape="small"
+              size="smallWithXsFont"
+              disabled={!emailValid || !email}
+              onClick={sendCode}
+            >
               인증요청
             </Button>
           </SmallBtnGroup>
