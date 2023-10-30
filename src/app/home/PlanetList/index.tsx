@@ -1,43 +1,46 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { SwiperContainer, StyledSwiperSlide, PlanetImageContainer, PlanetName, SlideImage } from "./index.styled";
-import axios from "axios";
+import axiosRequest from "@/api";
 import Link from "next/link";
+import MESSAGE from "@/constants/message";
+import { Planet, Posting, ResData } from "@/@types";
 
 interface PlanetListProps {
-  id: number;
-  name: string;
-  hashtags: [];
-  shape: string;
+  data?: Planet;
 }
 
 export default function PlanetList() {
-  const [planetList, setPlanetList] = useState<PlanetListProps[]>([]);
+  const [planetList, setPlanetList] = useState<Planet[]>([]);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
-  
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
   useEffect(() => {
     fetchPlanetList(currentPage);
-  }, []);
+  }, [currentPage]);
 
   const fetchPlanetList = async (page: number) => {
     try {
-      const response = await axios.get(`http://localhost:8080/planet?page=${page}&limit=6`);
-      if (response.status === 200) {
-        setPlanetList(prevPlanets => [...prevPlanets, ...response.data]);
-      }
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet?page=${page}&limit=10`, {});
+
+      setPlanetList(prevPlanets => [...prevPlanets, ...response.data.planets]);
+      setTotalPages(response.data.totalPages);
+      console.log(response.data.totalCount);
     } catch (error) {
-      console.error("행성 리스트 가져오기 에러", error);
+      console.error("행성 리스트 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
   const onSlideChange = async (swiper: any) => {
-    if (swiper.activeIndex === swiper.slides.length - 1) {
+    if (swiper.activeIndex === swiper.slides.length - 5 && currentPage < totalPages) {
       setCurrentPage(prevPage => prevPage + 1);
-      fetchPlanetList(currentPage + 1);
     }
   };
 
@@ -45,33 +48,35 @@ export default function PlanetList() {
     return shape.replace(/\D/g, "");
   };
 
-  // 행성을 5개씩 그룹화
-  const groupedPlanets = Array.from({ length: Math.ceil(planetList.length / 5) }, (_, i) => i * 5).map(start =>
-    planetList.slice(start, start + 5),
-  );
-
   return (
     <SwiperContainer className="swiper">
-      <Swiper spaceBetween={40} pagination={{ clickable: true }} modules={[Pagination]} onSlideChange={onSlideChange}>
-        {groupedPlanets.map((group, idx) => (
-          <SwiperSlide key={idx}>
+      <Swiper
+        spaceBetween={40}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        onSlideChange={onSlideChange}
+        slidesPerView={5}
+        slidesPerGroup={5}
+      >
+        {planetList.map(planet => (
+          <SwiperSlide key={planet.id}>
             <StyledSwiperSlide>
-              {group.map(planet => (
-                <Link key={planet.id} href={`/planet/${planet.id}/map`} id="link">
-                  <PlanetImageContainer
-                    onMouseEnter={() => setHoveredPlanet(planet.id)}
-                    onMouseLeave={() => setHoveredPlanet(null)}
-                  >
-                    <SlideImage
-                      src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
-                      alt={`Planet ${planet.name}`}
-                    />
-                    {hoveredPlanet === planet.id && (
-                      <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
-                    )}
-                  </PlanetImageContainer>
-                </Link>
-              ))}
+              <Link key={planet.id} href={`/planet/${planet.id}/map`} id="link">
+                <PlanetImageContainer
+                  onMouseEnter={() => setHoveredPlanet(planet.id)}
+                  onMouseLeave={() => setHoveredPlanet(null)}
+                >
+                  <SlideImage
+                    src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
+                    alt={`Planet ${planet.name}`}
+                  />
+                  {hoveredPlanet === planet.id && (
+                    <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
+                  )}
+                </PlanetImageContainer>
+              </Link>
             </StyledSwiperSlide>
           </SwiperSlide>
         ))}

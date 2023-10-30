@@ -3,10 +3,10 @@ import axios from "axios";
 
 import * as S from "./index.styled";
 import { CountryInfo } from "@/@types/User";
+import { Default } from "@/@types/Modal";
 
-interface PropsType {
+interface PropsType extends Default {
   onCountry: (country: CountryInfo) => void;
-  onClose: () => void;
 }
 
 let initCountryList: CountryInfo[];
