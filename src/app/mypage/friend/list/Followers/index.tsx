@@ -25,7 +25,7 @@ export default function Followers({ data }: FollowersProps) {
       ) : (
         <S.MyFriends>
           {data.map((el, idx) => (
-            <Person key={`following${idx}`} data={el.user} />
+            <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} />
           ))}
         </S.MyFriends>
       )}

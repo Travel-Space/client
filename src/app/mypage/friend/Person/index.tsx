@@ -7,8 +7,9 @@ import Button from "@/components/common/Button";
 
 interface PersonProps {
   data: User;
+  isMutual?: boolean;
 }
-export default function Person({ data }: PersonProps) {
+export default function Person({ data, isMutual }: PersonProps) {
   const handleClick = () => {
     // console.log(data);
   };
@@ -22,7 +23,7 @@ export default function Person({ data }: PersonProps) {
         </S.Info>
       </div>
       <S.FollowBtn>
-        <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+        <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick} disabled={!isMutual}>
           팔로우
         </Button>
       </S.FollowBtn>
