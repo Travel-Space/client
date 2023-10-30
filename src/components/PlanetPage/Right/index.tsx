@@ -44,14 +44,14 @@ export default function Right() {
     });
   }
 
-  function handleMemberLimit(number: number) {
+  function handleMemberLimit(number: number | undefined) {
     setPlanetInfo({
       ...planetInfo,
       memberLimit: number,
     });
   }
 
-  function handleSpaceshipLimit(number: number) {
+  function handleSpaceshipLimit(number: number | undefined) {
     setPlanetInfo({
       ...planetInfo,
       spaceshipLimit: number,
@@ -157,7 +157,7 @@ export default function Right() {
             name="planet-people-number"
             id="planet-people-number"
             value={planetInfo.memberLimit}
-            min={2}
+            min={1}
             max={100}
             onNumber={handleMemberLimit}
           />

@@ -1,8 +1,8 @@
+import { Default } from "@/@types/Modal";
 import * as S from "./index.styled";
 import { createPortal } from "react-dom";
 
-interface BoxModalType {
-  onClose: () => void;
+interface BoxModalType extends Default {
   children: React.ReactNode;
   title: string;
 }

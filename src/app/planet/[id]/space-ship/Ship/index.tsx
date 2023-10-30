@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./index.styled";
-import Manage from "../Modal/Manage";
-import Info from "../Modal/Info";
+import Manage from "../Modal/ShipManage";
+import Info from "../Modal/ShipInfo";
 
 export default function Ship({ test }: { test: number }) {
   const [showManageModal, setShowManageModal] = useState<boolean>(false);

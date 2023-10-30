@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ModalType } from "@/@types";
 
 import Side from "@/components/common/Side";
 import Login from "./Login";
@@ -7,6 +6,7 @@ import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
 
 import * as S from "./index.styled";
+import { Default } from "@/@types/Modal";
 
 enum Page {
   Login = "Log in",
@@ -14,7 +14,7 @@ enum Page {
   ResetPassword = "Reset password",
 }
 
-export default function Account({ onClose }: ModalType) {
+export default function Account({ onClose }: Default) {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Login);
 
   return (
