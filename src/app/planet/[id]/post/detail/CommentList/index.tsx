@@ -19,7 +19,7 @@ interface commentWriteDataType {
 }
 
 export default function CommentList({ data }: PostContentProps) {
-  const [planetId, setPlanetId] = React.useState<number>(params.id);
+  // const [planetId, setPlanetId] = React.useState<number>(params.id);
 
   const [commentContent, setCommentContent] = useState<string>("");
 
