@@ -9,6 +9,7 @@ import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import LocationInput from "./LocationInput";
+import { GeocoderResult } from "@/@types/GeocoderResult";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
@@ -16,18 +17,6 @@ interface PostWriteProps {
   data?: PostWrite;
 }
 
-interface LatLng {
-  equals(other: LatLng): boolean;
-  lat(): number;
-  lng(): number;
-}
-interface GeocoderGeometry {
-  location: LatLng;
-}
-interface GeocoderResult {
-  formatted_address: string;
-  geometry: GeocoderGeometry;
-}
 export default function PostWrite({ params }: { params: { id: number } }) {
   const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
@@ -38,6 +27,7 @@ export default function PostWrite({ params }: { params: { id: number } }) {
   const [address, setAddress] = React.useState<GeocoderResult>();
   const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
+  const [isAddressChecked, setIsAddressChecked] = React.useState<boolean>(false);
   const latitude = locations?.geometry?.location.lat;
   const longitude = locations?.geometry?.location.lng;
 
@@ -87,8 +77,8 @@ export default function PostWrite({ params }: { params: { id: number } }) {
 
   const handlePostWrite = async () => {
     try {
-      if (!location) {
-        alert("Please select a location before posting.");
+      if (!isAddressChecked) {
+        alert("주소를 검색 후 선택 버튼을 눌러주세요.");
         return;
       }
 
@@ -140,7 +130,7 @@ export default function PostWrite({ params }: { params: { id: number } }) {
             />
             <PW.LocationWrapper>
               <PW.LocationIcon />
-              <LocationInput placeholder="위치" type="text" onLocationSelect={handleLocationSelect} />
+              <LocationInput placeholder="위치" type="text" onLocationSelect={handleLocationSelect} setIsAddressChecked={setIsAddressChecked}/>
             </PW.LocationWrapper>
           </PW.TitleAndLocation>
           <PW.TagsAndRocket>
