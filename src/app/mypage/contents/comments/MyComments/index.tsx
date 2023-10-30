@@ -11,10 +11,10 @@ interface MyCommentsProps {
 }
 
 export default function MyComments({ data }: MyCommentsProps) {
-  const { id, content, createdAt } = data;
+  const { article, content } = data;
 
   //UTC->LOCAL 날짜 변환
-  const { dateString, dayName } = getDateInfo(createdAt);
+  const { dateString, dayName } = getDateInfo(article.createdAt);
   const handleClick = () => {
     console.log();
   };
@@ -22,9 +22,8 @@ export default function MyComments({ data }: MyCommentsProps) {
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
-          {/* 스키마 추가 시 수정예정 */}
-          <S.Planet>지구지구행성</S.Planet>
-          <S.Title>글제목</S.Title>
+          <S.Planet>{article.planet.name}</S.Planet>
+          <S.Title>{article.title}</S.Title>
         </S.InfoRowCol>
         <S.CreatedDate>{` ${dateString}
            ${dayName}`}</S.CreatedDate>
