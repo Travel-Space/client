@@ -13,13 +13,15 @@ export default function UserProfile({
   posting,
 }: UserProfileProp) {
   // Posing타입의 객체를 받아서 author(User Type)을 사용하여 프로필 정보 표시
-  const userAuthor = posting?.author as User; // User 타입에 접근 (캐스팅) 
-  const { nationality, nickName, profileImage } = userAuthor;
-  const images = profileImage ? profileImage : "/assets/img/icons/profile.svg";
+  const userAuthor = posting?.author as User | undefined;
+
+  const nationality = userAuthor?.nationality || ''; // 기본값 설정
+  const nickName = userAuthor?.nickName || 'TravelSpace'; // 기본값 설정
+  const profileImage = userAuthor?.profileImage || "/assets/img/icons/profile.svg";
 
   return (
     <UP.Wrapper size={size}>
-      <UP.Profile size={size} src={`${images}`} alt={`${nickName}의 프로필`} />
+      <UP.Profile size={size} src={`${profileImage}`} alt={`${nickName}의 프로필`} />
       <UP.NFDisplay size={size}>
         <UP.Name size={size}>{nickName}</UP.Name>
         <UP.Flag size={size}>{nationality}</UP.Flag>
