@@ -40,6 +40,9 @@ export default function Email({ onEmail }: PropsType) {
       });
       console.log(response);
       if (response.status === 201) {
+        setCodeValid(true);
+        setConfirm(false);
+        setCode("");
         setShowCodeInput(true);
         alert("인증번호가 전송되었습니다!");
       }
@@ -59,12 +62,12 @@ export default function Email({ onEmail }: PropsType) {
       });
 
       response.status === 201 && alert("인증되었습니다!");
-      return setConfirm(true);
+      setConfirm(true);
     } catch (error) {
       console.error("인증코드 확인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
-      return setCode("");
+      setCode("");
     }
   }
 
