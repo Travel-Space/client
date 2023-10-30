@@ -4,28 +4,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as QMP from "./index.styled";
 import Link from "next/link";
+import axiosRequest from "@/api";
+import { Planet, ResData } from "@/@types";
 
-interface PlanetProps {
-  id: number;
-  name: string;
-  langth: number;
-  shape: string;
+export interface PagedPlanetResponse {
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  planets: Planet[];
 }
 
 export default function QuestionMarkPlanet() {
-  const [randomPlanet, setRandomPlanet] = useState<PlanetProps | null>(null);
+  const [randomPlanet, setRandomPlanet] = useState<Planet | null>(null);
   const [animatePlanet, setAnimatePlanet] = useState(true);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
 
   const fetchRandomPlanet = async () => {
     setTimeout(async () => {
       try {
-        const response = await axios.get("/planet");
-        if (response.status === 200 && response.data.length > 0) {
-          let newPlanet: PlanetProps;
+        const response = await axiosRequest.requestAxios<ResData<PagedPlanetResponse>>("get", "/planet?page=1&limit=50");
+        
+        const planetsList = response.data.planets;
+
+        if (planetsList && planetsList.length > 0) {
+          let newPlanet: Planet;
           do {
-            const randomIndex = Math.floor(Math.random() * response.data.length);
-            newPlanet = response.data[randomIndex];
+            const randomIndex = Math.floor(Math.random() * planetsList.length);
+            newPlanet = planetsList[randomIndex];
           } while (randomPlanet && randomPlanet.id === newPlanet.id);
           setRandomPlanet(newPlanet);
           setHoveredPlanet(newPlanet.id);
