@@ -17,9 +17,9 @@ export default function PostPreview({ article, params }: ArticleProps) {
   return (
     <S.Container>
       <Link href={{ pathname: `/planet/${params}/post`, query: { detail: `${id}` } }}>
-        <S.Post id={id}>
+        <S.Post key={id}>
           <S.MainBox>
-            <UserProfile size="chat" author={author} />
+            <UserProfile size="map" posting={author} />
 
             <S.Description>
               <span>{title}</span>
