@@ -51,7 +51,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   async function submitLogin() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/login", { email, password });
-
+      console.log(response);
       if (response.status === 201) {
         alert("로그인이 성공적으로 완료되었습니다!");
         setAuth(prev => ({ ...prev, isAuth: true }));

@@ -5,7 +5,7 @@ import useImageCompress from "@/hooks/useImageCompess";
 
 import * as S from "./index.styled";
 
-import { dataURItoFile } from "@/utils/common";
+import { dataURItoFile } from "@/utils/dataURItoFile";
 
 import Image from "next/image";
 

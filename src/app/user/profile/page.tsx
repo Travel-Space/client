@@ -1,16 +1,15 @@
 "use client";
 import axiosRequest from "@/api/index";
-import { ResData, Planet } from "@/@types/index";
+import { ResData, Planet, Posting } from "@/@types/index";
 
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
-import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
 
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
+import Postings from "@/app/user/profile/Postings";
 import ProfileSummary from "./ProfileSummary";
 
 export default function Profile({ children }: { children: React.ReactNode }) {
@@ -19,8 +18,16 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     setTabIndex(idx);
   };
 
+  const [planets, setPlanets] = useState<Planet[]>([]);
+  const [postings, setPostings] = useState<Posting[]>([]);
+
+  useEffect(() => {
+    getPlanets();
+    getPostings();
+  }, []);
+
   //행성 불러오기
-  const [planets, setPlanets] = useRecoilState(myPlanetsState);
+  // 유저 행성 조회api 추가되면 수정예정
   async function getPlanets() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", "/planet/my-planets");
@@ -31,10 +38,19 @@ export default function Profile({ children }: { children: React.ReactNode }) {
       console.error("Error fetching planet data: ", error);
     }
   }
-  useEffect(() => {
-    // console.log("planets", planets);
-    if (planets.length === 0) getPlanets();
-  }, []);
+
+  //게시글 불러오기
+  // 유저 게시글 조회api 추가되면 수정예정
+  async function getPostings() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
+      setPostings(response.data);
+      // console.log("Postings", postings);
+    } catch (error) {
+      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching posting data: ", error);
+    }
+  }
 
   const TabList = [
     {
@@ -46,6 +62,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
           width={216}
           height={216}
           comment="등록된 친구가 없습니다."
+          font="lg"
         />
       ),
     },
@@ -58,6 +75,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
           width={216}
           height={216}
           comment="등록된 친구가 없습니다."
+          font="lg"
         />
       ),
     },
@@ -71,6 +89,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
             width={148}
             height={148}
             comment="여행 중인 행성이 없습니다."
+            font="lg"
           />
         ) : (
           <Planets data={planets} />
@@ -78,15 +97,19 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     },
     {
       title: "게시글",
-      content: (
-        <Nothing
-          src="/assets/img/icons/no-postings.svg"
-          alt="no-postings"
-          width={96}
-          height={96}
-          comment="작성된 게시글이 없습니다."
-        />
-      ),
+      content:
+        planets.length === 0 ? (
+          <Nothing
+            src="/assets/img/icons/no-postings.svg"
+            alt="no-postings"
+            width={96}
+            height={96}
+            comment="작성된 게시글이 없습니다."
+            font="lg"
+          />
+        ) : (
+          <Postings data={postings} />
+        ),
     },
   ];
 

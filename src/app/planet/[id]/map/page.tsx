@@ -27,14 +27,6 @@ const center = {
   lng: 127.065263,
 };
 
-// 임시 좌표 : 마커 찍을 위치
-const locations = [
-  { place: "성수낙낙", lat: 37.5465029, lng: 127.065263 },
-  { place: "왕십리역", lat: 37.561949, lng: 127.038485 },
-  { place: "한강 공원", lat: 37.5293507, lng: 127.0699562 },
-  { place: "코엑스", lat: 37.5116828, lng: 127.059151 },
-];
-
 export default function Map({ params }: { params: { id: number } }) {
   // side bar open
   const [isOpen, setIsOpen] = useState(false);
@@ -44,9 +36,6 @@ export default function Map({ params }: { params: { id: number } }) {
 
   // 게시글 정보
   const [article, setArticle] = useState<Partial<Posting[]>>([]);
-
-  // 게시글 정보에서 위치 정보만 담기
-  const [location, setLocation] = useState([]);
 
   // google map key
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY || "";
@@ -75,28 +64,69 @@ export default function Map({ params }: { params: { id: number } }) {
     getArticle();
   }, []);
 
+  // 그냥 handleClickSide를 눌렀을 때는 article 전체가 나오게 해야 하고
+  // handleClickMarker를 눌렀을 때는 selectedArticle 만 나오게 해야 함.
+
+  const [selectedArticle, setSelectedArticle] = useState<Posting | null>();
+
   // side bar open
   const handleClickSide = () => {
     setIsOpen(prev => !prev);
+    setSelectedArticle(null); // 전체 article 선택 해제
+  };
+
+  const handleMarkerClick = (el: Posting) => {
+    const isSimilarLocation = article.filter(articleEl => {
+      return (
+        articleEl?.locations[0]?.latitude === el.locations[0].latitude &&
+        articleEl?.locations[0]?.longitude === el.locations[0].longitude
+      );
+    });
+
+    if (isSimilarLocation) {
+      setIsOpen(true);
+      setSelectedArticle(isSimilarLocation);
+    }
   };
 
   const handleMount = useCallback(function callback(map: any) {
     setMap(null);
   }, []);
 
-  const handleMarkerLoad = useCallback((map: any) => {
-    const bounds = new window.google.maps.LatLngBounds();
-    locations.forEach(locations => {
-      bounds.extend(new window.google.maps.LatLng(locations.lat, locations.lng));
-    });
-    map.fitBounds(bounds);
+  const handleMarkerLoad = useCallback(
+    (map: any) => {
+      if (article.length > 0) {
+        const bounds = new window.google.maps.LatLngBounds();
+        article.forEach(el => {
+          if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
+            bounds.extend(new window.google.maps.LatLng(el.locations[0].latitude, el.locations[0].longitude));
+          }
+        });
+        const center = bounds.getCenter();
 
-    setMap(map);
-  }, []);
+        if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+          bounds.extend(new window.google.maps.LatLng(center.lat() + 0.01, center.lng() + 0.01));
+          bounds.extend(new window.google.maps.LatLng(center.lat() - 0.01, center.lng() - 0.01));
+        }
+
+        map.fitBounds(bounds);
+      }
+      setMap(map);
+    },
+    [article],
+  );
 
   return (
     <S.Container>
-      {isOpen && <Side onClose={handleClickSide} article={article} params={params.id} />}
+      {isOpen && (
+        <Side
+          onClose={handleClickSide}
+          article={
+            selectedArticle ? selectedArticle : article // article를 선택한 article로 변경
+          }
+          params={params.id}
+        />
+      )}
 
       <S.Button onClick={handleClickSide}>→</S.Button>
 
@@ -108,17 +138,26 @@ export default function Map({ params }: { params: { id: number } }) {
           onLoad={handleMarkerLoad}
           onUnmount={handleMount}
         >
-          {locations.map((location, index) => (
-            <Marker
-              key={index}
-              position={{ lat: location.lat, lng: location.lng }}
-              icon={{
-                url: "/assets/img/icons/marker2.svg", // 커스텀 마커 이미지의 URL
-                scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기
-              }}
-              onClick={handleClickSide}
-            ></Marker>
-          ))}
+          {article.length >= 1 &&
+            article.map((el, index) => {
+              if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
+                return (
+                  <Marker
+                    key={index}
+                    position={{
+                      lat: el?.locations[0].latitude,
+                      lng: el?.locations[0].longitude,
+                    }}
+                    icon={{
+                      url: "/assets/img/icons/marker2.svg",
+                      scaledSize: new window.google.maps.Size(50, 50),
+                    }}
+                    onClick={() => handleMarkerClick(el)}
+                  />
+                );
+              }
+              return null; // 위치 정보가 없는 경우 null 반환
+            })}
         </GoogleMap>
       )}
     </S.Container>
@@ -126,6 +165,26 @@ export default function Map({ params }: { params: { id: number } }) {
 }
 
 // 주석
+
+// const handleMarkerLoad = useCallback((map: any) => {
+//   const bounds = new window.google.maps.LatLngBounds();
+//   article.forEach(el => {
+//     console.log(el);
+//     bounds.extend(new window.google.maps.LatLng(el?.locations[0].latitude, el?.locations[0]?.longitude));
+//   });
+//   map.fitBounds(bounds);
+
+//   setMap(map);
+// }, []);
+
+// const handleMarkerClick = (el: Posting) => {
+//   if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
+//     setIsOpen(true);
+//     // 여기서 선택한 마커 관련 게시글 정보 사용
+//     console.log("Clicked Marker", el?.locations[0].latitude, el?.locations[0].longitude);
+//     setArticle(el);
+//   }
+// };
 
 // const Marker = () => {
 //   return (

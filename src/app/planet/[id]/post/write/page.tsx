@@ -98,10 +98,12 @@ export default function PostWrite({ params }: { params: { id: number } }) {
         published,
         planetId: Math.round(planetId),
         address,
-        locations:[{
-          latitude,
-          longitude
-        }],
+        locations: [
+          {
+            latitude,
+            longitude,
+          },
+        ],
         imageUrls: [],
         hashtags,
       };
@@ -115,6 +117,7 @@ export default function PostWrite({ params }: { params: { id: number } }) {
       console.log(hashtags);
 
       const response = await axiosRequest.requestAxios("post", "/articles", postData);
+      alert("게시글 작성에 성공했습니다.");
       console.log("게시물 작성에 성공했습니다.", response);
     } catch (error) {
       console.error("게시글 작성 중 오류가 발생했습니다.", error);

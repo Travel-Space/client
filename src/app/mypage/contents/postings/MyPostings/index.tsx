@@ -5,10 +5,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import * as S from "./index.styled";
 
-import WEEKDAY from "@/constants/weekDay";
-
 import Image from "next/image";
 import Button from "@/components/common/Button";
+
+import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyPostingsProps {
   data: Posting;
@@ -17,14 +17,8 @@ export default function MyPostings({ data }: MyPostingsProps) {
   const { id, title, planet, createdAt, likes } = data;
 
   //UTC->LOCAL 날짜 변환
-  const FormatDate = (createdAt: Date) => {
-    const localDate = new Date(createdAt);
-    const year = localDate.getFullYear();
-    const month = localDate.getMonth() + 1;
-    const date = localDate.getDate();
-    const day = WEEKDAY[localDate.getDay()];
-    return `${year}년 ${month}월 ${date}일 ${day}`;
-  };
+  const { dateString, dayName } = getDateInfo(createdAt);
+
   const handleClick = () => {
     console.log();
   };
@@ -53,7 +47,8 @@ export default function MyPostings({ data }: MyPostingsProps) {
             <span>{likes.length}</span>
           </S.Likes>
         </S.InfoRowCol>
-        <S.CreatedDate>{FormatDate(createdAt)}</S.CreatedDate>
+        <S.CreatedDate>{` ${dateString}
+           ${dayName}`}</S.CreatedDate>
       </S.InfoRow>
       <S.InfoRow>
         <S.Title>{title}</S.Title>

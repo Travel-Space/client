@@ -8,7 +8,7 @@ import * as S from "./page.styled";
 import MyPlanet from "@/app/mypage/MyPlanet";
 import SearchForm from "@/app/mypage/SearchForm";
 import FavoritePlanet from "./FavoritePlanet";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 
 export default function Planets() {
   const dropDownProps = {
@@ -51,6 +51,7 @@ export default function Planets() {
             width={148}
             height={148}
             comment="좋아하는 행성이 없습니다."
+            font="lg"
           />
         )}
         <FavoritePlanet />

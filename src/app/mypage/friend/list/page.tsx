@@ -2,7 +2,7 @@
 
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
 export default function Planet() {
@@ -15,6 +15,7 @@ export default function Planet() {
         height={216}
         comment="등록된 친구가 없습니다."
         suggest="닉네임 또는 계정을 검색해 보세요."
+        font="lg"
       />
 
       <S.MyFriends>

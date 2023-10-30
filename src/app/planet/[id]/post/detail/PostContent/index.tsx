@@ -10,13 +10,14 @@ import { Posting } from "@/@types/Posting";
 import { useSearchParams, useRouter } from "next/navigation";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
+import { getDateInfo } from "@/utils/getDateInfo";
+
 interface PostContentProps {
   data?: Posting;
 }
 
 export default function PostContent({ data }: PostContentProps) {
   const { modalDataState, openModal, closeModal } = useModal();
-  const mockTags = ["태그1", "태그2", "태그3", "태그4", "태그5"];
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentUser = useRecoilValue(userAtom);
@@ -53,6 +54,8 @@ export default function PostContent({ data }: PostContentProps) {
       content: <DeclarationModal title={"게시글"} onClick={closeModal} />,
     });
   };
+  // 게시글 날짜 변환
+  const { dateString, dayName, time } = getDateInfo(data?.createdAt);
 
   return (
     <>
@@ -60,7 +63,7 @@ export default function PostContent({ data }: PostContentProps) {
         {modalDataState.isOpen && modalDataState.content}
         <PC.TitleSection>
           <PC.Title>{data?.title}</PC.Title>
-          <PC.Date>2023년 9월 25일</PC.Date>
+          <PC.Date>{dateString}</PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
           <UserProfile size="post" />
@@ -68,21 +71,19 @@ export default function PostContent({ data }: PostContentProps) {
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
             피식대학 우주선
             <PC.PlanetImg src="/assets/img/icons/planet.svg" />
-            일본 맛도리 행성
+            {data?.planet.name}
           </PC.PostInfo>
         </PC.PostInfoSection>
         <PC.Content>
           <PC.Location>
             <PC.LocationImg src="/assets/img/icons/location.svg" />
-            서울특별시 강남구 논현동 332-2
+            {data?.address}
           </PC.Location>
-          <PC.Text>{data?.content}</PC.Text>
+          <PC.Text>
+            <PC.TextData dangerouslySetInnerHTML={{ __html: data?.content || "" }} />
+          </PC.Text>
           <PC.TextBottomDisplay>
-            <PC.TagsDisplay>
-              {mockTags.map((tag, index) => (
-                <PC.Tags key={index}>{tag}</PC.Tags>
-              ))}
-            </PC.TagsDisplay>
+            <PC.TagsDisplay>{data?.hashtags.map((tag, index) => <PC.Tags key={index}>{tag}</PC.Tags>)}</PC.TagsDisplay>
             <PC.PostActionBtn>
               {isMyPost ? (
                 <>

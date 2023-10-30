@@ -11,7 +11,7 @@ import * as S from "./page.styled";
 import RecommendFriend from "./RecommendFriend";
 import SearchForm from "@/app/mypage/SearchForm";
 import Person from "@/app/mypage/friend/Person";
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 
 export default function Planet() {
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
@@ -75,6 +75,7 @@ export default function Planet() {
           height={216}
           comment="검색결과가 없습니다."
           suggest="닉네임 또는 계정을 검색해 보세요."
+          font="lg"
         />
         <Person />
         <Person />

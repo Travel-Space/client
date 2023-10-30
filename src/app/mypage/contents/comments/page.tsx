@@ -1,7 +1,7 @@
 "use client";
 import * as S from "./page.styled";
 
-import Nothing from "@/app/mypage/Nothing";
+import Nothing from "@/components/common/Nothing";
 import MyComments from "./MyComments";
 
 export default function Comments() {
@@ -13,6 +13,7 @@ export default function Comments() {
         width={96}
         height={96}
         comment="작성된 댓글이 없습니다."
+        font="lg"
       />
 
       <S.Header>
