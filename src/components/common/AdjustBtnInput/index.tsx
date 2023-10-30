@@ -7,11 +7,11 @@ interface InputType {
   value?: number;
   min: number;
   max: number;
-  onNumber: (value: number) => void;
+  onNumber: (value: number | undefined) => void;
 }
 
 export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: InputType) {
-  const [number, setNumber] = useState<number>(value || 0);
+  const [number, setNumber] = useState<number | undefined>(value);
 
   function calcNumber(newNumber: number) {
     if (max && newNumber > max) {
@@ -31,6 +31,7 @@ export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: 
 
   function handleDirection(value: number) {
     setNumber(prev => {
+      if (!prev) return;
       let newNumber = prev + value;
 
       return calcNumber(newNumber);
@@ -42,7 +43,7 @@ export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: 
   }, [number]);
 
   useEffect(() => {
-    setNumber(value || 0);
+    setNumber(value);
   }, [value]);
 
   return (
