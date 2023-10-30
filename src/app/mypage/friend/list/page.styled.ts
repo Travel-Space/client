@@ -23,12 +23,18 @@ export const Header = styled.header`
     height: 43px;
   }
 `;
-export const FollowerNumber = styled.div`
+export const FollowerNumber = styled.div<{ clicked: boolean }>`
   ${flexColumn}
+  &>div:first-child {
+    color: ${({ clicked }) => !!clicked && "#40A0FB"};
+  }
 `;
 
-export const FollowingNumber = styled.div`
+export const FollowingNumber = styled.div<{ clicked: boolean }>`
   ${flexColumn}
+  &>div:first-child {
+    color: ${({ clicked }) => !!clicked && "#40A0FB"};
+  }
 `;
 
 export const Title = styled.div`
@@ -51,17 +57,6 @@ export const Number = styled.div`
 export const MainContainer = styled.div`
   padding: 32px 0 0;
   border-radius: 10px;
-`;
-
-export const MyFriends = styled.div`
-  width: 100%;
-  padding: 24px 42px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  border-radius: 10px;
-
-  & > div:nth-child(10n) {
-    border: none;
-  }
 `;
 
 export const ShowMoreBtn = styled.button`
