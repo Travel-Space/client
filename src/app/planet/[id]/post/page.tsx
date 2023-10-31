@@ -22,7 +22,7 @@ export default function PostDetail() {
 
   const [data, setData] = useState<Posting | null>(null);
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
-
+  const [commnets, setComments] = useState<Comment[]>([])
   const currentUser = useRecoilValue(userAtom);
 
   // 게시글 본문 fetch get 함수
@@ -36,6 +36,7 @@ export default function PostDetail() {
       const isLikedByCurrentUser = response.data.likes.some(like => like.userId === currentUser.id);
       setLikedStatus(isLikedByCurrentUser);
       console.log(isLikedByCurrentUser);
+      console.log(currentUser.id)
     } catch (error) {
       alert("게시글 정보를 가져오는 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -60,13 +61,12 @@ export default function PostDetail() {
         // 현재 상태가 좋아요 취소 상태라면 좋아요
         response = await axiosRequest.requestAxios("post", `/articles/${post}/like`, {});
       }
-      console.log("Like action response:", response.data);
-      console.log("Current liked status before toggle:", likedStatus);
+      console.log("좋아요 액션 응답 값:", response.data);
+      console.log("지금 좋아요 토글상태:", likedStatus);
 
       setLikedStatus(prevStatus => !prevStatus);
     } catch (error) {
-      console.error("Error with like action: ", error);
-      console.error("Error during like action:", error);
+      console.error("Error 좋아요 액션 에러: ", error);
       alert(likedStatus ? "이미 좋아요한 게시글입니다." : "좋아요에 실패하였습니다.");
     }
   }

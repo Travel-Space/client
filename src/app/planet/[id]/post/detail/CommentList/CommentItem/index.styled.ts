@@ -65,3 +65,15 @@ export const DeleteBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
   cursor: pointer;
 `;
+
+export const ReplyWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  background-color: #fcfcfc;
+  border-radius: 10px;
+  padding: 0 30px 30px 30px;
+`;
+
+export const ReplyDisPlay = styled.div`
+`
