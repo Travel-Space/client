@@ -14,6 +14,9 @@ export const Postings = styled.div`
   & > div:nth-child(10n) {
     border: none;
   }
+  & > div:last-child {
+    border: none;
+  }
 `;
 export const Header = styled.div`
   ${flexSpaceBetweenCenter}

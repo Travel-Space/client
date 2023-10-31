@@ -2,9 +2,7 @@
 import axiosRequest from "@/api";
 import { ResData, Posting } from "@/@types";
 
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import myPostingsState from "@/recoil/atoms/myPostings.atom";
+import { useState, useEffect } from "react";
 
 import * as S from "./page.styled";
 
@@ -13,16 +11,18 @@ import SearchForm from "@/app/mypage/SearchForm";
 import PostingItem from "@/components/User/PostingItem";
 
 export default function FavoritePostings() {
-  const [postings, setPostings] = useRecoilState(myPostingsState);
+  const dropDownProps = {
+    placeholder: "글 제목으로 검색해보세요.",
+  };
 
+  const [postings, setPostings] = useState<Posting[]>([]);
   //게시글 불러오기
   async function getPostings() {
     try {
-      // 좋아요한 게시글api 추가되면 수정예정
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/likes`);
       const postings = response.data;
       setPostings(postings);
-      console.log("Postings", postings);
+      // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -30,14 +30,8 @@ export default function FavoritePostings() {
   }
 
   useEffect(() => {
-    if (postings.length === 0) {
-      getPostings();
-    }
+    getPostings();
   }, []);
-
-  const dropDownProps = {
-    placeholder: "글 제목으로 검색해보세요.",
-  };
   return (
     <S.Container>
       <S.Header>
@@ -58,7 +52,11 @@ export default function FavoritePostings() {
       ) : (
         <S.Postings>
           {postings.map((el, idx) => (
-            <PostingItem key={`liked-post${idx}`} data={el} />
+            <PostingItem
+              key={`liked-post${idx}`}
+              data={el}
+              setPostings={(postings: Posting[]) => setPostings(postings)}
+            />
           ))}
         </S.Postings>
       )}
