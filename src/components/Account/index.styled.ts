@@ -47,6 +47,11 @@ export const Title = styled.div`
   ${flexCenter};
 `;
 
+export const FormGroup = styled.form`
+  ${flexColumn}
+  gap: 32px;
+`;
+
 export const InputGroup = styled.div<{ $marginBottom?: number; $marginTop?: number }>`
   position: relative;
   ${props =>

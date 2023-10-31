@@ -15,7 +15,7 @@ import Input, { Label } from "@/components/common/Input";
 import Line from "@/components/common/Line";
 
 import * as S from "./index.styled";
-import { Container, Error, InputGroup, MarginGroup } from "../index.styled";
+import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
 import { Default } from "@/@types/Modal";
 
 interface PropsType extends Default {
@@ -84,36 +84,45 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
       <S.LineWithText>or log in with email</S.LineWithText>
 
-      <InputGroup>
-        <Label id="email">이메일</Label>
-        <Input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleEmail}
-          value={email}
-          warning={!emailValid && email.length > 0}
-        />
-        {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
-      </InputGroup>
-      <InputGroup>
-        <Label id="password">비밀번호</Label>
-        <Input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handlePassword}
-          value={password}
-          warning={!passwordValid && password.length > 0}
-        />
-        {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
-        <S.UnderLine onClick={() => goToResetPassword()}>Forgot?</S.UnderLine>
-      </InputGroup>
-      <Button variant="reverse" shape="medium" size="big" onClick={submitLogin} disabled={notAllow}>
-        LOGIN
-      </Button>
+      <FormGroup
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          submitLogin();
+        }}
+      >
+        <InputGroup>
+          <Label id="email">이메일</Label>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleEmail}
+            value={email}
+            warning={!emailValid && email.length > 0}
+          />
+          {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
+        </InputGroup>
+        <InputGroup>
+          <Label id="password">비밀번호</Label>
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handlePassword}
+            value={password}
+            warning={!passwordValid && password.length > 0}
+          />
+          {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
+          <S.UnderLine onClick={() => goToResetPassword()} type="button">
+            Forgot?
+          </S.UnderLine>
+        </InputGroup>
+        <Button variant="reverse" shape="medium" size="big" disabled={notAllow}>
+          LOGIN
+        </Button>
+      </FormGroup>
 
       <MarginGroup>
         <Line size="horizontal" color="gray" />
