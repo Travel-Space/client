@@ -5,7 +5,7 @@ export interface Spaceship {
   id: number;
   name: string;
   image: string;
-  description: string | null;
+  description: string;
   maxMembers: number;
   ownerId: number;
   status: SpaceshipStatus;
@@ -38,14 +38,6 @@ export interface SpaceshipApplication {
   spaceship: Spaceship;
 }
 
-export enum SpaceshipStatus {
-  "UPCOMING",
-  "ONGOING",
-  "COMPLETED",
-  "CANCELED",
-}
-export enum ApplicationStatus {
-  "PENDING",
-  "APPROVED",
-  "REJECTED",
-}
+export type SpaceshipStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELED";
+
+export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
