@@ -4,10 +4,10 @@ import { Planet } from "@/@types";
 
 const { persistAtom } = recoilPersist();
 
-const myPlanetsState = atom<Planet[]>({
-  key: "myPlanets",
+const planetsState = atom<Planet[]>({
+  key: "planets",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
-export default myPlanetsState;
+export default planetsState;

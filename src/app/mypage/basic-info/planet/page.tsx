@@ -5,7 +5,7 @@ import { ResData, Planet } from "@/@types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
-import myPlanetsState from "@/recoil/atoms/myPlanets.atom";
+import planetsState from "@/recoil/atoms/planets.atom";
 
 import * as S from "./page.styled";
 
@@ -18,7 +18,7 @@ import Button from "@/components/common/Button";
 
 export default function Planet() {
   const profile = useRecoilValue(profileState);
-  const [planets, setPlanets] = useRecoilState(myPlanetsState);
+  const [planets, setPlanets] = useRecoilState(planetsState);
   const [overLimit, setOverLimit] = useState(false);
 
   //행성 불러오기
