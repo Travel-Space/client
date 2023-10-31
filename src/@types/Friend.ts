@@ -1,8 +1,13 @@
 import { User } from "./User";
 
-export interface UserFriend {
-  userId: number;
+export interface Follower {
   friendId: number;
-  friend: User;
+  isMutual: boolean;
   user: User;
+  userId: number;
+}
+export interface Following {
+  friend: User;
+  friendId: number;
+  userId: number;
 }

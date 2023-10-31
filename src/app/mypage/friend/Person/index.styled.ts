@@ -17,7 +17,7 @@ export const Info = styled.div`
   gap:8px;
   margin-left: 24px;
 `;
-export const Title = styled.div`
+export const Name = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
 `;
@@ -29,6 +29,7 @@ export const Email = styled.div`
 
 export const FollowBtn = styled.div`
   & > button {
-    padding: 5px 24px;
+    padding: 5px 0;
+    width: 80px;
   }
 `;

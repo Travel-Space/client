@@ -1,26 +1,25 @@
+import { User } from "@/@types";
+
 import * as S from "./index.styled";
 
 import Image from "next/image";
-import Button from "@/components/common/Button";
+import FollowBtn from "../FollowBtn";
 
-export default function Person() {
-  const handleClick = () => {
-    console.log();
-  };
+interface PersonProps {
+  data: User;
+  isMutual?: boolean;
+}
+export default function Person({ data, isMutual }: PersonProps) {
   return (
     <S.Container>
       <div>
         <Image src="/assets/img/icons/default-user.svg" alt="planet" width={76} height={76} />
         <S.Info>
-          <S.Title>곰숨칭구칭구</S.Title>
-          <S.Email>gomsumfriend@email.com</S.Email>
+          <S.Name>{data.name}</S.Name>
+          <S.Email>{data.email}</S.Email>
         </S.Info>
       </div>
-      <S.FollowBtn>
-        <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick}>
-          팔로우
-        </Button>
-      </S.FollowBtn>
+      <FollowBtn userId={data.id} isMutual={isMutual} />
     </S.Container>
   );
 }

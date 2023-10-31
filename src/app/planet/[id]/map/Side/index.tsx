@@ -10,6 +10,7 @@ import PostPreview from "./Post-Preview";
 
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
+import Nothing from "@/components/common/Nothing";
 
 export default function Side({ onClose, article, params }: ArticleProps) {
   const [selectedMenu, setSelectedMenu] = useState("전체");
@@ -40,6 +41,17 @@ export default function Side({ onClose, article, params }: ArticleProps) {
 
               <S.ScrollBox>
                 <S.ScrollBox>
+                  {!article.length && (
+                    <Nothing
+                      src="/assets/img/icons/no-postings.svg"
+                      alt="no-postings"
+                      width={60}
+                      height={60}
+                      comment="현재 작성된 게시글이 없습니다."
+                      suggest="먼저 게시글을 작성해 보세요."
+                      font="sm"
+                    />
+                  )}
                   {Array.isArray(article) &&
                     article.map((article: Posting) => <PostPreview article={article} params={params} />)}
                 </S.ScrollBox>

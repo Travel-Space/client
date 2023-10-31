@@ -21,18 +21,13 @@ const containerStyle = {
   height: "calc(100vh - 90px)",
 };
 
-// 임시 중점
-const center = {
-  lat: 37.5465029,
-  lng: 127.065263,
-};
-
 export default function Map({ params }: { params: { id: number } }) {
   // side bar open
   const [isOpen, setIsOpen] = useState(false);
 
   // google map
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [center, setCenter] = useState({ lat: 0, lng: 0 }); // 초기 값은 임의로 설정하였습니다.
 
   // 게시글 정보
   const [article, setArticle] = useState<Partial<Posting[]>>([]);
@@ -64,6 +59,27 @@ export default function Map({ params }: { params: { id: number } }) {
     getArticle();
   }, []);
 
+  const calculateCenter = (articles: Posting[]) => {
+    const articlesWithCoordinates = articles.filter(
+      el => el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude,
+    );
+
+    if (articlesWithCoordinates.length > 0) {
+      const totalLat = articlesWithCoordinates.reduce((sum, el) => sum + el.locations[0].latitude, 0);
+      const totalLng = articlesWithCoordinates.reduce((sum, el) => sum + el.locations[0].longitude, 0);
+      const avgLat = totalLat / articlesWithCoordinates.length;
+      const avgLng = totalLng / articlesWithCoordinates.length;
+
+      return { lat: avgLat, lng: avgLng };
+    }
+
+    return { lat: 0, lng: 0 }; // 좌표가 없는 경우 초기 중심값 반환
+  };
+
+  useEffect(() => {
+    setCenter(calculateCenter(article));
+  }, [article]);
+
   // 그냥 handleClickSide를 눌렀을 때는 article 전체가 나오게 해야 하고
   // handleClickMarker를 눌렀을 때는 selectedArticle 만 나오게 해야 함.
 
@@ -89,27 +105,20 @@ export default function Map({ params }: { params: { id: number } }) {
     }
   };
 
-  const handleMount = useCallback(function callback(map: any) {
-    setMap(null);
-  }, []);
-
   const handleMarkerLoad = useCallback(
-    (map: any) => {
+    map => {
       if (article.length > 0) {
         const bounds = new window.google.maps.LatLngBounds();
+
         article.forEach(el => {
           if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
             bounds.extend(new window.google.maps.LatLng(el.locations[0].latitude, el.locations[0].longitude));
           }
         });
-        const center = bounds.getCenter();
 
-        if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-          bounds.extend(new window.google.maps.LatLng(center.lat() + 0.01, center.lng() + 0.01));
-          bounds.extend(new window.google.maps.LatLng(center.lat() - 0.01, center.lng() - 0.01));
+        if (!bounds.isEmpty()) {
+          map.fitBounds(bounds);
         }
-
-        map.fitBounds(bounds);
       }
       setMap(map);
     },
@@ -133,12 +142,12 @@ export default function Map({ params }: { params: { id: number } }) {
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={center}
-          zoom={13}
+          zoom={3}
           onLoad={handleMarkerLoad}
-          onUnmount={handleMount}
+          onUnmount={() => setMap(null)}
+          center={center}
         >
-          {article.length >= 1 &&
+          {article.length &&
             article.map((el, index) => {
               if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
                 return (
@@ -163,76 +172,3 @@ export default function Map({ params }: { params: { id: number } }) {
     </S.Container>
   );
 }
-
-// 주석
-
-// const handleMarkerLoad = useCallback((map: any) => {
-//   const bounds = new window.google.maps.LatLngBounds();
-//   article.forEach(el => {
-//     console.log(el);
-//     bounds.extend(new window.google.maps.LatLng(el?.locations[0].latitude, el?.locations[0]?.longitude));
-//   });
-//   map.fitBounds(bounds);
-
-//   setMap(map);
-// }, []);
-
-// const handleMarkerClick = (el: Posting) => {
-//   if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
-//     setIsOpen(true);
-//     // 여기서 선택한 마커 관련 게시글 정보 사용
-//     console.log("Clicked Marker", el?.locations[0].latitude, el?.locations[0].longitude);
-//     setArticle(el);
-//   }
-// };
-
-// const Marker = () => {
-//   return (
-//     <S.Marker>
-//       <S.Images src="https://cdn.pixabay.com/photo/2020/09/09/02/12/smearing-5556288_1280.jpg" />
-//       <S.Markers src="/assets/img/icons/marker.svg" />
-//     </S.Marker>
-//   );
-// };
-
-{
-  /* {locations.map((location, index) => (
-            <CustomMarker key={index} lat={location.lat} lng={location.lng} />
-          ))} */
-}
-{
-  /* {locations.map((location, index) => (
-            <MarkerF
-              key={index}
-              position={{ lat: location.lat, lng: location.lng }}
-              icon={{
-                url: "/assets/img/icons/marker.svg",
-                scaledSize: new window.google.maps.Size(40, 40),
-              }}
-            >
-              <S.Images src="https://cdn.pixabay.com/photo/2020/09/09/02/12/smearing-5556288_1280.jpg" />
-            </MarkerF>
-          ))} */
-}
-
-// interface MarkerProp {
-//   lat: Number;
-//   lng: Number;
-// }
-
-// const CustomMarker = ({ lat, lng }: MarkerProp) => {
-//   // 위치 정보를 사용하여 마커 위치 설정
-//   const position = { lat: lat, lng: lng };
-
-//   return (
-//     <Marker
-//       position={{ position }}
-//       icon={{
-//         url: "URL_TO_MARKER_IMAGE",
-//         scaledSize: new window.google.maps.Size(40, 40),
-//       }}
-//     >
-//       {/* 원하는 마커 컨텐츠 추가 가능 */}
-//     </Marker>
-//   );
-// };

@@ -4,13 +4,16 @@ import { User } from "@/@types";
 import * as UP from "./index.styled";
 
 interface UserProfileProp {
-  size: "post" | "chat";
+  size: "post" | "map";
   author?: User;
 }
 
 export default function UserProfile({ size, author }: UserProfileProp) {
-  const { nationality, nickName, profileImage } = author;
+  if (!author) {
+    return null;  //author 가 없을 시 (런타임 에러 방지용)
+  }
 
+  const { nationality, nickName, profileImage } = author;
   const images = profileImage ? profileImage : "/assets/img/icons/profile.svg";
 
   return (

@@ -1,7 +1,8 @@
-import axios from "axios";
-import { Posting } from "@/@types/Posting";
+import axiosRequest from "@/api";
+import { ResData, Posting } from "@/@types";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import myPostingsState from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./index.styled";
 
@@ -19,21 +20,40 @@ export default function MyPostings({ data }: MyPostingsProps) {
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
-  const handleClick = () => {
+  const handleClickEditBtn = () => {
     console.log();
   };
-
-  //게시글 삭제
-  const deletePosting = async (id: number) => {
-    return await axios.delete(`/articles/${id}`);
+  const handleClickDeleteBtn = async (id: number) => {
+    await deletePosting(id);
+    getPostings();
   };
-  const queryClient = useQueryClient();
-  const { mutate: deletePostingMutation } = useMutation({
-    mutationFn: deletePosting,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-articles"] });
-    },
-  });
+
+  // 내 게시글 삭제
+  //response로 게시글 주세요 현규님 - 수정예정
+  const [postings, setPostings] = useRecoilState(myPostingsState);
+  async function deletePosting(id: number) {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}`);
+      const postings = response.data;
+      // setPostings(postings);
+      console.log("postings", postings);
+    } catch (error) {
+      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching posting data: ", error);
+    }
+  }
+  //게시글 불러오기
+  async function getPostings() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/articles`);
+      const postings = response.data;
+      setPostings(postings);
+      // console.log("postings", postings);
+    } catch (error) {
+      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching posting data: ", error);
+    }
+  }
 
   return (
     <S.Container>
@@ -53,10 +73,10 @@ export default function MyPostings({ data }: MyPostingsProps) {
       <S.InfoRow>
         <S.Title>{title}</S.Title>
         <S.Buttons>
-          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClick}>
+          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClickEditBtn}>
             수정
           </Button>
-          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={() => deletePostingMutation(id)}>
+          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={() => handleClickDeleteBtn(id)}>
             삭제
           </Button>
         </S.Buttons>
