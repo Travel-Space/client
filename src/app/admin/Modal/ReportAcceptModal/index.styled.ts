@@ -67,3 +67,7 @@ export const ButtonContainer = styled.div`
 export const TextareaContainer = styled.div`
   margin-bottom: 24px;
 `;
+
+export const DropDownWrapper = styled.div`
+  margin-bottom: 16px;
+`;
