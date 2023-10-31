@@ -36,7 +36,7 @@ export interface User {
   notifications: Notification[];
   ownedPlanet: Planet[];
   planetBookMark: PlanetBookmark[];
-  planetsIn: PlanetMembership[];
+  planetsMembership: PlanetMembership[];
   reportsMade: Report[];
   spaceshipMemberships: SpaceshipMember[];
   friendedBy: UserFriend[];

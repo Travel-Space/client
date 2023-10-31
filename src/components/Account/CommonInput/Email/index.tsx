@@ -9,7 +9,7 @@ import MESSAGE from "@/constants/message";
 import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
-import { Error, InputGroup, SmallBtnGroup } from "../../index.styled";
+import { Error, InputGroup, SmallBtnGroup, Timer } from "../../index.styled";
 
 interface PropsType {
   onEmail: (result: boolean, value: string) => void;
@@ -22,6 +22,33 @@ export default function Email({ onEmail }: PropsType) {
   const [codeValid, setCodeValid] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [minutes, setMinutes] = useState(10);
+  const [seconds, setSeconds] = useState(0);
+
+  let timer: NodeJS.Timeout;
+
+  useEffect(() => {
+    if (showCodeInput && minutes === 0 && seconds === 0) {
+      alert("인증 시간이 종료되었습니다. 다시 인증을 요청해주세요.");
+      setShowCodeInput(false);
+    } else if (showCodeInput) {
+      timer = setInterval(() => {
+        if (seconds === 0) {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        } else {
+          setSeconds(seconds - 1);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [minutes, seconds, showCodeInput]);
+
+  const startTimer = () => {
+    clearInterval(timer);
+    setMinutes(10);
+    setSeconds(0);
+  };
 
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
@@ -45,6 +72,7 @@ export default function Email({ onEmail }: PropsType) {
         setCode("");
         setShowCodeInput(true);
         alert("인증번호가 전송되었습니다!");
+        startTimer();
       }
     } catch (error) {
       console.error("인증코드 전송 에러", error);
@@ -61,8 +89,11 @@ export default function Email({ onEmail }: PropsType) {
         code,
       });
 
-      response.status === 201 && alert("인증되었습니다!");
-      setConfirm(true);
+      if (response.status === 201) {
+        alert("인증되었습니다!");
+        setConfirm(true);
+        clearInterval(timer);
+      }
     } catch (error) {
       console.error("인증코드 확인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -116,6 +147,7 @@ export default function Email({ onEmail }: PropsType) {
             />
             {!codeValid && code.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_CODE}</Error>}
             <SmallBtnGroup>
+              <Timer>{`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</Timer>
               <Button
                 variant="confirm"
                 shape="small"
