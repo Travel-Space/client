@@ -26,6 +26,7 @@ export interface SpaceshipMember {
   joinedAt: Date;
   spaceship: Spaceship;
   user: User;
+  role: Role;
 }
 
 export interface SpaceshipApplication {
@@ -41,3 +42,5 @@ export interface SpaceshipApplication {
 export type SpaceshipStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELED";
 
 export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
+
+export type Role = "OWNER" | "MEMBER";
