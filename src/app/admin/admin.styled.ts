@@ -1,8 +1,8 @@
 import { bodyContainer, flexAlignCenter } from "@/styles/common";
 import styled from "styled-components";
-import { Layout, Menu } from "antd";
+import { Layout } from "antd";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export const Container = styled.div`
   ${bodyContainer}
@@ -18,32 +18,17 @@ export const AdminLayout = styled(Layout)`
   > aside {
     border-right: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
     padding-top: 100px;
-    min-height: 100vh;
+    height: auto;
     background: #fff !important;
   }
 `;
 
-export const Side = styled(Sider)`
-  background-color: #fff;
-  width: 300px;
-  height: 100%;
-  text-align: center;
-  color: #fff;
-`;
-
-export const SideMenu = styled(Menu)``;
-
-export const MenuItem = styled(Menu.Item)`
-  color: #6d7b92;
-  font-weight: bold;
-`;
-
 export const AdminContent = styled(Content)`
   min-width: 1239px;
+  padding: 22px 35px;
 `;
 
 export const TableContainer = styled.div`
-  /* padding: 64px 100px; */
   width: 100%;
 `;
 
