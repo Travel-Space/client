@@ -31,7 +31,7 @@ export default function Comments() {
   }, []);
   return (
     <S.Container>
-      {comments?.length === 0 && (
+      {comments?.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-comments.svg"
           alt="no-comments"
@@ -40,16 +40,24 @@ export default function Comments() {
           comment="작성된 댓글이 없습니다."
           font="lg"
         />
+      ) : (
+        <>
+          <S.Header>
+            <S.CommentsNumber>
+              총 <span>{comments?.length}</span>개의 게시글
+            </S.CommentsNumber>
+          </S.Header>
+          <S.MyCommentsWrap>
+            {comments?.map((el, idx) => (
+              <MyComments
+                key={`my-comments${idx}`}
+                data={el}
+                setComments={(comments: Comment[]) => setComments(comments)}
+              />
+            ))}
+          </S.MyCommentsWrap>
+        </>
       )}
-
-      <S.Header>
-        <S.CommentsNumber>
-          총 <span>{comments?.length}</span>개의 게시글
-        </S.CommentsNumber>
-      </S.Header>
-      <S.MyCommentsWrap>
-        {comments?.map((el, idx) => <MyComments key={`my-comments${idx}`} data={el} />)}
-      </S.MyCommentsWrap>
     </S.Container>
   );
 }
