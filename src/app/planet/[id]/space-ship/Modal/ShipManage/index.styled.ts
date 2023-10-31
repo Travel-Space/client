@@ -5,6 +5,9 @@ export const Content = styled.div`
   ${flexColumn}
   gap:24px;
   padding: 16px 24px 24px;
+  textarea {
+    font-size: inherit;
+  }
 `;
 
 export const Center = styled.div`

@@ -152,10 +152,10 @@ export default function Right() {
       </S.InputGroup>
       <S.BetweenGroup $half>
         <S.InputGroup>
-          <Label id="planet-people-number">탑승 인원수</Label>
+          <Label id="planet-member-limit">탑승 인원수</Label>
           <AdjustBtnInput
-            name="planet-people-number"
-            id="planet-people-number"
+            name="planet-member-limit"
+            id="planet-member-limit"
             value={planetInfo.memberLimit}
             min={1}
             max={100}
@@ -163,10 +163,10 @@ export default function Right() {
           />
         </S.InputGroup>
         <S.InputGroup>
-          <Label id="planet-ship-number">우주선 갯수</Label>
+          <Label id="planet-ship-limit">우주선 갯수</Label>
           <AdjustBtnInput
-            name="planet-ship-number"
-            id="planet-ship-number"
+            name="planet-ship-limit"
+            id="planet-ship-limit"
             value={planetInfo.spaceshipLimit}
             min={1}
             max={100}

@@ -1,11 +1,10 @@
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { User } from "@/@types/User";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { userAtom } from "@/recoil/atoms/user.atom";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
@@ -15,7 +14,7 @@ import Input, { Label } from "@/components/common/Input";
 import Line from "@/components/common/Line";
 
 import * as S from "./index.styled";
-import { Container, Error, InputGroup, MarginGroup } from "../index.styled";
+import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
 import { Default } from "@/@types/Modal";
 
 interface PropsType extends Default {
@@ -50,11 +49,13 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   async function submitLogin() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/login", { email, password });
+      const response = await axiosRequest.requestAxios<ResData<UserType>>("post", "/auth/login", { email, password });
       console.log(response);
+      const { planets, spaceships } = response.data.memberships;
+      const memberships = { planets, spaceships };
       if (response.status === 201) {
         alert("로그인이 성공적으로 완료되었습니다!");
-        setAuth(prev => ({ ...prev, isAuth: true }));
+        setAuth(prev => ({ ...prev, isAuth: true, memberships }));
         return onClose();
       }
       // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
@@ -84,36 +85,45 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
       <S.LineWithText>or log in with email</S.LineWithText>
 
-      <InputGroup>
-        <Label id="email">이메일</Label>
-        <Input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleEmail}
-          value={email}
-          warning={!emailValid && email.length > 0}
-        />
-        {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
-      </InputGroup>
-      <InputGroup>
-        <Label id="password">비밀번호</Label>
-        <Input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handlePassword}
-          value={password}
-          warning={!passwordValid && password.length > 0}
-        />
-        {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
-        <S.UnderLine onClick={() => goToResetPassword()}>Forgot?</S.UnderLine>
-      </InputGroup>
-      <Button variant="reverse" shape="medium" size="big" onClick={submitLogin} disabled={notAllow}>
-        LOGIN
-      </Button>
+      <FormGroup
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          submitLogin();
+        }}
+      >
+        <InputGroup>
+          <Label id="email">이메일</Label>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleEmail}
+            value={email}
+            warning={!emailValid && email.length > 0}
+          />
+          {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
+        </InputGroup>
+        <InputGroup>
+          <Label id="password">비밀번호</Label>
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handlePassword}
+            value={password}
+            warning={!passwordValid && password.length > 0}
+          />
+          {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
+          <S.UnderLine onClick={() => goToResetPassword()} type="button">
+            Forgot?
+          </S.UnderLine>
+        </InputGroup>
+        <Button variant="reverse" shape="medium" size="big" disabled={notAllow}>
+          LOGIN
+        </Button>
+      </FormGroup>
 
       <MarginGroup>
         <Line size="horizontal" color="gray" />

@@ -1,4 +1,4 @@
-import { flexCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+import { flexAlignCenter, flexCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 import styled, { css } from "styled-components";
 
 export const Wrap = styled.div`
@@ -47,6 +47,11 @@ export const Title = styled.div`
   ${flexCenter};
 `;
 
+export const FormGroup = styled.form`
+  ${flexColumn}
+  gap: 32px;
+`;
+
 export const InputGroup = styled.div<{ $marginBottom?: number; $marginTop?: number }>`
   position: relative;
   ${props =>
@@ -62,10 +67,15 @@ export const InputGroup = styled.div<{ $marginBottom?: number; $marginTop?: numb
 `;
 
 export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
+  ${flexAlignCenter}
+  gap: 8px;
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  button {
+    flex: 1;
+  }
   ${props =>
     props.$country &&
     css`
@@ -76,6 +86,12 @@ export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
       }
     `};
+`;
+
+export const Timer = styled.span`
+  color: ${({ theme }) => theme.PALETTE.mainColor};
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  font-variant-numeric: tabular-nums;
 `;
 
 export const MarginGroup = styled.div`

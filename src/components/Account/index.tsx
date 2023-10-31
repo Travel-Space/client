@@ -19,8 +19,8 @@ export default function Account({ onClose }: Default) {
 
   return (
     <Side>
-      <S.Buttons $right={currentPage === "Log in"}>
-        {currentPage !== "Log in" && (
+      <S.Buttons $right={currentPage === Page.Login}>
+        {currentPage !== Page.Login && (
           <S.Button className="prev" onClick={() => setCurrentPage(Page.Login)}>
             뒤로
           </S.Button>
@@ -32,7 +32,8 @@ export default function Account({ onClose }: Default) {
       <S.Wrap>
         <S.Title>
           <p>
-            {currentPage} to <br />
+            {currentPage} to
+            <br />
             Travel Space
           </p>
         </S.Title>
