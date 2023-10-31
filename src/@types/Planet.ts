@@ -22,7 +22,7 @@ export interface Planet {
   spaceships: Spaceship[];
   totalPages: number;
   totalCount: number;
-  currentPage:number;
+  currentPage: number;
   planets: Planet[];
 }
 
@@ -43,3 +43,13 @@ export interface PlanetMembership {
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
 
 export type Role = "OWNER" | "ADMIN" | "MEMBER";
+
+export interface CancelLikePlanet {
+  planetId: number;
+  userId: number;
+}
+export interface LikedPlanet {
+  planet: Planet;
+  planetId: number;
+  userId: number;
+}

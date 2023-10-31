@@ -1,7 +1,7 @@
 import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
-import { Planet } from "./Planet";
-import { Posting } from "./Posting";
+import { Planet, CancelLikePlanet } from "./Planet";
+import { Posting, CancelLikePost, LikedPlanet } from "./Posting";
 import { Comment } from "./Comment";
 import { Follower, Following } from "./Friend";
 
@@ -11,4 +11,17 @@ interface ResData<D> {
   data: D;
 }
 
-export type { ResData, User, Posting, Like, Planet, NicknameCheck, Comment, Follower, Following };
+export type {
+  ResData,
+  User,
+  Posting,
+  Like,
+  Planet,
+  NicknameCheck,
+  Comment,
+  Follower,
+  Following,
+  CancelLikePost,
+  CancelLikePlanet,
+  LikedPlanet,
+};
