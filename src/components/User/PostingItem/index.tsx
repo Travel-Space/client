@@ -11,7 +11,7 @@ import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 interface PlanetItemProps {
   data: Posting;
-  setPostings: (postings: Posting[]) => void;
+  setPostings: (items: Posting[]) => void;
 }
 export default function PostingItem({ data, setPostings }: PlanetItemProps) {
   //local날짜로 변환
@@ -42,7 +42,7 @@ export default function PostingItem({ data, setPostings }: PlanetItemProps) {
       </S.InfoRow>
       <S.InfoRow>
         <S.Title>{data.title}</S.Title>
-        {parentPath === "like" && <LikeCancelBtn setPostings={setPostings} articleId={data.id} />}
+        {parentPath === "like" && <LikeCancelBtn item="posting" setPostings={setPostings} id={data.id} />}
       </S.InfoRow>
     </S.Container>
   );

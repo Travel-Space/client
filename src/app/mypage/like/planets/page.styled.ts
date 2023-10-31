@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexSpaceBetweenCenter, flexCenter } from "@/styles/common";
+import { flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Container = styled.div``;
 
@@ -15,6 +15,9 @@ export const FavoritePlanets = styled.div`
   border-radius: 10px;
 
   & > div:nth-child(10n) {
+    border: none;
+  }
+  & > div:last-child {
     border: none;
   }
 `;
