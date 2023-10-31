@@ -2,55 +2,84 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { userAtom } from "@/recoil/atoms/user.atom";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
 
 import * as S from "./index.styled";
 
-import Textarea from "../Textarea";
 import DropDown from "../DropDown";
 
-export default function DeclarationModal({ title, onClick }: { title: string; onClick: () => void }) {
+interface ReportProps {
+  title: string;
+  onClick: () => void;
+  planetId?: Number;
+  postId?: Number;
+  targetId?: Number;
+}
+
+export default function DeclarationModal({ title, onClick, planetId, postId, targetId }: ReportProps) {
   const { id } = useRecoilValue(userAtom);
 
   const [selectedMenu, setSelectedMenu] = useState("");
 
-  const [data, setData] = useState({
-    reason: "", // 신고 내용
-    dropdown: selectedMenu, // 신고 사유
+  const [image, setImage] = useState();
+
+  const [report, setReport] = useState({
+    reason: selectedMenu, // 신고 내용
     reporterId: id, // 신고하는 유저
-    targetId: "", // 신고 당하는 유저
+    targetId: id, // 신고 당하는 유저 = 데이터 넘겨 받아서 미리 담고
+    planetId,
+    postId,
     targetType: title, // 게시글 댓글 채팅
-    reportPhoto: "", // 신고 사진
+    imageUrl: image, // 신고 사진
   });
 
   const dropDownProps = {
     comment: "신고 사유를 선택해 주세요.", //미선택시 보여질 문구(필요할 때만 추가)
     menuList: [
+      "스팸 홍보/도배글입니다.",
       "음란물입니다.",
       "불법 정보를 포함하고 있습니다.",
-      "스팸 홍보/청소년에게 유해한 내용입니다.",
-      "욕설/생명 경시/혐오 차별적 표현입니다.",
-      "개인 정보 노출 게시물입니다.",
+      "청소년에게 유해한 내용입니다.",
+      "욕설/생명 경시/혐오/차별적 표현입니다.",
+      "개인정보 노출 게시물입니다.",
       "불쾌한 표현이 있습니다.",
     ],
     selectedMenu, //선택한 메뉴를 저장할 변수
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
   };
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
+  const handleImage = (e: any) => {
+    setImage(e.target.value);
 
-    setData(prevState => ({
+    setReport(prevState => ({
       ...prevState,
-      [name]: value,
-      selectedMenu,
+      imageUrl: e.target.value,
     }));
   };
 
-  const handleComplete = () => {
-    // data 유효성 검사
-    // axios 보내기
+  const handleComplete = async () => {
+    try {
+      const formData = new FormData();
 
-    onClick();
+      formData.append("reason", selectedMenu);
+      formData.append("reporterId", id);
+      formData.append("targetId", targetId);
+      formData.append("planetId", planetId);
+      formData.append("postId", postId);
+      formData.append("targetType", title);
+      formData.append("imageUrl", image);
+
+      for (const key of formData) console.log(key);
+
+      // data 유효성 검사
+      // axios 보내기
+      const response = await axiosRequest.requestAxios<ResData<Report>>("post", "/reports", formData);
+      console.log(response);
+      // onClick();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -62,30 +91,17 @@ export default function DeclarationModal({ title, onClick }: { title: string; on
         </S.Top>
 
         <S.Middle>
-          <S.Description>
-            <span>신고 내용</span>
-            <Textarea
-              onChange={handleChange}
-              name="description"
-              size="declaration"
-              placeholder={"신고 내용을 입력해 주세요."}
-              maxLength={200}
-            />
-          </S.Description>
-
-          {title !== "채팅" && (
-            <S.Reason>
-              <span>신고 사유</span>
-              <DropDown color="gray" font="md" shape="round" props={dropDownProps} />
-            </S.Reason>
-          )}
+          <S.Reason>
+            <span>신고 사유</span>
+            <DropDown color="gray" font="md" shape="round" props={dropDownProps} />
+          </S.Reason>
 
           <S.Picture>
             <span>신고 사진</span>
             <S.File>
-              <input readOnly placeholder="파일을 업로드해 주세요." />
+              <input value={image || ""} readOnly placeholder="파일을 업로드해 주세요." />
               <label htmlFor="file">사진 첨부</label>
-              <input accept="image/*" type="file" id="file" onChange={handleChange} />
+              <input accept="image/*" type="file" id="file" name="imageUrl" onChange={handleImage} />
             </S.File>
           </S.Picture>
         </S.Middle>

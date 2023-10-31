@@ -19,7 +19,7 @@ export default function PostPreview({ article, params }: ArticleProps) {
       <Link href={{ pathname: `/planet/${params}/post`, query: { detail: `${id}` } }}>
         <S.Post key={id}>
           <S.MainBox>
-            <UserProfile size="map" posting={author} />
+            <UserProfile size="map" author={author} />
 
             <S.Description>
               <span>{title}</span>
