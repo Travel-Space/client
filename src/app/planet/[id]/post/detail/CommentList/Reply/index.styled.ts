@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const ReplyWrapper = styled.div`
   width: 100%;
   height: 100%;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};

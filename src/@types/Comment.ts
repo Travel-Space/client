@@ -12,4 +12,5 @@ export interface Comment {
   author: User;
   parent: Comment | null;
   children: Comment[] | null;
+  replies:Comment[] | null;
 }
