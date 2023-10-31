@@ -1,30 +1,26 @@
 import * as S from "./index.styled";
-// import { useModal } from "@/hooks/useModal";
 
-export default function AdminModalContainer() {
-  // const { closeModal, modalDataState } = useModal();
+interface modalContainerProps {
+  title: string;
+  closeModal: () => void;
+  children: React.ReactNode;
+}
 
-  // console.log(modalDataState.content, "modalDataState.content123132");
-  // console.log(modalDataState, "modalDataState.content123132");
-
+export default function AdminModalContainer({ title, closeModal, children }: modalContainerProps) {
   return (
     <>
-      {/*     
-      {modalDataState.isOpen && (
-        <S.ModalBackgroundContainer>
-          <S.AdminModal>
-            <S.TitleContainer>
-              <p>{modalDataState.title}</p>
-              <S.CloseButton type="button" onClick={closeModal}>
-                닫기
-              </S.CloseButton>
-            </S.TitleContainer>
+      <S.ModalBackgroundContainer>
+        <S.AdminModal>
+          <S.TitleContainer>
+            <p>{title}</p>
+            <S.CloseButton type="button" onClick={closeModal}>
+              닫기
+            </S.CloseButton>
+          </S.TitleContainer>
 
-            <S.Content>{modalDataState.content}</S.Content>
-          </S.AdminModal>
-        </S.ModalBackgroundContainer>
-      )}
- */}
+          <S.Content>{children}</S.Content>
+        </S.AdminModal>
+      </S.ModalBackgroundContainer>
     </>
   );
 }
