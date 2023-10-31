@@ -146,7 +146,6 @@ export default function Email({ onEmail }: PropsType) {
               disabled={confirm}
             />
             {!codeValid && code.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_CODE}</Error>}
-            <SmallBtnGroup></SmallBtnGroup>
             <SmallBtnGroup>
               <Timer>{`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</Timer>
               <Button
