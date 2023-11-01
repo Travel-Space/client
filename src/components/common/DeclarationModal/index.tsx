@@ -1,36 +1,33 @@
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-import { userAtom } from "@/recoil/atoms/user.atom";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 
 import * as S from "./index.styled";
-
 import DropDown from "../DropDown";
 
 interface ReportProps {
   title: string;
   onClick: () => void;
-  planetId?: Number;
-  postId?: Number;
-  targetId?: Number;
+  commentId?: Number;
 }
 
-export default function DeclarationModal({ title, onClick, planetId, postId, targetId }: ReportProps) {
-  const { id } = useRecoilValue(userAtom);
+export default function DeclarationModal({ title, onClick, commentId }: ReportProps) {
+  const targetType = title === "게시글" ? "ARTICLE" : title === "댓글" ? "COMMENT" : "MESSAGE";
+
+  const params = useSearchParams();
+  const targetId = params.get("detail");
 
   const [selectedMenu, setSelectedMenu] = useState("");
 
-  const [image, setImage] = useState();
+  // const fileInput = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState(null);
 
   const [report, setReport] = useState({
     reason: selectedMenu, // 신고 내용
-    reporterId: id, // 신고하는 유저
-    targetId: id, // 신고 당하는 유저 = 데이터 넘겨 받아서 미리 담고
-    planetId,
-    postId,
-    targetType: title, // 게시글 댓글 채팅
+    targetId, // 게시글 아이디, 댓글 아이디
+    targetType, // article, comment, message
     imageUrl: image, // 신고 사진
   });
 
@@ -50,24 +47,44 @@ export default function DeclarationModal({ title, onClick, planetId, postId, tar
   };
 
   const handleImage = (e: any) => {
-    setImage(e.target.value);
+    const file = e.target.files[0]; // 파일 객체에 접근
+    setImage(file); // 이미지 상태 업데이트
+
+    console.log(file);
 
     setReport(prevState => ({
       ...prevState,
-      imageUrl: e.target.value,
+      reason: selectedMenu,
+      imageUrl: file,
     }));
   };
+
+  // const handleImage = (e: any) => {
+  //   const file = e.target.files[0]; // 파일 객체에 접근
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       const imageUrl = reader.result; // 이미지 URL
+  //       console.log(imageUrl)
+  //       setImage(imageUrl); // 이미지 상태 업데이트
+
+  //       setReport(prevState => ({
+  //         ...prevState,
+  //         reason: selectedMenu,
+  //         imageUrl: imageUrl, // 이미지 파일 URL로 상태 업데이트
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file); // 파일을 읽어서 URL로 변환
+  //   }
+  // };
 
   const handleComplete = async () => {
     try {
       const formData = new FormData();
 
       formData.append("reason", selectedMenu);
-      formData.append("reporterId", id);
       formData.append("targetId", targetId);
-      formData.append("planetId", planetId);
-      formData.append("postId", postId);
-      formData.append("targetType", title);
+      formData.append("targetType", targetType);
       formData.append("imageUrl", image);
 
       for (const key of formData) console.log(key);
@@ -99,7 +116,7 @@ export default function DeclarationModal({ title, onClick, planetId, postId, tar
           <S.Picture>
             <span>신고 사진</span>
             <S.File>
-              <input value={image || ""} readOnly placeholder="파일을 업로드해 주세요." />
+              <input readOnly placeholder="파일을 업로드해 주세요." />
               <label htmlFor="file">사진 첨부</label>
               <input accept="image/*" type="file" id="file" name="imageUrl" onChange={handleImage} />
             </S.File>
