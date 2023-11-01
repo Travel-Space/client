@@ -1,16 +1,15 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting } from "@/@types";
+import { ResData, Posting, Postings } from "@/@types";
 
 import { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import myPostingsState, { postsExceptDeleteState } from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
 import Nothing from "@/components/common/Nothing";
 import MyPostings from "./MyPostings";
 import SearchForm from "@/app/mypage/SearchForm";
+import Pagination from "@/components/common/Pagination";
 
 export default function Postings() {
   //드롭다운 데이터
@@ -22,16 +21,36 @@ export default function Postings() {
     placeholder: "글 관리에서 검색합니다.",
   };
 
-  const [postings, setPostings] = useRecoilState(myPostingsState);
-  const postsExceptDelete = useRecoilValue(postsExceptDeleteState);
+  interface DataPerPage {
+    page: number;
+    data: Posting[];
+  }
+  //pagination
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [postings, setPostings] = useState<DataPerPage[]>([]);
+  const currentPageData = postings.find(el => el?.page === page);
 
   //게시글 불러오기
-  //무한스크롤 추후 적용 - 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/articles`);
-      const postings = response.data;
-      setPostings(postings);
+      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+        "get",
+        `/articles/my/articles?page=${page}&limit=10`,
+      );
+      const postings = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      setPostings(prev => [
+        ...prev,
+        {
+          page: page,
+          data: postings,
+        },
+      ]);
+      setTotalCount(totalCount);
+      setTotalPage(totalPage);
       // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -40,14 +59,19 @@ export default function Postings() {
   }
 
   useEffect(() => {
-    if (postings.length === 0) {
-      getPostings();
-    }
+    getPostings();
+    // console.log("postings", postings);
   }, []);
+
+  useEffect(() => {
+    console.log(currentPageData);
+    !currentPageData?.data && getPostings();
+    // console.log("postings", postings);
+  }, [page]);
 
   return (
     <S.Container>
-      {postsExceptDelete.length === 0 && (
+      {totalCount === 0 && (
         <Nothing
           src="/assets/img/icons/no-postings.svg"
           alt="no-postings"
@@ -59,15 +83,14 @@ export default function Postings() {
       )}
       <S.Header>
         <S.PostingsNumber>
-          총 <span>{postsExceptDelete.length}</span>개의 게시글
+          총 <span>{totalCount}</span>개의 게시글
         </S.PostingsNumber>
         <SearchForm select={dropDownProps} />
       </S.Header>
       <S.MyPostingsWrap>
-        {postsExceptDelete.map(posting => (
-          <MyPostings data={posting} />
-        ))}
+        {currentPageData?.data.map((el, idx) => <MyPostings key={`my-posting${idx}`} data={el} />)}
       </S.MyPostingsWrap>
+      <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
     </S.Container>
   );
 }

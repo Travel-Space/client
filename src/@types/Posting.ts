@@ -31,3 +31,9 @@ export interface CancelLikePost {
   articleId: number;
   userId: number;
 }
+export interface Postings {
+  data: Posting[];
+  page: number;
+  limit: number;
+  totalCount: number;
+}

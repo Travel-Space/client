@@ -1,7 +1,7 @@
 import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
-import { Planet, CancelLikePlanet } from "./Planet";
-import { Posting, CancelLikePost, LikedPlanet } from "./Posting";
+import { Planet, CancelLikePlanet, LikedPlanet } from "./Planet";
+import { Posting, CancelLikePost, Postings } from "./Posting";
 import { Comment } from "./Comment";
 import { Follower, Following } from "./Friend";
 
@@ -15,6 +15,7 @@ export type {
   ResData,
   User,
   Posting,
+  Postings,
   Like,
   Planet,
   NicknameCheck,
