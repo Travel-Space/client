@@ -37,6 +37,8 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId }) =>
     setContent(e.target.value);
   };
 
+
+  
   return (
     <CW.Wrapper>
       <Textarea

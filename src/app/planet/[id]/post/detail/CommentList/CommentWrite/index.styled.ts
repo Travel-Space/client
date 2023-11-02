@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   gap: 24px;
-  margin-top: 24px;
 `;
 
 export const BtnDisplay = styled.div`
