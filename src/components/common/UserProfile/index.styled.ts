@@ -9,6 +9,9 @@ export const Wrapper = styled.div<ProfileSize>`
   align-items: center;
   gap: ${({ size }) => (size === "map" ? "8px" : "16px")};
   cursor: pointer;
+  
+  
+  
 `;
 
 export const Profile = styled.img<ProfileSize>`

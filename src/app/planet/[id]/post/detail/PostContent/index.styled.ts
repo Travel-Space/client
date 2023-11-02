@@ -31,6 +31,19 @@ export const PostInfoSection = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 `;
 
+export const StyledLink = styled.a`
+  & a {
+    text-decoration: none;
+    color: black;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+`;
+
 export const PostInfo = styled.div`
   ${flexCenter}
   gap: 16px;

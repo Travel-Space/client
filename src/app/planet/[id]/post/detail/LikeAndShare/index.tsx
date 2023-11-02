@@ -3,6 +3,7 @@
 import React from "react";
 import * as LS from "./index.styled";
 import Line from "@/components/common/Line";
+import HeartAnimation from "@/components/common/HeartAnimation";
 
 interface LikeAndShareProps {
   likedStatus: boolean | null;
@@ -25,11 +26,13 @@ export default function LikeAndShare({ likedStatus, onLikeToggle }: LikeAndShare
     }
   };
 
+  const heartColor = likedStatus ? "var(--c, #ff6b81)" : "#eee";
+
   return (
     <LS.Wrapper>
       <LS.Like onClick={onLikeToggle}>
         좋아요
-        <LS.LikeBtn src={likedStatus ? "/assets/img/icons/red-heart.svg" : "/assets/img/icons/gray-heart.svg"} />
+        {likedStatus ? <HeartAnimation color={heartColor} /> : <LS.LikeBtn src="/assets/img/icons/gray-heart.svg" />}
       </LS.Like>
       <LS.VerticaLine>
         <Line size="vertical" color="gray" />

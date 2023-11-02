@@ -10,9 +10,23 @@ export const ProfileAndDate = styled.div`
   ${flexSpaceBetweenCenter}
 `;
 
+export const StyledLink = styled.a`
+  & a {
+    text-decoration: none;
+    color: black;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+`;
+
 export const UserComment = styled.div`
   width: 100%;
 `;
+
 export const CommentDate = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[100]};
   font-weight: 400;
@@ -75,5 +89,4 @@ export const ReplyWrapper = styled.div`
   padding: 0 30px 30px 30px;
 `;
 
-export const ReplyDisPlay = styled.div`
-`
+export const ReplyDisPlay = styled.div``;

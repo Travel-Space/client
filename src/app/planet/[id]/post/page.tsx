@@ -22,7 +22,6 @@ export default function PostDetail() {
 
   const [data, setData] = useState<Posting | null>(null);
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
-  const [commnets, setComments] = useState<Comment[]>([])
   const currentUser = useRecoilValue(userAtom);
 
   // 게시글 본문 fetch get 함수
@@ -33,10 +32,9 @@ export default function PostDetail() {
       console.log(response.data.likes);
 
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
-      const isLikedByCurrentUser = response.data.likes.some(like => like.userId === currentUser.id);
+      const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
-      console.log(isLikedByCurrentUser);
-      console.log(currentUser.id)
+      console.log(currentUser.id);
     } catch (error) {
       alert("게시글 정보를 가져오는 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -67,7 +65,7 @@ export default function PostDetail() {
       setLikedStatus(prevStatus => !prevStatus);
     } catch (error) {
       console.error("Error 좋아요 액션 에러: ", error);
-      alert(likedStatus ? "이미 좋아요한 게시글입니다." : "좋아요에 실패하였습니다.");
+      alert(likedStatus ? "이미 좋아요한 게시글입니다." : "로그인 후 이용해주세요.");
     }
   }
 

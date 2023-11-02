@@ -40,18 +40,16 @@ export default function LocationInput({ placeholder, type, onLocationSelect, set
       });
     };
 
-    if (window.google) {
-      window.initializeAutocomplete();
-    } else {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
-      script.async = true;
-      document.body.appendChild(script);
+    // 스크립트 태그를 동적으로 생성합니다.
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
+    script.defer = true; // 스크립트 실행을 HTML 문서 파싱이 끝난 뒤로 미룹니다.
+    document.body.appendChild(script);
 
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
+    return () => {
+      // 스크립트 태그를 제거합니다.
+      document.body.removeChild(script);
+    };
   }, []);
 
   const searchAddress = async (searchTerm: string) => {
