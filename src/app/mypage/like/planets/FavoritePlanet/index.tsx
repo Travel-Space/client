@@ -8,9 +8,11 @@ import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 interface FavoritePlanetProps {
   data: Planet;
-  setPlanets: (planets: Planet[]) => void;
+  page: number;
+  setPage: (page: number) => void;
+  saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
-export default function FavoritePlanet({ data, setPlanets }: FavoritePlanetProps) {
+export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
   return (
     <S.Container>
       <Image src={PLANETSHAPE[data.shape]} alt="planet" width={60} height={60} />
@@ -29,7 +31,7 @@ export default function FavoritePlanet({ data, setPlanets }: FavoritePlanetProps
           ))}
         </S.TagList>
       </S.Info>
-      <LikeCancelBtn item="planet" setPlanets={setPlanets} id={data.id} />
+      <LikeCancelBtn item="planet" id={data.id} saveData={saveData} page={page} setPage={setPage} />
     </S.Container>
   );
 }

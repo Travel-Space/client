@@ -9,11 +9,13 @@ import * as S from "./index.styled";
 import Image from "next/image";
 import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
-interface PlanetItemProps {
+interface PostingItemProps {
+  page: number;
+  setPage: (page: number) => void;
   data: Posting;
-  setPostings: (items: Posting[]) => void;
+  saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
-export default function PostingItem({ data, setPostings }: PlanetItemProps) {
+export default function PostingItem({ page, setPage, data, saveData }: PostingItemProps) {
   //local날짜로 변환
   const { dateString, dayName } = getDateInfo(data.createdAt);
 
@@ -25,14 +27,12 @@ export default function PostingItem({ data, setPostings }: PlanetItemProps) {
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
-          {/* 데이터 추가되면 수정예정 */}
-          {/* <S.Planet>{data.planet.name}</S.Planet> */}
+          <S.Planet>{data.planet.name}</S.Planet>
           <S.Likes>
             <S.Heart>
               <Image src="/assets/img/icons/red-heart.svg" alt="likes" width={10} height={8.61} />
             </S.Heart>
-            {/* 데이터 추가되면 수정예정 */}
-            {/* <span>{data.likes.length}</span> */}
+            <span>{data.likes.length}</span>
           </S.Likes>
         </S.InfoRowCol>
         <S.CreatedDate>
@@ -42,7 +42,9 @@ export default function PostingItem({ data, setPostings }: PlanetItemProps) {
       </S.InfoRow>
       <S.InfoRow>
         <S.Title>{data.title}</S.Title>
-        {parentPath === "like" && <LikeCancelBtn item="posting" setPostings={setPostings} id={data.id} />}
+        {parentPath === "like" && (
+          <LikeCancelBtn item="posting" saveData={saveData} id={data.id} page={page} setPage={setPage} />
+        )}
       </S.InfoRow>
     </S.Container>
   );

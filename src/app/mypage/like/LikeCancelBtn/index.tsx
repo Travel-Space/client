@@ -1,32 +1,51 @@
 import axiosRequest from "@/api";
-import { ResData, Posting, Planet, CancelLikePlanet } from "@/@types";
+import { ResData, Posting, Planet, CancelLikePlanet, Planets } from "@/@types";
+
+import { Postings } from "@/@types";
 
 import * as S from "./index.styled";
 
 interface LikeCancelBtnProps {
+  page: number;
+  setPage: (page: number) => void;
   item: string;
   id: number;
-  setPostings?: (items: Posting[]) => void;
-  setPlanets?: (items: Planet[]) => void;
+  saveData: (totalCount: number, totalPage: number, data: any) => void;
 }
-export default function LikeCancelBtn({ item, id, setPostings, setPlanets }: LikeCancelBtnProps) {
+export default function LikeCancelBtn({ item, id, saveData, page, setPage }: LikeCancelBtnProps) {
+  //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", `/articles/my/likes`);
-      const postings = response.data;
-      setPostings && setPostings(postings);
-      console.log("likedpostings", postings);
+      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+        "get",
+        `/articles/my/likes?page=${page}&limit=10`,
+      );
+      const postings = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, postings);
+
+      //데이터가 1개 남았을 때 삭제시 이전 페이지로 전환
+      postings.length === 0 && page !== 1 && setPage(prev => prev - 1);
+      // console.log("totalPage", totalPage);
+      // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
   }
+
   async function getPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", `/planet/my/bookmarks`);
-      const planets = response.data;
-      setPlanets && setPlanets(planets);
-      console.log("likedplanets", planets);
+      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", `/planet/my/bookmarks`);
+      const planets = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, planets);
+
+      //데이터가 1개 남았을 때 삭제시 이전 페이지로 전환
+      planets.length === 0 && page !== 1 && setPage(prev => prev - 1);
+      // console.log("likedplanets", planets);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -35,7 +54,7 @@ export default function LikeCancelBtn({ item, id, setPostings, setPlanets }: Lik
   async function cancelLikePost() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}/like`);
-      console.log("cancelLikePost", response.data);
+      // console.log("cancelLikePost", response.data);
     } catch (error) {
       alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -44,7 +63,7 @@ export default function LikeCancelBtn({ item, id, setPostings, setPlanets }: Lik
   async function cancelLikePlanet() {
     try {
       const response = await axiosRequest.requestAxios<ResData<CancelLikePlanet>>("delete", `/planet/${id}/bookmark`);
-      console.log("cancelLikePlanets", response.data);
+      // console.log("cancelLikePlanets", response.data);
     } catch (error) {
       alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
