@@ -54,10 +54,7 @@ enum UserStatus {
   "ACTIVE",
   "SUSPENDED",
 }
-enum UserRole {
-  "MEMBER",
-  "ADMIN",
-}
+export type UserRole = "MEMBER" | "ADMIN";
 export interface NicknameCheck {
   available: boolean;
 }
