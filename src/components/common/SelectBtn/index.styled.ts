@@ -26,6 +26,7 @@ export const Select = styled.div`
   button {
     background: none;
     border-left: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+    line-height: unset;
   }
 `;
 
@@ -38,6 +39,7 @@ export const ListGroup = styled.ul`
   box-shadow: 0 0 0 1px ${({ theme }) => theme.PALETTE.gray[100]};
   background: ${({ theme }) => theme.PALETTE.white};
   overflow: hidden;
+  z-index: 1;
 `;
 
 export const List = styled.li<{ $selected: boolean }>`
