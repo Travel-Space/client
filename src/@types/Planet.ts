@@ -26,6 +26,13 @@ export interface Planet {
   planets: Planet[];
 }
 
+export interface Planets {
+  data: Planet[];
+  page: number;
+  limit: number;
+  totalMemberships: number;
+}
+
 export interface PlanetBookmark {
   userId: number;
   planetId: number;

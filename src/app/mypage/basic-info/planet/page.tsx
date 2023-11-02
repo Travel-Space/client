@@ -1,10 +1,10 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet } from "@/@types";
+import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { profileState } from "@/recoil/atoms/user.atom";
+import { userAtom } from "@/recoil/atoms/user.atom";
 import planetsState from "@/recoil/atoms/planets.atom";
 
 import * as S from "./page.styled";
@@ -17,16 +17,16 @@ import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 
 export default function Planet() {
-  const profile = useRecoilValue(profileState);
+  const user = useRecoilValue(userAtom);
   const [planets, setPlanets] = useRecoilState(planetsState);
   const [overLimit, setOverLimit] = useState(false);
 
   //행성 불러오기
   async function getPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", "/planet/my-planets");
-      setPlanets(response.data);
-      console.log("planets", planets);
+      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
+      setPlanets(response.data.data);
+      // console.log("planets", planets);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
@@ -34,15 +34,16 @@ export default function Planet() {
   }
 
   //내가 생성한 행성
-  const myPlanets = planets.filter(el => profile?.id === el.ownerId);
+  const myPlanets = planets.filter(el => user.id === el.ownerId);
 
   //여행중인 행성
-  const travelingPlanets = planets.filter(el => profile?.id !== el.ownerId);
+  const travelingPlanets = planets.filter(el => user.id !== el.ownerId);
   let myPlanetsWithNull = new Array(5).fill(null);
   myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   useEffect(() => {
     getPlanets();
+    // console.log("id", user.id);
 
     if (myPlanets.length >= 5) setOverLimit(true);
   }, []);
