@@ -6,8 +6,12 @@ import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
+import SelectBtn from "@/components/common/SelectBtn";
+import { useState } from "react";
 
 export default function ShipManage({ onClose }: Default) {
+  const [selected, setSelected] = useState({ value: "c", text: "C" });
+
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
       <S.Content>
@@ -47,6 +51,16 @@ export default function ShipManage({ onClose }: Default) {
           </S.Group>
           <S.Group>
             <Label id="">여행 상태</Label>
+            <SelectBtn
+              onSelected={li => setSelected(li)}
+              selected={selected}
+              selectList={[
+                { value: "a", text: "A" },
+                { value: "b", text: "B" },
+                { value: "c", text: "C" },
+                { value: "d", text: "D" },
+              ]}
+            />
           </S.Group>
         </S.Center>
         <S.Center>
