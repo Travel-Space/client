@@ -1,6 +1,6 @@
 import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
-import { Planet, CancelLikePlanet, LikedPlanet, Planets } from "./Planet";
+import { Planet, CancelLikePlanet, Planets, LikedPlanets } from "./Planet";
 import { Posting, CancelLikePost, Postings } from "./Posting";
 import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow } from "./Friend";
@@ -24,8 +24,8 @@ export type {
   Following,
   CancelLikePost,
   CancelLikePlanet,
-  LikedPlanet,
   Planets,
   Follow,
   Comments,
+  LikedPlanets,
 };

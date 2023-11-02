@@ -1,5 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, Posting, Postings, PostingsPerPage } from "@/@types";
+import { ResData, Posting, Postings } from "@/@types";
 
 import { useRecoilState } from "recoil";
 import myPostingsState from "@/recoil/atoms/myPostings.atom";
@@ -22,7 +22,7 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
-  const [_, setPostings] = useRecoilState<PostingsPerPage[]>(myPostingsState);
+  const [_, setPostings] = useRecoilState<Posting[]>(myPostingsState);
 
   const handleClickEditBtn = () => {
     console.log();
@@ -43,7 +43,6 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
   }
 
   //게시글 조회
-  //게시글 불러오기
   async function getPostings() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Postings>>(
