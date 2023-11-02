@@ -12,7 +12,7 @@ interface FollowersProps {
 export default function Followers({ data }: FollowersProps) {
   return (
     <>
-      {!data ? (
+      {data.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-friends.svg"
           alt="no-friends"

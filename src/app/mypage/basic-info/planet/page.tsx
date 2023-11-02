@@ -50,7 +50,7 @@ export default function Planet() {
   return (
     <S.Container>
       {/* 데이터가 없을 경우 */}
-      {planets.length === 0 && (
+      {planets.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-planets.svg"
           alt="no-TravelingPlanets"
@@ -59,41 +59,43 @@ export default function Planet() {
           comment="여행 중인 행성이 없습니다."
           font="lg"
         />
+      ) : (
+        <>
+          <S.MyPlanetInfo>
+            <S.Title>내가 생성한 행성</S.Title>
+            <S.NewPlanet>
+              <S.MyPlanetNumber>
+                <span>{5 - myPlanets.length}</span>개의 행성을 더 운영할 수 있습니다.
+              </S.MyPlanetNumber>
+              <Link href="/create-planet">
+                <Button variant="reverse" shape="medium" size="smallWithSmFont" disabled={overLimit}>
+                  새 행성 만들기
+                </Button>
+              </Link>
+            </S.NewPlanet>
+          </S.MyPlanetInfo>
+          <S.MyPlanetWrap>
+            {myPlanetsWithNull.map((planet, idx) =>
+              planet === null ? (
+                <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
+              ) : (
+                <MyPlanet key={idx} data={planet} />
+              ),
+            )}
+          </S.MyPlanetWrap>
+          <S.TravelingPlanetInfo>
+            <S.Title>여행 중인 행성</S.Title>
+            <S.TravelNumber>
+              총 <span>{travelingPlanets.length}</span>개의 행성
+            </S.TravelNumber>
+          </S.TravelingPlanetInfo>
+          <S.TravelingPlanetList>
+            {travelingPlanets.map((planet, idx) => (
+              <PlanetItem key={idx} data={planet} />
+            ))}
+          </S.TravelingPlanetList>
+        </>
       )}
-
-      <S.MyPlanetInfo>
-        <S.Title>내가 생성한 행성</S.Title>
-        <S.NewPlanet>
-          <S.MyPlanetNumber>
-            <span>{5 - myPlanets.length}</span>개의 행성을 더 운영할 수 있습니다.
-          </S.MyPlanetNumber>
-          <Link href="/create-planet">
-            <Button variant="reverse" shape="medium" size="smallWithSmFont" disabled={overLimit}>
-              새 행성 만들기
-            </Button>
-          </Link>
-        </S.NewPlanet>
-      </S.MyPlanetInfo>
-      <S.MyPlanetWrap>
-        {myPlanetsWithNull.map((planet, idx) =>
-          planet === null ? (
-            <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
-          ) : (
-            <MyPlanet key={idx} data={planet} />
-          ),
-        )}
-      </S.MyPlanetWrap>
-      <S.TravelingPlanetInfo>
-        <S.Title>여행 중인 행성</S.Title>
-        <S.TravelNumber>
-          총 <span>{travelingPlanets.length}</span>개의 행성
-        </S.TravelNumber>
-      </S.TravelingPlanetInfo>
-      <S.TravelingPlanetList>
-        {travelingPlanets.map((planet, idx) => (
-          <PlanetItem key={idx} data={planet} />
-        ))}
-      </S.TravelingPlanetList>
     </S.Container>
   );
 }

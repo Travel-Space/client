@@ -67,7 +67,7 @@ export default function Postings() {
   };
   return (
     <S.Container>
-      {totalCount === 0 && (
+      {totalCount === 0 ? (
         <Nothing
           src="/assets/img/icons/no-postings.svg"
           alt="no-postings"
@@ -76,24 +76,27 @@ export default function Postings() {
           comment="작성된 게시글이 없습니다."
           font="lg"
         />
+      ) : (
+        <>
+          <S.Header>
+            <S.PostingsNumber>
+              총 <span>{totalCount}</span>개의 게시글
+            </S.PostingsNumber>
+            <SearchForm select={dropDownProps} />
+          </S.Header>
+          <S.MyPostingsWrap>
+            {postings.map((el, idx) => (
+              <MyPostings
+                key={`my-posting${idx}`}
+                data={el}
+                page={page}
+                saveData={(totalCount: number, totalPage: number) => saveData(totalCount, totalPage)}
+              />
+            ))}
+          </S.MyPostingsWrap>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
+        </>
       )}
-      <S.Header>
-        <S.PostingsNumber>
-          총 <span>{totalCount}</span>개의 게시글
-        </S.PostingsNumber>
-        <SearchForm select={dropDownProps} />
-      </S.Header>
-      <S.MyPostingsWrap>
-        {postings.map((el, idx) => (
-          <MyPostings
-            key={`my-posting${idx}`}
-            data={el}
-            page={page}
-            saveData={(totalCount: number, totalPage: number) => saveData(totalCount, totalPage)}
-          />
-        ))}
-      </S.MyPostingsWrap>
-      <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
     </S.Container>
   );
 }
