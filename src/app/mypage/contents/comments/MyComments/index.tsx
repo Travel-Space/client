@@ -9,12 +9,16 @@ import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyCommentsProps {
   page: number;
+  setPage: (page: number) => void;
   data: Comment;
   saveData: (totalCount: number, totalPage: number, comments: Comment[]) => void;
 }
 
-export default function MyComments({ page, data, saveData }: MyCommentsProps) {
+export default function MyComments({ page, data, setPage, saveData }: MyCommentsProps) {
   const { article, content, id } = data;
+
+  //UTC->LOCAL 날짜 변환
+  const { dateString, dayName } = getDateInfo(article.createdAt);
 
   //댓글 불러오기
   async function getComments() {
@@ -28,12 +32,16 @@ export default function MyComments({ page, data, saveData }: MyCommentsProps) {
       const totalPage = Math.ceil(totalCount / 10);
       saveData(totalCount, totalPage, comments);
       // console.log("comments", response.data);
+
+      //데이터가 1개 남았을 때 삭제시 이전 페이지로 전환
+      comments.length === 0 && page !== 1 && setPage(prev => prev - 1);
     } catch (error) {
       alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching comment data: ", error);
     }
   }
 
+  //댓글 삭제
   async function deleteComment() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Comment>>("delete", `/comments/${id}`);
@@ -43,8 +51,7 @@ export default function MyComments({ page, data, saveData }: MyCommentsProps) {
       console.error("Error fetching posting data: ", error);
     }
   }
-  //UTC->LOCAL 날짜 변환
-  const { dateString, dayName } = getDateInfo(article.createdAt);
+
   const handleDelete = async () => {
     await deleteComment();
     getComments();

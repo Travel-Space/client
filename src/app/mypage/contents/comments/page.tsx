@@ -9,20 +9,13 @@ import * as S from "./page.styled";
 import Nothing from "@/components/common/Nothing";
 import MyComments from "./MyComments";
 import Pagination from "@/components/common/Pagination";
+import usePagination from "@/hooks/usePagination";
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>();
 
   //pagination
-  const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
-
-  const saveData = (totalCount: number, totalPage: number, comments: Comment[]) => {
-    setTotalCount(totalCount);
-    setTotalPage(totalPage);
-    setComments(comments);
-  };
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getComments, setComments);
 
   //댓글 불러오기
   async function getComments() {
@@ -47,7 +40,7 @@ export default function Comments() {
   }, []);
   return (
     <S.Container>
-      {comments?.length === 0 ? (
+      {totalCount === 0 ? (
         <Nothing
           src="/assets/img/icons/no-comments.svg"
           alt="no-comments"
@@ -60,19 +53,12 @@ export default function Comments() {
         <>
           <S.Header>
             <S.CommentsNumber>
-              총 <span>{comments?.length}</span>개의 게시글
+              총 <span>{totalCount}</span>개의 게시글
             </S.CommentsNumber>
           </S.Header>
           <S.MyCommentsWrap>
             {comments?.map((el, idx) => (
-              <MyComments
-                key={`my-comments${idx}`}
-                data={el}
-                page={page}
-                saveData={(totalCount: number, totalPage: number, comments: Comment[]) =>
-                  saveData(totalCount, totalPage, comments)
-                }
-              />
+              <MyComments key={`my-comments${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
             ))}
           </S.MyCommentsWrap>
           <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />

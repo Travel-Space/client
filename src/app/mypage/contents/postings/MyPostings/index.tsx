@@ -14,16 +14,16 @@ interface MyPostingsProps {
   data: Posting;
   saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
-export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
+export default function MyPostings({ page, data, setPage, saveData }: MyPostingsProps) {
   const { id, title, planet, createdAt, likes } = data;
 
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
-  const handleClickEditBtn = () => {
+  const handleEdit = () => {
     console.log();
   };
-  const handleClickDeleteBtn = async () => {
+  const handleDelete = async () => {
     await deletePosting();
     getPostings();
   };
@@ -32,7 +32,7 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
   async function deletePosting() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}`);
-      console.log("deletePost", response);
+      // console.log("deletePost", response);
     } catch (error) {
       alert("게시글 정보를 삭제 하는 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -78,10 +78,10 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
       <S.InfoRow>
         <S.Title>{title}</S.Title>
         <S.Buttons>
-          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClickEditBtn}>
+          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleEdit}>
             수정
           </Button>
-          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={handleClickDeleteBtn}>
+          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={handleDelete}>
             삭제
           </Button>
         </S.Buttons>
