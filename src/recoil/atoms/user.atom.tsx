@@ -4,14 +4,14 @@ import { recoilPersist } from "recoil-persist";
 import { User } from "@/@types";
 import { PlanetMembership } from "@/@types/Planet";
 import { SpaceshipMember } from "@/@types/Spaceship";
+import { UserRole } from "@/@types/User";
 
 const { persistAtom } = recoilPersist();
 
 export interface UserType {
   isAuth: boolean;
   id: number;
-  nickName: string;
-  email: string;
+  role: UserRole;
   memberships: {
     planets: Partial<PlanetMembership[]>;
     spaceships: Partial<SpaceshipMember[]>;
@@ -23,8 +23,7 @@ export const userAtom = atom<UserType>({
   default: {
     isAuth: false,
     id: 0,
-    nickName: "",
-    email: "",
+    role: "MEMBER",
     memberships: {
       planets: [],
       spaceships: [],

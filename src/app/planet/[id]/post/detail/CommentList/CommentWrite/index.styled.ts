@@ -2,10 +2,11 @@ import { flexColumn } from "@/styles/common";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-${flexColumn}
+  ${flexColumn}
   width: 100%;
   height: 100%;
   gap: 24px;
+  margin-top: 24px;
 `;
 
 export const BtnDisplay = styled.div`

@@ -38,6 +38,7 @@ export const CommentInput = styled.textarea`
 export const CommentCount = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
   font-weight: 700;
+  margin-bottom: -24px;
 `;
 
 export const BtnDisplay = styled.div`
