@@ -5,5 +5,5 @@ import { useParams } from "next/navigation";
 
 export default function ModifyPlanet() {
   const params = useParams();
-  return <PlanetPage id={params.id} />;
+  return <PlanetPage planetId={params.id} />;
 }
