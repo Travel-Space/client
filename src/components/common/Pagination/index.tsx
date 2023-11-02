@@ -28,9 +28,9 @@ const Pagination = ({ totalPage, limit, page, setPage }: PaginationProps) => {
     } else if (page % limit === 0) {
       setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
     }
-    console.log("currentFirstPage", currentFirstPage);
-    console.log("page", page);
-    console.log("limit", limit);
+    // console.log("currentFirstPage", currentFirstPage);
+    // console.log("page", page);
+    // console.log("limit", limit);
   }, [page]);
 
   useEffect(() => {

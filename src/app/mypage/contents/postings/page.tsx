@@ -3,6 +3,8 @@ import axiosRequest from "@/api";
 import { ResData, Posting, Postings } from "@/@types";
 
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import myPostingsState from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
@@ -21,16 +23,12 @@ export default function Postings() {
     placeholder: "글 관리에서 검색합니다.",
   };
 
-  interface DataPerPage {
-    page: number;
-    data: Posting[];
-  }
   //pagination
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-  const [postings, setPostings] = useState<DataPerPage[]>([]);
-  const currentPageData = postings.find(el => el?.page === page);
+
+  const [postings, setPostings] = useRecoilState<Posting[]>(myPostingsState);
 
   //게시글 불러오기
   async function getPostings() {
@@ -42,13 +40,7 @@ export default function Postings() {
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
       const totalPage = Math.ceil(totalCount / 10);
-      setPostings(prev => [
-        ...prev,
-        {
-          page: page,
-          data: postings,
-        },
-      ]);
+      setPostings(postings);
       setTotalCount(totalCount);
       setTotalPage(totalPage);
       // console.log("postings", postings);
@@ -64,11 +56,15 @@ export default function Postings() {
   }, []);
 
   useEffect(() => {
-    console.log(currentPageData);
-    !currentPageData?.data && getPostings();
+    // console.log(currentPageData);
+    getPostings();
     // console.log("postings", postings);
   }, [page]);
 
+  const saveData = (totalCount: number, totalPage: number) => {
+    setTotalCount(totalCount);
+    setTotalPage(totalPage);
+  };
   return (
     <S.Container>
       {totalCount === 0 && (
@@ -88,7 +84,14 @@ export default function Postings() {
         <SearchForm select={dropDownProps} />
       </S.Header>
       <S.MyPostingsWrap>
-        {currentPageData?.data.map((el, idx) => <MyPostings key={`my-posting${idx}`} data={el} />)}
+        {postings.map((el, idx) => (
+          <MyPostings
+            key={`my-posting${idx}`}
+            data={el}
+            page={page}
+            saveData={(totalCount: number, totalPage: number) => saveData(totalCount, totalPage)}
+          />
+        ))}
       </S.MyPostingsWrap>
       <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
     </S.Container>
