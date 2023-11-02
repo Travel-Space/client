@@ -1,9 +1,6 @@
 import axiosRequest from "@/api";
 import { ResData, Posting, Postings } from "@/@types";
 
-import { useRecoilState } from "recoil";
-import myPostingsState from "@/recoil/atoms/myPostings.atom";
-
 import * as S from "./index.styled";
 
 import Image from "next/image";
@@ -13,8 +10,9 @@ import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyPostingsProps {
   page: number;
+  setPage: (page: number) => void;
   data: Posting;
-  saveData: (totalCount: number, totalPage: number) => void;
+  saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
 export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
   const { id, title, planet, createdAt, likes } = data;
@@ -22,20 +20,19 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
-  const [_, setPostings] = useRecoilState<Posting[]>(myPostingsState);
-
   const handleClickEditBtn = () => {
     console.log();
   };
-  const handleClickDeleteBtn = async (id: number) => {
-    await deletePosting(id);
+  const handleClickDeleteBtn = async () => {
+    await deletePosting();
     getPostings();
   };
 
   // 내 게시글 삭제
-  async function deletePosting(id: number) {
+  async function deletePosting() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}`);
+      console.log("deletePost", response);
     } catch (error) {
       alert("게시글 정보를 삭제 하는 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -52,8 +49,10 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
       const totalPage = Math.ceil(totalCount / 10);
-      setPostings(postings);
-      saveData(totalCount, totalPage);
+      saveData(totalCount, totalPage, postings);
+
+      //데이터가 1개 남았을 때 삭제시 이전 페이지로 전환
+      postings.length === 0 && page !== 1 && setPage(prev => prev - 1);
       // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -82,7 +81,7 @@ export default function MyPostings({ page, data, saveData }: MyPostingsProps) {
           <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleClickEditBtn}>
             수정
           </Button>
-          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={() => handleClickDeleteBtn(id)}>
+          <Button variant="error" shape="medium" size="smallWithXsFont" onClick={handleClickDeleteBtn}>
             삭제
           </Button>
         </S.Buttons>

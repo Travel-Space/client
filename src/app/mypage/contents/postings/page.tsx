@@ -3,8 +3,6 @@ import axiosRequest from "@/api";
 import { ResData, Posting, Postings } from "@/@types";
 
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
-import myPostingsState from "@/recoil/atoms/myPostings.atom";
 
 import * as S from "./page.styled";
 
@@ -12,6 +10,7 @@ import Nothing from "@/components/common/Nothing";
 import MyPostings from "./MyPostings";
 import SearchForm from "@/app/mypage/SearchForm";
 import Pagination from "@/components/common/Pagination";
+import usePagination from "@/hooks/usePagination";
 
 export default function Postings() {
   //드롭다운 데이터
@@ -23,12 +22,10 @@ export default function Postings() {
     placeholder: "글 관리에서 검색합니다.",
   };
 
-  //pagination
-  const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
+  const [postings, setPostings] = useState<Posting[]>([]);
 
-  const [postings, setPostings] = useRecoilState<Posting[]>(myPostingsState);
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
 
   //게시글 불러오기
   async function getPostings() {
@@ -40,9 +37,8 @@ export default function Postings() {
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
       const totalPage = Math.ceil(totalCount / 10);
-      setPostings(postings);
-      setTotalCount(totalCount);
-      setTotalPage(totalPage);
+      saveData(totalCount, totalPage, postings);
+
       // console.log("postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -55,16 +51,6 @@ export default function Postings() {
     // console.log("postings", postings);
   }, []);
 
-  useEffect(() => {
-    // console.log(currentPageData);
-    getPostings();
-    // console.log("postings", postings);
-  }, [page]);
-
-  const saveData = (totalCount: number, totalPage: number) => {
-    setTotalCount(totalCount);
-    setTotalPage(totalPage);
-  };
   return (
     <S.Container>
       {totalCount === 0 ? (
@@ -86,15 +72,10 @@ export default function Postings() {
           </S.Header>
           <S.MyPostingsWrap>
             {postings.map((el, idx) => (
-              <MyPostings
-                key={`my-posting${idx}`}
-                data={el}
-                page={page}
-                saveData={(totalCount: number, totalPage: number) => saveData(totalCount, totalPage)}
-              />
+              <MyPostings key={`my-posting${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
             ))}
           </S.MyPostingsWrap>
-          <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />
         </>
       )}
     </S.Container>
