@@ -11,20 +11,8 @@ import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
 
 export type PlanetType = Partial<Planet>;
-// export interface PlanetType {
-//   name: string;
-//   description: string;
-//   published: boolean;
-//   ownerId: number;
-//   shape: PlanetShape;
-//   hashtags: string[];
-//   memberLimit: number;
-//   spaceshipLimit: number;
-// }
 
 export interface PlanetContextType {
   planetInfo: PlanetType;
@@ -34,7 +22,6 @@ export interface PlanetContextType {
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
 export default function PlanetPage({ planetId }: { planetId: string[] | string | undefined }) {
-  const { id } = useRecoilValue(userAtom);
   const [planetInfo, setPlanetInfo] = useState<PlanetType>({
     name: "",
     description: "",
@@ -43,7 +30,6 @@ export default function PlanetPage({ planetId }: { planetId: string[] | string |
     hashtags: [],
     memberLimit: 10,
     spaceshipLimit: 10,
-    ownerId: id,
   });
   const router = useRouter();
 
