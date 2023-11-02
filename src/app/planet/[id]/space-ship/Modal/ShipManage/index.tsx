@@ -8,9 +8,41 @@ import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
 import SelectBtn from "@/components/common/SelectBtn";
 import { useState } from "react";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+import { Spaceship } from "@/@types/Spaceship";
+import { AxiosError } from "axios";
+import CalendarBtn from "@/components/common/CalendarBtn";
+import getDateFormat from "@/utils/getDateFormat";
+
+const today = new Date();
+const todayString = getDateFormat(today);
 
 export default function ShipManage({ onClose }: Default) {
-  const [selected, setSelected] = useState({ value: "c", text: "C" });
+  const [statusSelect, setStatusSelect] = useState({ value: "UPCOMING", text: "여행 준비" });
+  const [startDateSelected, setStartDateSelected] = useState(todayString);
+  const [endDateSelected, setEndDateSelected] = useState(todayString);
+
+  async function submitCreateSpaceship() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", {
+        name: "string",
+        description: "string",
+        maxMembers: 0,
+        startDate: new Date("2023-11-02"),
+        endDate: new Date("2023-11-02"),
+        planetId: 16,
+        status: "UPCOMING",
+        image: "string",
+      });
+      console.log(response);
+      // response.status === 201 && alert("새로운 우주선이 생성되었습니다!");
+    } catch (error) {
+      console.error("새 우주선 생성하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
 
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
@@ -52,13 +84,13 @@ export default function ShipManage({ onClose }: Default) {
           <S.Group>
             <Label id="">여행 상태</Label>
             <SelectBtn
-              onSelected={li => setSelected(li)}
-              selected={selected}
+              onSelected={status => setStatusSelect(status)}
+              selected={statusSelect}
               selectList={[
-                { value: "a", text: "A" },
-                { value: "b", text: "B" },
-                { value: "c", text: "C" },
-                { value: "d", text: "D" },
+                { value: "UPCOMING", text: "여행 준비" },
+                { value: "ONGOING", text: "여행 중" },
+                { value: "COMPLETED", text: "여행 완료" },
+                { value: "CANCELED", text: "여행 취소" },
               ]}
             />
           </S.Group>
@@ -66,15 +98,11 @@ export default function ShipManage({ onClose }: Default) {
         <S.Center>
           <S.BtnInput>
             <Label id="">여행 시작일</Label>
-            {/* <S.BtnIcon>
-              <img src="/assets/img/icons/calendar.svg" height={12} />
-            </S.BtnIcon> */}
+            <CalendarBtn onSelected={date => setStartDateSelected(date)} selected={startDateSelected} />
           </S.BtnInput>
           <S.BtnInput>
             <Label id="">여행 종료일</Label>
-            {/* <S.BtnIcon>
-              <img src="/assets/img/icons/calendar.svg" height={12} />
-            </S.BtnIcon> */}
+            <CalendarBtn onSelected={date => setEndDateSelected(date)} selected={endDateSelected} />
           </S.BtnInput>
         </S.Center>
         <Line color="gray" size="horizontal" />
@@ -86,6 +114,7 @@ export default function ShipManage({ onClose }: Default) {
             variant="confirm"
             shape="medium"
             size="big"
+            onClick={submitCreateSpaceship}
             // onClick={planetInfo.id ? submitModifyPlanet : submitCreatePlanet}
           >
             {/* {planetInfo.id ? "수정" : "완료"} */}
