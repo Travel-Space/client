@@ -32,7 +32,7 @@ export default function FriendList() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Follower[]>>("get", `/user/followers`);
       setFollowers(response.data);
-      console.log("followers", response.data);
+      // console.log("followers", response.data);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
@@ -44,15 +44,15 @@ export default function FriendList() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Following[]>>("get", `/user/following`);
       setFollowings(response.data);
-      console.log("followers", response.data);
+      // console.log("followings", response.data);
     } catch (error) {
       alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followings data: ", error);
     }
   }
   useEffect(() => {
-    if (followers.length === 0) getFollowers();
-    if (followings.length === 0) getFollowings();
+    getFollowers();
+    getFollowings();
   }, []);
 
   return (

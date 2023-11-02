@@ -1,9 +1,9 @@
 import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
-import { Planet, CancelLikePlanet, LikedPlanet } from "./Planet";
+import { Planet, CancelLikePlanet, LikedPlanet, Planets } from "./Planet";
 import { Posting, CancelLikePost, Postings } from "./Posting";
 import { Comment } from "./Comment";
-import { Follower, Following } from "./Friend";
+import { Follower, Following, Follow } from "./Friend";
 
 interface ResData<D> {
   status: number;
@@ -25,4 +25,6 @@ export type {
   CancelLikePost,
   CancelLikePlanet,
   LikedPlanet,
+  Planets,
+  Follow,
 };

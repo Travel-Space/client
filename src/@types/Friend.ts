@@ -11,3 +11,7 @@ export interface Following {
   friendId: number;
   userId: number;
 }
+export interface Follow {
+  friendId: number;
+  userId: number;
+}
