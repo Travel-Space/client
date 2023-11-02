@@ -1,70 +1,7 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
-
-// // 애니메이션 키 프레임 정의
-// const backdivAnimation = keyframes`
-//   50% {
-//     background: #ffe6f2;
-//   }
-// `;
-
-// const beatAnimation = keyframes`
-//   0% {
-//     transform: scale(1) rotate(-45deg);
-//   }
-//   50% {
-//     transform: scale(0.6) rotate(-45deg);
-//   }
-// `;
-
-// export const Back = styled.div`
-//   position: fixed;
-//   padding: 0;
-//   margin: 0;
-//   top: 0;
-//   left: 0;
-//   width: 24px;
-//   height: 24px;
-//   background: white;
-//   animation: ${backdivAnimation} 1s infinite;
-// `;
-
-// export const Heart = styled.div<{ color: string }>`
-//   position: absolute;
-//   margin: auto;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   background-color: pink;
-//   height: 24px;
-//   width: 24px;
-//   transform: rotate(-45deg);
-//   animation: ${beatAnimation} 1s infinite;
-
-//   &:after,
-//   &:before {
-//     background-color: pink;
-//     content: "";
-//     border-radius: 50%;
-//     position: absolute;
-//     width: 50px;
-//     height: 50px;
-//   }
-
-//   &:after {
-//     top: 0px;
-//     left: 25px;
-//   }
-
-//   &:before {
-//     top: -25px;
-//     left: 0px;
-//   }
-// `;
-
-
-export const drawHeart = keyframes`
+import styled, { css, keyframes } from "styled-components";
+// 하트를 그리는 애니메이션 키 프레임
+const drawHeart = keyframes`
   0% {
     stroke-dashoffset: 3000;
   }
@@ -78,14 +15,29 @@ export const drawHeart = keyframes`
   }
 `;
 
-
+// 하트 주변의 폭죽 애니메이션 키 프레임
+const blink = keyframes`
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+`;
 
 export const HeartIcon = styled.svg`
   width: 24px;
   height: 24px;
+  position: relative;
   .heart-path {
     fill: none;
-    stroke: var(--c, #ff6b81);
+    stroke: ${({ color }) => color}; /* CSS 변수 대신 props를 직접 사용 */
     stroke-width: 50px;
     stroke-dasharray: 3000;
     stroke-dashoffset: 3000;
@@ -93,5 +45,25 @@ export const HeartIcon = styled.svg`
     animation: ${drawHeart} 1s linear forwards;
   }
 `;
-
-
+// 폭죽 효과를 나타내는 스타일 컴포넌트
+export const Firework = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 -160px 0 var(--c),
+              0 160px 0 var(--c),
+              -160px 0 0 var(--c),
+              160px 0 0 var(--c),
+              -120px -120px 0 var(--c),
+              120px -120px 0 var(--c),
+              120px 120px 0 var(--c),
+              -120px 120px 0 var(--c);
+  animation: ${blink} 0.5s ease-in-out forwards;
+  animation-delay: 0.8s; // 하트가 그려진 후에 폭죽 애니메이션 실행
+`;

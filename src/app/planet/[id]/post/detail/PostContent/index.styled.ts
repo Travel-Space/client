@@ -94,9 +94,8 @@ export const TextData = styled.div`
   width: 100%;
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  margin: 48px 0 64px;
+  margin-bottom: 48px;
   border-radius: 10px;
-  padding: 24px;
   line-height: 1.42;
 
   & ol {
