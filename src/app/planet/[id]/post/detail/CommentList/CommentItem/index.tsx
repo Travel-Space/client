@@ -5,7 +5,7 @@ import * as CI from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import { useModal } from "@/hooks/useModal";
-import { Posting, User } from "@/@types";
+import { Comment, Posting, User } from "@/@types";
 import { getDateInfo } from "@/utils/getDateInfo";
 import { CommentWrite } from "../CommentWrite";
 import axiosRequest from "@/api";
@@ -18,15 +18,14 @@ interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
   author?: User;
+  comment?: Comment;
 }
-
-
 
 export default function CommentItem({ data, isReply = false }: CommentItemProps) {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const currentUser = useRecoilValue(userAtom);
-  const isComment = currentUser.id === data?.authorId;
+  const isCommentOwner = (commentAuthorId: number) => currentUser.id === commentAuthorId;
   const commentRef = useRef(null);
 
   //댓글 삭제 함수
@@ -44,7 +43,9 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
     }
   };
 
-
+  const handleHideReply = () => {
+    setOpenReply(null); // 답글 입력창을 닫음
+  };
 
   const openDeclarationModal = () => {
     openModal({
@@ -61,6 +62,7 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
         ?.sort((a, b) => a.id - b.id)
         .map((comment, index) => {
           const { dateString } = getDateInfo(comment.createdAt);
+          const isComment = isCommentOwner(comment.authorId);
           return (
             <React.Fragment key={comment.id}>
               <CI.Wrapper>
@@ -73,8 +75,8 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
                           query: { userId: comment.authorId },
                         }}
                       >
-                    <UserProfile size="post" comment={comment} />
-                      </Link> 
+                        <UserProfile size="post" comment={comment} />
+                      </Link>
                     </CI.StyledLink>
                     <CI.CommentDate>{dateString}</CI.CommentDate>
                   </CI.ProfileAndDate>
@@ -112,16 +114,14 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
                 </CI.CommentActionBtn>
               </CI.Wrapper>
               {/* 대댓글 작성 -> 댓글의 id를 참고해서 댓글 작성 컴포넌트를 부름*/}
-              {openReply === comment.id && <CommentWrite post={String(data?.id || "")} parentId={comment.id} />}
+              {openReply === comment.id && (
+                <CommentWrite post={String(data?.id || "")} parentId={comment.id} onClose={handleHideReply} />
+              )}
               {/* 대댓글 -> 재귀적(자기 자신을 호출)으로 렌더링 */}
               {comment.replies && comment.replies.length > 0 && (
                 <CI.ReplyWrapper key={comment.id}>
                   {comment.replies.map(reply => (
-                    <CommentItem
-                      key={reply.id}
-                      data={{ ...data, comments: [reply] }}
-                      isReply={true}
-                    />
+                    <CommentItem key={reply.id} data={{ ...data, comments: [reply] }} isReply={true} />
                   ))}
                 </CI.ReplyWrapper>
               )}
