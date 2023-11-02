@@ -1,5 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, Comment } from "@/@types";
+import { ResData, Comment, Comments } from "@/@types";
 
 import * as S from "./index.styled";
 
@@ -8,24 +8,29 @@ import Button from "@/components/common/Button";
 import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyCommentsProps {
+  page: number;
   data: Comment;
-  setComments: (comments: Comment[]) => void;
+  saveData: (totalCount: number, totalPage: number, comments: Comment[]) => void;
 }
 
-export default function MyComments({ data, setComments }: MyCommentsProps) {
+export default function MyComments({ page, data, saveData }: MyCommentsProps) {
   const { article, content, id } = data;
 
   //댓글 불러오기
-  //페이지네이션 추후 적용 - 수정예정
   async function getComments() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Comment[]>>("get", `/comments/user`);
-      const comments = response.data;
-      setComments(comments);
-      console.log("comments", comments);
+      const response = await axiosRequest.requestAxios<ResData<Comments>>(
+        "get",
+        `/comments/user?page=${page}&limit=10`,
+      );
+      const comments = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, comments);
+      // console.log("comments", response.data);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching comment data: ", error);
     }
   }
 

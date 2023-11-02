@@ -2,7 +2,7 @@ import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
 import { Planet, CancelLikePlanet, LikedPlanet, Planets } from "./Planet";
 import { Posting, CancelLikePost, Postings } from "./Posting";
-import { Comment } from "./Comment";
+import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow } from "./Friend";
 
 interface ResData<D> {
@@ -27,4 +27,5 @@ export type {
   LikedPlanet,
   Planets,
   Follow,
+  Comments,
 };

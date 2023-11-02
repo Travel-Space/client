@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Comment } from "@/@types";
+import { ResData, Comment, Comments } from "@/@types";
 
 import { useEffect, useState } from "react";
 
@@ -8,21 +8,37 @@ import * as S from "./page.styled";
 
 import Nothing from "@/components/common/Nothing";
 import MyComments from "./MyComments";
+import Pagination from "@/components/common/Pagination";
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>();
 
+  //pagination
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+
+  const saveData = (totalCount: number, totalPage: number, comments: Comment[]) => {
+    setTotalCount(totalCount);
+    setTotalPage(totalPage);
+    setComments(comments);
+  };
+
   //댓글 불러오기
-  //페이지네이션 추후 적용 - 수정예정
   async function getComments() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Comment[]>>("get", `/comments/user`);
-      const comments = response.data;
-      setComments(comments);
-      console.log("comments", comments);
+      const response = await axiosRequest.requestAxios<ResData<Comments>>(
+        "get",
+        `/comments/user?page=${page}&limit=10`,
+      );
+      const comments = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, comments);
+      // console.log("comments", response.data);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching comment data: ", error);
     }
   }
 
@@ -52,10 +68,14 @@ export default function Comments() {
               <MyComments
                 key={`my-comments${idx}`}
                 data={el}
-                setComments={(comments: Comment[]) => setComments(comments)}
+                page={page}
+                saveData={(totalCount: number, totalPage: number, comments: Comment[]) =>
+                  saveData(totalCount, totalPage, comments)
+                }
               />
             ))}
           </S.MyCommentsWrap>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
         </>
       )}
     </S.Container>

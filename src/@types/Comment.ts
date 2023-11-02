@@ -12,5 +12,12 @@ export interface Comment {
   author: User;
   parent: Comment | null;
   children: Comment[] | null;
-  replies:Comment[] | null;
+  replies: Comment[] | null;
+}
+
+export interface Comments {
+  data: Comment[];
+  page: number;
+  limit: number;
+  totalCount: number;
 }
