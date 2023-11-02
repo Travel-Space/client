@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -81,12 +81,6 @@ export default function Right() {
       alert(errorResponse?.data.message);
     }
   }
-
-  useEffect(() => {
-    // const newMemberLimit = planetInfo.memberLimit;
-    console.log(planetInfo.spaceshipLimit);
-    // setPlanetInfo({ ...planetInfo, memberLimit: newMemberLimit });
-  }, [planetInfo]);
 
   return (
     <S.Wrap>
