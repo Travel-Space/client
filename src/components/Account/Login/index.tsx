@@ -51,11 +51,12 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
     try {
       const response = await axiosRequest.requestAxios<ResData<UserType>>("post", "/auth/login", { email, password });
       console.log(response);
-      const { planets, spaceships } = response.data.memberships;
+      const data = response.data;
+      const { planets, spaceships } = data.memberships;
       const memberships = { planets, spaceships };
       if (response.status === 201) {
         alert("로그인이 성공적으로 완료되었습니다!");
-        setAuth(prev => ({ ...prev, isAuth: true, memberships }));
+        setAuth(prev => ({ ...prev, isAuth: true, role: data.role, id: data.id, memberships }));
         return onClose();
       }
       // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
