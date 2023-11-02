@@ -80,7 +80,7 @@ export default function Right() {
         ownerId: id,
       });
       console.log(response);
-      response.status === 201 && alert("행성이 수정되었습니다!");
+      response.status === 200 && alert("행성이 수정되었습니다!");
     } catch (error) {
       console.error("행성 수정하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
