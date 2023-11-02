@@ -6,7 +6,7 @@ import Left from "./Left";
 import Right from "./Right";
 
 import { createContext, useEffect, useState } from "react";
-import { Planet } from "@/@types/Planet";
+import { Planet, PlanetShape } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
@@ -21,7 +21,7 @@ export interface PlanetContextType {
 
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
-export default function PlanetPage({ id }: { id: string[] | string | undefined }) {
+export default function PlanetPage({ planetId }: { planetId: string[] | string | undefined }) {
   const [planetInfo, setPlanetInfo] = useState<PlanetType>({
     name: "",
     description: "",
@@ -35,7 +35,7 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
 
   async function fetchPlanetData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       console.log(response);
       setPlanetInfo(response.data);
     } catch (error) {
@@ -48,8 +48,8 @@ export default function PlanetPage({ id }: { id: string[] | string | undefined }
   }
 
   useEffect(() => {
-    id && fetchPlanetData();
-  }, [id]);
+    planetId && fetchPlanetData();
+  }, [planetId]);
 
   return (
     <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>

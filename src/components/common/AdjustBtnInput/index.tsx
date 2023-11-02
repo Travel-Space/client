@@ -48,11 +48,11 @@ export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: 
 
   return (
     <S.AdjustInput>
-      <S.MinusButton type="button" onClick={() => handleDirection(-1)}>
+      <S.MinusButton type="button" onClick={() => handleDirection(-1)} disabled={number === min}>
         증감
       </S.MinusButton>
       <S.Input type="number" id={id} name={name} onChange={handleChange} value={number} min={min} max={max} />
-      <S.PlusButton type="button" onClick={() => handleDirection(1)}>
+      <S.PlusButton type="button" onClick={() => handleDirection(1)} disabled={number === max}>
         증가
       </S.PlusButton>
     </S.AdjustInput>

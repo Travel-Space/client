@@ -14,6 +14,7 @@ export interface Planet {
   isActive: boolean;
   shape: PlanetShape;
   hashtags: string[];
+  createdAt: Date;
   deletedAt: Date;
   articles: Posting[];
   owner: User;
@@ -22,7 +23,7 @@ export interface Planet {
   spaceships: Spaceship[];
   totalPages: number;
   totalCount: number;
-  currentPage:number;
+  currentPage: number;
   planets: Planet[];
 }
 
