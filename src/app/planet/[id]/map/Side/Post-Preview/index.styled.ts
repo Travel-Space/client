@@ -18,6 +18,7 @@ export const Post = styled.div`
   ${flexSpaceBetweenCenter}
   gap: 16px;
   padding: 24px 0;
+  width: 388px;
 `;
 
 export const MainBox = styled.div`
