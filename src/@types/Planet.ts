@@ -12,6 +12,7 @@ export interface Planet {
   spaceshipLimit: number;
   published: boolean;
   isActive: boolean;
+  memberCount: number;
   shape: PlanetShape;
   hashtags: string[];
   createdAt: Date;
@@ -25,6 +26,19 @@ export interface Planet {
   totalCount: number;
   currentPage: number;
   planets: Planet[];
+}
+
+export interface Planets {
+  data: Planet[];
+  page: number;
+  limit: number;
+  totalCount: number;
+}
+export interface LikedPlanets {
+  data: Planet[];
+  page: number;
+  limit: number;
+  totalCount: number;
 }
 
 export interface PlanetBookmark {
@@ -44,3 +58,8 @@ export interface PlanetMembership {
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
 
 export type Role = "OWNER" | "ADMIN" | "MEMBER";
+
+export interface CancelLikePlanet {
+  planetId: number;
+  userId: number;
+}

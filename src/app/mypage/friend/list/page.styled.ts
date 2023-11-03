@@ -58,14 +58,3 @@ export const MainContainer = styled.div`
   padding: 32px 0 0;
   border-radius: 10px;
 `;
-
-export const ShowMoreBtn = styled.button`
-  width: 140px;
-  height: 40px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: 500;
-  ${flexCenter}
-  margin: 40px auto 0;
-`;

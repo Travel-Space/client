@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Comment } from "@/@types";
+import { ResData, Comment, Comments } from "@/@types";
 
 import { useEffect, useState } from "react";
 
@@ -8,21 +8,30 @@ import * as S from "./page.styled";
 
 import Nothing from "@/components/common/Nothing";
 import MyComments from "./MyComments";
+import Pagination from "@/components/common/Pagination";
+import usePagination from "@/hooks/usePagination";
 
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>();
 
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getComments, setComments);
+
   //댓글 불러오기
-  //페이지네이션 추후 적용 - 수정예정
   async function getComments() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Comment[]>>("get", `/comments/user`);
-      const comments = response.data;
-      setComments(comments);
-      console.log("comments", comments);
+      const response = await axiosRequest.requestAxios<ResData<Comments>>(
+        "get",
+        `/comments/user?page=${page}&limit=10`,
+      );
+      const comments = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, comments);
+      // console.log("comments", response.data);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching comment data: ", error);
     }
   }
 
@@ -31,7 +40,7 @@ export default function Comments() {
   }, []);
   return (
     <S.Container>
-      {comments?.length === 0 && (
+      {totalCount === 0 ? (
         <Nothing
           src="/assets/img/icons/no-comments.svg"
           alt="no-comments"
@@ -40,16 +49,21 @@ export default function Comments() {
           comment="작성된 댓글이 없습니다."
           font="lg"
         />
+      ) : (
+        <>
+          <S.Header>
+            <S.CommentsNumber>
+              총 <span>{totalCount}</span>개의 게시글
+            </S.CommentsNumber>
+          </S.Header>
+          <S.MyCommentsWrap>
+            {comments?.map((el, idx) => (
+              <MyComments key={`my-comments${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
+            ))}
+          </S.MyCommentsWrap>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
+        </>
       )}
-
-      <S.Header>
-        <S.CommentsNumber>
-          총 <span>{comments?.length}</span>개의 게시글
-        </S.CommentsNumber>
-      </S.Header>
-      <S.MyCommentsWrap>
-        {comments?.map((el, idx) => <MyComments key={`my-comments${idx}`} data={el} />)}
-      </S.MyCommentsWrap>
     </S.Container>
   );
 }

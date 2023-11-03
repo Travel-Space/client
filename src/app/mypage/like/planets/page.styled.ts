@@ -1,20 +1,30 @@
 import { styled } from "styled-components";
-import { flexSpaceBetweenCenter, flexCenter } from "@/styles/common";
+import { flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Container = styled.div``;
 
 export const MyPlanets = styled.div`
-  ${flexSpaceBetweenCenter}
+  ${flexCenter}
 `;
-
+export const NoMyPlanets = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 8px 16px;
+`;
 export const FavoritePlanets = styled.div`
   width: 888px;
   padding: 24px 42px;
   margin-top: 24px;
+  margin-bottom: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
 
   & > div:nth-child(10n) {
+    border: none;
+  }
+  & > div:last-child {
     border: none;
   }
 `;

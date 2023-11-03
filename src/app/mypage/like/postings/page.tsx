@@ -1,28 +1,39 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting } from "@/@types";
+import { ResData, Posting, Postings } from "@/@types";
 
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import myPostingsState from "@/recoil/atoms/myPostings.atom";
+import { useState, useEffect } from "react";
 
 import * as S from "./page.styled";
 
 import Nothing from "@/components/common/Nothing";
 import SearchForm from "@/app/mypage/SearchForm";
 import PostingItem from "@/components/User/PostingItem";
+import Pagination from "@/components/common/Pagination";
+import usePagination from "@/hooks/usePagination";
 
 export default function FavoritePostings() {
-  const [postings, setPostings] = useRecoilState(myPostingsState);
+  const dropDownProps = {
+    placeholder: "글 제목으로 검색해보세요.",
+  };
 
-  //게시글 불러오기
+  const [postings, setPostings] = useState<Posting[]>([]);
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
+
+  //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
-      // 좋아요한 게시글api 추가되면 수정예정
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
-      const postings = response.data;
-      setPostings(postings);
-      console.log("Postings", postings);
+      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+        "get",
+        `/articles/my/likes?page=${page}&limit=10`,
+      );
+      const postings = response.data.data;
+      const totalCount = response.data.totalCount;
+      const totalPage = Math.ceil(totalCount / 10);
+      saveData(totalCount, totalPage, postings);
+      // console.log("comments", response.data);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
@@ -30,22 +41,11 @@ export default function FavoritePostings() {
   }
 
   useEffect(() => {
-    if (postings.length === 0) {
-      getPostings();
-    }
+    getPostings();
   }, []);
 
-  const dropDownProps = {
-    placeholder: "글 제목으로 검색해보세요.",
-  };
   return (
     <S.Container>
-      <S.Header>
-        <S.CommentsNumber>
-          총 <span>{postings.length}</span>개의 게시글
-        </S.CommentsNumber>
-        <SearchForm select={dropDownProps} />
-      </S.Header>
       {postings.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-postings.svg"
@@ -56,11 +56,21 @@ export default function FavoritePostings() {
           font="lg"
         />
       ) : (
-        <S.Postings>
-          {postings.map((el, idx) => (
-            <PostingItem key={`liked-post${idx}`} data={el} />
-          ))}
-        </S.Postings>
+        <>
+          <S.Header>
+            <S.PostNumber>
+              총 <span>{totalCount}</span>개의 게시글
+            </S.PostNumber>
+            <SearchForm select={dropDownProps} />
+          </S.Header>
+
+          <S.Postings>
+            {postings?.map((el, idx) => (
+              <PostingItem key={`liked-post${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
+            ))}
+          </S.Postings>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />
+        </>
       )}
     </S.Container>
   );

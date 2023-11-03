@@ -27,3 +27,13 @@ export interface Posting {
 interface Images {
   url: string;
 }
+export interface CancelLikePost {
+  articleId: number;
+  userId: number;
+}
+export interface Postings {
+  data: Posting[];
+  page: number;
+  limit: number;
+  totalCount: number;
+}

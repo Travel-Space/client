@@ -22,7 +22,7 @@ export const InfoRowCol = styled.div`
   align-items: flex-end;
   gap: 8px;
 `;
-export const Title = styled.div`
+export const Name = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
 `;

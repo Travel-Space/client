@@ -18,3 +18,10 @@ export interface Comment {
   children: Comment[] | null;
   replies: Comment[] | null;
 }
+
+export interface Comments {
+  data: Comment[];
+  page: number;
+  limit: number;
+  totalCount: number;
+}

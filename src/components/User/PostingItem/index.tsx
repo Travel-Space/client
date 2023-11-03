@@ -9,10 +9,13 @@ import * as S from "./index.styled";
 import Image from "next/image";
 import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
-interface PlanetItemProps {
+interface PostingItemProps {
+  page: number;
+  setPage: (page: number) => void;
   data: Posting;
+  saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
-export default function PostingItem({ data }: PlanetItemProps) {
+export default function PostingItem({ page, setPage, data, saveData }: PostingItemProps) {
   //local날짜로 변환
   const { dateString, dayName } = getDateInfo(data.createdAt);
 
@@ -39,7 +42,9 @@ export default function PostingItem({ data }: PlanetItemProps) {
       </S.InfoRow>
       <S.InfoRow>
         <S.Title>{data.title}</S.Title>
-        {parentPath === "like" && <LikeCancelBtn />}
+        {parentPath === "like" && (
+          <LikeCancelBtn item="posting" saveData={saveData} id={data.id} page={page} setPage={setPage} />
+        )}
       </S.InfoRow>
     </S.Container>
   );

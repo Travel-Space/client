@@ -25,34 +25,54 @@ export default function FriendList() {
   const [tab, setTab] = useState("followers");
   const [followers, setFollowers] = useRecoilState(followerState);
   const [followings, setFollowings] = useRecoilState(followingState);
+  const [page, setPage] = useState(1);
+  const limit = 1; //수정예정
 
-  //팔로워 조회
-  //무한스크롤 추후 적용 - 수정예정
-  async function getFollowers() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<Follower[]>>("get", `/user/followers`);
-      setFollowers(response.data);
-      console.log("followers", response.data);
-    } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
-    }
-  }
   //팔로잉 조회
-  //무한스크롤 추후 적용 - 수정예정
-  async function getFollowings() {
+  async function getFollowings(page: number, limit: number) {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Following[]>>("get", `/user/following`);
-      setFollowings(response.data);
-      console.log("followers", response.data);
+      const response = await axiosRequest.requestAxios<ResData<Following[]>>(
+        "get",
+        `/user/following?page=${page}&limit=${limit}`,
+      );
+      const followings = response.data;
+      if (page === 1) setFollowings(followings);
+      else setFollowings(prev => [...prev, ...followings]);
+      // console.log("followings", response.data);
     } catch (error) {
       alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followings data: ", error);
     }
   }
+  //팔로워 조회
+  async function getFollowers(page: number, limit: number) {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Follower[]>>(
+        "get",
+        `/user/followers?page=${page}&limit=${limit}`,
+      );
+      const followers = response.data;
+      if (page === 1) setFollowers(followers);
+      else setFollowers(prev => [...prev, ...followers]);
+      // console.log("followings", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+  const loadData = () => {
+    setPage(prev => prev + 1);
+  };
+
   useEffect(() => {
-    if (followers.length === 0) getFollowers();
-    if (followings.length === 0) getFollowings();
+    console.log("page", page);
+
+    getFollowings(page, limit);
+    getFollowers(page, limit);
+  }, [page]);
+  useEffect(() => {
+    getFollowings(page, limit);
+    getFollowers(page, limit);
   }, []);
 
   return (
@@ -61,19 +81,22 @@ export default function FriendList() {
         <div>
           <S.FollowerNumber clicked={tab === "followers"}>
             <S.Title onClick={() => setTab("followers")}>팔로워</S.Title>
-            <S.Number>{followers.length}</S.Number>
+            {/* <S.Number>{followers.length}</S.Number> */}
           </S.FollowerNumber>
           <Line color="gray" size="vertical" />
           <S.FollowingNumber clicked={tab === "followings"}>
             <S.Title onClick={() => setTab("followings")}>팔로잉</S.Title>
-            <S.Number>{followings.length}</S.Number>
+            {/* <S.Number>{followings.length}</S.Number> */}
           </S.FollowingNumber>
         </div>
         <SearchForm select={dropDownProps} />
       </S.Header>
       <S.MainContainer>
-        {tab === "followers" ? <Followers data={followers} /> : <Followings data={followings} />}
-        <S.ShowMoreBtn>목록 더보기</S.ShowMoreBtn>
+        {tab === "followers" ? (
+          <Followers loadData={loadData} page={page} limit={limit} />
+        ) : (
+          <Followings loadData={loadData} page={page} limit={limit} />
+        )}
       </S.MainContainer>
     </S.Container>
   );

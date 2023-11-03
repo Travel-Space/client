@@ -15,7 +15,6 @@ import * as S from "./page.styled";
 
 import RecommendFriend from "./RecommendFriend";
 import SearchForm from "@/app/mypage/SearchForm";
-import Person from "@/app/mypage/friend/Person";
 import Nothing from "@/components/common/Nothing";
 
 export default function Planet() {
@@ -44,8 +43,8 @@ export default function Planet() {
   }
 
   useEffect(() => {
-    console.log(notMutual);
-    if (followers.length === 0) getFollowers();
+    // console.log("notMutual", notMutual);
+    getFollowers();
   }, []);
 
   return (
@@ -63,8 +62,7 @@ export default function Planet() {
           modules={[Navigation]}
           className="mySwiper"
         >
-          {/* notMutual 수정되면 수정예정 */}
-          {followers.map((el, idx) => (
+          {notMutual.map((el, idx) => (
             <SwiperSlide>
               <RecommendFriend key={`notMutualFriend${idx}`} data={el} />
             </SwiperSlide>
@@ -84,7 +82,6 @@ export default function Planet() {
         />
         {/* 검색기능추가되면 수정예정 */}
       </S.SearchResults>
-      <S.ShowMoreBtn>목록 더보기</S.ShowMoreBtn>
     </S.Container>
   );
 }
