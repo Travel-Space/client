@@ -16,53 +16,92 @@ import ProfileImage from "./ProfileImage";
 import Item from "./Item";
 import NicknameInput from "./Nickname";
 import SearchCountry from "@/components/common/SearchCountry";
+import Password from "./Password";
+
+import VALIDATE from "@/constants/regex";
 
 export default function Profile() {
   const [profile, setProfile] = useRecoilState(profileState);
-  const [showSearch, setShowSearch] = useState(false);
-  const [changedNickname, setChangedNickname] = useState(profile?.nickName || "");
 
-  //국적
+  const [showSearch, setShowSearch] = useState(false);
+
+  const [changedNickname, setChangedNickname] = useState(profile?.nickName || "");
+  const [isAvailableNickname, setIsAvailableNickname] = useState(true);
+
+  const [changedProfileImg, setChangedProfileImg] = useState(profile?.profileImage);
+
+  const [password, setPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [isPasswordMatching, setIsPasswordMatching] = useState(false);
+
   const [country, setCountry] = useState<CountryInfo>({
     country_nm: profile?.nationality || "",
     country_eng_nm: "",
     download_url: "",
   });
 
+  const [notAllow, setNotAllow] = useState(true);
+
+  //프로필이미지 변경
+  const handleChangeImg = (src: string) => {
+    setChangedProfileImg(src);
+  };
+  //닉네임 변경
+  const handleChangeNickname = (nickname: string) => {
+    setChangedNickname(nickname);
+  };
+  //비밀번호 일치 여부 확인
+  function handlePasswordCompare(result: boolean, value: string) {
+    setIsPasswordMatching(result);
+    setPassword(value);
+    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+  }
+  //국적 변경
   function handleCountry(country: CountryInfo) {
     setCountry(country);
   }
-  //프로필 불러오기
+
+  //중복확인 체크
+  useEffect(() => {
+    if (!!isAvailableNickname) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [changedNickname, isAvailableNickname]);
+
+  //비밀번호 체크
+  useEffect(() => {
+    if (password === "" || (passwordValid && isPasswordMatching)) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [passwordValid, isPasswordMatching]);
+
+  //프로필 조회 api
   async function getProfile() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
       setProfile(response.data);
-      console.log("profile", profile);
+      // console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
     }
   }
-  useEffect(() => {
-    if (profile === null) getProfile();
-  }, []);
-
-  //프로필이미지 변경
-  const [changedProfileImg, setChangedProfileImg] = useState(profile?.profileImage);
-  const handleChangeImg = (src: string) => {
-    setChangedProfileImg(src);
-  };
 
   useEffect(() => {
-    if (profile === null) getProfile();
+    getProfile();
   }, []);
 
-  //변경사항 저장
+  //회원정보 수정 api
   interface updateProfileProps {
     nickName?: string;
     nationality?: string;
     profileImage?: string;
   }
+  //비밀번호 추가 후 수정예정
   const updateProfile = async (data: updateProfileProps) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("put", "/auth/update", data);
@@ -77,15 +116,18 @@ export default function Profile() {
       console.error("Error updating profile data: ", error);
     }
   };
+
+  //변경사항 저장
   const saveData = () => {
     const changedData = {
       nickName: changedNickname,
       nationality: country.country_nm,
       profileImage: changedProfileImg,
+      password: password === "" ? null : password,
     };
-    // console.log(changedData);
-
-    updateProfile(changedData);
+    //비밀번호 추가 후 수정예정
+    console.log(changedData);
+    // updateProfile(changedData);
   };
 
   return (
@@ -95,25 +137,31 @@ export default function Profile() {
           {/* 기본이미지 픽스 후 수정예정 */}
           <ProfileImage prev={profile?.profileImage} onChange={handleChangeImg} />
         </Item>
-
         <Line color="gray" size="horizontal" />
 
         <Item name="이름">
           <S.Input type="text" value={profile?.name} readOnly />
         </Item>
-
         <Line color="gray" size="horizontal" />
 
         <Item name="이메일">
           <S.Input type="text" value={profile?.email} readOnly />
         </Item>
+        <Line color="gray" size="horizontal" />
 
+        <Item name="비밀번호">
+          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+        </Item>
         <Line color="gray" size="horizontal" />
 
         <Item name="닉네임">
-          <NicknameInput nickname={changedNickname} onChange={(nickname: string) => setChangedNickname(nickname)} />
+          <NicknameInput
+            nickname={changedNickname}
+            onChange={handleChangeNickname}
+            isAvailableNickname={isAvailableNickname}
+            setIsAvailableNickname={(value: boolean) => setIsAvailableNickname(value)}
+          />
         </Item>
-
         <Line color="gray" size="horizontal" />
 
         <Item name="국적">
@@ -129,7 +177,7 @@ export default function Profile() {
           <Link href="/user/leave">회원탈퇴</Link>
         </S.Leave>
         <S.Save>
-          <Button variant="confirm" shape="medium" size="big" onClick={saveData}>
+          <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllow}>
             변경 사항 저장
           </Button>
         </S.Save>

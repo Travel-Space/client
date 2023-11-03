@@ -1,14 +1,20 @@
 import axiosRequest from "@/api/index";
 import { ResData, NicknameCheck } from "@/@types/index";
 
-import { useState } from "react";
-
 import * as S from "./index.styled";
-
+interface NicknameInputProps {
+  nickname: string;
+  onChange: (nickname: string) => void;
+  isAvailableNickname: boolean;
+  setIsAvailableNickname: (value: boolean) => void;
+}
 //닉네임 변경
-const NicknameInput = ({ nickname, onChange }: { nickname: string; onChange: (nickname: string) => void }) => {
-  const [isAvailableNickname, setIsAvailableNickname] = useState(false);
-
+export default function NicknameInput({
+  nickname,
+  onChange,
+  isAvailableNickname,
+  setIsAvailableNickname,
+}: NicknameInputProps) {
   //닉네임 중복확인
   async function checkNickname(nickname: string) {
     try {
@@ -39,6 +45,4 @@ const NicknameInput = ({ nickname, onChange }: { nickname: string; onChange: (ni
       </S.DoubleCheck>
     </>
   );
-};
-
-export default NicknameInput;
+}
