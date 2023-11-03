@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 
 export interface PlanetType {
   id?: number;
+  ownerId?: number;
   name: string;
   description: string;
   published: boolean;
@@ -45,9 +46,9 @@ export default function PlanetPage({ planetId }: { planetId: string[] | string |
   async function fetchPlanetData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
-      const { id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit } = response.data;
+      const { id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId } = response.data;
       console.log(response);
-      setPlanetInfo({ id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit });
+      setPlanetInfo({ id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId });
     } catch (error) {
       console.error("특정 행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
