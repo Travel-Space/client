@@ -22,6 +22,7 @@ export default function PostDetail() {
 
   const [data, setData] = useState<Posting | null>(null);
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
+  const [comments, setComments] = useState();
   const currentUser = useRecoilValue(userAtom);
 
   // 게시글 본문 fetch get 함수

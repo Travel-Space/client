@@ -37,7 +37,7 @@ export const HeartIcon = styled.svg`
   position: relative;
   .heart-path {
     fill: none;
-    stroke: ${({ color }) => color}; /* CSS 변수 대신 props를 직접 사용 */
+    stroke: ${({ color }) => color};
     stroke-width: 50px;
     stroke-dasharray: 3000;
     stroke-dashoffset: 3000;
@@ -56,14 +56,15 @@ export const Firework = styled.span`
   height: 24px;
   background-color: transparent;
   border-radius: 50%;
-  box-shadow: 0 -160px 0 var(--c),
-              0 160px 0 var(--c),
-              -160px 0 0 var(--c),
-              160px 0 0 var(--c),
-              -120px -120px 0 var(--c),
-              120px -120px 0 var(--c),
-              120px 120px 0 var(--c),
-              -120px 120px 0 var(--c);
+  box-shadow:
+    0 -160px 0 var(--c),
+    0 160px 0 var(--c),
+    -160px 0 0 var(--c),
+    160px 0 0 var(--c),
+    -120px -120px 0 var(--c),
+    120px -120px 0 var(--c),
+    120px 120px 0 var(--c),
+    -120px 120px 0 var(--c);
   animation: ${blink} 0.5s ease-in-out forwards;
-  animation-delay: 0.8s; // 하트가 그려진 후에 폭죽 애니메이션 실행
+  animation-delay: 0.8s;
 `;

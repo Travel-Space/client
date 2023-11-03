@@ -41,8 +41,8 @@ export default function PostContent({ data }: PostContentProps) {
       console.error("Error deleting post: ", error);
     }
   };
-  
-//신고 모달 열기
+
+  //신고 모달 열기
   const openDeclarationModal = () => {
     openModal({
       title: "게시글 신고",
@@ -51,6 +51,7 @@ export default function PostContent({ data }: PostContentProps) {
   };
   // 게시글 날짜 변환
   const { dateString } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "" };
+
 
   return (
     <>
@@ -91,11 +92,18 @@ export default function PostContent({ data }: PostContentProps) {
             <PC.PostActionBtn>
               {isMyPost ? (
                 <>
+                <Link href={{ pathname: `/planet/${data.planetId}/post/write`, query: { id: data.id, isEdit: true } }}>
                   <PC.EditBtn>
-                    <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                    <Button
+                      variant="reverse"
+                      size="big"
+                      shape="medium"
+                      fontWeight="bold"
+                    >
                       수정
                     </Button>
                   </PC.EditBtn>
+                  </Link> 
                   <PC.DeleteBtn onClick={handlePostDelete}>
                     <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
                       삭제

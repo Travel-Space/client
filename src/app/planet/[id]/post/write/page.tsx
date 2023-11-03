@@ -3,7 +3,7 @@
 import axiosRequest from "@/api";
 import MESSAGE from "@/constants/message";
 import { PostWrite } from "@/@types/PostWrite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
@@ -18,15 +18,16 @@ const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: fal
 interface PostWriteProps {
   data?: PostWrite;
   id: number;
+  isEdit?: boolean;
 }
 
-export default function PostWrite({ params }: { params: { id: number } }) {
+export default function PostWrite({ id, isEdit }: { id: number; isEdit?: boolean }) {
   const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
   const [selectedMenu, setSelectedMenu] = useState("우주선");
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
-  const [planetId, setPlanetId] = React.useState<number>(params.id);
+  const [planetId, setPlanetId] = React.useState<number>(id);
   const [address, setAddress] = React.useState<GeocoderResult>();
   const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
@@ -121,6 +122,39 @@ export default function PostWrite({ params }: { params: { id: number } }) {
   //뒤로 가기 버튼
   const handleBack = () => {
     router.back();
+  };
+
+  useEffect(() => {
+    if (isEdit === true && id) {
+      fetchPostData();
+    }
+  }, [id, isEdit]);
+
+  const fetchPostData = async () => {
+    try {
+      const postData = {
+        title,
+        content,
+        published,
+        planetId: Math.round(planetId),
+        address,
+        locations: [
+          {
+            latitude,
+            longitude,
+          },
+        ],
+        imageUrls: [],
+        hashtags,
+      };
+      const response = await axiosRequest.requestAxios<ResData<Posting>>("get", `/articles/${id}`, postData);
+      if (response.data) {
+        setTitle(title);
+        setContent(content);
+      }
+    } catch (error) {
+      console.error("Error fetching post data:", error);
+    }
   };
 
   return (
