@@ -29,9 +29,9 @@ export default function ShipManage({ onClose }: Default) {
         name: "string",
         description: "string",
         maxMembers: 0,
-        startDate: new Date("2023-11-02"),
-        endDate: new Date("2023-11-02"),
-        planetId: 16,
+        startDate: "2023-11-03",
+        endDate: "2023-11-03",
+        planetId: 2,
         status: "UPCOMING",
         image: "string",
       });

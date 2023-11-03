@@ -51,6 +51,7 @@ export interface PlanetBookmark {
 export interface PlanetMembership {
   planetId: number;
   userId: number;
+  user: User;
   role: Role;
   status: MembershipStatus;
 }
@@ -58,6 +59,12 @@ export interface PlanetMembership {
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
 
 export type Role = "OWNER" | "ADMIN" | "MEMBER";
+
+export enum RoleName {
+  OWNER = "행성 관리자",
+  ADMIN = "부관리자",
+  MEMBER = "일반 멤버",
+}
 
 export interface CancelLikePlanet {
   planetId: number;
