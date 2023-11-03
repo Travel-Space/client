@@ -14,6 +14,9 @@ import { useModal } from "@/hooks/useModal";
 import Delete from "@/components/SpaceModal/Delete";
 import { ItemType } from "@/@types/Modal";
 
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
+
 const planetImg: {
   name: PlanetShape;
   src: string;
@@ -29,6 +32,7 @@ export default function Left() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
   const { modalDataState, openModal, closeModal } = useModal();
+  const { id } = useRecoilValue(userAtom);
 
   if (!planetContext) {
     return;
@@ -38,7 +42,7 @@ export default function Left() {
   const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
   const deleteModal = {
     title: "행성 삭제",
-    content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} />,
+    content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} id={planetInfo.id} />,
   };
 
   function handleTagInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -162,9 +166,11 @@ export default function Left() {
             탑승 우주선으로 이동
           </Button>
           {/* 행성 관리자만 삭제 가능 */}
-          <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
-            행성 삭제 💥
-          </S.DeleteBtn>
+          {planetInfo.ownerId === id && (
+            <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
+              행성 삭제 💥
+            </S.DeleteBtn>
+          )}
         </div>
       )}
     </S.Wrap>
