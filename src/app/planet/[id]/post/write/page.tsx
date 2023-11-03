@@ -10,11 +10,14 @@ import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import LocationInput from "./LocationInput";
 import { GeocoderResult } from "@/@types/GeocoderResult";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Posting, ResData } from "@/@types";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
   data?: PostWrite;
+  id: number;
 }
 
 export default function PostWrite({ params }: { params: { id: number } }) {
@@ -30,6 +33,7 @@ export default function PostWrite({ params }: { params: { id: number } }) {
   const [isAddressChecked, setIsAddressChecked] = React.useState<boolean>(false);
   const latitude = locations?.geometry?.location.lat;
   const longitude = locations?.geometry?.location.lng;
+  const router = useRouter();
 
   const dropDownProps = {
     //로고 필요할 때만 추가
@@ -98,21 +102,25 @@ export default function PostWrite({ params }: { params: { id: number } }) {
         hashtags,
       };
 
-      console.log(address);
-      console.log(planetId);
-      console.log(published);
-      console.log(location);
-      console.log(latitude);
-      console.log(longitude);
-      console.log(hashtags);
-
-      const response = await axiosRequest.requestAxios("post", "/articles", postData);
-      alert("게시글 작성에 성공했습니다.");
-      console.log("게시물 작성에 성공했습니다.", response);
+      const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>("post", "/articles", postData);
+      if (response.data && response?.data?.id) {
+        // 리디렉션을 여기서 바로 처리
+        router.push(`/planet/${planetId}/post?detail=${response.data.id}`);
+        alert("게시글 작성에 성공했습니다.");
+      } else {
+        // id가 없는 경우 에러 처리
+        console.error("응답에서 게시글 ID를 찾을 수 없습니다.", response);
+        alert("게시글은 생성되었으나, 페이지를 이동할 수 없습니다.");
+      }
     } catch (error) {
       console.error("게시글 작성 중 오류가 발생했습니다.", error);
-      alert(MESSAGE.ERROR.DEFAULT);
+      alert("게시글 작성 중 오류가 발생했습니다.");
     }
+  };
+
+  //뒤로 가기 버튼
+  const handleBack = () => {
+    router.back();
   };
 
   return (
@@ -130,7 +138,12 @@ export default function PostWrite({ params }: { params: { id: number } }) {
             />
             <PW.LocationWrapper>
               <PW.LocationIcon />
-              <LocationInput placeholder="위치" type="text" onLocationSelect={handleLocationSelect} setIsAddressChecked={setIsAddressChecked}/>
+              <LocationInput
+                placeholder="위치"
+                type="text"
+                onLocationSelect={handleLocationSelect}
+                setIsAddressChecked={setIsAddressChecked}
+              />
             </PW.LocationWrapper>
           </PW.TitleAndLocation>
           <PW.TagsAndRocket>
@@ -161,7 +174,7 @@ export default function PostWrite({ params }: { params: { id: number } }) {
           <QuillEditor value={content} onChange={setContent} />
           <PW.ButtonGroup>
             <PW.BackBtn>
-              <Button variant="cancel" size="big" shape="medium" fontWeight="bold">
+              <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleBack}>
                 뒤로
               </Button>
             </PW.BackBtn>

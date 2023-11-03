@@ -38,7 +38,6 @@ export const CommentInput = styled.textarea`
 export const CommentCount = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.lg};
   font-weight: 700;
-  margin-bottom: -24px;
 `;
 
 export const BtnDisplay = styled.div`
@@ -59,7 +58,14 @@ export const ProfileAndDate = styled.div`
 export const UserComment = styled.div`
   width: 100%;
 `;
+
 export const CommentDate = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[100]};
   font-weight: 400;
+`;
+
+export const NoComments = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.big};
+  color: ${({ theme }) => theme.PALETTE.black[100]};
+  font-weight: 700;
 `;

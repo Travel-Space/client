@@ -15,7 +15,7 @@ export default function CommentList({ data }: PostContentProps) {
     <CL.Wrapper>
       <CL.CommentCount>{data?.comments?.length || 0}개의 댓글</CL.CommentCount>
       <CommentWrite post={String(data?.id || '')} />
-      {data?.comments && data.comments.length > 0 ? <CommentItem data={data} /> : <p>작성된 댓글이 없습니다.</p>}
+      {data?.comments && data.comments.length > 0 ? <CommentItem data={data} /> : <CL.NoComments></CL.NoComments>}
     </CL.Wrapper>
   );
 }

@@ -31,6 +31,19 @@ export const PostInfoSection = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 `;
 
+export const StyledLink = styled.a`
+  & a {
+    text-decoration: none;
+    color: black;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+`;
+
 export const PostInfo = styled.div`
   ${flexCenter}
   gap: 16px;
@@ -81,9 +94,8 @@ export const TextData = styled.div`
   width: 100%;
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  margin: 48px 0 64px;
+  margin-bottom: 48px;
   border-radius: 10px;
-  padding: 24px;
   line-height: 1.42;
 
   & ol {

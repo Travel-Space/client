@@ -15,6 +15,7 @@ export interface Planet {
   memberCount: number;
   shape: PlanetShape;
   hashtags: string[];
+  createdAt: Date;
   deletedAt: Date;
   articles: Posting[];
   owner: User;

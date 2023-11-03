@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -13,9 +13,12 @@ import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
 import { AxiosError } from "axios";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 export default function Right() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+  const { id } = useRecoilValue(userAtom);
 
   if (!planetContext) {
     return;
@@ -72,7 +75,10 @@ export default function Right() {
 
   async function submitModifyPlanet() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, planetInfo);
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, {
+        ...planetInfo,
+        ownerId: id,
+      });
       console.log(response);
       response.status === 201 && alert("행성이 수정되었습니다!");
     } catch (error) {
@@ -81,12 +87,6 @@ export default function Right() {
       alert(errorResponse?.data.message);
     }
   }
-
-  useEffect(() => {
-    // const newMemberLimit = planetInfo.memberLimit;
-    console.log(planetInfo.spaceshipLimit);
-    // setPlanetInfo({ ...planetInfo, memberLimit: newMemberLimit });
-  }, [planetInfo]);
 
   return (
     <S.Wrap>

@@ -9,7 +9,11 @@ export interface Comment {
   parentId: number | null;
   createdAt: Date;
   article: Posting;
-  author: User;
+  author: {
+    profileImage: string | null;
+    nationality: string;
+    nickName: string;
+  };
   parent: Comment | null;
   children: Comment[] | null;
   replies: Comment[] | null;

@@ -7,4 +7,5 @@ export interface PostWrite {
   location: [{ latitude: number; longitude: number }];
   imageUrls: [string];
   tags: string[];
+  id: number;
 }
