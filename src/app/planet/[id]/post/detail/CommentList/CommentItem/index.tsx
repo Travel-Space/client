@@ -5,7 +5,7 @@ import * as CI from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import { useModal } from "@/hooks/useModal";
-import { Comment, Posting, User } from "@/@types";
+import { Posting, User } from "@/@types";
 import { getDateInfo } from "@/utils/getDateInfo";
 import { CommentWrite } from "../CommentWrite";
 import axiosRequest from "@/api";
@@ -18,14 +18,14 @@ interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
   author?: User;
-  comment?: Comment;
+  
 }
 
 export default function CommentItem({ data, isReply = false }: CommentItemProps) {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const currentUser = useRecoilValue(userAtom);
-  const isCommentOwner = (commentAuthorId: number) => currentUser.id === commentAuthorId;
+  const isComment = currentUser.id === data?.authorId;
   const commentRef = useRef(null);
 
   //댓글 삭제 함수
@@ -62,7 +62,6 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
         ?.sort((a, b) => a.id - b.id)
         .map((comment, index) => {
           const { dateString } = getDateInfo(comment.createdAt);
-          const isComment = isCommentOwner(comment.authorId);
           return (
             <React.Fragment key={comment.id}>
               <CI.Wrapper>
