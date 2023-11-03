@@ -1,15 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import Modal from "./Modal";
 import Message from "./Message";
+import { Chat } from "@/@types/Chat";
+import { userAtom } from "@/recoil/atoms/user.atom";
+import useSocket from "@/hooks/useSocket";
 
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
+interface Message {
+  chat: Chat;
+}
+
 export default function Content() {
+  const { id } = useRecoilValue(userAtom);
+
   const [showModal, setShowModal] = useState(false);
+
+  const [sendMessage, setSendMessage] = useState();
+  const [chat, setChat] = useState();
+  const [connected, setConnected] = useState(false);
+
+  const socket = useSocket();
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected to the chat server", socket.id);
+      setConnected(true);
+
+      socket.emit("joinRoom", "room123");
+    });
+
+    console.log(socket);
+  }, [socket]);
 
   const handleShowModal = () => {
     setShowModal(prev => !prev);

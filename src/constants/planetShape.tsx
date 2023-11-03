@@ -1,6 +1,7 @@
 type ObjType = {
   [index: string]: string;
 };
+
 const PLANETSHAPE: ObjType = {
   SHAPE1: "/assets/img/icons/planet-1.svg",
   SHAPE2: "/assets/img/icons/planet-2.svg",
