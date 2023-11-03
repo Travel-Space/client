@@ -8,7 +8,7 @@ import { Role } from "@/@types/Planet";
 interface Type extends Default {
   title: string | undefined;
   type: ItemType;
-  role: Role;
+  role?: Role;
 }
 
 export default function Exit({ onClose, title, type, role }: Type) {
