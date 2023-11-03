@@ -1,32 +1,30 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, User, Planets, LikedPlanets } from "@/@types";
+import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import planetsState from "@/recoil/atoms/planets.atom";
 
 import * as S from "./page.styled";
 
-import Image from "next/image";
-import Line from "@/components/common/Line";
 import PopularPosting from "./PopularPosting";
-import DropDown from "@/components/common/DropDown";
 import Button from "@/components/common/Button";
-import PLANETSHAPE from "@/constants/planetShape";
+import Summary from "./Summary";
 
 export default function Statistics() {
   const [planets, setPlanets] = useRecoilState(planetsState);
+
   const [selectedPlanet, setSelectedPlanet] = useState<Planet>();
 
-  const [dropdownMenu, setDropdownMenu] = useState([]);
+  const [dropdownMenu, setDropdownMenu] = useState<string[]>([]);
   const [selectedMenu, setSelectedMenu] = useState(dropdownMenu[0]);
 
   const dropDownProps = {
     comment: "행성 선택",
     menuList: dropdownMenu,
     selectedMenu: selectedMenu, //선택한 메뉴
-    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+    handleClick: (menu: string) => setSelectedMenu(menu), //메뉴를 클릭했을 때 실행될 메서드
   };
 
   const [isActive, setIsActive] = useState<"daily" | "weekly">("daily");
@@ -44,51 +42,33 @@ export default function Statistics() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
       setPlanets(response.data.data);
-      console.log("planets", planets);
+      // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
   }
+
   useEffect(() => {
     getMyPlanets();
-    planets.map(planet => setDropdownMenu(prev => [...prev, planet.name]));
-    // console.log(dropdownMenu);
   }, []);
+
   useEffect(() => {
-    const planet = planets.filter(planet => planet.name === selectedMenu)[0];
+    const planetNames = planets.map(planet => planet.name);
+    setDropdownMenu([...planetNames]);
+    // console.log("planetNames", planetNames);
+    // console.log("dropdownMenu", dropdownMenu);
+  }, [planets]);
+
+  useEffect(() => {
+    const planet = planets?.filter(planet => planet.name === selectedMenu)[0];
     setSelectedPlanet(planet);
     // console.log("selectedPlanet", selectedPlanet);
   }, [selectedMenu]);
+
   return (
     <S.Container>
-      <S.SummaryWrap>
-        <S.SelectedPlanet>
-          <S.Planet>
-            <Image src={PLANETSHAPE[selectedPlanet?.shape || "SHAPE1"]} alt="planet" width={30} height={30} />
-            <span>{selectedMenu}</span>
-          </S.Planet>
-          <S.DropDownWrap>
-            <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
-          </S.DropDownWrap>
-        </S.SelectedPlanet>
-        <S.Summary>
-          <div>
-            <S.SummaryTitle>오늘 방문 수</S.SummaryTitle>
-            <S.Number>102</S.Number>
-          </div>
-          <Line color="gray" size="vertical" />
-          <div>
-            <S.SummaryTitle>누적 방문 수</S.SummaryTitle>
-            <S.Number>3888</S.Number>
-          </div>
-          <Line color="gray" size="vertical" />
-          <div>
-            <S.SummaryTitle>게시글 수</S.SummaryTitle>
-            <S.Number>367</S.Number>
-          </div>
-        </S.Summary>
-      </S.SummaryWrap>
+      <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
 
       <S.Statistics>
         <div>
