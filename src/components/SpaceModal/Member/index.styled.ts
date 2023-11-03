@@ -13,12 +13,22 @@ export const Wrap = styled.div`
 `;
 
 export const Label = styled.label`
-  ${flexSpaceBetweenCenter}
   cursor: pointer;
+  ${flexSpaceBetweenCenter}
   gap: 24px;
 `;
 
-export const ProfileImg = styled.img``;
+export const MemberWrap = styled.div`
+  ${flexSpaceBetweenCenter}
+  gap: 24px;
+`;
+
+export const ProfileImg = styled.img`
+  height: 60px;
+  object-fit: cover;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 100px;
+`;
 
 export const InfoGroup = styled.div`
   flex: 1;

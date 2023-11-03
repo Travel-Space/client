@@ -1,26 +1,42 @@
 import { ItemType } from "@/@types/Modal";
 import * as S from "./index.styled";
+import { User } from "@/@types";
+import { Role, RoleName } from "@/@types/Planet";
 
 interface Type {
   mode: "select" | "manage";
   type: ItemType;
+  user: User;
+  role: Role;
+  onSelectMember: (value: number) => void;
 }
 
-export default function Member({ mode, type }: Type) {
+export default function Member({ mode, type, user, role, onSelectMember }: Type) {
+  const roleName = RoleName[role];
+
   return (
     <S.Wrap>
-      <S.Label>
-        <S.ProfileImg src="/assets/img/icons/user-profile-default.svg" />
-        <S.InfoGroup>
-          <S.NicknameRole>
-            <span className="nickname">닉네임</span>
-            {mode === "select" && type === ItemType.Planet && <span className="role">부관리자</span>}
-          </S.NicknameRole>
-          <S.Email>aaa@email.com</S.Email>
-        </S.InfoGroup>
-        {mode === "select" ? (
-          <S.Input type="radio" name="member" />
-        ) : (
+      {mode === "select" ? (
+        <S.Label>
+          <S.ProfileImg src={user.profileImage} />
+          <S.InfoGroup>
+            <S.NicknameRole>
+              <span className="nickname">{user.nickName}</span>
+              {type === ItemType.Planet && <span className="role">{roleName}</span>}
+            </S.NicknameRole>
+            <S.Email>{user.email}</S.Email>
+          </S.InfoGroup>
+          <S.Input type="radio" name="member" onChange={() => onSelectMember(user.id)} />
+        </S.Label>
+      ) : (
+        <S.MemberWrap>
+          <S.ProfileImg src={user.profileImage} />
+          <S.InfoGroup>
+            <S.NicknameRole>
+              <span className="nickname">{user.nickName}</span>
+            </S.NicknameRole>
+            <S.Email>{user.email}</S.Email>
+          </S.InfoGroup>
           <S.Group>
             {/* 초대 전 */}
             {/* <S.Input type="checkbox" name="member" /> */}
@@ -35,8 +51,8 @@ export default function Member({ mode, type }: Type) {
                 <img src="/assets/img/icons/exit-white.svg" />
               </S.FillButton> */}
           </S.Group>
-        )}
-      </S.Label>
+        </S.MemberWrap>
+      )}
     </S.Wrap>
   );
 }

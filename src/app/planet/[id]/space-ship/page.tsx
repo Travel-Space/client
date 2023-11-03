@@ -22,11 +22,13 @@ import { ItemType } from "@/@types/Modal";
 import PlanetMember from "./Modal/PlanetMember";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import { PlanetMembership } from "@/@types/Planet";
 
 export default function SpaceShip() {
   const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
   const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
   const [planetName, setPlanetName] = useState<string>();
+  const [planetMember, setPlanetMember] = useState<PlanetMembership[]>();
 
   const { modalDataState, openModal, closeModal } = useModal();
 
@@ -40,7 +42,16 @@ export default function SpaceShip() {
   const exitModal = {
     title: "행성 탈출",
     // 현재 내 user recoil 행성별 role 정보에 맞게 보여줘야 함
-    content: <Exit onClose={closeModal} title={planetName} type={ItemType.Planet} role={thisPlanet?.role} />,
+    content: (
+      <Exit
+        onClose={closeModal}
+        title={planetName}
+        type={ItemType.Planet}
+        role={thisPlanet?.role}
+        id={id}
+        members={planetMember}
+      />
+    ),
   };
 
   const planetMemberModal = {
@@ -63,8 +74,24 @@ export default function SpaceShip() {
     }
   }
 
+  async function fetchMemberListData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>("get", `/planet/members/${id}`, {});
+      console.log(response);
+      // 행성 관리자 제외한 멤버
+      const member = response.data;
+      const filteredMember = member.filter(m => m.role !== "OWNER");
+      setPlanetMember(filteredMember);
+    } catch (error) {
+      console.error("멤버 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchPlanetData();
+    fetchMemberListData();
   }, []);
 
   return (
