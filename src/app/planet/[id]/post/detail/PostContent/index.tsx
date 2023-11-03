@@ -37,7 +37,7 @@ export default function PostContent({ data }: PostContentProps) {
       router.back();
       alert("게시글이 성공적으로 삭제되었습니다.");
     } catch (error) {
-      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도 해주세요.");
       console.error("Error deleting post: ", error);
     }
   };
@@ -51,7 +51,6 @@ export default function PostContent({ data }: PostContentProps) {
   };
   // 게시글 날짜 변환
   const { dateString } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "" };
-
 
   return (
     <>
@@ -92,18 +91,15 @@ export default function PostContent({ data }: PostContentProps) {
             <PC.PostActionBtn>
               {isMyPost ? (
                 <>
-                <Link href={{ pathname: `/planet/${data.planetId}/post/write`, query: { id: data.id, isEdit: true } }}>
-                  <PC.EditBtn>
-                    <Button
-                      variant="reverse"
-                      size="big"
-                      shape="medium"
-                      fontWeight="bold"
-                    >
-                      수정
-                    </Button>
-                  </PC.EditBtn>
-                  </Link> 
+                  <Link
+                    href={{ pathname: `/planet/${data.planetId}/post/write`, query: { id: data.id, isEdit: true } }}
+                  >
+                    <PC.EditBtn>
+                      <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                        수정
+                      </Button>
+                    </PC.EditBtn>
+                  </Link>
                   <PC.DeleteBtn onClick={handlePostDelete}>
                     <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
                       삭제
