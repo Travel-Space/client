@@ -9,7 +9,8 @@ interface LocationInputProps {
   placeholder?: string;
   type?: string;
   onLocationSelect: (address: GeocoderResult, location: GeocoderResult) => void;
-  setIsAddressChecked: (value: boolean) => void; 
+  setIsAddressChecked: (value: boolean) => void;
+  initialValue?: string;
 }
 
 declare global {
@@ -18,10 +19,23 @@ declare global {
   }
 }
 
-export default function LocationInput({ placeholder, type, onLocationSelect, setIsAddressChecked }: LocationInputProps) {
-  const [address, setAddress] = useState<string>("");
+export default function LocationInput({
+  placeholder,
+  type,
+  onLocationSelect,
+  setIsAddressChecked,
+  initialValue,
+}: LocationInputProps) {
+  const [address, setAddress] = useState<string>(initialValue || "");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialValue) {
+      setAddress(initialValue);
+      searchAddress(initialValue);
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     window.initializeAutocomplete = function () {
@@ -61,7 +75,6 @@ export default function LocationInput({ placeholder, type, onLocationSelect, set
     try {
       const response = await fetch(GEOCODE_ENDPOINT);
       const data = await response.json();
-
       if (data.status === "OK") {
         const selectedAddress = data.results[0].formatted_address;
         const location = {
@@ -70,12 +83,10 @@ export default function LocationInput({ placeholder, type, onLocationSelect, set
             location: data.results[0].geometry.location,
           },
         };
-        setIsChecked(true);
         setAddress(selectedAddress);
         onLocationSelect(selectedAddress, location);
-        setIsAddressChecked(true); 
+        setIsAddressChecked(true);
       } else {
-        setIsChecked(false);
         setIsAddressChecked(false);
         console.error("Failed to get the location.");
       }
