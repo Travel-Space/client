@@ -19,6 +19,11 @@ export const Setting = styled.div`
 
   > span {
     cursor: pointer;
+
+    > a {
+      text-decoration: none;
+      color: ${({ theme }) => theme.PALETTE.gray[200]};
+    }
   }
 `;
 
