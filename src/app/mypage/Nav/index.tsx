@@ -1,4 +1,9 @@
 "use client";
+import axiosRequest from "@/api";
+import { ResData, User } from "@/@types";
+
+import { useEffect, useState } from "react";
+
 import * as S from "./index.styled";
 
 import NavList from "./NavList";
@@ -18,9 +23,23 @@ interface NavProps {
 }
 
 export default function Nav({ navData }: NavProps) {
+  const [profile, setProfile] = useState<User>({} as User);
+  async function getProfile() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/profile`);
+      setProfile(response.data);
+      // console.log("profile", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <S.Container>
-      <Profile imgSrc={"/assets/img/icons/default-user.svg"} nickname={"곰숨곰숨짱"} email={"aaaa1234@gmail.com"} />
+      <Profile imgSrc={profile.profileImage} nickname={profile.nickName} email={profile.email} />
       {navData.map((el, idx) => (
         <NavList key={idx} logo={el.logo} parent={el.parentMenu} sub={el.subMenu} />
       ))}
