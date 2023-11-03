@@ -9,6 +9,11 @@ export const NicknameInput = styled.input`
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: 500;
+  outline: none;
+  &:focus {
+    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+    box-shadow: 0 0 0 3px #bdddfd;
+  }
 `;
 export const DoubleCheck = styled.button`
   color: ${({ theme }) => theme.PALETTE.mainColor};

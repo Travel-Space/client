@@ -25,8 +25,14 @@ export const Input = styled.input`
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: 500;
-
+  outline: none;
+  &:focus {
+    border-color: ${({ theme }) => theme.PALETTE.primary[200]};
+    box-shadow: 0 0 0 3px #bdddfd;
+  }
   &:read-only {
+    box-shadow: none;
+    border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
     color: ${({ theme }) => theme.PALETTE.gray[100]};
   }
 `;
