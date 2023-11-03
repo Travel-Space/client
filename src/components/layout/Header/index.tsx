@@ -25,8 +25,11 @@ export default function Header() {
       setAuth(prev => ({ ...prev, isAuth: false }));
     } catch (error) {
       console.error("로그아웃 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
       alert(errorResponse?.data.message);
+      if (errorResponse?.data.statusCode == 401) {
+        setAuth(prev => ({ ...prev, isAuth: false }));
+      }
     }
   }
 
