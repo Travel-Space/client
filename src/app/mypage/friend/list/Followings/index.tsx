@@ -1,4 +1,5 @@
-import { Following } from "@/@types";
+import { useRecoilValue } from "recoil";
+import { followingState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
@@ -6,13 +7,22 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
 interface FollowingsProps {
-  data: Following[];
+  loadData: () => void;
+  page: number;
+  limit: number;
 }
 
-export default function Followings({ data }: FollowingsProps) {
+export default function Followings({ loadData, page, limit }: FollowingsProps) {
+  const followings = useRecoilValue(followingState);
+
+  //useMoreButton
+  const handleClick = () => {
+    loadData();
+  };
+
   return (
     <>
-      {data.length === 0 ? (
+      {followings.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-friends.svg"
           alt="no-friends"
@@ -23,11 +33,14 @@ export default function Followings({ data }: FollowingsProps) {
           font="lg"
         />
       ) : (
-        <S.MyFriends>
-          {data.map((el, idx) => (
-            <Person key={`following${idx}`} data={el.friend} />
-          ))}
-        </S.MyFriends>
+        <>
+          <S.MyFriends>
+            {followings.map((el, idx) => (
+              <Person key={`following${idx}`} data={el.friend} page={page} limit={limit} />
+            ))}
+            <S.ShowMoreBtn onClick={handleClick}>목록 더보기</S.ShowMoreBtn>
+          </S.MyFriends>
+        </>
       )}
     </>
   );

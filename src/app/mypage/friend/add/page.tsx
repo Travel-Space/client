@@ -82,7 +82,6 @@ export default function Planet() {
         />
         {/* 검색기능추가되면 수정예정 */}
       </S.SearchResults>
-      <S.ShowMoreBtn>목록 더보기</S.ShowMoreBtn>
     </S.Container>
   );
 }
