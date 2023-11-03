@@ -28,7 +28,7 @@ export default function PostDetail() {
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting>>("get", `/articles/${post}`, {});
+      const response = await axiosRequest.requestAxios<ResData<Posting>>("get", `/articles/${post}?replyPageSize=5&commentPageSize=10&commentPage=1`, {});
       setData(response.data);
       console.log(response.data.likes);
 
