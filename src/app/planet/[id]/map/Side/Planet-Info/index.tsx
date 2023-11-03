@@ -7,16 +7,24 @@ import { Planet } from "@/@types/Planet";
 
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
+import Link from "next/link";
+import CreatePlanetModal from "../Modal";
 
-const role = {
-  관리자: ["행성 관리", "우주선"], // 관리자 및 부관리자
-  일반: "우주선",
-  게스트: "행성 탑승",
-};
+interface PlanetProps {
+  role: string | {};
+}
 
-export default function PlanetInfo() {
+export default function PlanetInfo({ role }: PlanetProps) {
+  console.log(role);
+
+  const { link, roles, tag } = role;
+
+  console.log(roles, link, tag);
+
   const pathname = usePathname();
   const paramsId = pathname.split("/")[2]; // 행성 아이디 추출
+
+  const [isModal, setIsModal] = useState(false);
 
   const [planetInfo, setPlanetInfo] = useState<Partial<Planet>>({});
 
@@ -38,6 +46,10 @@ export default function PlanetInfo() {
 
   const { name, description, hashtags } = planetInfo;
 
+  const handleOpen = () => {
+    setIsModal(prev => !prev);
+  };
+
   // 행성의 관리자 / 부관리자가 아니라면 혹은 행성 멤버를 가져오는 롤
   // 1. 행성에 가입되어 있는지 확인 / 2. 관리자인지 확인 / 3. 부 관리자인지 확인
 
@@ -46,9 +58,33 @@ export default function PlanetInfo() {
       <S.Top>
         {/* role 에 따라 달라지는 부분 */}
         <S.Setting>
-          <span>행성 관리</span> | <span>우주선</span>
+          {roles === "관리자" && (
+            <>
+              <span>
+                <Link href={`${link[0]}`}>{tag[0]}</Link>
+              </span>{" "}
+              |{" "}
+              <span>
+                <Link href={`${link[1]}`}>{tag[1]}</Link>
+              </span>
+            </>
+          )}
+
+          {roles === "부관리자" ||
+            (roles === "일반" && (
+              <span>
+                <Link href={`${link}`}>{tag}</Link>
+              </span>
+            ))}
+
+          {roles === "게스트" && (
+            <span onClick={handleOpen}>
+              {tag}
+              {isModal && <CreatePlanetModal planetId={paramsId} />}
+            </span>
+          )}
         </S.Setting>
-        <S.Role>관리자</S.Role>
+        <S.Role>{roles}</S.Role>
       </S.Top>
 
       <S.Middle>
