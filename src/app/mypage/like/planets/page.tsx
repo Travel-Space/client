@@ -90,26 +90,27 @@ export default function Planets() {
           총 <span>{totalCount}</span>개의 행성
         </S.PlanetsNumber>
       </S.FavoritePlanetsInfo>
-        {likedPlanets.length === 0 ? (
-          <S.NothingContainer>
+      {likedPlanets.length === 0 ? (
+        <S.NothingContainer>
           <Nothing
-          src="/assets/img/icons/no-planets.svg"
-          alt="no-favoritePlanets"
-          width={148}
-          height={148}
-          comment="좋아하는 행성이 없습니다."
-          font="lg"
+            src="/assets/img/icons/no-planets.svg"
+            alt="no-favoritePlanets"
+            width={148}
+            height={148}
+            comment="좋아하는 행성이 없습니다."
+            font="lg"
           />
-          </S.NothingContainer>
-        ) : (
-          <>
+        </S.NothingContainer>
+      ) : (
+        <>
           <S.FavoritePlanets>
-          likedPlanets?.map((el, idx) => (
-            <FavoritePlanet key={`liked-planet${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
-          ))
-      </S.FavoritePlanets>
-      <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} /></>
-        )}
+            {likedPlanets?.map((el, idx) => (
+              <FavoritePlanet key={`liked-planet${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
+            ))}
+          </S.FavoritePlanets>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />
+        </>
+      )}
     </S.Container>
   );
 }
