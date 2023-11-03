@@ -13,5 +13,5 @@ export const Button = styled.button`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background: ${({ theme }) => theme.PALETTE.white};
-  z-index: 111;
+  z-index: 97;
 `;

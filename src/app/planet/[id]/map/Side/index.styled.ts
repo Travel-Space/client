@@ -17,7 +17,7 @@ export const Container = styled.div`
   width: ${WIDTH};
   background: ${({ theme }) => theme.PALETTE.white};
   box-shadow: 4px 0px 4px 0px rgba(51, 51, 51, 0.1);
-  z-index: 1111;
+  z-index: 98;
 
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
