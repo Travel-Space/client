@@ -45,11 +45,11 @@ export default function Map({ params }: { params: { id: number } }) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
-        `/articles/byPlanet?planetId=${params.id}`,
+        `/articles/byPlanet?planetId=${params.id}&page=1&limit=100`,
       );
       const data = response.data;
 
-      setArticle(data);
+      setArticle(data.articles);
     } catch (error) {
       console.error("에러 발생: ", error);
     }

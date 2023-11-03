@@ -47,10 +47,10 @@ export default function Signup({ goToLogin }: PropsType) {
   async function currentCountry() {
     try {
       // 현재 ip 기준 국적 코드
-      const countryCode = await axios.get("https://ipapi.co/country");
+      const countryCode = await axios.get("http://localhost:3000/country");
       // 국적 정보
       const country = await axios.get(
-        `https://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2?serviceKey=sCpHMLPz%2FblcixtApQnF3nZPFJsIZH3AbF4f67%2BSbTTtFvQzHvZFufYkHaVZawgvV2%2B%2BnAyP7uiiO7HTnQNXoQ%3D%3D&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
+        `http://localhost:3000/countryData/getCountryFlagList2?serviceKey=sCpHMLPz%2FblcixtApQnF3nZPFJsIZH3AbF4f67%2BSbTTtFvQzHvZFufYkHaVZawgvV2%2B%2BnAyP7uiiO7HTnQNXoQ%3D%3D&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
       );
       setCountry(country.data.data[0]);
     } catch (error) {
@@ -134,7 +134,7 @@ export default function Signup({ goToLogin }: PropsType) {
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
   useEffect(() => {
-    // currentCountry();
+    currentCountry();
   }, []);
 
   return (

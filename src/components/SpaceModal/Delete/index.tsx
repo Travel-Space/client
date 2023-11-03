@@ -1,14 +1,33 @@
 import BoxModal from "@/components/common/BoxModal";
 import Button from "@/components/common/Button";
-import { Default, Title } from "@/@types/Modal";
+import { Default, ItemType } from "@/@types/Modal";
 import * as S from "../index.styled";
+import axiosRequest from "@/api";
+import { Planet, ResData } from "@/@types";
+import { AxiosError } from "axios";
 
 interface Type extends Default {
-  title: string | undefined;
-  type: Title;
+  title?: string;
+  type: ItemType;
+  id?: number;
 }
 
-export default function Delete({ onClose, title, type }: Type) {
+export default function Delete({ onClose, title, type, id }: Type) {
+  async function handlePlanetDelete() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
+      console.log(response);
+      response.status === 200 && alert("행성이 성공적으로 삭제되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("행성 삭제하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  function handleSpaceshipDelete() {}
+
   return (
     <BoxModal onClose={onClose} title={`${type} 삭제`}>
       <S.Notification>
@@ -17,7 +36,12 @@ export default function Delete({ onClose, title, type }: Type) {
         {type}을 정말로 <b>삭제</b>하시겠습니까?
       </S.Notification>
       <S.CenterGroup>
-        <Button variant="reverse" shape="medium" size="big">
+        <Button
+          variant="reverse"
+          shape="medium"
+          size="big"
+          onClick={type === ItemType.Planet ? handlePlanetDelete : handleSpaceshipDelete}
+        >
           <S.CenterGroup>
             <img src="/assets/img/icons/trash.svg" />
             <span>{type} 삭제하기</span>

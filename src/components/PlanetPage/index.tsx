@@ -12,7 +12,17 @@ import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
-export type PlanetType = Partial<Planet>;
+export interface PlanetType {
+  id?: number;
+  ownerId?: number;
+  name: string;
+  description: string;
+  published: boolean;
+  shape: PlanetShape;
+  hashtags: string[];
+  memberLimit?: number;
+  spaceshipLimit?: number;
+}
 
 export interface PlanetContextType {
   planetInfo: PlanetType;
@@ -36,8 +46,9 @@ export default function PlanetPage({ planetId }: { planetId: string[] | string |
   async function fetchPlanetData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
+      const { id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId } = response.data;
       console.log(response);
-      setPlanetInfo(response.data);
+      setPlanetInfo({ id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId });
     } catch (error) {
       console.error("특정 행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
