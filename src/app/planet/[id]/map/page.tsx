@@ -73,7 +73,7 @@ export default function Map({ params }: { params: { id: number } }) {
       return { lat: avgLat, lng: avgLng };
     }
 
-    return { lat: 0, lng: 0 }; // 좌표가 없는 경우 초기 중심값 반환
+    return { lat: 37.5519116, lng: 126.9918127 }; // 좌표가 없는 경우 초기 중심값 반환
   };
 
   useEffect(() => {
@@ -147,7 +147,7 @@ export default function Map({ params }: { params: { id: number } }) {
           onUnmount={() => setMap(null)}
           center={center}
         >
-          {article.length &&
+          {article?.length &&
             article.map((el, index) => {
               if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
                 return (

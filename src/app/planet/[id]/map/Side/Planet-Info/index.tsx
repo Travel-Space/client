@@ -15,11 +15,7 @@ interface PlanetProps {
 }
 
 export default function PlanetInfo({ role }: PlanetProps) {
-  console.log(role);
-
   const { link, roles, tag } = role;
-
-  console.log(roles, link, tag);
 
   const pathname = usePathname();
   const paramsId = pathname.split("/")[2]; // 행성 아이디 추출
