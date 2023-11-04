@@ -88,7 +88,7 @@ export default function LocationInput({
         setIsAddressChecked(true);
       } else {
         setIsAddressChecked(false);
-        console.error("Failed to get the location.");
+        console.error("위치 정보를 찾을 수 없습니다.");
       }
     } catch (error) {
       console.error(error);

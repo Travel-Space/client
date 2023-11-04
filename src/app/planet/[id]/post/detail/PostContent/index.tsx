@@ -37,7 +37,7 @@ export default function PostContent({ data }: PostContentProps) {
       router.back();
       alert("게시글이 성공적으로 삭제되었습니다.");
     } catch (error) {
-      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도 해주세요.");
+      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도해 주세요.");
       console.error("Error deleting post: ", error);
     }
   };

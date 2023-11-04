@@ -1,4 +1,4 @@
-import { flexSpaceBetweenCenter } from "@/styles/common";
+import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -90,3 +90,34 @@ export const ReplyWrapper = styled.div`
 `;
 
 export const ReplyDisPlay = styled.div``;
+
+//수정 css
+export const EditWrapper = styled.div`
+  ${flexColumn}
+  padding: 40px 0;
+  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  gap: 24px;
+`;
+
+export const EditInput = styled.textarea`
+  width: 100%;
+  margin: 24px 0;
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 4px;
+  resize: none;
+`;
+
+export const ActionButtons = styled.div`
+  ${flexSpaceBetweenCenter}
+  gap: 8px;
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  height: 100%;
+  gap: 16px;
+  left: 0;
+  & button {
+    width: 140px;
+  }
+`;
