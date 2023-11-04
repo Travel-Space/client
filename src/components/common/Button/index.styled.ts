@@ -50,6 +50,7 @@ export const variantCSS = {
   cancel: css`
     background: ${({ theme }) => theme.PALETTE.white};
     color: ${({ theme }) => theme.PALETTE.black};
+    border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   `,
 };
 
