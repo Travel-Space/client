@@ -12,7 +12,7 @@ import * as S from "./page.styled";
 import PopularPosting from "./PopularPosting";
 import Button from "@/components/common/Button";
 import Summary from "./Summary";
-import Chart from "./Chart";
+import DailyViewChart from "./DailyViewChart";
 
 export default function Statistics() {
   const [planets, setPlanets] = useRecoilState(planetsState);
@@ -86,7 +86,7 @@ export default function Statistics() {
               </Button>
             </S.Buttons>
           </S.Header>
-          <Chart />
+          <DailyViewChart />
           <S.Graph>통계통계</S.Graph>
         </div>
         <S.PopularPostingsTable>
