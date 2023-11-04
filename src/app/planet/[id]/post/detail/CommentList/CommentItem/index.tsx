@@ -13,17 +13,16 @@ import MESSAGE from "@/constants/message";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import Link from "next/link";
-import Textarea from "@/components/common/Textarea";
-import Button from "@/components/common/Button";
 
 interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
   author?: User;
   comment?: Comment;
+  onCommentChange: () => void;
 }
 
-export default function CommentItem({ data, isReply = false }: CommentItemProps) {
+export default function CommentItem({ onCommentChange, data, isReply = false }: CommentItemProps): React.JSX.Element {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const [isEditing, setIsEditing] = useState(false);
@@ -42,7 +41,7 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
     try {
       await axiosRequest.requestAxios("delete", `/comments/${commentId}`);
       alert("댓글이 성공적으로 삭제되었습니다.");
-      // 삭제 후 페이지를 새로고침하거나, 상태를 업데이트하여 변경사항을 반영합니다.
+      onCommentChange();
     } catch (error) {
       alert("댓글 삭제 중 에러가 발생했습니다. 다시 시도해 주세요.");
       console.error("Error deleting comment: ", error);
@@ -62,9 +61,9 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
 
   //수정 시작
   const handleStartEditing = (comment: Comment) => {
-    setEditingCommentId(comment.id);
-    setEditedContent(comment.content); 
-    setIsEditing(true); 
+    setEditingCommentId(comment.id); // 편집 중인 댓글 ID를 설정
+    setEditedContent(comment.content); // 현재 댓글 내용으로 상태 초기화
+    setIsEditing(true); // 편집 모드 활성화
   };
 
   //수정 댓글 저장
@@ -96,6 +95,7 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
     setIsEditing(false);
     setEditingCommentId(null);
   };
+  console.log(data);
 
   return (
     <>
@@ -108,22 +108,14 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
           if (isEditing && comment.id === editingCommentId) {
             return (
               <CI.EditWrapper key={comment.id}>
-                <UserProfile size="post" comment={comment} />
-                <Textarea
-                  placeholder={""}
-                  maxLength={200}
-                  size="comment"
-                  onChange={e => setEditedContent(e.target.value)}
-                  name={""}
-                  value={editedContent}
-                />
+                <CI.EditInput value={editedContent} onChange={e => setEditedContent(e.target.value)} />
                 <CI.ActionButtons>
-                  <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleCancelEdit}>
+                  <button className="save" onClick={handleUpdateComment}>
+                    저장하기
+                  </button>
+                  <button className="cancel" onClick={handleCancelEdit}>
                     취소
-                  </Button>
-                  <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handleUpdateComment}>
-                    댓글 수정
-                  </Button>
+                  </button>
                 </CI.ActionButtons>
               </CI.EditWrapper>
             );
@@ -180,13 +172,23 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
               </CI.Wrapper>
               {/* 대댓글 작성 -> 댓글의 id를 참고해서 댓글 작성 컴포넌트를 부름*/}
               {openReply === comment.id && (
-                <CommentWrite post={String(data?.id || "")} parentId={comment.id} onClose={handleHideReply} />
+                <CommentWrite
+                  post={String(data?.id || "")}
+                  parentId={comment.id}
+                  onClose={handleHideReply}
+                  onCommentChange={onCommentChange || (() => {})}
+                />
               )}
               {/* 대댓글 -> 재귀적(자기 자신을 호출)으로 렌더링 */}
               {comment.replies && comment.replies.length > 0 && (
                 <CI.ReplyWrapper key={comment.id}>
                   {comment.replies.map(reply => (
-                    <CommentItem key={reply.id} data={{ ...data, comments: [reply] }} isReply={true} />
+                    <CommentItem
+                      key={reply.id}
+                      data={{ ...data, comments: [reply] }}
+                      isReply={true}
+                      onCommentChange={onCommentChange || (() => {})}
+                    />
                   ))}
                 </CI.ReplyWrapper>
               )}

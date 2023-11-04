@@ -33,6 +33,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [address, setAddress] = React.useState<GeocoderResult>();
   const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
+  // const [spaceShip, setSpaceShip] = React.useState<PostWrite>(null);
   const [isAddressChecked, setIsAddressChecked] = React.useState<boolean>(false);
   const latitude = locations?.geometry?.location.lat;
   const longitude = locations?.geometry?.location.lng;
