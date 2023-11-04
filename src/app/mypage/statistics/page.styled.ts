@@ -93,7 +93,6 @@ export const Today = styled.div`
 `;
 export const Graph = styled.div`
   height: 308px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 `;
 export const PopularPostingsTable = styled.table`
   width: 100%;
