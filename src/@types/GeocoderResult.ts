@@ -1,11 +1,10 @@
-export interface LatLng {
-  equals(other: LatLng): boolean;
-  lat(): number;
-  lng(): number;
+export interface LatLngLiteral {
+  lat: number;
+  lng: number;
 }
 
 export interface GeocoderGeometry {
-  location: LatLng;
+  location: LatLngLiteral;
 }
 
 export interface GeocoderResult {

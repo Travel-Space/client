@@ -19,7 +19,7 @@ export default function LikeAndShare({ likedStatus, onLikeToggle }: LikeAndShare
           alert("링크가 복사되었습니다.");
         })
         .catch(() => {
-          alert("복사를 다시 시도해주세요.");
+          alert("복사를 다시 시도해 주세요.");
         });
     } else {
       alert("이 브라우저에서는 지원하지 않는 기능입니다.");

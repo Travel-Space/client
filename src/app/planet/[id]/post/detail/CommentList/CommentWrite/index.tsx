@@ -15,6 +15,7 @@ interface CommentWriteProps {
 
 export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId, onClose }) => {
   const [content, setContent] = useState<string>("");
+  
   async function handleCommentSubmit() {
     try {
       const payload: { [key: string]: any } = {
@@ -30,7 +31,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId, onCl
       setContent("");
     } catch (error) {
       console.error("Error submitting the comment:", error);
-      alert("로그인을 하신 후 댓글을 작성할 수 있습니다.");
+      alert("로그인 하신 후 댓글을 작성할 수 있습니다.");
     }
   }
   //댓글 작성 취소
@@ -45,7 +46,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId, onCl
   return (
     <CW.Wrapper>
       <Textarea
-        placeholder="댓글 내용을 입력해주세요."
+        placeholder="댓글 내용을 입력해 주세요."
         maxLength={200}
         size="comment"
         onChange={handleCommentWrite}

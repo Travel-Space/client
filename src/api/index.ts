@@ -1,35 +1,18 @@
 import axios from "axios";
+import authInterceptor from "./authInterceptor";
 
 const allowMethod: string[] = ["get", "post", "put", "patch", "delete"];
 
-axios.defaults.baseURL = "http://localhost:8080";
+// Axios 인스턴스 생성
+const instance = axios.create({
+  baseURL: "http://localhost:8080",
+  timeout: 5000,
+  withCredentials: true,
+});
 
-axios.defaults.headers.post["Content-Type"] = "application/json";
+instance.defaults.headers.post["Content-Type"] = "application/json";
 
-axios.defaults.withCredentials = true;
-axios.defaults.timeout = 5000;
-
-// TODO: interceptor 적용
-// 요청 보내다가 취소해야되는 경우에도 사용함 / 서버 다 끊어버릴때 사용. 헤더값에 키 심어놓고 이 키를 변수로 놓음.
-// 서버 죽을때/죽일때 추적하고있는 키값을 통해 현재 요청중인 request를 다 취소시키고 죽인다.
-// client ------- interceptor ----- [server]
-// axios.interceptors.request.use(
-//   (req) => {
-//       if (req.data instanceof FormData) {
-//           req.headers["Content-Type"] = "multipart/form-data";
-//       }
-//       return req;
-//   },
-//   (err) => {}
-// );
-
-// clinet <----- interceptor ----- [server]
-// axios.interceptors.response.use(
-//   (res) => {
-//       return res.data; // {}
-//   },
-//   (err) => {}
-// );
+// authInterceptor(instance);
 
 // 정의된 함수 시그니처에 맞게 인터페이스 생성
 interface AxiosRequest {
@@ -51,9 +34,9 @@ const axiosRequest: AxiosRequest = {
     // 이상한 method 넣으면 실행 못하게 미리 에러 처리 한다.
     if (!allowMethod.includes(method.toLowerCase())) throw new Error("허용되지 않은 호출 method입니다.");
     try {
-      const response = await axios({
+      const response = await instance({
         method,
-        url: `${axios.defaults.baseURL}${url}`,
+        url: `${instance.defaults.baseURL}${url}`,
         data,
       });
 

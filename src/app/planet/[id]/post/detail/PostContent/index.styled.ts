@@ -2,7 +2,7 @@ import { bodyContainer, flexAlignCenter, flexCenter, flexColumnCenter, flexSpace
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  ${bodyContainer}
+  width: 100%;
 `;
 
 export const TitleSection = styled.div`
