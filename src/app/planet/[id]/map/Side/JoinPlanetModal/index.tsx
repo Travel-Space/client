@@ -13,7 +13,7 @@ interface ModalProps {
   planetId: string;
 }
 
-export default function CreatePlanetModal({ onClose, planetId }: ModalProps) {
+export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
   const [planet, setPlanet] = useState();
 
   const handleJoinPlanet = async () => {
