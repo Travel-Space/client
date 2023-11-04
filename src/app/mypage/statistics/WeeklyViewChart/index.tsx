@@ -13,11 +13,11 @@ import { getDateFormatWithDay } from "@/utils/getDateFormat";
 
 const DailyViewChart = () => {
   const [page, setPage] = useState(1);
-  // const [isClicked, setIsClicked] = useState("");
 
   const today = new Date();
-  const thisEndDate = new Date(today);
-  thisEndDate.setDate(thisEndDate.getDate() - 7);
+  const currentDay = today.getDay();
+  const thisfirstDate = new Date(today);
+  thisfirstDate.setDate(today.getDate() - currentDay);
 
   const [startDates, setstartDates] = useState<string[]>([]); //주의 시작 날짜 배열
   const [endDates, setEndDates] = useState<string[]>([]); //주의 마지막 날짜 배열
@@ -29,6 +29,7 @@ const DailyViewChart = () => {
   const formatPeriod = (start: string, end: string) => {
     return `${start} ~ ${end}`;
   };
+
   //Chart props
   const series = {
     name: "주간 방문수",
@@ -43,39 +44,25 @@ const DailyViewChart = () => {
     setSelectedWeek(formatPeriod(start, end));
   };
 
-  // //페이지 이동
-  // const goPrevPage = () => {
-  //   setPage(prev => prev + 1);
-  //   setIsClicked("prev");
-  // };
-  // const goNextPage = () => {
-  //   setPage(prev => prev - 1);
-  //   setIsClicked("next");
-  // };
-  // useEffect(() => {
-  //   const date = new Date(startDate);
-  //   isClicked === "prev" && date.setDate(startDate.getDate() - dayLimit);
-  //   isClicked === "next" && date.setDate(startDate.getDate() + dayLimit);
-  //   setStartDate(date);
-  //   // console.log("page", page);
-  // }, [page]);
+  //페이지 이동
+  const goPrevPage = () => {
+    setPage(prev => prev + 1);
+  };
+  const goNextPage = () => {
+    setPage(prev => prev - 1);
+  };
 
   useEffect(() => {
     getViewData(6);
 
-    const start = getDateFormatWithDay(today);
-    const end = getDateFormatWithDay(thisEndDate);
+    const start = getDateFormatWithDay(thisfirstDate);
+    const end = getDateFormatWithDay(today);
     setSelectedWeek(formatPeriod(start, end));
   }, []);
 
-  // useEffect(() => {
-  //   calDate(startDate);
-  //   setSelectedDate(getDateFormatWithDay(startDate));
-  // }, [startDate]);
-
-  // useEffect(() => {
-  //   getViewData(6);
-  // }, [Dates]);
+  useEffect(() => {
+    getViewData(6);
+  }, [page]);
 
   useEffect(() => {
     const startDates = viewData.map(el => getDateFormatWithDay(el.start));
@@ -85,6 +72,10 @@ const DailyViewChart = () => {
     setstartDates(startDates);
     setEndDates(endDates);
     setViewCount(count);
+
+    const start = startDates[startDates.length - 1];
+    const end = endDates[endDates.length - 1];
+    setSelectedWeek(formatPeriod(start, end));
 
     // console.log("startDates", startDates);
     // console.log("endDates", endDates);
@@ -108,9 +99,9 @@ const DailyViewChart = () => {
 
   return (
     <S.Container>
-      {/* <S.PrevPageBtn onClick={goPrevPage} /> */}
+      <S.PrevPageBtn onClick={goPrevPage} />
       <Chart series={series} period={startDates} handleBarClick={handleBarClick} />
-      {/* <S.NextPageBtn onClick={goNextPage} disabled={page === 1} /> */}
+      <S.NextPageBtn onClick={goNextPage} disabled={page === 1} />
     </S.Container>
   );
 };
