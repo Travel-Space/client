@@ -22,7 +22,7 @@ const containerStyle = {
 };
 
 export default function Map({ params }: { params: { id: number } }) {
-  // side bar open
+  // 게시글 목록 조회 바 상태 관리
   const [isOpen, setIsOpen] = useState(false);
 
   // google map
@@ -32,7 +32,10 @@ export default function Map({ params }: { params: { id: number } }) {
   // 게시글 정보
   const [article, setArticle] = useState<Partial<Posting[]>>([]);
 
-  // google map key
+  // 선택된 마커 게시글
+  const [selectedArticle, setSelectedArticle] = useState<Posting | null>();
+
+  // 구글 맵 키
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY || "";
 
   const { isLoaded } = useJsApiLoader({
@@ -59,6 +62,7 @@ export default function Map({ params }: { params: { id: number } }) {
     getArticle();
   }, []);
 
+  // 지도 중심 잡아 주는 코드
   const calculateCenter = (articles: Posting[]) => {
     const articlesWithCoordinates = articles.filter(
       el => el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude,
@@ -80,17 +84,13 @@ export default function Map({ params }: { params: { id: number } }) {
     setCenter(calculateCenter(article));
   }, [article]);
 
-  // 그냥 handleClickSide를 눌렀을 때는 article 전체가 나오게 해야 하고
-  // handleClickMarker를 눌렀을 때는 selectedArticle 만 나오게 해야 함.
-
-  const [selectedArticle, setSelectedArticle] = useState<Posting | null>();
-
-  // side bar open
+  // 게시글 목록 조회 바 상태 변경 및 닫기 눌렀을 때 선택된 마커 게시글 null로 변경
   const handleClickSide = () => {
     setIsOpen(prev => !prev);
     setSelectedArticle(null); // 전체 article 선택 해제
   };
 
+  // 마커 클릭 시 사이드 바에 마커에 해당하는 게시글만 담기
   const handleMarkerClick = (el: Posting) => {
     const isSimilarLocation = article.filter(articleEl => {
       return (
@@ -105,8 +105,9 @@ export default function Map({ params }: { params: { id: number } }) {
     }
   };
 
+  // 해당하는 위도 경도를 찾아서 마커 찍기
   const handleMarkerLoad = useCallback(
-    map => {
+    (map: any) => {
       if (article.length > 0) {
         const bounds = new window.google.maps.LatLngBounds();
 
