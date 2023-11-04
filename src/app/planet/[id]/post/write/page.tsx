@@ -134,7 +134,6 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
     async function fetchPostData() {
       if (isEditMode && postId) {
         try {
-          
           const response = await axiosRequest.requestAxios<ResData<Posting>>(
             "get",
             `/articles/${postId}?replyPageSize=5&commentPageSize=10&commentPage=1`,
@@ -167,13 +166,14 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   }, [postId, isEditMode]);
 
   //게시글 수정하기
-  const handlePostModify = async () => {
+  const handlePostEdit = async () => {
     try {
       if (!isAddressChecked) {
         alert("주소를 검색 후 선택 버튼을 눌러주세요.");
         return;
       }
-
+      console.log("수정하기 위도경도", latitude);
+      console.log("수정하기 위도경도", longitude);
       const postData = {
         title,
         content,
@@ -189,6 +189,9 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         imageUrls: [],
         hashtags,
       };
+
+      console.log("수정하기 위도경도", latitude);
+      console.log("수정하기 위도경도", longitude);
 
       console.log(planetId);
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>(
@@ -219,7 +222,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           <PW.TitleAndLocation>
             <PW.TitleInput
               type="text"
-              placeholder="제목을 입력해주세요"
+              placeholder="제목을 입력해 주세요"
               onChange={handleTitleChange}
               maxLength={50}
               value={title}
@@ -270,7 +273,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
             <PW.CompletedBtn>
               {/* 수정 모드 여부에 따라 버튼 변경 */}
               {isEditMode ? (
-                <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handlePostModify}>
+                <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handlePostEdit}>
                   수정하기
                 </Button>
               ) : (

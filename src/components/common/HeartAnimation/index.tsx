@@ -3,7 +3,6 @@ import { HeartIcon, Firework } from "./index.styled";
 
 interface HeartAnimationProps {
   color: string;
-  isLiked: boolean;
 }
 
 export default function HeartAnimation({ color }: HeartAnimationProps) {

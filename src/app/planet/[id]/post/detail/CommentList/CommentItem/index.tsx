@@ -5,7 +5,7 @@ import * as CI from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import { useModal } from "@/hooks/useModal";
-import { Posting, User } from "@/@types";
+import { Comment, Posting, User } from "@/@types";
 import { getDateInfo } from "@/utils/getDateInfo";
 import { CommentWrite } from "../CommentWrite";
 import axiosRequest from "@/api";
@@ -13,17 +13,23 @@ import MESSAGE from "@/constants/message";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import Link from "next/link";
+import Textarea from "@/components/common/Textarea";
+import Button from "@/components/common/Button";
 
 interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
   author?: User;
-  
+  comment?: Comment;
 }
 
 export default function CommentItem({ data, isReply = false }: CommentItemProps) {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+
   const currentUser = useRecoilValue(userAtom);
   const isComment = currentUser.id === data?.authorId;
   const commentRef = useRef(null);
@@ -38,7 +44,7 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
       alert("댓글이 성공적으로 삭제되었습니다.");
       // 삭제 후 페이지를 새로고침하거나, 상태를 업데이트하여 변경사항을 반영합니다.
     } catch (error) {
-      alert("댓글 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("댓글 삭제 중 에러가 발생했습니다. 다시 시도해 주세요.");
       console.error("Error deleting comment: ", error);
     }
   };
@@ -54,14 +60,74 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
     });
   };
 
+  //수정 시작
+  const handleStartEditing = (comment: Comment) => {
+    setEditingCommentId(comment.id);
+    setEditedContent(comment.content); 
+    setIsEditing(true); 
+  };
+
+  //수정 댓글 저장
+  const handleUpdateComment = async () => {
+    if (!editedContent.trim()) {
+      alert("댓글 내용을 입력해 주세요.");
+      return;
+    }
+
+    if (editingCommentId === null) {
+      alert("수정할 댓글을 찾을 수 없습니다.");
+      return;
+    }
+
+    try {
+      const response = await axiosRequest.requestAxios("put", `/comments/${editingCommentId}`, {
+        content: editedContent,
+      });
+      setIsEditing(false);
+      setEditingCommentId(null);
+      setEditedContent("");
+    } catch (error) {
+      console.error("댓글 수정 중 오류가 발생했습니다: ", error);
+      alert("댓글을 저장하는 동안 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditingCommentId(null);
+  };
+
   return (
     <>
       {modalDataState.isOpen && modalDataState.content}
       {/* 댓글 id값 기준으로 오름차순 정렬 -> 오래된 댓글이 위로가게 */}
       {data?.comments
         ?.sort((a, b) => a.id - b.id)
-        .map((comment, index) => {
+        .map(comment => {
           const { dateString } = getDateInfo(comment.createdAt);
+          if (isEditing && comment.id === editingCommentId) {
+            return (
+              <CI.EditWrapper key={comment.id}>
+                <UserProfile size="post" comment={comment} />
+                <Textarea
+                  placeholder={""}
+                  maxLength={200}
+                  size="comment"
+                  onChange={e => setEditedContent(e.target.value)}
+                  name={""}
+                  value={editedContent}
+                />
+                <CI.ActionButtons>
+                  <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleCancelEdit}>
+                    취소
+                  </Button>
+                  <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handleUpdateComment}>
+                    댓글 수정
+                  </Button>
+                </CI.ActionButtons>
+              </CI.EditWrapper>
+            );
+          }
           return (
             <React.Fragment key={comment.id}>
               <CI.Wrapper>
@@ -103,7 +169,7 @@ export default function CommentItem({ data, isReply = false }: CommentItemProps)
                   <CI.CommentEdit>
                     {isComment ? (
                       <>
-                        <CI.EditBtn>수정</CI.EditBtn>
+                        <CI.EditBtn onClick={() => handleStartEditing(comment)}>수정</CI.EditBtn>
                         <CI.DeleteBtn onClick={() => handleCommentDelete(comment.id)}>삭제</CI.DeleteBtn>
                       </>
                     ) : (

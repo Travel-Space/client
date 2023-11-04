@@ -3,7 +3,7 @@
 import PostWrite from "../../write/page";
 import { useParams } from "next/navigation";
 
-export default function ModifyPost() {
+export default function Edit() {
   const params = useParams();
   const id = Number(params.id);
 
