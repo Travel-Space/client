@@ -9,8 +9,6 @@ import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 import DeclarationModal from "@/components/common/DeclarationModal";
 
-const num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
 export default function Chat() {
   const { modalDataState, openModal, closeModal } = useModal();
 
@@ -35,9 +33,7 @@ export default function Chat() {
         <Line size="horizontal" color="gray" />
 
         <S.ListBox>
-          {num.map(num => (
-            <List />
-          ))}
+          <List />
         </S.ListBox>
       </S.ChatBox>
 
