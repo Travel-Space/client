@@ -7,6 +7,7 @@ import * as S from "./index.styled";
 import { Default } from "@/@types/Modal";
 import BoxModal from "@/components/common/BoxModal";
 import Button from "@/components/common/Button";
+import MESSAGE from "@/constants/message";
 
 interface ModalProps {
   onClose?: Default;
@@ -19,7 +20,7 @@ export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
   const handleJoinPlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios("post", `/planet/join/${planetId}`);
-      alert("행성 탑승 신청이 완료되었습니다.");
+      alert(MESSAGE.PLANET.JOIN);
     } catch (error) {
       console.error(error);
     }

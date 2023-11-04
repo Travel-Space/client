@@ -14,6 +14,8 @@ import PostPreview from "./Post-Preview";
 import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
 import Nothing from "@/components/common/Nothing";
+import MESSAGE from "@/constants/message";
+import LoadingBar from "@/components/common/LoadingBar";
 
 export default function Side({ onClose, article, params }: ArticleProps) {
   const { isAuth, memberships } = useRecoilValue(userAtom);
@@ -87,7 +89,6 @@ export default function Side({ onClose, article, params }: ArticleProps) {
         <S.Container>
           <S.Wrapper>
             <PlanetInfo role={roleCheck()} />
-
             <div>
               <S.Middle>
                 <div>
@@ -110,7 +111,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
                       width={60}
                       height={60}
                       comment="현재 작성된 게시글이 없습니다."
-                      suggest={checkJoin() ? "먼저 게시글을 작성해 보세요." : "행성에 가입한 후 글을 작성해 보세요."}
+                      suggest={checkJoin() ? MESSAGE.PLANET.FIRST_POST : MESSAGE.PLANET.JOIN_POST}
                       font="sm"
                     />
                   )}
@@ -121,6 +122,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
               </S.ScrollBox>
             </div>
           </S.Wrapper>
+
           <S.CloseBtn onClick={onClose}>←</S.CloseBtn>
         </S.Container>,
         document.body,
