@@ -9,17 +9,22 @@ import { SwiperContainer, StyledSwiperSlide, PlanetImageContainer, PlanetName, S
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
-import { Planet, Posting, ResData } from "@/@types";
+import { Planet, ResData } from "@/@types";
+import { useRecoilValue } from "recoil";
+import { planetListState } from "@/recoil/atoms/searchPlanet.atom";
+import planetsState from "@/recoil/atoms/planets.atom";
+import { atom } from "recoil";
 
 interface PlanetListProps {
-  data?: Planet;
+  planetList: Planet[];
 }
 
-export default function PlanetList() {
-  const [planetList, setPlanetList] = useState<Planet[]>([]);
+export const PlanetList: React.FC<PlanetListProps> = ({ planetList }) => {
+  const [fetchedPlanets, setFetchedPlanets] = useState<Planet[]>([]);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+
 
   useEffect(() => {
     fetchPlanetList(currentPage);
@@ -29,7 +34,7 @@ export default function PlanetList() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet?page=${page}&limit=10`, {});
 
-      setPlanetList(prevPlanets => [...prevPlanets, ...response.data.planets]);
+      setFetchedPlanets(prevPlanets => [...prevPlanets, ...response.data.planets]);
       setTotalPages(response.data.totalPages);
       console.log(response.data.totalCount);
     } catch (error) {
@@ -47,6 +52,11 @@ export default function PlanetList() {
   const getShapeNumber = (shape: string) => {
     return shape.replace(/\D/g, "");
   };
+
+  if (!Array.isArray(planetList)) {
+    console.error('행성 검색 결과가 없습니다.', planetList);
+    return <div>행성 로딩중이거나 검색 결과가 없습니다.</div>;
+  }
 
   return (
     <SwiperContainer className="swiper">
@@ -83,4 +93,4 @@ export default function PlanetList() {
       </Swiper>
     </SwiperContainer>
   );
-}
+};

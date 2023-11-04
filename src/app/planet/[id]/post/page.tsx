@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import * as PD from "./page.styled";
 import axiosRequest from "@/api";
-import { ResData, Posting } from "@/@types/index";
+import { ResData, Posting, Comment } from "@/@types/index";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { AxiosResponse } from "axios";
@@ -22,7 +22,7 @@ export default function PostDetail() {
 
   const [data, setData] = useState<Posting | null>(null);
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
-  const [comments, setComments] = useState();
+  const [comments, setComments] = useState<Comment[]>([]);
   const currentUser = useRecoilValue(userAtom);
 
   // 게시글 본문 fetch get 함수
@@ -34,7 +34,9 @@ export default function PostDetail() {
         {},
       );
       setData(response.data);
-      console.log(response.data.likes);
+      if (response.data.comments) {
+        setComments(response.data.comments);
+      }
 
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
       const isLikedByCurrentUser = response.data.isLiked;
@@ -49,6 +51,10 @@ export default function PostDetail() {
   useEffect(() => {
     fetchPostDetail();
   }, [post]);
+
+  useEffect(() => {
+    setComments(comments)
+  }, [comments]);
 
   if (!data) return <div>Loading...</div>;
 
