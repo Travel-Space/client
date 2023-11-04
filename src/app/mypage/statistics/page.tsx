@@ -3,8 +3,9 @@ import axiosRequest from "@/api";
 import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import planetsState from "@/recoil/atoms/planets.atom";
+import { selectedDateState } from "@/recoil/atoms/chart.atom";
 
 import * as S from "./page.styled";
 
@@ -15,6 +16,7 @@ import Chart from "./Chart";
 
 export default function Statistics() {
   const [planets, setPlanets] = useRecoilState(planetsState);
+  const selectedDate = useRecoilValue(selectedDateState);
 
   const [selectedPlanet, setSelectedPlanet] = useState<Planet>();
 
@@ -74,7 +76,7 @@ export default function Statistics() {
       <S.Statistics>
         <div>
           <S.Header>
-            <S.Today>2023.10.06</S.Today>
+            <S.Today>{selectedDate}</S.Today>
             <S.Buttons isActive={isActive}>
               <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
                 일간

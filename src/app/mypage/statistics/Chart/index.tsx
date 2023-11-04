@@ -5,6 +5,8 @@ import axiosRequest from "@/api";
 import { ResData, ViewCount } from "@/@types";
 
 import { useState, useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { selectedDateState } from "@/recoil/atoms/chart.atom";
 
 import { getDateInfo } from "@/utils/getDateInfo";
 import getDateFormat from "@/utils/getDateFormat";
@@ -12,17 +14,19 @@ import getDateFormat from "@/utils/getDateFormat";
 // const { dateString } = getDateInfo(date);
 
 const Chart = () => {
-  //   const [viewData, setViewData] = useState<ViewCount[]>();
   const today = new Date();
+  const dayNumber = 20;
 
-  const [startDate, setStartDate] = useState<Date>(today);
+  const [startDate, setStartDate] = useState<Date>(today); //이전 버튼 클릭 시 20일 전으로 변경
+  const [Dates, setDates] = useState<string[]>([]); //x축 : 날짜(local) 배열
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState); //bar 클릭 시 선택된 날짜
 
-  const [Dates, setDates] = useState<string[]>([]);
+  const [viewData, setViewData] = useState<ViewCount[]>(); //조회된 방문수 데이터
+
   //시작일 ~ 20일 전 날짜 계산
   const calDate = (startDate: Date) => {
-    const dayNumber = 20;
-    const DatesArray = Array(dayNumber).fill(null);
-    const newDates = DatesArray.map((_, idx) => {
+    const Dates = Array(dayNumber).fill(null);
+    const newDates = Dates.map((_, idx) => {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() - idx);
       return getDateFormat(date);
@@ -32,6 +36,7 @@ const Chart = () => {
 
   useEffect(() => {
     setStartDate(today);
+    setSelectedDate(getDateFormat(startDate));
   }, []);
 
   useEffect(() => {
@@ -53,8 +58,13 @@ const Chart = () => {
   //     }
   //   }
   //   useEffect(() => {
-  //     getViewData(4);
+  //     getViewData(6);
   //   }, []);
+
+  const handleBarClick = (event, chartContext, config) => {
+    const xaxis = config.dataPointIndex;
+    setSelectedDate(Dates[xaxis]);
+  };
 
   const options: ApexOptions = {
     series: [
@@ -68,6 +78,9 @@ const Chart = () => {
       type: "bar",
       zoom: {
         enabled: false, // 확대 및 축소 비활성화
+      },
+      events: {
+        dataPointSelection: handleBarClick,
       },
     },
     plotOptions: {
@@ -130,6 +143,10 @@ const Chart = () => {
       },
     },
   };
+  const [clickedBarValue, setClickedXCategory] = useState(null);
+  useEffect(() => {
+    console.log(clickedBarValue);
+  }, [clickedBarValue]);
 
   return <ApexChart options={options} series={options.series} type="bar" />;
 };
