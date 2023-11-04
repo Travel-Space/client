@@ -1,7 +1,7 @@
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 
-export default function Message() {
+export default function Messages() {
   return (
     <S.Body>
       {/* 날짜가 변경될 때마다 표시되어야 할 선 */}
