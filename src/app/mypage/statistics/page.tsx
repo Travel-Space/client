@@ -42,10 +42,12 @@ export default function Statistics() {
   };
 
   //내 행성 불러오기
-  //api 수정되면 수정예정
   async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
+      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+        "get",
+        "/planet/my-owned-planets?page=1&limit=5",
+      );
       setPlanets(response.data.data);
       // console.log("planets", response.data.data);
     } catch (error) {
