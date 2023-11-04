@@ -15,6 +15,8 @@ export default function Home() {
   const setPlanetList = useSetRecoilState(planetListState);
   const planetList = useRecoilValue(planetListState);
   
+
+  
   useEffect(() => {
     // 홈 화면으로 돌아왔을 때 기본 행성 리스트를 불러오는 로직
     const fetchDefaultPlanetList = async () => {

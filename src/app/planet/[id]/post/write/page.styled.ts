@@ -219,6 +219,7 @@ export const CompletedBtn = styled.button`
   border: none;
   border-radius: 10px;
   transition: background-color 0.3s;
+  background: none;
 `;
 
 export const QuillWrapper = styled(ReactQuill)`
