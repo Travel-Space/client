@@ -5,7 +5,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { SwiperContainer, StyledSwiperSlide, PlanetImageContainer, PlanetName, SlideImage } from "./index.styled";
+import {
+  SwiperContainer,
+  StyledSwiperSlide,
+  PlanetImageContainer,
+  PlanetName,
+  SlideImage,
+  LodingBarWrapper,
+} from "./index.styled";
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
@@ -14,6 +21,7 @@ import { useRecoilValue } from "recoil";
 import { planetListState } from "@/recoil/atoms/searchPlanet.atom";
 import planetsState from "@/recoil/atoms/planets.atom";
 import { atom } from "recoil";
+import LoadingBar from "@/components/common/LoadingBar";
 
 interface PlanetListProps {
   planetList: Planet[];
@@ -24,7 +32,6 @@ export const PlanetList: React.FC<PlanetListProps> = ({ planetList }) => {
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-
 
   useEffect(() => {
     fetchPlanetList(currentPage);
@@ -54,8 +61,12 @@ export const PlanetList: React.FC<PlanetListProps> = ({ planetList }) => {
   };
 
   if (!Array.isArray(planetList)) {
-    console.error('행성 검색 결과가 없습니다.', planetList);
-    return <div>행성 로딩중이거나 검색 결과가 없습니다.</div>;
+    console.error("행성 검색 결과가 없습니다.", planetList);
+    return (
+      <LodingBarWrapper>
+        <LoadingBar />
+      </LodingBarWrapper>
+    );
   }
 
   return (

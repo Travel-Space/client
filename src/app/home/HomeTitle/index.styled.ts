@@ -10,7 +10,7 @@ export const TitleContainer = styled.div`
 
 export const TitleImg = styled.img`
   width: 664px;
-  height: 104px;
+  height: 120px;
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;

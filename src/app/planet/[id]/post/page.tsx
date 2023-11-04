@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import PostContent from "./detail/PostContent";
 import LikeAndShare from "./detail/LikeAndShare";
 import CommentList from "./detail/CommentList";
+import LoadingBar from "@/components/common/LoadingBar";
 
 interface PostDetailProps {
   data?: Posting;
@@ -34,14 +35,10 @@ export default function PostDetail() {
         {},
       );
       setData(response.data);
-      if (response.data.comments) {
-        setComments(response.data.comments);
-      }
 
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
       const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
-      console.log(currentUser.id);
     } catch (error) {
       alert("게시글 정보를 가져오는 중 에러가 발생했습니다. 다시 시도해 주세요.");
       console.error("Error fetching profile data: ", error);
@@ -52,11 +49,12 @@ export default function PostDetail() {
     fetchPostDetail();
   }, [post]);
 
-  useEffect(() => {
-    setComments(comments)
-  }, [comments]);
+  // 댓글의 변경사항이 있을 때 호출될 함수
+  const handleCommentChange = () => {
+    fetchPostDetail();
+  };
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <LoadingBar />;
 
   // 게시글 좋아요, 좋아요 취소 함수
   async function handleLikeAction() {
@@ -85,7 +83,7 @@ export default function PostDetail() {
       <PD.Content>
         <PostContent data={data} />
         <LikeAndShare likedStatus={likedStatus} onLikeToggle={handleLikeAction} />
-        <CommentList data={data} />
+        <CommentList data={data} onCommentChange={handleCommentChange} />
       </PD.Content>
     </PD.Wrapper>
   );

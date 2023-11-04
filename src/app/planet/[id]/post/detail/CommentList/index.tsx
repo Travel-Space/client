@@ -8,14 +8,19 @@ import { CommentWrite } from "./CommentWrite";
 
 interface PostContentProps {
   data?: Posting;
+  onCommentChange: () => void;
 }
 
-export default function CommentList({ data }: PostContentProps) {
+export default function CommentList({ data, onCommentChange }: PostContentProps) {
   return (
     <CL.Wrapper>
       <CL.CommentCount>{data?.comments?.length || 0}개의 댓글</CL.CommentCount>
-      <CommentWrite post={String(data?.id || '')} />
-      {data?.comments && data.comments.length > 0 ? <CommentItem data={data} /> : <CL.NoComments></CL.NoComments>}
+      <CommentWrite post={String(data?.id || "")} onCommentChange={onCommentChange}/>
+      {data?.comments && data.comments.length > 0 ? (
+        <CommentItem data={data} onCommentChange={onCommentChange} />
+      ) : (
+        <CL.NoComments></CL.NoComments>
+      )}
     </CL.Wrapper>
   );
 }
