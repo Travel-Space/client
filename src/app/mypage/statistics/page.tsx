@@ -1,24 +1,37 @@
 "use client";
-import { useState } from "react";
+import axiosRequest from "@/api";
+import { ResData, Planet, Planets } from "@/@types";
+
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import planetsState from "@/recoil/atoms/planets.atom";
+import { selectedDateState } from "@/recoil/atoms/chart.atom";
 
 import * as S from "./page.styled";
 
-import Image from "next/image";
-import Line from "@/components/common/Line";
 import PopularPosting from "./PopularPosting";
-import DropDown from "@/components/common/DropDown";
 import Button from "@/components/common/Button";
+import Summary from "./Summary";
+import DailyViewChart from "./DailyViewChart";
 
 export default function Statistics() {
-  const [selectedMenu, setSelectedMenu] = useState("일본 맛도리 여행");
+  const [planets, setPlanets] = useRecoilState(planetsState);
+  const selectedDate = useRecoilValue(selectedDateState);
+
+  const [selectedPlanet, setSelectedPlanet] = useState<Planet>();
+
+  const [dropdownMenu, setDropdownMenu] = useState<string[]>([]);
+  const [selectedMenu, setSelectedMenu] = useState(dropdownMenu[0]);
+
   const dropDownProps = {
     comment: "행성 선택",
-    menuList: ["일본 맛도리 여행", "영국 맛도리 여행", "태국", "스위스 힐링 여행"],
+    menuList: dropdownMenu,
     selectedMenu: selectedMenu, //선택한 메뉴
-    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
+    handleClick: (menu: string) => setSelectedMenu(menu), //메뉴를 클릭했을 때 실행될 메서드
   };
 
   const [isActive, setIsActive] = useState<"daily" | "weekly">("daily");
+
   const handleClickDailyBtn = () => {
     setIsActive("daily");
   };
@@ -26,40 +39,44 @@ export default function Statistics() {
     setIsActive("weekly");
   };
 
+  //내 행성 불러오기
+  //api 수정되면 수정예정
+  async function getMyPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
+      setPlanets(response.data.data);
+      // console.log("planets", response.data.data);
+    } catch (error) {
+      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching planet data: ", error);
+    }
+  }
+
+  useEffect(() => {
+    getMyPlanets();
+  }, []);
+
+  useEffect(() => {
+    const planetNames = planets.map(planet => planet.name);
+    setDropdownMenu([...planetNames]);
+    // console.log("planetNames", planetNames);
+    // console.log("dropdownMenu", dropdownMenu);
+  }, [planets]);
+
+  useEffect(() => {
+    const planet = planets?.filter(planet => planet.name === selectedMenu)[0];
+    setSelectedPlanet(planet);
+    // console.log("selectedPlanet", selectedPlanet);
+  }, [selectedMenu]);
+
   return (
     <S.Container>
-      <S.SummaryWrap>
-        <S.SelectedPlanet>
-          <S.Planet>
-            <Image src="/assets/img/icons/planet-0.svg" alt="planet" width={30} height={30} />
-            <span>{selectedMenu}</span>
-          </S.Planet>
-          <S.DropDownWrap>
-            <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
-          </S.DropDownWrap>
-        </S.SelectedPlanet>
-        <S.Summary>
-          <div>
-            <S.SummaryTitle>오늘 방문 수</S.SummaryTitle>
-            <S.Number>102</S.Number>
-          </div>
-          <Line color="gray" size="vertical" />
-          <div>
-            <S.SummaryTitle>누적 방문 수</S.SummaryTitle>
-            <S.Number>3888</S.Number>
-          </div>
-          <Line color="gray" size="vertical" />
-          <div>
-            <S.SummaryTitle>게시글 수</S.SummaryTitle>
-            <S.Number>367</S.Number>
-          </div>
-        </S.Summary>
-      </S.SummaryWrap>
+      <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
 
       <S.Statistics>
         <div>
           <S.Header>
-            <S.Today>2023.10.06</S.Today>
+            <S.Today>{selectedDate}</S.Today>
             <S.Buttons isActive={isActive}>
               <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
                 일간
@@ -69,7 +86,9 @@ export default function Statistics() {
               </Button>
             </S.Buttons>
           </S.Header>
-          <S.Graph>통계통계</S.Graph>
+          <S.Graph>
+            <DailyViewChart />
+          </S.Graph>
         </div>
         <S.PopularPostingsTable>
           <S.TableHeader>

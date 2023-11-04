@@ -13,6 +13,10 @@ export const NoMyPlanets = styled.div`
   border-radius: 5px;
   padding: 8px 16px;
 `;
+export const NothingContainer = styled.div`
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 10px;
+`;
 export const FavoritePlanets = styled.div`
   width: 888px;
   padding: 24px 42px;

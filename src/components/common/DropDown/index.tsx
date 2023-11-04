@@ -1,16 +1,11 @@
+import { Menu } from "@/@types/DropDown";
+
 import useDetectClose from "@/hooks/useDetectClose";
 import { useState, useEffect } from "react";
 
 import Image from "next/image";
 import * as S from "./index.styled";
 
-interface Menu {
-  logo?: React.ReactNode;
-  comment?: string;
-  menuList: string[]; //메뉴 목록
-  selectedMenu: string; //선택된 메뉴
-  handleClick: (menu: string) => void; //클릭시 원하는 기능 적용
-}
 interface DropDownProps {
   shape?: "default" | "medium" | "round";
   font: "sm" | "md" | "lg";
