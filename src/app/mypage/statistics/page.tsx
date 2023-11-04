@@ -86,8 +86,9 @@ export default function Statistics() {
               </Button>
             </S.Buttons>
           </S.Header>
-          <DailyViewChart />
-          <S.Graph>통계통계</S.Graph>
+          <S.Graph>
+            <DailyViewChart />
+          </S.Graph>
         </div>
         <S.PopularPostingsTable>
           <S.TableHeader>

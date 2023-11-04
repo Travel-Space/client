@@ -16,7 +16,7 @@ const Chart = ({ series, period, handleBarClick }: ChartProps) => {
       },
     ],
     chart: {
-      height: 350,
+      height: "auto",
       type: "bar",
       zoom: {
         enabled: false, // 확대 및 축소 비활성화
@@ -86,6 +86,6 @@ const Chart = ({ series, period, handleBarClick }: ChartProps) => {
     },
   };
 
-  return <ApexChart options={options} series={options.series} type="bar" />;
+  return <ApexChart options={options} series={options.series} type="bar" width="100%" height="310" />;
 };
 export default Chart;
