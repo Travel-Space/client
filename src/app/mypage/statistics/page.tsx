@@ -5,7 +5,7 @@ import { ResData, Planet, Planets } from "@/@types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import planetsState from "@/recoil/atoms/planets.atom";
-import { selectedDateState } from "@/recoil/atoms/chart.atom";
+import { selectedDateState, selectedWeekState } from "@/recoil/atoms/chart.atom";
 
 import * as S from "./page.styled";
 
@@ -13,10 +13,12 @@ import PopularPosting from "./PopularPosting";
 import Button from "@/components/common/Button";
 import Summary from "./Summary";
 import DailyViewChart from "./DailyViewChart";
+import WeeklyViewChart from "./WeeklyViewChart";
 
 export default function Statistics() {
   const [planets, setPlanets] = useRecoilState(planetsState);
   const selectedDate = useRecoilValue(selectedDateState);
+  const selectedWeek = useRecoilValue(selectedWeekState); //bar 클릭 시 선택된 주
 
   const [selectedPlanet, setSelectedPlanet] = useState<Planet>();
 
@@ -76,7 +78,7 @@ export default function Statistics() {
       <S.Statistics>
         <div>
           <S.Header>
-            <S.Today>{selectedDate}</S.Today>
+            <S.Today>{isActive === "daily" ? selectedDate : selectedWeek}</S.Today>
             <S.Buttons isActive={isActive}>
               <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
                 일간
@@ -86,9 +88,7 @@ export default function Statistics() {
               </Button>
             </S.Buttons>
           </S.Header>
-          <S.Graph>
-            <DailyViewChart />
-          </S.Graph>
+          <S.Graph>{isActive === "daily" ? <DailyViewChart /> : <WeeklyViewChart />}</S.Graph>
         </div>
         <S.PopularPostingsTable>
           <S.TableHeader>

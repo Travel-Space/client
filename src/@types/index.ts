@@ -4,7 +4,7 @@ import { Planet, CancelLikePlanet, Planets, LikedPlanets } from "./Planet";
 import { Posting, CancelLikePost, Postings } from "./Posting";
 import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow } from "./Friend";
-import { DailyViewCount } from "./DailyViewCount";
+import { DailyViewCount, WeeklyViewCount } from "./ViewCount";
 
 interface ResData<D> {
   status: number;
@@ -30,4 +30,5 @@ export type {
   Comments,
   LikedPlanets,
   DailyViewCount,
+  WeeklyViewCount,
 };

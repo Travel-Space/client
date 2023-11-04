@@ -5,7 +5,7 @@ export interface DailyViewCount {
 export interface WeeklyViewCount {
   start: Date;
   end: Date;
-  count: Count;
+  count: number;
 }
 interface Count {
   count: number;
