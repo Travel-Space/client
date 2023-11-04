@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html>
           <body>
             <Header />
-            {pathname !== "/chat" && <ChatBtn />}
+            {pathname !== "/chat/" && <ChatBtn />}
             {children}
           </body>
         </html>
