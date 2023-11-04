@@ -65,6 +65,4 @@ export const HashTag = styled.div`
   border-radius: 20px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   background: ${({ theme }) => theme.PALETTE.gray[0]};
-
-  cursor: pointer;
 `;
