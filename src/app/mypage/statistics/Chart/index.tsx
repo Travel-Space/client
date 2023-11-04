@@ -4,7 +4,7 @@ import { ApexOptions } from "apexcharts";
 interface ChartProps {
   series: { name: string; data: number[] };
   period: string[];
-  handleBarClick: (event, chartContext, config) => void;
+  handleBarClick: (event: MouseEvent, chartContext: any, config: { dataPointIndex: number }) => void;
 }
 
 const Chart = ({ series, period, handleBarClick }: ChartProps) => {
@@ -80,7 +80,7 @@ const Chart = ({ series, period, handleBarClick }: ChartProps) => {
       labels: {
         show: false,
         formatter: function (val: number) {
-          return val;
+          return val.toString();
         },
       },
     },

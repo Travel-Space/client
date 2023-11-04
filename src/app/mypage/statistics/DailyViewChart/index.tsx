@@ -31,7 +31,7 @@ const DailyViewChart = () => {
     data: viewCount,
   };
 
-  const handleBarClick = (event, chartContext, config) => {
+  const handleBarClick = (event: MouseEvent, chartContext: any, config: { dataPointIndex: number }) => {
     const xaxis = config.dataPointIndex;
     setSelectedDate(Dates[xaxis]);
   };
