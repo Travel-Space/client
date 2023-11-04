@@ -28,6 +28,11 @@ const MESSAGE = {
     EDIT: "댓글을 수정하시겠습니까?",
     DELETE: "댓글을 삭제하시겠습니까?",
   },
+  PLANET: {
+    JOIN: "행성 탑승 신청이 완료되었습니다.",
+    JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
+    FIRST_POST: "먼저 게시글을 작성해 보세요.",
+  },
   MYPAGE: {
     NICKNAME: "닉네임을 입력해 주세요.",
   },
