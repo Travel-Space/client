@@ -9,7 +9,7 @@ import { selectedDateState, selectedWeekState } from "@/recoil/atoms/chart.atom"
 
 import * as S from "./page.styled";
 
-import PopularPosting from "./PopularPosting";
+import PopularPost from "./PopularPost";
 import Button from "@/components/common/Button";
 import Summary from "./Summary";
 import DailyViewChart from "./DailyViewChart";
@@ -111,29 +111,7 @@ export default function Statistics() {
                 )}
               </S.Graph>
             </div>
-            <S.PopularPostingsTable>
-              <S.TableHeader>
-                <S.TdTitle>
-                  <div>인기글</div>
-                </S.TdTitle>
-                <S.TdLeft></S.TdLeft>
-                <S.TdCenter>월간 조회수</S.TdCenter>
-                <S.TdCenter>행성</S.TdCenter>
-                <S.TdCenter>작성일</S.TdCenter>
-              </S.TableHeader>
-              <S.Tablebody>
-                <PopularPosting ranking={1} />
-                <PopularPosting ranking={2} />
-                <PopularPosting ranking={3} />
-                <PopularPosting ranking={4} />
-                <PopularPosting ranking={5} />
-                <PopularPosting ranking={6} />
-                <PopularPosting ranking={7} />
-                <PopularPosting ranking={8} />
-                <PopularPosting ranking={9} />
-                <PopularPosting ranking={10} />
-              </S.Tablebody>
-            </S.PopularPostingsTable>
+            <PopularPost />
           </S.Statistics>
         </>
       )}
