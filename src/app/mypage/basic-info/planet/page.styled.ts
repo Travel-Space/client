@@ -9,7 +9,13 @@ export const MyPlanetWrap = styled.div`
   display: flex;
   gap: 32px;
 `;
-
+export const NoMyPlanets = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 8px 16px;
+`;
 export const MyPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
   margin-bottom: 24px;
@@ -38,7 +44,7 @@ export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 700;
 `;
-export const TravelingPlanetInfo = styled.div`
+export const JoinedPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
   margin-bottom: 24px;
   margin-top: 54px;
@@ -54,9 +60,10 @@ export const TravelNumber = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
 `;
-export const TravelingPlanetList = styled.div`
+export const JoinedPlanetList = styled.div`
   width: 888px;
   padding: 24px 42px;
+  margin-bottom: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
 

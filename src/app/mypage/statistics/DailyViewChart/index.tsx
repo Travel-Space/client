@@ -1,5 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, ViewCount } from "@/@types";
+import { ResData, DailyViewCount } from "@/@types";
 
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -11,7 +11,7 @@ import Chart from "../Chart";
 
 import { getDateFormatWithDay } from "@/utils/getDateFormat";
 
-const DailyViewChart = () => {
+const DailyViewChart = ({ planetId }: { planetId: number }) => {
   const [page, setPage] = useState(1);
   const [isClicked, setIsClicked] = useState("");
 
@@ -23,7 +23,7 @@ const DailyViewChart = () => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState); //bar 클릭 시 선택된 날짜
 
   const [viewCount, setViewCount] = useState<number[]>([]);
-  const [viewData, setViewData] = useState<ViewCount[]>([]); //조회된 방문수 데이터
+  const [viewData, setViewData] = useState<DailyViewCount[]>([]); //조회된 방문수 데이터
 
   //Chart props
   const series = {
@@ -67,7 +67,7 @@ const DailyViewChart = () => {
   useEffect(() => {
     setStartDate(today);
     setSelectedDate(getDateFormatWithDay(startDate));
-    getViewData(6);
+    getViewData();
   }, []);
 
   useEffect(() => {
@@ -76,23 +76,27 @@ const DailyViewChart = () => {
   }, [startDate]);
 
   useEffect(() => {
-    getViewData(6);
+    getViewData();
   }, [Dates]);
+
   useEffect(() => {
-    const ViewCount = Dates.map(date => {
+    const DailyViewCount = Dates.map(date => {
       const matchingData = viewData.find(data => getDateFormatWithDay(data.date) === date);
       return !!matchingData ? matchingData._sum.count : 0;
     });
 
-    setViewCount(ViewCount);
+    setViewCount(DailyViewCount);
     // console.log("Dates", Dates);
-    // console.log("ViewCount", ViewCount);
+    // console.log("DailyViewCount", DailyViewCount);
   }, [viewData]);
 
+  useEffect(() => {
+    getViewData();
+  }, [planetId]);
   //방문수 조회
-  async function getViewData(planetId: number) {
+  async function getViewData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<ViewCount[]>>(
+      const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
         "get",
         `/planet/${planetId}/daily-views?page=${page}`,
       );

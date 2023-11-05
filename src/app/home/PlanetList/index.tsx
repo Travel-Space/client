@@ -11,16 +11,12 @@ import {
   PlanetImageContainer,
   PlanetName,
   SlideImage,
-  LodingBarWrapper,
+  LoadingBarWrapper,
 } from "./index.styled";
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
 import { Planet, ResData } from "@/@types";
-import { useRecoilValue } from "recoil";
-import { planetListState } from "@/recoil/atoms/searchPlanet.atom";
-import planetsState from "@/recoil/atoms/planets.atom";
-import { atom } from "recoil";
 import LoadingBar from "@/components/common/LoadingBar";
 
 interface PlanetListProps {
@@ -63,9 +59,9 @@ export const PlanetList: React.FC<PlanetListProps> = ({ planetList }) => {
   if (!Array.isArray(planetList)) {
     console.error("행성 검색 결과가 없습니다.", planetList);
     return (
-      <LodingBarWrapper>
+      <LoadingBarWrapper>
         <LoadingBar />
-      </LodingBarWrapper>
+      </LoadingBarWrapper>
     );
   }
 

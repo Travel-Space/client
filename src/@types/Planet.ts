@@ -34,6 +34,12 @@ export interface Planets {
   limit: number;
   totalCount: number;
 }
+export interface JoinedPlanets {
+  data: Planet[];
+  page: number;
+  limit: number;
+  totalMemberships: number;
+}
 export interface LikedPlanets {
   data: Planet[];
   page: number;

@@ -1,9 +1,9 @@
 import * as S from "./index.styled";
 
-interface PopularPostingProps {
+interface PostItemProps {
   ranking: number;
 }
-export default function PopularPosting({ ranking }: PopularPostingProps) {
+export default function PostItem({ ranking }: PostItemProps) {
   return (
     <S.TableRow>
       <S.Ranking>{ranking}</S.Ranking>
