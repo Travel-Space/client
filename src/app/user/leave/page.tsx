@@ -14,6 +14,7 @@ import Button from "@/components/common/Button";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { AxiosError } from "axios";
+import MESSAGE from "@/constants/message";
 
 export default function Leave() {
   const router = useRouter();
@@ -44,9 +45,20 @@ export default function Leave() {
       const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
       alert(
         errorResponse?.data.message &&
-          "관리 중인 행성이 있습니다. 관리자를 위임하고 행성 탈출 후에 다시 시도해 주세요.",
+          "관리 중인 행성이 있습니다. 관리자를 위임하고 행성을 탈출한 후에 다시 시도해 주세요.",
       );
       console.error("행성을 탈출하는 중 오류가 발생했습니다.", error);
+    }
+  }
+
+  //회원 탈퇴
+  async function leaveService() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>("delete", `/user/${user.id}`);
+      // console.log("viewcount", response.data);
+    } catch (error) {
+      console.error("회원을 탈퇴하는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
   return (
@@ -139,7 +151,7 @@ export default function Leave() {
             </Button>
           </S.Button>
           <S.LeaveButton>
-            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={goToPlanetList}>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={() => leaveService()}>
               회원 탈퇴하기
             </Button>
           </S.LeaveButton>
