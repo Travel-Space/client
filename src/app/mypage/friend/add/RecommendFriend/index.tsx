@@ -13,7 +13,7 @@ export default function RecommendFriend({ data }: RecommendFriendProps) {
     <S.Container>
       <Image src="/assets/img/icons/default-user.svg" alt="default-user" width={76} height={76} />
       <S.Nickname>{data.user.name}</S.Nickname>
-      <FollowBtn userId={data.userId} isMutual={data.isMutual} />
+      <FollowBtn userId={data.userId} isMutual={data.isMutual} page={1} limit={10} />
     </S.Container>
   );
 }

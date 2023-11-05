@@ -2,7 +2,13 @@ import axiosRequest from "@/api";
 import { ResData, FollowersType, FollowingsType, Follow } from "@/@types";
 
 import { useRecoilState } from "recoil";
-import { followerState, followingState, totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
+import {
+  followerState,
+  followingState,
+  totalFollowersState,
+  totalFollowingsState,
+  notMutualState,
+} from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
@@ -17,6 +23,7 @@ interface FollowBtnProps {
 export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnProps) {
   const [followers, setFollowers] = useRecoilState(followerState);
   const [followings, setFollowings] = useRecoilState(followingState);
+  const [notMutualFriends, setNotMutualFriends] = useRecoilState(notMutualState);
 
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
@@ -24,6 +31,7 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
   const updateData = (page: number, limit: number) => {
     getFollowings(page, limit);
     getFollowers(page, limit);
+    getNotMutualFriends();
   };
   //팔로잉 조회
   async function getFollowings(page: number, limit: number) {
@@ -60,6 +68,18 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
 
       setTotalFollowers(total);
       // console.log("followings", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+  //추천친구 조회
+  //무한스크롤 추후 적용 - 수정예정
+  async function getNotMutualFriends() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<FollowersType>>("get", `/user/followers/not-mutual`);
+      setNotMutualFriends(response.data.data);
+      // console.log("notMutualFriends", response.data);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
