@@ -29,19 +29,18 @@ export default function SpaceShip() {
   const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
   const [planetName, setPlanetName] = useState<string>();
   const [planetMember, setPlanetMember] = useState<PlanetMembership[]>();
+  const [planetMaxMember, setPlanetMaxMember] = useState<number>();
 
   const { modalDataState, openModal, closeModal } = useModal();
 
   const router = useRouter();
   const params = useParams();
-  const { memberships } = useRecoilValue(userAtom);
-  const { planets } = memberships;
+  const user = useRecoilValue(userAtom);
   const id: string = params.id as string;
-  const thisPlanet = planets.find(planet => planet?.planetId === parseInt(id));
+  const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(id));
 
   const exitModal = {
     title: "행성 탈출",
-    // 현재 내 user recoil 행성별 role 정보에 맞게 보여줘야 함
     content: (
       <Exit
         onClose={closeModal}
@@ -56,7 +55,7 @@ export default function SpaceShip() {
 
   const planetMemberModal = {
     title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} />,
+    content: <PlanetMember onClose={closeModal} members={planetMember} />,
   };
 
   const limitNumber = Array.from({ length: spaceShipLimit }, (_, index) => index + 1);
@@ -65,8 +64,10 @@ export default function SpaceShip() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
       console.log(response);
-      setSpaceShipLimit(response.data.spaceshipLimit);
-      setPlanetName(response.data.name);
+      const { spaceshipLimit, name, memberLimit } = response.data;
+      setSpaceShipLimit(spaceshipLimit);
+      setPlanetName(name);
+      setPlanetMaxMember(memberLimit);
     } catch (error) {
       console.error("우주선 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -122,7 +123,7 @@ export default function SpaceShip() {
       >
         {limitNumber.map(ship => (
           <SwiperSlide key={ship}>
-            <Ship test={ship} />
+            <Ship test={ship} planetId={parseInt(id)} planetMaxMember={planetMaxMember} />
           </SwiperSlide>
         ))}
       </S.List>

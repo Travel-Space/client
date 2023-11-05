@@ -5,12 +5,20 @@ import Info from "../Modal/ShipInfo";
 import { useModal } from "@/hooks/useModal";
 import ShipManage from "../Modal/ShipManage";
 
-export default function Ship({ test }: { test: number }) {
+export default function Ship({
+  test,
+  planetId,
+  planetMaxMember,
+}: {
+  test: number;
+  planetId: number;
+  planetMaxMember?: number;
+}) {
   const { openModal, closeModal } = useModal();
 
   const shipManageModal = {
     title: "우주선 관리",
-    content: <ShipManage onClose={closeModal} />,
+    content: <ShipManage onClose={closeModal} planetId={planetId} planetMaxMember={planetMaxMember} />,
   };
 
   return (

@@ -5,7 +5,7 @@ import { Role, RoleName } from "@/@types/Planet";
 
 interface Type {
   mode: "select" | "manage";
-  type: ItemType;
+  type?: ItemType;
   user: User;
   role: Role;
   onSelectMember: (value: number) => void;
