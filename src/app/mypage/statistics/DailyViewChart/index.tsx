@@ -84,7 +84,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
   useEffect(() => {
     const DailyViewCount = Dates.map(date => {
       const matchingData = viewData.find(data => getDateFormatWithDay(data.date) === date);
-      return !!matchingData ? matchingData._sum.count : 0;
+      return !!matchingData ? matchingData.count : 0;
     });
 
     setViewCount(DailyViewCount);
