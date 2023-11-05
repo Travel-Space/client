@@ -3,13 +3,13 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import { bodyContainer, flexAlignCenter, flexCenter, flexColumnCenter } from "@/styles/common";
+import { bodyContainer, flexCenter, flexColumnCenter } from "@/styles/common";
 
 export default function Error() {
   return (
     <>
       <Container>
-        <img src="/assets/img/icons/error/error5.png" />
+        <img src="/assets/img/icons/error/error.png" />
 
         <Comment>
           <div>문제가 발생했습니다!</div>
@@ -54,7 +54,6 @@ export const Button = styled.div`
   border-radius: 50px;
   background: none;
   border: 2px solid ${({ theme }) => theme.PALETTE.white};
-  /* background-color: ${({ theme }) => theme.PALETTE.primary[400]}; */
   font-size: ${({ theme }) => theme.FONT_SIZE.em};
   font-weight: 600;
 
