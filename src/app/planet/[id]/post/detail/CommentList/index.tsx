@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import * as CL from "./index.styled";
 import CommentItem from "./CommentItem";
@@ -12,7 +11,6 @@ interface PostContentProps {
   onCommentChange: () => void;
   onLoadMoreComments: () => void;
   hasMoreComments: boolean;
-  
 }
 
 export default function CommentList({ data, onCommentChange, onLoadMoreComments, hasMoreComments }: PostContentProps) {
