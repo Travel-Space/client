@@ -10,3 +10,8 @@ export const joinedPlanetsState = atom<Planet[]>({
   key: "joinedPlanets",
   default: [],
 });
+
+export const todayViewCountState = atom<number>({
+  key: "todayViewCount",
+  default: 0,
+});

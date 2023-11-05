@@ -4,6 +4,7 @@ import { ResData, DailyViewCount } from "@/@types";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { selectedDateState } from "@/recoil/atoms/chart.atom";
+import { todayViewCountState } from "@/recoil/atoms/planets.atom";
 
 import * as S from "./index.styled";
 
@@ -22,6 +23,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
   const [Dates, setDates] = useState<string[]>([]); //x축 : 날짜(local) 배열
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState); //bar 클릭 시 선택된 날짜
 
+  const [todayViewCount, setTodayViewCount] = useRecoilState(todayViewCountState);
   const [viewCount, setViewCount] = useState<number[]>([]);
   const [viewData, setViewData] = useState<DailyViewCount[]>([]); //조회된 방문수 데이터
 
@@ -86,6 +88,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
     });
 
     setViewCount(DailyViewCount);
+    page === 1 && setTodayViewCount(DailyViewCount[DailyViewCount.length - 1]);
     // console.log("Dates", Dates);
     // console.log("DailyViewCount", DailyViewCount);
   }, [viewData]);

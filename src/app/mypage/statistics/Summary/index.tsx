@@ -1,6 +1,8 @@
 import { Menu } from "@/@types/DropDown";
 import { Planet } from "@/@types";
 
+import { todayViewCountState } from "@/recoil/atoms/planets.atom";
+
 import * as S from "./index.styled";
 
 import Image from "next/image";
@@ -8,6 +10,7 @@ import Line from "@/components/common/Line";
 import DropDown from "@/components/common/DropDown";
 
 import PLANETSHAPE from "@/constants/planetShape";
+import { useRecoilValue } from "recoil";
 
 interface SummaryProps {
   selectedPlanet?: Planet;
@@ -15,11 +18,15 @@ interface SummaryProps {
   dropDownProps: Menu;
 }
 const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) => {
+  const { shape, articles } = selectedPlanet as Planet;
+
+  const todayViewCount = useRecoilValue(todayViewCountState);
+
   return (
     <S.SummaryWrap>
       <S.SelectedPlanet>
         <S.Planet>
-          <Image src={PLANETSHAPE[selectedPlanet?.shape || "SHAPE1"]} alt="planet" width={30} height={30} />
+          <Image src={PLANETSHAPE[shape]} alt="planet" width={30} height={30} />
           <span>{selectedMenu}</span>
         </S.Planet>
         <S.DropDownWrap>
@@ -29,17 +36,17 @@ const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) 
       <S.Summary>
         <div>
           <S.SummaryTitle>오늘 방문 수</S.SummaryTitle>
-          <S.Number>102</S.Number>
+          <S.Number>{todayViewCount}</S.Number>
         </div>
         <Line color="gray" size="vertical" />
         <div>
           <S.SummaryTitle>누적 방문 수</S.SummaryTitle>
-          <S.Number>3888</S.Number>
+          <S.Number>100</S.Number>
         </div>
         <Line color="gray" size="vertical" />
         <div>
           <S.SummaryTitle>게시글 수</S.SummaryTitle>
-          <S.Number>367</S.Number>
+          <S.Number>{articles.length}</S.Number>
         </div>
       </S.Summary>
     </S.SummaryWrap>
