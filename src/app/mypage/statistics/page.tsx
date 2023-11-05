@@ -27,7 +27,6 @@ export default function Statistics() {
   const [selectedMenu, setSelectedMenu] = useState(dropdownMenu[0]);
 
   const dropDownProps = {
-    comment: "행성 선택",
     menuList: dropdownMenu,
     selectedMenu: selectedMenu, //선택한 메뉴
     handleClick: (menu: string) => setSelectedMenu(menu), //메뉴를 클릭했을 때 실행될 메서드
