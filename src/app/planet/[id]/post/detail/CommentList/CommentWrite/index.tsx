@@ -11,11 +11,12 @@ interface CommentWriteProps {
   post: string;
   parentId?: number | null;
   onClose?: () => void;
+  onCommentChange?: () => void;
 }
 
-export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId, onClose }) => {
+export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, post, parentId, onClose }) => {
   const [content, setContent] = useState<string>("");
-  
+
   async function handleCommentSubmit() {
     try {
       const payload: { [key: string]: any } = {
@@ -29,6 +30,10 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ post, parentId, onCl
 
       const response = await axiosRequest.requestAxios<ResData<Comment>>("post", `/comments/${post}/comments`, payload);
       setContent("");
+      if (onCommentChange) {
+        onCommentChange(); 
+      }
+      if (onClose) onClose();
     } catch (error) {
       console.error("Error submitting the comment:", error);
       alert("로그인 하신 후 댓글을 작성할 수 있습니다.");

@@ -47,6 +47,13 @@ export const StyledLink = styled.a`
 export const PostInfo = styled.div`
   ${flexCenter}
   gap: 16px;
+
+  & a {
+    ${flexAlignCenter}
+    text-decoration: none;
+    color: ${({ theme }) => theme.PALETTE.black};
+    gap: 8px;
+  }
 `;
 
 export const RocketImg = styled.img`

@@ -83,3 +83,11 @@ export const PlanetImageContainer = styled.div`
     opacity: 0.7;
   }
 `;
+
+export const LodingBarWrapper = styled.div`
+  height: 260px;
+
+  & div {
+    height: 100%;
+  }
+`;

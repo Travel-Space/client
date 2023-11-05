@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
 import { MembershipStatus } from "@/@types/Member";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 import JoinPlanetModal from "../JoinPlanetModal";
 
@@ -37,12 +37,10 @@ export default function PlanetInfo({ role }: PlanetProps) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${paramsId}`);
       const data = response.data;
-      const status = data.members.filter(el => el.userId === id)[0].status;
+      const memberStatus = data.members.filter(el => el.userId === id)[0];
 
-      console.log(status);
-
-      setMembership(status);
       setPlanetInfo(data);
+      setMembership(memberStatus.status);
     } catch (error) {
       console.error(error);
     }
@@ -53,10 +51,10 @@ export default function PlanetInfo({ role }: PlanetProps) {
   }, []);
 
   const { name, description, hashtags, shape } = planetInfo;
+  console.log(planetInfo);
 
   const handleOpen = () => {
     setIsModal(prev => !prev);
-    console.log(membership);
   };
 
   const img = () => {
@@ -96,7 +94,7 @@ export default function PlanetInfo({ role }: PlanetProps) {
           {roles === "게스트" && (
             <span onClick={handleOpen}>
               {membership === "PENDING" ? "행성 탑승 신청 완료" : tag}
-              {isModal && <JoinPlanetModal planetId={paramsId} />}
+              {!membership && isModal && <JoinPlanetModal planetId={paramsId} />}
             </span>
           )}
         </S.Setting>
