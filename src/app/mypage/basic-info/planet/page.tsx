@@ -4,8 +4,7 @@ import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
-import planetsState from "@/recoil/atoms/planets.atom";
+import { myPlanetsState, joinedPlanetsState, joinedPlanetsCountState } from "@/recoil/atoms/planets.atom";
 
 import * as S from "./page.styled";
 
@@ -17,32 +16,51 @@ import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 
 export default function Planet() {
-  const user = useRecoilValue(userAtom);
-  const [planets, setPlanets] = useRecoilState(planetsState);
+  const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
+
+  const [joinedPlanets, setJoinedPlanets] = useRecoilState(joinedPlanetsState);
+  const [joinedPlanetsCount, setJoinedPlanetsCount] = useRecoilState(joinedPlanetsCountState);
+
   const [overLimit, setOverLimit] = useState(false);
 
-  //행성 불러오기
-  async function getPlanets() {
+  //소유한 행성 불러오기
+  async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
-      setPlanets(response.data.data);
-      // console.log("planets", planets);
+      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+        "get",
+        "/planet/my-owned-planets?page=1&limit=5",
+      );
+
+      setMyPlanets(response.data.data);
+      // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
   }
+  //가입한 행성 불러오기
+  async function getJoinedPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+        "get",
+        `/planet/my-planets?page=${page}&limit=${limit}`,
+      );
 
-  //내가 생성한 행성
-  const myPlanets = planets.filter(el => user.id === el.ownerId);
-
+      setJoinedPlanets(response.data.data);
+      setJoinedPlanetsCount(response.data.totalCount);
+      // console.log("planets", response.data.data);
+    } catch (error) {
+      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching planet data: ", error);
+    }
+  }
   //여행중인 행성
-  const travelingPlanets = planets.filter(el => user.id !== el.ownerId);
   let myPlanetsWithNull = new Array(5).fill(null);
   myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   useEffect(() => {
-    getPlanets();
+    getMyPlanets();
+    getJoinedPlanets();
     // console.log("id", user.id);
 
     if (myPlanets.length >= 5) setOverLimit(true);
@@ -50,7 +68,7 @@ export default function Planet() {
   return (
     <S.Container>
       {/* 데이터가 없을 경우 */}
-      {planets.length === 0 ? (
+      {myPlanets.length === 0 ? (
         <Nothing
           src="/assets/img/icons/no-planets.svg"
           alt="no-TravelingPlanets"
@@ -86,11 +104,11 @@ export default function Planet() {
           <S.TravelingPlanetInfo>
             <S.Title>여행 중인 행성</S.Title>
             <S.TravelNumber>
-              총 <span>{travelingPlanets.length}</span>개의 행성
+              총 <span>{joinedPlanetsCount}</span>개의 행성
             </S.TravelNumber>
           </S.TravelingPlanetInfo>
           <S.TravelingPlanetList>
-            {travelingPlanets.map((planet, idx) => (
+            {joinedPlanets.map((planet, idx) => (
               <PlanetItem key={idx} data={planet} />
             ))}
           </S.TravelingPlanetList>

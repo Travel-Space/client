@@ -1,9 +1,16 @@
 import { atom } from "recoil";
 import { Planet } from "@/@types";
 
-const planetsState = atom<Planet[]>({
-  key: "planets",
+export const myPlanetsState = atom<Planet[]>({
+  key: "myPlanets",
   default: [],
 });
 
-export default planetsState;
+export const joinedPlanetsState = atom<Planet[]>({
+  key: "joinedPlanets",
+  default: [],
+});
+export const joinedPlanetsCountState = atom<number>({
+  key: "joinedPlanetsCount",
+  default: 0,
+});
