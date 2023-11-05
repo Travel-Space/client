@@ -31,7 +31,6 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
 
   const currentUser = useRecoilValue(userAtom);
   const isComment = currentUser.id === data?.authorId;
-  const commentRef = useRef(null);
 
   //댓글 삭제 함수
   const handleCommentDelete = async (commentId: number) => {
@@ -105,6 +104,9 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
         ?.sort((a, b) => a.id - b.id)
         .map(comment => {
           const { dateString } = getDateInfo(comment.createdAt);
+          {
+            /* 수정모드일 때  */
+          }
           if (isEditing && comment.id === editingCommentId) {
             return (
               <CI.EditWrapper key={comment.id}>
