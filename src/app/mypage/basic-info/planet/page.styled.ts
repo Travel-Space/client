@@ -9,7 +9,13 @@ export const MyPlanetWrap = styled.div`
   display: flex;
   gap: 32px;
 `;
-
+export const NoMyPlanets = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 8px 16px;
+`;
 export const MyPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
   margin-bottom: 24px;
