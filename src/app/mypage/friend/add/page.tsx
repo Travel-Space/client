@@ -1,9 +1,9 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Follower } from "@/@types";
+import { ResData, FollowersType } from "@/@types";
 
-import { useRecoilState, useRecoilValue } from "recoil";
-import { followerState, notMutualState } from "@/recoil/atoms/friend.atom";
+import { useRecoilState } from "recoil";
+import { notMutualState } from "@/recoil/atoms/friend.atom";
 import { useState, useEffect } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -26,16 +26,15 @@ export default function Planet() {
     placeholder: "친구 추가에서 검색합니다.",
   };
 
-  const [followers, setFollowers] = useRecoilState(followerState);
-  const notMutual = useRecoilValue(notMutualState);
+  const [notMutualFriends, setNotMutualFriends] = useRecoilState(notMutualState);
 
-  //팔로워 조회
+  //추천친구 조회
   //무한스크롤 추후 적용 - 수정예정
-  async function getFollowers() {
+  async function getNotMutualFriends() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Follower[]>>("get", `/user/followers`);
-      setFollowers(response.data);
-      console.log("followers", response.data);
+      const response = await axiosRequest.requestAxios<ResData<FollowersType>>("get", `/user/followers/not-mutual`);
+      setNotMutualFriends(response.data.data);
+      // console.log("notMutualFriends", response.data);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
@@ -44,7 +43,7 @@ export default function Planet() {
 
   useEffect(() => {
     // console.log("notMutual", notMutual);
-    getFollowers();
+    getNotMutualFriends();
   }, []);
 
   return (
@@ -62,7 +61,7 @@ export default function Planet() {
           modules={[Navigation]}
           className="mySwiper"
         >
-          {notMutual.map((el, idx) => (
+          {notMutualFriends.map((el, idx) => (
             <SwiperSlide>
               <RecommendFriend key={`notMutualFriend${idx}`} data={el} />
             </SwiperSlide>
