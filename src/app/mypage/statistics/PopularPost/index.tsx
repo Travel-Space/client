@@ -1,12 +1,12 @@
 import axiosRequest from "@/api";
 import { ResData, Posting } from "@/@types";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import * as S from "./index.styled";
 
 import PostItem from "./PostItem";
-import { useEffect } from "react";
+import Nothing from "@/components/common/Nothing";
 
 export default function PopularPost({ planetId }: { planetId: number }) {
   const today = new Date();
@@ -36,23 +36,39 @@ export default function PopularPost({ planetId }: { planetId: number }) {
   }, [planetId]);
 
   return (
-    <S.Table>
-      <S.TableHeader>
-        <tr>
-          <S.TdTitle>
-            <div>인기글</div>
-          </S.TdTitle>
-          <S.TdLeft></S.TdLeft>
-          <S.TdCenter>월간 조회수</S.TdCenter>
-          <S.TdCenter>행성</S.TdCenter>
-          <S.TdCenter>작성일</S.TdCenter>
-        </tr>
-      </S.TableHeader>
-      <S.Tablebody>
-        {posts.map((post, idx) => (
-          <PostItem ranking={post.monthlyViews} />
-        ))}
-      </S.Tablebody>
-    </S.Table>
+    <>
+      {posts?.length === 0 ? (
+        <>
+          <S.Title>인기글</S.Title>
+          <Nothing
+            src="/assets/img/icons/no-postings.svg"
+            alt="no-postings"
+            width={96}
+            height={96}
+            comment="인기글이 없습니다."
+            suggest="게시글을 작성해 보세요."
+            font="lg"
+          />
+        </>
+      ) : (
+        <S.Table>
+          <S.TableHeader>
+            <tr>
+              <S.TdTitle>
+                <div>인기글</div>
+              </S.TdTitle>
+              <S.TdLeft></S.TdLeft>
+              <S.TdCenter>월간 조회수</S.TdCenter>
+              <S.TdCenter>작성일</S.TdCenter>
+            </tr>
+          </S.TableHeader>
+          <S.Tablebody>
+            {posts.map((post, idx) => (
+              <PostItem key={`popularPost${idx}`} ranking={idx + 1} data={post} />
+            ))}
+          </S.Tablebody>
+        </S.Table>
+      )}
+    </>
   );
 }
