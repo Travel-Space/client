@@ -110,7 +110,7 @@ export default function Statistics() {
                 )}
               </S.Graph>
             </div>
-            <PopularPost />
+            <PopularPost planetId={selectedPlanet.id} />
           </S.Statistics>
         </>
       )}
