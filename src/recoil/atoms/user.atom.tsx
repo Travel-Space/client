@@ -18,7 +18,7 @@ export interface UserType {
   };
 }
 
-export const userAtom = atom<UserType>({
+export const userAtom = atom<UserType | null>({
   key: "user",
   default: {
     isAuth: false,

@@ -6,43 +6,122 @@ import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
-import SelectBtn from "@/components/common/SelectBtn";
-import { useState } from "react";
+import SelectBtn, { ListType } from "@/components/common/SelectBtn";
+import { useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Spaceship } from "@/@types/Spaceship";
+import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
 import { AxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
+import { SpaceShipType } from "../../page";
 
 const today = new Date();
 const todayString = getDateFormat(today);
 
-export default function ShipManage({ onClose }: Default) {
-  const [statusSelect, setStatusSelect] = useState({ value: "UPCOMING", text: "여행 준비" });
-  const [startDateSelected, setStartDateSelected] = useState(todayString);
-  const [endDateSelected, setEndDateSelected] = useState(todayString);
+interface ShipType {
+  name: string;
+  description: string;
+  maxMembers?: number;
+  startDate: string;
+  endDate: string;
+  planetId: number;
+  status: string;
+  image: string;
+}
+
+const shipStatus: ListType[] = [
+  { value: "UPCOMING", text: SpaceshipStatusName.UPCOMING },
+  { value: "ONGOING", text: SpaceshipStatusName.ONGOING },
+  { value: "COMPLETED", text: SpaceshipStatusName.COMPLETED },
+  { value: "CANCELED", text: SpaceshipStatusName.CANCELED },
+];
+
+interface ShipManageType extends Default {
+  planetId: number;
+  planetMaxMember?: number;
+  spaceShip?: number | SpaceShipType;
+}
+
+export default function ShipManage({ onClose, planetId, planetMaxMember, spaceShip }: ShipManageType) {
+  const [shipInfo, setShipInfo] = useState<ShipType>({
+    name: "",
+    description: "",
+    maxMembers: planetMaxMember,
+    startDate: todayString,
+    endDate: todayString,
+    planetId: planetId,
+    status: "UPCOMING",
+    image: "",
+  });
+
+  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+    setShipInfo(info => ({
+      ...info,
+      name: e.target.value,
+    }));
+  }
+
+  function handleMaxMembers(value: number | undefined) {
+    setShipInfo(info => ({
+      ...info,
+      maxMembers: value,
+    }));
+  }
+
+  function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setShipInfo(info => ({
+      ...info,
+      description: e.target.value,
+    }));
+  }
+
+  function handleStatus(status: ListType) {
+    setShipInfo(info => ({
+      ...info,
+      status: status.value,
+    }));
+  }
 
   async function submitCreateSpaceship() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", {
-        name: "string",
-        description: "string",
-        maxMembers: 0,
-        startDate: "2023-11-03",
-        endDate: "2023-11-03",
-        planetId: 2,
-        status: "UPCOMING",
-        image: "string",
-      });
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", shipInfo);
       console.log(response);
-      // response.status === 201 && alert("새로운 우주선이 생성되었습니다!");
+      response.status === 201 && alert("새로운 우주선이 생성되었습니다!");
+      onClose();
     } catch (error) {
       console.error("새 우주선 생성하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
   }
+
+  async function submitModifySpaceship() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
+        "put",
+        `/spaceship/${typeof spaceShip === "object" && spaceShip?.id}`,
+        shipInfo,
+      );
+      console.log(response);
+      response.status === 200 && alert("우주선 정보가 업데이트 되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 수정하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  useEffect(() => {
+    if (typeof spaceShip === "object") {
+      setShipInfo({
+        ...spaceShip,
+        startDate: `${getDateFormat(new Date(spaceShip.startDate))}`,
+        endDate: `${getDateFormat(new Date(spaceShip.endDate))}`,
+      });
+    }
+  }, []);
 
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
@@ -54,8 +133,8 @@ export default function ShipManage({ onClose }: Default) {
             type="text"
             name="spaceship-name"
             placeholder="우주선 이름"
-            // onChange={}
-            // value={}
+            onChange={handleName}
+            value={shipInfo.name}
           />
         </S.Group>
         <S.Group>
@@ -65,8 +144,8 @@ export default function ShipManage({ onClose }: Default) {
             placeholder="우주선 설명"
             name="spaceship-description"
             maxLength={100}
-            onChange={() => {}}
-            value={undefined}
+            onChange={handleDescription}
+            value={shipInfo.description}
           />
         </S.Group>
         <S.Center>
@@ -75,34 +154,38 @@ export default function ShipManage({ onClose }: Default) {
             <AdjustBtnInput
               name="spaceship-member-limit"
               id="spaceship-member-limit"
-              value={10}
+              value={shipInfo.maxMembers}
               min={1}
-              max={100}
-              onNumber={() => {}}
+              max={!planetMaxMember ? 0 : planetMaxMember}
+              onNumber={handleMaxMembers}
             />
           </S.Group>
           <S.Group>
             <Label id="">여행 상태</Label>
             <SelectBtn
-              onSelected={status => setStatusSelect(status)}
-              selected={statusSelect}
-              selectList={[
-                { value: "UPCOMING", text: "여행 준비" },
-                { value: "ONGOING", text: "여행 중" },
-                { value: "COMPLETED", text: "여행 완료" },
-                { value: "CANCELED", text: "여행 취소" },
-              ]}
+              onSelected={handleStatus}
+              selected={{
+                value: shipInfo.status,
+                text: shipStatus.find(status => status.value === shipInfo.status)?.text || "",
+              }}
+              selectList={shipStatus}
             />
           </S.Group>
         </S.Center>
         <S.Center>
           <S.BtnInput>
             <Label id="">여행 시작일</Label>
-            <CalendarBtn onSelected={date => setStartDateSelected(date)} selected={startDateSelected} />
+            <CalendarBtn
+              onSelected={date => setShipInfo(info => ({ ...info, startDate: date }))}
+              selected={shipInfo.startDate}
+            />
           </S.BtnInput>
           <S.BtnInput>
             <Label id="">여행 종료일</Label>
-            <CalendarBtn onSelected={date => setEndDateSelected(date)} selected={endDateSelected} />
+            <CalendarBtn
+              onSelected={date => setShipInfo(info => ({ ...info, endDate: date }))}
+              selected={shipInfo.endDate}
+            />
           </S.BtnInput>
         </S.Center>
         <Line color="gray" size="horizontal" />
@@ -114,11 +197,9 @@ export default function ShipManage({ onClose }: Default) {
             variant="confirm"
             shape="medium"
             size="big"
-            onClick={submitCreateSpaceship}
-            // onClick={planetInfo.id ? submitModifyPlanet : submitCreatePlanet}
+            onClick={typeof spaceShip === "object" ? submitModifySpaceship : submitCreateSpaceship}
           >
-            {/* {planetInfo.id ? "수정" : "완료"} */}
-            완료
+            {typeof spaceShip === "object" ? "수정" : "완료"}
           </Button>
         </S.Center>
       </S.Content>

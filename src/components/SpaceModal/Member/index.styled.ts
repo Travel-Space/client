@@ -25,6 +25,7 @@ export const MemberWrap = styled.div`
 
 export const ProfileImg = styled.img`
   height: 60px;
+  width: 60px;
   object-fit: cover;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 100px;
