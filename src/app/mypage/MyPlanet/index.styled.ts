@@ -12,6 +12,7 @@ export const Container = styled.div`
   ${flexSpaceBetweenCenter}
   flex-direction: column;
   position: relative;
+  cursor: pointer;
 `;
 export const Header = styled.div`
   width: 100%;

@@ -1,6 +1,6 @@
 import { Planet } from "@/@types/Planet";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import PLANETSHAPE from "@/constants/planetShape";
 
@@ -12,14 +12,18 @@ interface MyPlanetProps {
   data: Planet;
 }
 export default function MyPlanet({ data }: MyPlanetProps) {
-  const { name, memberLimit, published, shape, planetBookMark, members } = data;
+  const { id, name, memberLimit, published, shape, planetBookMark, members } = data;
 
-  //좋아요페이지인지 확인
+  const router = useRouter();
   const pathname = usePathname();
   const parentPath = pathname.split("/")[2];
 
+  const goToPlanet = () => {
+    router.push(`/planet/${id}/modify/`);
+  };
+
   return (
-    <S.Container>
+    <S.Container onClick={goToPlanet}>
       <S.Header>
         <S.People>
           {/* 멤버수 추가되면 수정예정 */}
