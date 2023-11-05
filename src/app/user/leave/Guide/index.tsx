@@ -1,7 +1,6 @@
 import axiosRequest from "@/api";
 import { ResData, DailyViewCount } from "@/@types";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import * as S from "./index.styled";
@@ -18,6 +17,8 @@ const Guide = () => {
   const router = useRouter();
 
   const user = useRecoilValue(userAtom);
+  const joinedPlanets = user?.memberships.planets.filter(el => el?.role === "MEMBER");
+  const adminPlanets = user?.memberships.planets.filter(el => el?.role === "ADMIN" || el?.role === "OWNER");
 
   const goToPlanetList = () => {
     router.push("/mypage/basic-info/planet/");
@@ -27,7 +28,7 @@ const Guide = () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
         "post",
-        `/user/${user.id}/leave-planets`,
+        `/user/${user?.id}/leave-planets`,
       );
       // console.log("viewcount", response.data);
     } catch (error) {
@@ -56,12 +57,12 @@ const Guide = () => {
         <S.PlanetNotice>
           <S.Planets>
             <S.Sort>여행 중인 행성</S.Sort>
-            <S.Number>10</S.Number>
+            <S.Number>{joinedPlanets?.length}</S.Number>
           </S.Planets>
           <Line color="gray" size="vertical" />
           <S.Planets>
             <S.Sort>관리 중인 행성</S.Sort>
-            <S.Number>2</S.Number>
+            <S.Number>{adminPlanets?.length}</S.Number>
           </S.Planets>
         </S.PlanetNotice>
 
