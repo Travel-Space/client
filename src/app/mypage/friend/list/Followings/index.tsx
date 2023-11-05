@@ -35,14 +35,16 @@ export default function Followings({ loadData, page, limit }: FollowingsProps) {
         />
       ) : (
         <>
-          <S.MyFriends>
-            {followings.map((el, idx) => (
-              <Person key={`following${idx}`} data={el.friend} page={page} limit={limit} />
-            ))}
+          <S.MyFriendsWrap>
+            <S.MyFriends>
+              {followings.map((el, idx) => (
+                <Person key={`following${idx}`} data={el.friend} page={page} limit={limit} />
+              ))}
+            </S.MyFriends>
             <S.ShowMoreBtn onClick={handleClick} disabled={followings.length === totalFollowings}>
               목록 더보기
             </S.ShowMoreBtn>
-          </S.MyFriends>
+          </S.MyFriendsWrap>
         </>
       )}
     </>
