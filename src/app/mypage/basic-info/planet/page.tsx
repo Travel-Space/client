@@ -19,10 +19,12 @@ import Pagination from "@/components/common/Pagination";
 
 export default function Planet() {
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
+  const [overLimit, setOverLimit] = useState(false);
+
+  let myPlanetsWithNull = new Array(5).fill(null);
+  myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   const [joinedPlanets, setJoinedPlanets] = useRecoilState(joinedPlanetsState);
-
-  const [overLimit, setOverLimit] = useState(false);
 
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
@@ -61,9 +63,6 @@ export default function Planet() {
       console.error("Error fetching planet data: ", error);
     }
   }
-  //여행중인 행성
-  let myPlanetsWithNull = new Array(5).fill(null);
-  myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   useEffect(() => {
     getMyPlanets();
