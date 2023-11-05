@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import Link from "next/link";
 import Image from "next/image";
 import * as S from "./page.styled";
 
@@ -10,12 +10,14 @@ import Checkbox from "./Checkbox";
 import Button from "@/components/common/Button";
 
 export default function Leave() {
+  const router = useRouter();
+
   const [checked, setChecked] = useState(false);
   const handleClickCheckbox = () => {
     setChecked(!checked);
   };
-  const handleClick = () => {
-    console.log();
+  const goToMypage = () => {
+    router.push("/mypage/basic-info/planet/");
   };
   return (
     <S.Container>
@@ -47,17 +49,17 @@ export default function Leave() {
         <Line color="gray" size="horizontal" />
         <S.EscapeNotice>
           <S.EscapeGuide>
-            일반 멤버로 여행 중인 행성은 일괄 탈퇴가 가능하지만, 관리 중인 행성은 관리자를 직접 다른 멤버에게 위임 후
-            탈퇴가 가능합니다.
+            일반 멤버로 여행 중인 행성은 일괄 탈퇴가 가능하지만, 관리 중인 행성은 관리자를 직접 다른 멤버에게 위임하고
+            행성을 탈출한 후에 탈퇴가 가능합니다.
           </S.EscapeGuide>
           <S.Buttons>
             <S.Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
                 일괄 탈퇴
               </Button>
             </S.Button>
             <S.Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
                 관리자 위임하기
               </Button>
             </S.Button>
@@ -102,12 +104,12 @@ export default function Leave() {
         </S.Check>
         <S.Buttons>
           <S.Button>
-            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
               취소
             </Button>
           </S.Button>
           <S.LeaveButton>
-            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={handleClick}>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
               회원 탈퇴하기
             </Button>
           </S.LeaveButton>
