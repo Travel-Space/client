@@ -1,4 +1,7 @@
 "use client";
+import axiosRequest from "@/api";
+import { ResData, DailyViewCount } from "@/@types";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -8,17 +11,44 @@ import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 import Checkbox from "./Checkbox";
 import Button from "@/components/common/Button";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
+import { AxiosError } from "axios";
 
 export default function Leave() {
   const router = useRouter();
 
   const [checked, setChecked] = useState(false);
+
+  const user = useRecoilValue(userAtom);
+
   const handleClickCheckbox = () => {
     setChecked(!checked);
   };
-  const goToMypage = () => {
+  const goToPlanetList = () => {
     router.push("/mypage/basic-info/planet/");
   };
+  const goToMyProfile = () => {
+    router.push("/mypage/basic-info/profile/");
+  };
+
+  //행성 일괄 탈퇴(관리하는 행성이 없는 경우)
+  async function leaveAllPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
+        "post",
+        `/user/${user.id}/leave-planets`,
+      );
+      // console.log("viewcount", response.data);
+    } catch (error) {
+      const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
+      alert(
+        errorResponse?.data.message &&
+          "관리 중인 행성이 있습니다. 관리자를 위임하고 행성 탈출 후에 다시 시도해 주세요.",
+      );
+      console.error("행성을 탈출하는 중 오류가 발생했습니다.", error);
+    }
+  }
   return (
     <S.Container>
       <S.MainTitle>회원 탈퇴</S.MainTitle>
@@ -54,12 +84,12 @@ export default function Leave() {
           </S.EscapeGuide>
           <S.Buttons>
             <S.Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={() => leaveAllPlanets()}>
                 일괄 탈퇴
               </Button>
             </S.Button>
             <S.Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
+              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToPlanetList}>
                 관리자 위임하기
               </Button>
             </S.Button>
@@ -104,12 +134,12 @@ export default function Leave() {
         </S.Check>
         <S.Buttons>
           <S.Button>
-            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
+            <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={goToMyProfile}>
               취소
             </Button>
           </S.Button>
           <S.LeaveButton>
-            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={goToMypage}>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={goToPlanetList}>
               회원 탈퇴하기
             </Button>
           </S.LeaveButton>
