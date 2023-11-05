@@ -37,7 +37,7 @@ export default function PostDetail() {
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
     const commentPageQuery = `commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}`;
-    const replyPageQuery = `replyPageSize=${replyPageSize}`;
+    const replyPageQuery = `replyPageSize=${commentsPerPage}`;
     const endpoint = `/articles/${post}?${commentPageQuery}&${replyPageQuery}`;
 
     try {
@@ -75,13 +75,7 @@ export default function PostDetail() {
     setCurrentCommentsPage(prevPage => prevPage + 1);
   };
 
-  // 대댓글 페이지네이션
-  const updateRepliesPageInfo = (commentId: number, newPage: number) => {
-    setRepliesPageInfo(prev => ({
-      ...prev,
-      [commentId]: newPage,
-    }));
-  };
+
 
   // 댓글의 변경사항이 있을 때 호출될 함수
   const handleCommentChange = () => {
@@ -120,9 +114,6 @@ export default function PostDetail() {
           onCommentChange={handleCommentChange}
           onLoadMoreComments={handleLoadMoreComments}
           hasMoreComments={hasMoreComments}
-          repliesPageInfo={repliesPageInfo}
-          updateRepliesPageInfo={updateRepliesPageInfo}
-          replyPageSize={replyPageSize}
         />
       </PD.Content>
     </PD.Wrapper>

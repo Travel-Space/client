@@ -40,6 +40,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
       if (onClose) onClose();
 
       if (parentId) {
+        
       }
     } catch (error) {
       console.error("Error submitting the comment:", error);

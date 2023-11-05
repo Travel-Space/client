@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useRef } from "react";
 import * as CI from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
@@ -13,40 +12,26 @@ import MESSAGE from "@/constants/message";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import Link from "next/link";
-
 interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
   author?: User;
   comment?: Comment;
   onCommentChange: () => void;
-  repliesPageInfo: { [commentId: number]: number };
-  updateRepliesPageInfo: (commentId: number, newPage: number) => void;
-  replyPageSize: number;
 }
 
-export default function CommentItem({
-  onCommentChange,
-  data,
-  isReply = false,
-  repliesPageInfo,
-  updateRepliesPageInfo,
-  replyPageSize,
-}: CommentItemProps): React.JSX.Element {
+export default function CommentItem({ onCommentChange, data, isReply = false }: CommentItemProps): React.JSX.Element {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-
   const currentUser = useRecoilValue(userAtom);
-  const isComment = currentUser.id === data?.authorId;
-
+  const isComment = currentUser?.id === data?.authorId;
   //댓글 삭제 함수
   const handleCommentDelete = async (commentId: number) => {
     const isConfirmed = window.confirm(MESSAGE.POST.DELETE);
     if (!isConfirmed) return;
-
     try {
       await axiosRequest.requestAxios("delete", `/comments/${commentId}`);
       alert("댓글이 성공적으로 삭제되었습니다.");
@@ -56,37 +41,31 @@ export default function CommentItem({
       console.error("Error deleting comment: ", error);
     }
   };
-
   const handleHideReply = () => {
     setOpenReply(null); // 답글 입력창을 닫음
   };
-
   const openDeclarationModal = () => {
     openModal({
       title: "댓글",
       content: <DeclarationModal title={"댓글"} onClick={closeModal} />,
     });
   };
-
   //수정 시작
   const handleStartEditing = (comment: Comment) => {
     setEditingCommentId(comment.id); // 편집 중인 댓글 ID를 설정
     setEditedContent(comment.content); // 현재 댓글 내용으로 상태 초기화
     setIsEditing(true); // 편집 모드 활성화
   };
-
   //수정 댓글 저장
   const handleUpdateComment = async () => {
     if (!editedContent.trim()) {
       alert("댓글 내용을 입력해 주세요.");
       return;
     }
-
     if (editingCommentId === null) {
       alert("수정할 댓글을 찾을 수 없습니다.");
       return;
     }
-
     try {
       const response = await axiosRequest.requestAxios("put", `/comments/${editingCommentId}`, {
         content: editedContent,
@@ -99,25 +78,11 @@ export default function CommentItem({
       alert("댓글을 저장하는 동안 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
-
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditingCommentId(null);
   };
-
-  // 대댓글을 렌더링하는 함수
-  const renderReplies = (replies: Comment[], page: number, perPage: number) => {
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    return replies.slice(start, end);
-  };
-
-  //대댓글 더 보기
-  const handleLoadMoreReplies = (commentId: number) => {
-    const currentRepliesPage = repliesPageInfo[commentId] || 1;
-    const nextRepliesPage = currentRepliesPage + 1;
-    updateRepliesPageInfo(commentId, nextRepliesPage);
-  };
+  console.log(data);
 
   return (
     <>
@@ -182,7 +147,6 @@ export default function CommentItem({
                       </CI.ReplyBtn>
                     )}
                   </CI.ReplyBtn>
-
                   <CI.CommentEdit>
                     {isComment ? (
                       <>
@@ -207,20 +171,14 @@ export default function CommentItem({
               {/* 대댓글 -> 재귀적(자기 자신을 호출)으로 렌더링 */}
               {comment.replies && comment.replies.length > 0 && (
                 <CI.ReplyWrapper key={comment.id}>
-                  {renderReplies(comment.replies, repliesPageInfo[comment.id] || 1, replyPageSize).map(reply => (
+                  {comment.replies.map(reply => (
                     <CommentItem
                       key={reply.id}
                       data={{ ...data, comments: [reply] }}
                       isReply={true}
                       onCommentChange={onCommentChange || (() => {})}
-                      repliesPageInfo={repliesPageInfo}
-                      updateRepliesPageInfo={updateRepliesPageInfo}
-                      replyPageSize={replyPageSize}
                     />
                   ))}
-                  {comment.replies.length > (repliesPageInfo[comment.id] || 1) * replyPageSize && (
-                    <button onClick={() => handleLoadMoreReplies(comment.id)}>더 보기</button>
-                  )}
                 </CI.ReplyWrapper>
               )}
             </React.Fragment>
