@@ -11,7 +11,7 @@ import Chart from "../Chart";
 
 import { getDateFormatWithDay } from "@/utils/getDateFormat";
 
-const DailyViewChart = () => {
+const DailyViewChart = ({ planetId }: { planetId: number }) => {
   const [page, setPage] = useState(1);
 
   const today = new Date();
@@ -53,7 +53,7 @@ const DailyViewChart = () => {
   };
 
   useEffect(() => {
-    getViewData(6);
+    getViewData();
 
     const start = getDateFormatWithDay(thisfirstDate);
     const end = getDateFormatWithDay(today);
@@ -61,8 +61,12 @@ const DailyViewChart = () => {
   }, []);
 
   useEffect(() => {
-    getViewData(6);
+    getViewData();
   }, [page]);
+
+  useEffect(() => {
+    getViewData();
+  }, [planetId]);
 
   useEffect(() => {
     const startDates = viewData.map(el => getDateFormatWithDay(el.start));
@@ -83,7 +87,7 @@ const DailyViewChart = () => {
   }, [viewData]);
 
   //방문수 조회
-  async function getViewData(planetId: number) {
+  async function getViewData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<WeeklyViewCount[]>>(
         "get",

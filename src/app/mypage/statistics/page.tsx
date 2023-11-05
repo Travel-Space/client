@@ -104,7 +104,11 @@ export default function Statistics() {
                 </S.Buttons>
               </S.Header>
               <S.Graph>
-                {isActive === "daily" ? <DailyViewChart planetId={selectedPlanet.id} /> : <WeeklyViewChart />}
+                {isActive === "daily" ? (
+                  <DailyViewChart planetId={selectedPlanet.id} />
+                ) : (
+                  <WeeklyViewChart planetId={selectedPlanet.id} />
+                )}
               </S.Graph>
             </div>
             <S.PopularPostingsTable>
