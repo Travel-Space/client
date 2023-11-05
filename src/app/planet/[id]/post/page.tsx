@@ -15,6 +15,9 @@ import CommentList from "./detail/CommentList";
 interface PostDetailProps {
   data?: Posting;
 }
+interface RepliesPageInfo {
+  [commentId: number]: number;
+}
 
 export default function PostDetail() {
   const params = useSearchParams();
@@ -29,10 +32,8 @@ export default function PostDetail() {
   const [replyPageSize] = useState(5);
   const [totalComments, setTotalComments] = useState(0); // 전체 댓글 수
   const hasMoreComments = totalComments > currentCommentsPage * commentsPerPage;
+  const [repliesPageInfo, setRepliesPageInfo] = useState<RepliesPageInfo>({});
 
-
-
-  
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
     const commentPageQuery = `commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}`;
@@ -69,8 +70,17 @@ export default function PostDetail() {
     fetchPostDetail();
   }, [post, currentCommentsPage]);
 
+  // 댓글 페이지네이션
   const handleLoadMoreComments = () => {
     setCurrentCommentsPage(prevPage => prevPage + 1);
+  };
+
+  // 대댓글 페이지네이션
+  const updateRepliesPageInfo = (commentId: number, newPage: number) => {
+    setRepliesPageInfo(prev => ({
+      ...prev,
+      [commentId]: newPage,
+    }));
   };
 
   // 댓글의 변경사항이 있을 때 호출될 함수
@@ -107,9 +117,12 @@ export default function PostDetail() {
         <LikeAndShare likedStatus={likedStatus} onLikeToggle={handleLikeAction} />
         <CommentList
           data={data}
-          onCommentChange={fetchPostDetail}
+          onCommentChange={handleCommentChange}
           onLoadMoreComments={handleLoadMoreComments}
           hasMoreComments={hasMoreComments}
+          repliesPageInfo={repliesPageInfo}
+          updateRepliesPageInfo={updateRepliesPageInfo}
+          replyPageSize={replyPageSize}
         />
       </PD.Content>
     </PD.Wrapper>

@@ -18,6 +18,10 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
   const [content, setContent] = useState<string>("");
 
   async function handleCommentSubmit() {
+    if (!content.trim()) {
+      alert("댓글 내용을 입력해 주세요.");
+      return;
+    }
     try {
       const payload: { [key: string]: any } = {
         content: content,
@@ -35,8 +39,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
       setContent("");
       if (onClose) onClose();
 
-      if(parentId){
-        
+      if (parentId) {
       }
     } catch (error) {
       console.error("Error submitting the comment:", error);

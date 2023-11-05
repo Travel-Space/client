@@ -20,9 +20,19 @@ interface CommentItemProps {
   author?: User;
   comment?: Comment;
   onCommentChange: () => void;
+  repliesPageInfo: { [commentId: number]: number };
+  updateRepliesPageInfo: (commentId: number, newPage: number) => void;
+  replyPageSize: number;
 }
 
-export default function CommentItem({ onCommentChange, data, isReply = false }: CommentItemProps): React.JSX.Element {
+export default function CommentItem({
+  onCommentChange,
+  data,
+  isReply = false,
+  repliesPageInfo,
+  updateRepliesPageInfo,
+  replyPageSize,
+}: CommentItemProps): React.JSX.Element {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const [isEditing, setIsEditing] = useState(false);
@@ -94,7 +104,20 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
     setIsEditing(false);
     setEditingCommentId(null);
   };
-  console.log(data);
+
+  // 대댓글을 렌더링하는 함수
+  const renderReplies = (replies: Comment[], page: number, perPage: number) => {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    return replies.slice(start, end);
+  };
+
+  //대댓글 더 보기
+  const handleLoadMoreReplies = (commentId: number) => {
+    const currentRepliesPage = repliesPageInfo[commentId] || 1;
+    const nextRepliesPage = currentRepliesPage + 1;
+    updateRepliesPageInfo(commentId, nextRepliesPage);
+  };
 
   return (
     <>
@@ -184,14 +207,20 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
               {/* 대댓글 -> 재귀적(자기 자신을 호출)으로 렌더링 */}
               {comment.replies && comment.replies.length > 0 && (
                 <CI.ReplyWrapper key={comment.id}>
-                  {comment.replies.map(reply => (
+                  {renderReplies(comment.replies, repliesPageInfo[comment.id] || 1, replyPageSize).map(reply => (
                     <CommentItem
                       key={reply.id}
                       data={{ ...data, comments: [reply] }}
                       isReply={true}
                       onCommentChange={onCommentChange || (() => {})}
+                      repliesPageInfo={repliesPageInfo}
+                      updateRepliesPageInfo={updateRepliesPageInfo}
+                      replyPageSize={replyPageSize}
                     />
                   ))}
+                  {comment.replies.length > (repliesPageInfo[comment.id] || 1) * replyPageSize && (
+                    <button onClick={() => handleLoadMoreReplies(comment.id)}>더 보기</button>
+                  )}
                 </CI.ReplyWrapper>
               )}
             </React.Fragment>
