@@ -23,4 +23,7 @@ export const ShowMoreBtn = styled.button`
   font-weight: 500;
   ${flexCenter}
   margin: 40px auto 0;
+  &:disabled {
+    display: none;
+  }
 `;

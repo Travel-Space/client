@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { followingState } from "@/recoil/atoms/friend.atom";
+import { followingState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
@@ -14,6 +14,7 @@ interface FollowingsProps {
 
 export default function Followings({ loadData, page, limit }: FollowingsProps) {
   const followings = useRecoilValue(followingState);
+  const totalFollowings = useRecoilValue(totalFollowingsState);
 
   //useMoreButton
   const handleClick = () => {
@@ -38,7 +39,9 @@ export default function Followings({ loadData, page, limit }: FollowingsProps) {
             {followings.map((el, idx) => (
               <Person key={`following${idx}`} data={el.friend} page={page} limit={limit} />
             ))}
-            <S.ShowMoreBtn onClick={handleClick}>목록 더보기</S.ShowMoreBtn>
+            <S.ShowMoreBtn onClick={handleClick} disabled={followings.length === totalFollowings}>
+              목록 더보기
+            </S.ShowMoreBtn>
           </S.MyFriends>
         </>
       )}
