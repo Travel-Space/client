@@ -1,8 +1,10 @@
 import axiosRequest from "@/api";
 import { ResData, DailyViewCount } from "@/@types";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
@@ -11,6 +13,8 @@ import Checkbox from "../Checkbox";
 import MESSAGE from "@/constants/message";
 
 const Confirm = () => {
+  const user = useRecoilValue(userAtom);
+
   const router = useRouter();
 
   const [checked, setChecked] = useState(false);
@@ -29,7 +33,7 @@ const Confirm = () => {
   //회원 탈퇴
   async function leaveService() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>("delete", `/user/${user.id}`);
+      const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>("delete", `/user/${user?.id}`);
       // console.log("viewcount", response.data);
     } catch (error) {
       console.error("회원을 탈퇴하는 중 오류가 발생했습니다.", error);

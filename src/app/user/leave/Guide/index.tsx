@@ -1,16 +1,16 @@
+import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData, DailyViewCount } from "@/@types";
 
 import { useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
 import Image from "next/image";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
-import { AxiosError } from "axios";
 import LEAVEINFO from "@/constants/leave";
 
 const Guide = () => {
