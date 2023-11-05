@@ -61,7 +61,7 @@ export default function Comments() {
               <MyComments key={`my-comments${idx}`} data={el} page={page} saveData={saveData} setPage={setPage} />
             ))}
           </S.MyCommentsWrap>
-          <Pagination totalPage={totalPage} limit={5} page={page} setPage={(page: number) => setPage(page)} />
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />
         </>
       )}
     </S.Container>

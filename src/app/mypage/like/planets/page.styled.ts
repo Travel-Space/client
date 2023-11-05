@@ -6,6 +6,10 @@ export const Container = styled.div``;
 export const MyPlanets = styled.div`
   ${flexCenter}
 `;
+export const MyPlanetWrap = styled.div`
+  display: flex;
+  gap: 32px;
+`;
 export const NoMyPlanets = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   color: ${({ theme }) => theme.PALETTE.gray[100]};

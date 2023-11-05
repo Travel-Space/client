@@ -1,8 +1,8 @@
 import axiosRequest from "@/api";
-import { ResData, Follower, Following, Follow } from "@/@types";
+import { ResData, FollowersType, FollowingsType, Follow } from "@/@types";
 
 import { useRecoilState } from "recoil";
-import { followerState, followingState } from "@/recoil/atoms/friend.atom";
+import { followerState, followingState, totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
@@ -18,6 +18,9 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
   const [followers, setFollowers] = useRecoilState(followerState);
   const [followings, setFollowings] = useRecoilState(followingState);
 
+  const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
+  const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
+
   const updateData = (page: number, limit: number) => {
     getFollowings(page, limit);
     getFollowers(page, limit);
@@ -25,13 +28,17 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
   //팔로잉 조회
   async function getFollowings(page: number, limit: number) {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Following[]>>(
+      const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
         `/user/following?page=${page}&limit=${limit}`,
       );
-      const followings = response.data;
+      const followings = response.data.data;
+      const total = response.data.total;
+
       if (page === 1) setFollowings(followings);
       else setFollowings(prev => [...prev, ...followings]);
+
+      setTotalFollowings(total);
       // console.log("followings", response.data);
     } catch (error) {
       alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -41,13 +48,17 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
   //팔로워 조회
   async function getFollowers(page: number, limit: number) {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Follower[]>>(
+      const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
         `/user/followers?page=${page}&limit=${limit}`,
       );
-      const followers = response.data;
+      const followers = response.data.data;
+      const total = response.data.total;
+
       if (page === 1) setFollowers(followers);
       else setFollowers(prev => [...prev, ...followers]);
+
+      setTotalFollowers(total);
       // console.log("followings", response.data);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");

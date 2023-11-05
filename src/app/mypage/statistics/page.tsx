@@ -4,19 +4,22 @@ import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import planetsState from "@/recoil/atoms/planets.atom";
-import { selectedDateState } from "@/recoil/atoms/chart.atom";
+import { myPlanetsState } from "@/recoil/atoms/planets.atom";
+import { selectedDateState, selectedWeekState } from "@/recoil/atoms/chart.atom";
 
 import * as S from "./page.styled";
 
-import PopularPosting from "./PopularPosting";
+import PopularPost from "./PopularPost";
 import Button from "@/components/common/Button";
 import Summary from "./Summary";
 import DailyViewChart from "./DailyViewChart";
+import WeeklyViewChart from "./WeeklyViewChart";
+import Nothing from "@/components/common/Nothing";
 
 export default function Statistics() {
-  const [planets, setPlanets] = useRecoilState(planetsState);
+  const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
   const selectedDate = useRecoilValue(selectedDateState);
+  const selectedWeek = useRecoilValue(selectedWeekState); //bar 클릭 시 선택된 주
 
   const [selectedPlanet, setSelectedPlanet] = useState<Planet>();
 
@@ -24,7 +27,6 @@ export default function Statistics() {
   const [selectedMenu, setSelectedMenu] = useState(dropdownMenu[0]);
 
   const dropDownProps = {
-    comment: "행성 선택",
     menuList: dropdownMenu,
     selectedMenu: selectedMenu, //선택한 메뉴
     handleClick: (menu: string) => setSelectedMenu(menu), //메뉴를 클릭했을 때 실행될 메서드
@@ -40,11 +42,13 @@ export default function Statistics() {
   };
 
   //내 행성 불러오기
-  //api 수정되면 수정예정
   async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", "/planet/my-planets");
-      setPlanets(response.data.data);
+      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+        "get",
+        "/planet/my-owned-planets?page=1&limit=5",
+      );
+      setMyPlanets(response.data.data);
       // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -57,63 +61,59 @@ export default function Statistics() {
   }, []);
 
   useEffect(() => {
-    const planetNames = planets.map(planet => planet.name);
+    const planetNames = myPlanets.map(planet => planet.name);
     setDropdownMenu([...planetNames]);
+    setSelectedMenu(planetNames[0]);
+    setSelectedPlanet(myPlanets[0]);
     // console.log("planetNames", planetNames);
     // console.log("dropdownMenu", dropdownMenu);
-  }, [planets]);
+  }, [myPlanets]);
 
   useEffect(() => {
-    const planet = planets?.filter(planet => planet.name === selectedMenu)[0];
+    const planet = myPlanets?.filter(planet => planet.name === selectedMenu)[0];
     setSelectedPlanet(planet);
     // console.log("selectedPlanet", selectedPlanet);
   }, [selectedMenu]);
 
   return (
     <S.Container>
-      <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
-
-      <S.Statistics>
-        <div>
-          <S.Header>
-            <S.Today>{selectedDate}</S.Today>
-            <S.Buttons isActive={isActive}>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
-                일간
-              </Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickWeeklyBtn}>
-                주간
-              </Button>
-            </S.Buttons>
-          </S.Header>
-          <S.Graph>
-            <DailyViewChart />
-          </S.Graph>
-        </div>
-        <S.PopularPostingsTable>
-          <S.TableHeader>
-            <S.TdTitle>
-              <div>인기글</div>
-            </S.TdTitle>
-            <S.TdLeft></S.TdLeft>
-            <S.TdCenter>월간 조회수</S.TdCenter>
-            <S.TdCenter>행성</S.TdCenter>
-            <S.TdCenter>작성일</S.TdCenter>
-          </S.TableHeader>
-          <S.Tablebody>
-            <PopularPosting ranking={1} />
-            <PopularPosting ranking={2} />
-            <PopularPosting ranking={3} />
-            <PopularPosting ranking={4} />
-            <PopularPosting ranking={5} />
-            <PopularPosting ranking={6} />
-            <PopularPosting ranking={7} />
-            <PopularPosting ranking={8} />
-            <PopularPosting ranking={9} />
-            <PopularPosting ranking={10} />
-          </S.Tablebody>
-        </S.PopularPostingsTable>
-      </S.Statistics>
+      {!selectedPlanet ? (
+        <Nothing
+          src="/assets/img/icons/no-planets.svg"
+          alt="no-TravelingPlanets"
+          width={148}
+          height={148}
+          comment="소유하는 행성이 없습니다."
+          font="lg"
+        />
+      ) : (
+        <>
+          <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
+          <S.Statistics>
+            <div>
+              <S.Header>
+                <S.Today>{isActive === "daily" ? selectedDate : selectedWeek}</S.Today>
+                <S.Buttons isActive={isActive}>
+                  <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
+                    일간
+                  </Button>
+                  <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickWeeklyBtn}>
+                    주간
+                  </Button>
+                </S.Buttons>
+              </S.Header>
+              <S.Graph>
+                {isActive === "daily" ? (
+                  <DailyViewChart planetId={selectedPlanet.id} />
+                ) : (
+                  <WeeklyViewChart planetId={selectedPlanet.id} />
+                )}
+              </S.Graph>
+            </div>
+            <PopularPost planetId={selectedPlanet.id} />
+          </S.Statistics>
+        </>
+      )}
     </S.Container>
   );
 }
