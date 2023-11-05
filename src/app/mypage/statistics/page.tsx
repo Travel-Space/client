@@ -4,7 +4,7 @@ import { ResData, Planet, Planets } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import planetsState from "@/recoil/atoms/planets.atom";
+import { myPlanetsState } from "@/recoil/atoms/planets.atom";
 import { selectedDateState, selectedWeekState } from "@/recoil/atoms/chart.atom";
 
 import * as S from "./page.styled";
@@ -17,7 +17,7 @@ import WeeklyViewChart from "./WeeklyViewChart";
 import Nothing from "@/components/common/Nothing";
 
 export default function Statistics() {
-  const [planets, setPlanets] = useRecoilState(planetsState);
+  const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
   const selectedDate = useRecoilValue(selectedDateState);
   const selectedWeek = useRecoilValue(selectedWeekState); //bar 클릭 시 선택된 주
 
@@ -48,7 +48,7 @@ export default function Statistics() {
         "get",
         "/planet/my-owned-planets?page=1&limit=5",
       );
-      setPlanets(response.data.data);
+      setMyPlanets(response.data.data);
       // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -61,16 +61,16 @@ export default function Statistics() {
   }, []);
 
   useEffect(() => {
-    const planetNames = planets.map(planet => planet.name);
+    const planetNames = myPlanets.map(planet => planet.name);
     setDropdownMenu([...planetNames]);
     setSelectedMenu(planetNames[0]);
-    setSelectedPlanet(planets[0]);
+    setSelectedPlanet(myPlanets[0]);
     // console.log("planetNames", planetNames);
     // console.log("dropdownMenu", dropdownMenu);
-  }, [planets]);
+  }, [myPlanets]);
 
   useEffect(() => {
-    const planet = planets?.filter(planet => planet.name === selectedMenu)[0];
+    const planet = myPlanets?.filter(planet => planet.name === selectedMenu)[0];
     setSelectedPlanet(planet);
     // console.log("selectedPlanet", selectedPlanet);
   }, [selectedMenu]);
