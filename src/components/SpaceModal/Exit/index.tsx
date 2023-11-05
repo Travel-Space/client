@@ -47,6 +47,19 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     }
   }
 
+  async function handlePlanetDelete() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
+      console.log(response);
+      response.status === 200 && alert("행성이 성공적으로 삭제되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("행성 삭제하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   return (
     <BoxModal onClose={onClose} title={`${type} 탈출`}>
       {role !== "OWNER" ? (
@@ -57,42 +70,60 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         </S.Notification>
       ) : (
         <S.NotificationBox>
-          <b>{title}</b> {type} 멤버 중 한 명에게 <b>관리자를 위임</b>하시고 <br />
-          {type} 나가기 버튼을 눌러주세요.
-          <S.MemberList>
-            {members?.map(member => (
-              <Member
-                key={member.userId}
-                {...member}
-                type={type}
-                mode={"select"}
-                onSelectMember={userId => setSelectMember(userId)}
-              />
-            ))}
-          </S.MemberList>
+          {members && members.length > 0 ? (
+            <>
+              <b>{title}</b> {type} 멤버 중 한 명에게 <b>관리자를 위임</b>하시고 <br />
+              {type} 나가기 버튼을 눌러주세요.
+              <S.MemberList>
+                {members?.map(member => (
+                  <Member
+                    key={member.userId}
+                    {...member}
+                    type={type}
+                    mode={"select"}
+                    onSelectMember={userId => setSelectMember(userId)}
+                  />
+                ))}
+              </S.MemberList>
+            </>
+          ) : (
+            <>
+              <b>{title}</b> {type}에 멤버가 없습니다. <br />
+              {type} 행성을 삭제하시겠습니까?
+            </>
+          )}
         </S.NotificationBox>
       )}
 
       <S.CenterGroup>
-        <Button
-          variant="reverse"
-          shape="medium"
-          size="big"
-          onClick={
-            type === ItemType.Planet
-              ? role === "OWNER"
+        {members && members.length > 0 ? (
+          <Button
+            variant="reverse"
+            shape="medium"
+            size="big"
+            onClick={
+              type === ItemType.Planet
+                ? role === "OWNER"
+                  ? handlePlanetTransferOwnership
+                  : handlePlanetExit
+                : role === "OWNER"
                 ? handlePlanetTransferOwnership
                 : handlePlanetExit
-              : role === "OWNER"
-              ? handlePlanetTransferOwnership
-              : handlePlanetExit
-          }
-        >
-          <S.CenterGroup>
-            <img src="/assets/img/icons/exit.svg" />
-            <span>{type} 나가기</span>
-          </S.CenterGroup>
-        </Button>
+            }
+          >
+            <S.CenterGroup>
+              <img src="/assets/img/icons/exit.svg" />
+              <span>{type} 나가기</span>
+            </S.CenterGroup>
+          </Button>
+        ) : (
+          <Button variant="reverse" shape="medium" size="big" onClick={handlePlanetDelete}>
+            <S.CenterGroup>
+              <img src="/assets/img/icons/trash.svg" />
+              <span>{type} 삭제하기</span>
+            </S.CenterGroup>
+          </Button>
+        )}
         <Button variant="confirm" shape="medium" size="big" onClick={onClose}>
           다시 고민해 볼게요.
         </Button>

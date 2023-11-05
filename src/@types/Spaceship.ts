@@ -39,7 +39,14 @@ export interface SpaceshipApplication {
   spaceship: Spaceship;
 }
 
-export type SpaceshipStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELED";
+export type SpaceshipStatus = keyof typeof SpaceshipStatusName;
+
+export enum SpaceshipStatusName {
+  UPCOMING = "여행 준비",
+  ONGOING = "여행 중",
+  COMPLETED = "여행 끝",
+  CANCELED = "여행 취소",
+}
 
 export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
 

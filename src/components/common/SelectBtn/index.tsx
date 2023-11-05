@@ -7,7 +7,7 @@ interface SelectBtnType {
   selected: ListType;
 }
 
-type ListType = { value: string; text: string };
+export type ListType = { value: string; text: string };
 
 export default function SelectBtn({ selectList, selected, onSelected }: SelectBtnType) {
   const [showList, setShowList] = useState<boolean>(false);

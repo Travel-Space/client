@@ -37,8 +37,8 @@ export const Textarea = styled.textarea<sizeProp>`
     size === "admin"
       ? css`
           &:focus {
-            border-color: ${({ theme }) => theme.PALETTE.gray[100]};
-            box-shadow: 0 0 0 3px #d9d9d9;
+            border-color: ${({ theme }) => theme.PALETTE.black};
+            box-shadow: 0 0 0 3px #${({ theme }) => theme.PALETTE.black};
           }
         `
       : css`

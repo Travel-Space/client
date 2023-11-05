@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { Spaceship } from "@/@types/Spaceship";
+import { SpaceshipStatus } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -24,24 +24,39 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { PlanetMembership } from "@/@types/Planet";
 
+export interface SpaceShipType {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+  maxMembers: number;
+  ownerId: number;
+  status: SpaceshipStatus;
+  startDate: string;
+  endDate: string;
+  planetId: number;
+  chatRoomId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function SpaceShip() {
-  const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
+  const [spaceShipList, setSpaceShipList] = useState<SpaceShipType[]>([]);
   const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
   const [planetName, setPlanetName] = useState<string>();
   const [planetMember, setPlanetMember] = useState<PlanetMembership[]>();
+  const [planetMaxMember, setPlanetMaxMember] = useState<number>();
 
   const { modalDataState, openModal, closeModal } = useModal();
 
   const router = useRouter();
   const params = useParams();
-  const { memberships } = useRecoilValue(userAtom);
-  const { planets } = memberships;
+  const user = useRecoilValue(userAtom);
   const id: string = params.id as string;
-  const thisPlanet = planets.find(planet => planet?.planetId === parseInt(id));
+  const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(id));
 
   const exitModal = {
     title: "행성 탈출",
-    // 현재 내 user recoil 행성별 role 정보에 맞게 보여줘야 함
     content: (
       <Exit
         onClose={closeModal}
@@ -56,19 +71,38 @@ export default function SpaceShip() {
 
   const planetMemberModal = {
     title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} />,
+    content: <PlanetMember onClose={closeModal} members={planetMember} />,
   };
 
   const limitNumber = Array.from({ length: spaceShipLimit }, (_, index) => index + 1);
+  const remainingSpaceships = [...spaceShipList, ...limitNumber?.slice(spaceShipList.length)];
+
+  async function fetchSpaceshipData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<SpaceShipType[]>>(
+        "get",
+        `/spaceship/by-planet/${id}`,
+        {},
+      );
+      console.log(response);
+      setSpaceShipList(response.data);
+    } catch (error) {
+      console.error("우주선 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
 
   async function fetchPlanetData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
       console.log(response);
-      setSpaceShipLimit(response.data.spaceshipLimit);
-      setPlanetName(response.data.name);
+      const { spaceshipLimit, name, memberLimit } = response.data;
+      setSpaceShipLimit(spaceshipLimit);
+      setPlanetName(name);
+      setPlanetMaxMember(memberLimit);
     } catch (error) {
-      console.error("우주선 조회 에러", error);
+      console.error("행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -91,6 +125,7 @@ export default function SpaceShip() {
 
   useEffect(() => {
     fetchPlanetData();
+    fetchSpaceshipData();
     fetchMemberListData();
   }, []);
 
@@ -120,9 +155,9 @@ export default function SpaceShip() {
         }}
         modules={[Pagination]}
       >
-        {limitNumber.map(ship => (
-          <SwiperSlide key={ship}>
-            <Ship test={ship} />
+        {remainingSpaceships?.map((ship, index) => (
+          <SwiperSlide key={index}>
+            <Ship planetId={parseInt(id)} planetMaxMember={planetMaxMember} spaceShip={ship} />
           </SwiperSlide>
         ))}
       </S.List>
