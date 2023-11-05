@@ -7,13 +7,14 @@ import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
 import SelectBtn, { ListType } from "@/components/common/SelectBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
 import { AxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
+import { SpaceShipType } from "../../page";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -39,9 +40,10 @@ const shipStatus: ListType[] = [
 interface ShipManageType extends Default {
   planetId: number;
   planetMaxMember?: number;
+  spaceShip?: number | SpaceShipType;
 }
 
-export default function ShipManage({ onClose, planetId, planetMaxMember }: ShipManageType) {
+export default function ShipManage({ onClose, planetId, planetMaxMember, spaceShip }: ShipManageType) {
   const [shipInfo, setShipInfo] = useState<ShipType>({
     name: "",
     description: "",
@@ -93,6 +95,33 @@ export default function ShipManage({ onClose, planetId, planetMaxMember }: ShipM
       alert(errorResponse?.data.message);
     }
   }
+
+  async function submitModifySpaceship() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
+        "put",
+        `/spaceship/${typeof spaceShip === "object" && spaceShip?.id}`,
+        shipInfo,
+      );
+      console.log(response);
+      response.status === 200 && alert("우주선 정보가 업데이트 되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 수정하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  useEffect(() => {
+    if (typeof spaceShip === "object") {
+      setShipInfo({
+        ...spaceShip,
+        startDate: `${getDateFormat(new Date(spaceShip.startDate))}`,
+        endDate: `${getDateFormat(new Date(spaceShip.endDate))}`,
+      });
+    }
+  }, []);
 
   return (
     <BoxModal onClose={onClose} title="새 우주선 만들기">
@@ -168,11 +197,9 @@ export default function ShipManage({ onClose, planetId, planetMaxMember }: ShipM
             variant="confirm"
             shape="medium"
             size="big"
-            onClick={submitCreateSpaceship}
-            // onClick={planetInfo.id ? submitModifyPlanet : submitCreatePlanet}
+            onClick={typeof spaceShip === "object" ? submitModifySpaceship : submitCreateSpaceship}
           >
-            {/* {planetInfo.id ? "수정" : "완료"} */}
-            완료
+            {typeof spaceShip === "object" ? "수정" : "완료"}
           </Button>
         </S.Center>
       </S.Content>

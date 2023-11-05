@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { Spaceship } from "@/@types/Spaceship";
+import { SpaceshipStatus } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -24,8 +24,24 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { PlanetMembership } from "@/@types/Planet";
 
+export interface SpaceShipType {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+  maxMembers: number;
+  ownerId: number;
+  status: SpaceshipStatus;
+  startDate: string;
+  endDate: string;
+  planetId: number;
+  chatRoomId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function SpaceShip() {
-  const [spaceShipList, setSpaceShipList] = useState<Spaceship>();
+  const [spaceShipList, setSpaceShipList] = useState<SpaceShipType[]>([]);
   const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
   const [planetName, setPlanetName] = useState<string>();
   const [planetMember, setPlanetMember] = useState<PlanetMembership[]>();
@@ -59,6 +75,23 @@ export default function SpaceShip() {
   };
 
   const limitNumber = Array.from({ length: spaceShipLimit }, (_, index) => index + 1);
+  const remainingSpaceships = [...spaceShipList, ...limitNumber?.slice(spaceShipList.length)];
+
+  async function fetchSpaceshipData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<SpaceShipType[]>>(
+        "get",
+        `/spaceship/by-planet/${id}`,
+        {},
+      );
+      console.log(response);
+      setSpaceShipList(response.data);
+    } catch (error) {
+      console.error("우주선 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
 
   async function fetchPlanetData() {
     try {
@@ -69,7 +102,7 @@ export default function SpaceShip() {
       setPlanetName(name);
       setPlanetMaxMember(memberLimit);
     } catch (error) {
-      console.error("우주선 조회 에러", error);
+      console.error("행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -92,6 +125,7 @@ export default function SpaceShip() {
 
   useEffect(() => {
     fetchPlanetData();
+    fetchSpaceshipData();
     fetchMemberListData();
   }, []);
 
@@ -121,9 +155,9 @@ export default function SpaceShip() {
         }}
         modules={[Pagination]}
       >
-        {limitNumber.map(ship => (
-          <SwiperSlide key={ship}>
-            <Ship test={ship} planetId={parseInt(id)} planetMaxMember={planetMaxMember} />
+        {remainingSpaceships?.map((ship, index) => (
+          <SwiperSlide key={index}>
+            <Ship planetId={parseInt(id)} planetMaxMember={planetMaxMember} spaceShip={ship} />
           </SwiperSlide>
         ))}
       </S.List>
