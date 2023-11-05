@@ -1,10 +1,11 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, Planets } from "@/@types";
+import { ResData, Planet, Planets, JoinedPlanets } from "@/@types";
 
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { myPlanetsState, joinedPlanetsState, joinedPlanetsCountState } from "@/recoil/atoms/planets.atom";
+import { useRecoilState } from "recoil";
+import { myPlanetsState, joinedPlanetsState } from "@/recoil/atoms/planets.atom";
+import usePagination from "@/hooks/usePagination";
 
 import * as S from "./page.styled";
 
@@ -14,14 +15,17 @@ import Nothing from "@/components/common/Nothing";
 import MyPlanet from "@/app/mypage/MyPlanet";
 import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
+import Pagination from "@/components/common/Pagination";
 
 export default function Planet() {
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
 
   const [joinedPlanets, setJoinedPlanets] = useRecoilState(joinedPlanetsState);
-  const [joinedPlanetsCount, setJoinedPlanetsCount] = useRecoilState(joinedPlanetsCountState);
 
   const [overLimit, setOverLimit] = useState(false);
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
 
   //소유한 행성 불러오기
   async function getMyPlanets() {
@@ -31,7 +35,8 @@ export default function Planet() {
         "/planet/my-owned-planets?page=1&limit=5",
       );
 
-      setMyPlanets(response.data.data);
+      const planets = response.data.data;
+      setMyPlanets(planets);
       // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -41,13 +46,15 @@ export default function Planet() {
   //가입한 행성 불러오기
   async function getJoinedPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+      const response = await axiosRequest.requestAxios<ResData<JoinedPlanets>>(
         "get",
-        `/planet/my-planets?page=${page}&limit=${limit}`,
+        `/planet/my-planets?page=${page}&limit=10`,
       );
+      const planets = response.data.data;
+      const totalCount = response.data.totalMemberships;
+      const totalPage = Math.ceil(totalCount / 10);
 
-      setJoinedPlanets(response.data.data);
-      setJoinedPlanetsCount(response.data.totalCount);
+      saveData(totalCount, totalPage, planets);
       // console.log("planets", response.data.data);
     } catch (error) {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -93,7 +100,7 @@ export default function Planet() {
           )}
         </S.MyPlanetWrap>
       )}
-      {joinedPlanetsCount === 0 ? (
+      {totalCount === 0 ? (
         <Nothing
           src="/assets/img/icons/no-planets.svg"
           alt="no-TravelingPlanets"
@@ -104,17 +111,18 @@ export default function Planet() {
         />
       ) : (
         <>
-          <S.TravelingPlanetInfo>
+          <S.JoinedPlanetInfo>
             <S.Title>여행 중인 행성</S.Title>
             <S.TravelNumber>
-              총 <span>{joinedPlanetsCount}</span>개의 행성
+              총 <span>{totalCount}</span>개의 행성
             </S.TravelNumber>
-          </S.TravelingPlanetInfo>
-          <S.TravelingPlanetList>
+          </S.JoinedPlanetInfo>
+          <S.JoinedPlanetList>
             {joinedPlanets.map((planet, idx) => (
               <PlanetItem key={idx} data={planet} />
             ))}
-          </S.TravelingPlanetList>
+          </S.JoinedPlanetList>
+          <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />
         </>
       )}
     </S.Container>
