@@ -29,11 +29,15 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
       }
 
       const response = await axiosRequest.requestAxios<ResData<Comment>>("post", `/comments/${post}/comments`, payload);
-      setContent("");
       if (onCommentChange) {
-        onCommentChange(); 
+        onCommentChange();
       }
+      setContent("");
       if (onClose) onClose();
+
+      if(parentId){
+        
+      }
     } catch (error) {
       console.error("Error submitting the comment:", error);
       alert("로그인 하신 후 댓글을 작성할 수 있습니다.");

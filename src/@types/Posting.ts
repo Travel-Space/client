@@ -22,6 +22,7 @@ export interface Posting {
   comments: Comment[];
   isLiked: boolean;
   hashtags: [];
+  totalTopLevelCommentsCount: number;
 }
 
 interface Images {
