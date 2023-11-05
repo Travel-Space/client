@@ -14,6 +14,7 @@ import Button from "@/components/common/Button";
 import Summary from "./Summary";
 import DailyViewChart from "./DailyViewChart";
 import WeeklyViewChart from "./WeeklyViewChart";
+import Nothing from "@/components/common/Nothing";
 
 export default function Statistics() {
   const [planets, setPlanets] = useRecoilState(planetsState);
@@ -63,6 +64,8 @@ export default function Statistics() {
   useEffect(() => {
     const planetNames = planets.map(planet => planet.name);
     setDropdownMenu([...planetNames]);
+    setSelectedMenu(planetNames[0]);
+    setSelectedPlanet(planets[0]);
     // console.log("planetNames", planetNames);
     // console.log("dropdownMenu", dropdownMenu);
   }, [planets]);
@@ -75,47 +78,61 @@ export default function Statistics() {
 
   return (
     <S.Container>
-      <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
-
-      <S.Statistics>
-        <div>
-          <S.Header>
-            <S.Today>{isActive === "daily" ? selectedDate : selectedWeek}</S.Today>
-            <S.Buttons isActive={isActive}>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
-                일간
-              </Button>
-              <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickWeeklyBtn}>
-                주간
-              </Button>
-            </S.Buttons>
-          </S.Header>
-          <S.Graph>{isActive === "daily" ? <DailyViewChart /> : <WeeklyViewChart />}</S.Graph>
-        </div>
-        <S.PopularPostingsTable>
-          <S.TableHeader>
-            <S.TdTitle>
-              <div>인기글</div>
-            </S.TdTitle>
-            <S.TdLeft></S.TdLeft>
-            <S.TdCenter>월간 조회수</S.TdCenter>
-            <S.TdCenter>행성</S.TdCenter>
-            <S.TdCenter>작성일</S.TdCenter>
-          </S.TableHeader>
-          <S.Tablebody>
-            <PopularPosting ranking={1} />
-            <PopularPosting ranking={2} />
-            <PopularPosting ranking={3} />
-            <PopularPosting ranking={4} />
-            <PopularPosting ranking={5} />
-            <PopularPosting ranking={6} />
-            <PopularPosting ranking={7} />
-            <PopularPosting ranking={8} />
-            <PopularPosting ranking={9} />
-            <PopularPosting ranking={10} />
-          </S.Tablebody>
-        </S.PopularPostingsTable>
-      </S.Statistics>
+      {!selectedPlanet ? (
+        <Nothing
+          src="/assets/img/icons/no-planets.svg"
+          alt="no-TravelingPlanets"
+          width={148}
+          height={148}
+          comment="소유하는 행성이 없습니다."
+          font="lg"
+        />
+      ) : (
+        <>
+          <Summary selectedPlanet={selectedPlanet} selectedMenu={selectedMenu} dropDownProps={dropDownProps} />
+          <S.Statistics>
+            <div>
+              <S.Header>
+                <S.Today>{isActive === "daily" ? selectedDate : selectedWeek}</S.Today>
+                <S.Buttons isActive={isActive}>
+                  <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickDailyBtn}>
+                    일간
+                  </Button>
+                  <Button variant="reverse" shape="medium" size="smallWithSmFont" onClick={handleClickWeeklyBtn}>
+                    주간
+                  </Button>
+                </S.Buttons>
+              </S.Header>
+              <S.Graph>
+                {isActive === "daily" ? <DailyViewChart planetId={selectedPlanet.id} /> : <WeeklyViewChart />}
+              </S.Graph>
+            </div>
+            <S.PopularPostingsTable>
+              <S.TableHeader>
+                <S.TdTitle>
+                  <div>인기글</div>
+                </S.TdTitle>
+                <S.TdLeft></S.TdLeft>
+                <S.TdCenter>월간 조회수</S.TdCenter>
+                <S.TdCenter>행성</S.TdCenter>
+                <S.TdCenter>작성일</S.TdCenter>
+              </S.TableHeader>
+              <S.Tablebody>
+                <PopularPosting ranking={1} />
+                <PopularPosting ranking={2} />
+                <PopularPosting ranking={3} />
+                <PopularPosting ranking={4} />
+                <PopularPosting ranking={5} />
+                <PopularPosting ranking={6} />
+                <PopularPosting ranking={7} />
+                <PopularPosting ranking={8} />
+                <PopularPosting ranking={9} />
+                <PopularPosting ranking={10} />
+              </S.Tablebody>
+            </S.PopularPostingsTable>
+          </S.Statistics>
+        </>
+      )}
     </S.Container>
   );
 }

@@ -90,7 +90,7 @@ const DailyViewChart = () => {
         `/planet/${planetId}/weekly-views?page=${page}`,
       );
       setViewData(response.data);
-      console.log("viewcount", response.data);
+      // console.log("viewcount", response.data);
     } catch (error) {
       alert("행성 방문수 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet visitation data: ", error);
