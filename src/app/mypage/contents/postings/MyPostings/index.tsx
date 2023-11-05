@@ -1,6 +1,8 @@
 import axiosRequest from "@/api";
 import { ResData, Posting, Postings } from "@/@types";
 
+import { useRouter } from "next/navigation";
+
 import * as S from "./index.styled";
 
 import Image from "next/image";
@@ -20,8 +22,10 @@ export default function MyPostings({ page, data, setPage, saveData }: MyPostings
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
+  const router = useRouter();
+
   const handleEdit = () => {
-    console.log();
+    router.push(`/planet/${planet.id}/post/write/?id=${id}&isEdit=true`);
   };
   const handleDelete = async () => {
     await deletePosting();
