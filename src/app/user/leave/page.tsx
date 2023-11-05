@@ -32,7 +32,9 @@ export default function Leave() {
   const goToMyProfile = () => {
     router.push("/mypage/basic-info/profile/");
   };
-
+  const handleClickLeaveBtn = () => {
+    !checked ? alert("내용에 동의해주세요.") : leaveService();
+  };
   //행성 일괄 탈퇴(관리하는 행성이 없는 경우)
   async function leaveAllPlanets() {
     try {
@@ -61,6 +63,7 @@ export default function Leave() {
       alert(MESSAGE.ERROR.DEFAULT);
     }
   }
+
   return (
     <S.Container>
       <S.MainTitle>회원 탈퇴</S.MainTitle>
@@ -151,7 +154,7 @@ export default function Leave() {
             </Button>
           </S.Button>
           <S.LeaveButton>
-            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={() => leaveService()}>
+            <Button variant="confirm" shape="medium" size="smallWithSmFont" onClick={handleClickLeaveBtn}>
               회원 탈퇴하기
             </Button>
           </S.LeaveButton>
