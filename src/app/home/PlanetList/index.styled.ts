@@ -84,7 +84,7 @@ export const PlanetImageContainer = styled.div`
   }
 `;
 
-export const LodingBarWrapper = styled.div`
+export const LoadingBarWrapper = styled.div`
   height: 260px;
 
   & div {

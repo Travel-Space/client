@@ -1,4 +1,4 @@
-import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+import { flexAlignCenter, flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -68,4 +68,14 @@ export const NoComments = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
   color: ${({ theme }) => theme.PALETTE.black[100]};
   font-weight: 700;
+`;
+
+export const MoreBtn = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 1100px;
+
+  & button {
+    width: 200px;
+  }
 `;

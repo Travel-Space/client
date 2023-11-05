@@ -11,7 +11,6 @@ import { useSearchParams } from "next/navigation";
 import PostContent from "./detail/PostContent";
 import LikeAndShare from "./detail/LikeAndShare";
 import CommentList from "./detail/CommentList";
-import LoadingBar from "@/components/common/LoadingBar";
 
 interface PostDetailProps {
   data?: Posting;
@@ -21,21 +20,42 @@ export default function PostDetail() {
   const params = useSearchParams();
   const post = params.get("detail");
 
-  const [data, setData] = useState<Posting | null>(null);
+  const [data, setData] = useState<Posting>();
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const currentUser = useRecoilValue(userAtom);
+  const [currentCommentsPage, setCurrentCommentsPage] = useState(1); //댓글 페이지
+  const commentsPerPage = 10; //댓글페이지
+  const [replyPageSize] = useState(5);
+  const [totalComments, setTotalComments] = useState(0); // 전체 댓글 수
+  const hasMoreComments = totalComments > currentCommentsPage * commentsPerPage;
 
+
+
+  
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<Posting>>(
-        "get",
-        `/articles/${post}?replyPageSize=5&commentPageSize=10&commentPage=1`,
-        {},
-      );
-      setData(response.data);
+    const commentPageQuery = `commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}`;
+    const replyPageQuery = `replyPageSize=${replyPageSize}`;
+    const endpoint = `/articles/${post}?${commentPageQuery}&${replyPageQuery}`;
 
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting>>("get", endpoint, {});
+
+      if (currentCommentsPage === 1) {
+        setData(response.data);
+      } else if (data) {
+        // 새로운 댓글 데이터를 기존 데이터에 추가합니다.
+        const newComments = response.data.comments.filter(
+          newComment => !data.comments.some(comment => comment.id === newComment.id),
+        );
+        setData({
+          ...data,
+          comments: [...data.comments, ...newComments],
+        });
+      }
+
+      setTotalComments(response.data.totalTopLevelCommentsCount);
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
       const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
@@ -47,14 +67,16 @@ export default function PostDetail() {
 
   useEffect(() => {
     fetchPostDetail();
-  }, [post]);
+  }, [post, currentCommentsPage]);
+
+  const handleLoadMoreComments = () => {
+    setCurrentCommentsPage(prevPage => prevPage + 1);
+  };
 
   // 댓글의 변경사항이 있을 때 호출될 함수
   const handleCommentChange = () => {
     fetchPostDetail();
   };
-
-  if (!data) return <LoadingBar />;
 
   // 게시글 좋아요, 좋아요 취소 함수
   async function handleLikeAction() {
@@ -83,7 +105,12 @@ export default function PostDetail() {
       <PD.Content>
         <PostContent data={data} />
         <LikeAndShare likedStatus={likedStatus} onLikeToggle={handleLikeAction} />
-        <CommentList data={data} onCommentChange={handleCommentChange} />
+        <CommentList
+          data={data}
+          onCommentChange={fetchPostDetail}
+          onLoadMoreComments={handleLoadMoreComments}
+          hasMoreComments={hasMoreComments}
+        />
       </PD.Content>
     </PD.Wrapper>
   );
