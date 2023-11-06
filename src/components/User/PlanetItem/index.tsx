@@ -2,6 +2,7 @@ import { Planet } from "@/@types/Planet";
 import PLANETSHAPE from "@/constants/planetShape";
 import ROLE from "@/constants/role";
 
+import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
 
@@ -15,13 +16,18 @@ interface PlanetItemProps {
 export default function PlanetItem({ data }: PlanetItemProps) {
   const profile = useRecoilValue(profileState);
   const { name, hashtags, memberLimit, published, shape, members } = data;
+
+  const router = useRouter();
+  const goToPlanet = () => {
+    router.push(`/planet/${data.id}/map/`);
+  };
   return (
     <S.Container>
-      <Image src={PLANETSHAPE[shape]} alt="planet" width={60} height={60} />
+      <Image src={PLANETSHAPE[shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
       <S.Info>
         <S.InfoRow>
           <S.InfoRowCol>
-            <S.Title>{name}</S.Title>
+            <S.Title onClick={goToPlanet}>{name}</S.Title>
             <S.People>
               {members ? members.length : 1}/{memberLimit ? memberLimit : 15}
             </S.People>

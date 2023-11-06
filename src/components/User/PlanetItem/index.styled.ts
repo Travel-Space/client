@@ -2,6 +2,9 @@ import { styled } from "styled-components";
 import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
 
 export const Container = styled.div`
+  & > img:first-child {
+    cursor: pointer;
+  }
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   background-color: ${({ theme }) => theme.PALETTE.white};
@@ -25,6 +28,10 @@ export const InfoRowCol = styled.div`
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 export const People = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
