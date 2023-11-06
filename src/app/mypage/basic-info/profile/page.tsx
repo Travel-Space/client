@@ -109,6 +109,7 @@ export default function Profile() {
       if (response.status === 200) {
         getProfile();
         alert("프로필이 변경되었습니다.");
+        setNotAllowSave(true);
         return;
       }
     } catch (error) {
@@ -133,6 +134,7 @@ export default function Profile() {
       if (response.status === 201) {
         getProfile();
         alert("비밀번호가 성공적으로 변경되었습니다.");
+        setNotAllowChange(true);
         return;
       }
     } catch (error) {
@@ -142,13 +144,14 @@ export default function Profile() {
   };
 
   //프로필 변경사항 저장
-  const saveProfile = () => {
+  const saveProfile = async () => {
     const changedData = {
       nickName: changedNickname,
       nationality: country.country_nm,
       profileImage: changedProfileImg,
     };
-    updateProfile(changedData);
+    await updateProfile(changedData);
+    getProfile();
   };
   //비밀번호 변경사항 저장
   const savePassword = () => {

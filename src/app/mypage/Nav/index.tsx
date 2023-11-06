@@ -2,7 +2,9 @@
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { profileState } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
@@ -23,7 +25,9 @@ interface NavProps {
 }
 
 export default function Nav({ navData }: NavProps) {
-  const [profile, setProfile] = useState<User>({} as User);
+  const [profile, setProfile] = useRecoilState(profileState);
+  const { profileImage, nickName, email } = profile as User;
+
   async function getProfile() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/profile`);
@@ -39,7 +43,7 @@ export default function Nav({ navData }: NavProps) {
   }, []);
   return (
     <S.Container>
-      <Profile imgSrc={profile.profileImage} nickname={profile.nickName} email={profile.email} />
+      <Profile imgSrc={profileImage} nickname={nickName} email={email} />
       {navData.map((el, idx) => (
         <NavList key={idx} logo={el.logo} parent={el.parentMenu} sub={el.subMenu} />
       ))}
