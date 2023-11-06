@@ -3,6 +3,11 @@ import { styled, css } from "styled-components";
 export const Container = styled.div`
   border-radius: 10px;
 `;
+export const Title = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  font-weight: 700;
+  margin-bottom: 24px;
+`;
 export const Main = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
@@ -46,6 +51,18 @@ export const NicknameInput = styled.input`
   padding: 0 24px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: 500;
+`;
+
+export const ButtonWrap = styled.div`
+  & > button {
+    width: 139px;
+    height: 51px;
+  }
+  margin-top: 16px;
+  margin-bottom: 32px;
+
+  display: flex;
+  justify-content: flex-end;
 `;
 export const Leave = styled.div`
   display: flex;

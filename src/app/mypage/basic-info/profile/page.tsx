@@ -132,28 +132,21 @@ export default function Profile() {
 
   return (
     <S.Container>
+      <S.Title>프로필 편집</S.Title>
       <S.Main>
         <Item name="프로필 사진">
           {/* 기본이미지 픽스 후 수정예정 */}
-          <ProfileImage prev={profile?.profileImage} onChange={handleChangeImg} />
+          <ProfileImage prev={"/assets/img/icons/default-user.svg"} onChange={handleChangeImg} />
         </Item>
         <Line color="gray" size="horizontal" />
-
         <Item name="이름">
           <S.Input type="text" value={profile?.name} readOnly />
         </Item>
         <Line color="gray" size="horizontal" />
-
         <Item name="이메일">
           <S.Input type="text" value={profile?.email} readOnly />
         </Item>
         <Line color="gray" size="horizontal" />
-
-        <Item name="비밀번호">
-          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
-        </Item>
-        <Line color="gray" size="horizontal" />
-
         <Item name="닉네임">
           <NicknameInput
             nickname={changedNickname}
@@ -163,7 +156,6 @@ export default function Profile() {
           />
         </Item>
         <Line color="gray" size="horizontal" />
-
         <Item name="국적">
           <S.Nationality>
             <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
@@ -171,6 +163,18 @@ export default function Profile() {
           </S.Nationality>
         </Item>
       </S.Main>
+      <S.ButtonWrap>
+        <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllow}>
+          변경 사항 저장
+        </Button>
+      </S.ButtonWrap>
+      <S.Title>비밀번호 변경</S.Title>
+      <S.Main>
+        <Item name="비밀번호">
+          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+        </Item>
+      </S.Main>
+
       <S.Footer>
         <S.Leave>
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
@@ -178,7 +182,7 @@ export default function Profile() {
         </S.Leave>
         <S.Save>
           <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllow}>
-            변경 사항 저장
+            비밀번호 변경하기
           </Button>
         </S.Save>
       </S.Footer>
