@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { getDateInfo } from "@/utils/getDateInfo";
-import { ArticleProps } from "../../page";
+import { ArticleProps } from "..";
 
 import * as S from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";

@@ -21,7 +21,6 @@ export default function DeclarationModal({ title, onClick, commentId }: ReportPr
 
   const [selectedMenu, setSelectedMenu] = useState("");
 
-  // const fileInput = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState(null);
 
   const [report, setReport] = useState({
