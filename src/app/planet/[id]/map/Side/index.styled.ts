@@ -37,6 +37,10 @@ export const Middle = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   ${flexSpaceBetweenCenter}
 
+  > div {
+    width: 160px;
+  }
+
   > select {
     border: none;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
@@ -71,4 +75,9 @@ export const ScrollBox = styled.div`
   overflow: scroll;
   padding-bottom: 40px;
   height: calc(100vh - 300px);
+`;
+
+export const ObserverRef = styled.div`
+  height: 10px;
+  border: none;
 `;

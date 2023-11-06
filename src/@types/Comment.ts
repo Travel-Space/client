@@ -17,6 +17,7 @@ export interface Comment {
   parent: Comment | null;
   children: Comment[] | null;
   replies: Comment[] | null;
+  repliesCount: number;
 }
 
 export interface Comments {

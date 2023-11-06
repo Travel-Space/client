@@ -51,7 +51,6 @@ export default function PlanetInfo({ role }: PlanetProps) {
   }, []);
 
   const { name, description, hashtags, shape } = planetInfo;
-  console.log(planetInfo);
 
   const handleOpen = () => {
     setIsModal(prev => !prev);

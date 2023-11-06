@@ -23,7 +23,7 @@ export default function PostContent({ data }: PostContentProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentUser = useRecoilValue(userAtom);
-  const isMyPost = currentUser.id === data?.authorId;
+  const isMyPost = currentUser?.id === data?.authorId;
 
   //게시글 삭제 함수
   const handlePostDelete = async () => {
@@ -99,7 +99,7 @@ export default function PostContent({ data }: PostContentProps) {
               {isMyPost ? (
                 <>
                   <Link
-                    href={{ pathname: `/planet/${data.planetId}/post/write`, query: { id: data.id, isEdit: true } }}
+                    href={{ pathname: `/planet/${data?.planetId}/post/write`, query: { id: data?.id, isEdit: true } }}
                   >
                     <PC.EditBtn>
                       <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
