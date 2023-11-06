@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api/index";
-import { ResData, Planet, Posting } from "@/@types/index";
+import { ResData, Planet, Postings, Posting } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -9,17 +9,23 @@ import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
-import Postings from "@/app/user/profile/Postings";
-import ProfileSummary from "./ProfileSummary";
+import Postingss from "@/app/user/profile/Postings";
+import ProfileSummary from "../ProfileSummary";
 
-export default function Profile({ children }: { children: React.ReactNode }) {
+interface ProfileParams {
+  id: number;
+}
+export default function Profile({ params }: { params: ProfileParams }) {
+  const userId = params.id;
+
   const [tabIndex, setTabIndex] = useState(0);
-  const selectTab = (idx: number) => {
-    setTabIndex(idx);
-  };
 
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [postings, setPostings] = useState<Posting[]>([]);
+
+  const selectTab = (idx: number) => {
+    setTabIndex(idx);
+  };
 
   useEffect(() => {
     getPlanets();
@@ -43,8 +49,8 @@ export default function Profile({ children }: { children: React.ReactNode }) {
   // 유저 게시글 조회api 추가되면 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("get", "/articles");
-      setPostings(response.data);
+      const response = await axiosRequest.requestAxios<ResData<Postings>>("get", `/articles/ohter/${userId}/articles`);
+      setPostings(response.data.data);
       // console.log("Postings", postings);
     } catch (error) {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -108,7 +114,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
             font="lg"
           />
         ) : (
-          <Postings data={postings} />
+          <Postingss data={postings} />
         ),
     },
   ];
@@ -133,10 +139,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
 
         <Line color="gray" size="horizontal" />
 
-        <S.MainContent>
-          {TabList[tabIndex].content}
-          {children}
-        </S.MainContent>
+        <S.MainContent>{TabList[tabIndex].content}</S.MainContent>
       </S.MainContainer>
     </S.Container>
   );
