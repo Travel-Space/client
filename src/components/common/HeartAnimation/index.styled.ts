@@ -43,6 +43,7 @@ export const HeartIcon = styled.svg`
     stroke-dashoffset: 3000;
     stroke-linecap: round;
     animation: ${drawHeart} 1s linear forwards;
+    cursor: pointer;
   }
 `;
 // 폭죽 효과를 나타내는 스타일 컴포넌트
