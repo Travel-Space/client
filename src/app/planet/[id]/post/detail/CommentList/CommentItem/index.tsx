@@ -97,7 +97,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
         .map(comment => {
           const { dateString } = getDateInfo(comment.createdAt);
           {
-            /* 수정모드일 때  */
+            /* 수정모드일 때  작성 인풋*/
           }
           if (isEditing && comment.id === editingCommentId) {
             return (
