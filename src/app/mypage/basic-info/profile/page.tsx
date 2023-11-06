@@ -201,11 +201,8 @@ export default function Profile() {
         </Button>
       </S.ButtonWrap>
       <S.Title>비밀번호 변경</S.Title>
-      <S.Main>
-        <Item name="비밀번호">
-          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
-        </Item>
-      </S.Main>
+
+      <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
 
       <S.Footer>
         <S.Leave>
