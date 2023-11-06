@@ -20,6 +20,9 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
   const goToPlanet = () => {
     router.push(`/planet/${data.id}/map/`);
   };
+  const goToShip = () => {
+    router.push(`/planet/${data.id}/space-ship/`);
+  };
   return (
     <S.Container>
       <Image src={PLANETSHAPE[data.shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
@@ -27,7 +30,14 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
         <S.InfoRow>
           <S.InfoRowCol>
             <S.Name onClick={goToPlanet}>{data.name}</S.Name>
-            <S.People>
+            <div>
+              {data.published ? (
+                <Image src="/assets/img/icons/unlock.svg" alt="lock" width={20} height={20} />
+              ) : (
+                <Image src="/assets/img/icons/lock.svg" alt="lock" width={20} height={20} />
+              )}
+            </div>
+            <S.People onClick={goToShip}>
               {data.memberCount}/{data.memberLimit}
             </S.People>
           </S.InfoRowCol>

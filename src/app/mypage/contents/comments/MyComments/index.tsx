@@ -25,7 +25,7 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
     router.push(`/planet/${article.planetId}/map/`);
   };
   const goToPost = () => {
-    router.push(`/planet/${article.planet.id}/post/?detail=${articleId}`);
+    router.push(`/planet/${article.planetId}/post/?detail=${articleId}`);
   };
 
   //UTC->LOCAL 날짜 변환

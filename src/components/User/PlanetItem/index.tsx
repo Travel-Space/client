@@ -21,6 +21,9 @@ export default function PlanetItem({ data }: PlanetItemProps) {
   const goToPlanet = () => {
     router.push(`/planet/${data.id}/map/`);
   };
+  const goToShip = () => {
+    router.push(`/planet/${data.id}/space-ship/`);
+  };
   return (
     <S.Container>
       <Image src={PLANETSHAPE[shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
@@ -28,7 +31,7 @@ export default function PlanetItem({ data }: PlanetItemProps) {
         <S.InfoRow>
           <S.InfoRowCol>
             <S.Title onClick={goToPlanet}>{name}</S.Title>
-            <S.People>
+            <S.People onClick={goToShip}>
               {members ? members.length : 1}/{memberLimit ? memberLimit : 15}
             </S.People>
           </S.InfoRowCol>
