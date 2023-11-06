@@ -1,12 +1,14 @@
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 import { Posting } from "@/@types/Posting";
-import { ArticleProps } from "../page";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+import { Spaceship } from "@/@types/Spaceship";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
@@ -15,23 +17,84 @@ import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
-import LoadingBar from "@/components/common/LoadingBar";
 
-export default function Side({ onClose, article, params }: ArticleProps) {
-  const { isAuth, memberships } = useRecoilValue(userAtom);
+export interface ArticleProps {
+  params: Number;
+  clickMarker?: boolean;
+  onClose?: () => void;
+  article?: Posting;
+}
 
-  const pathname = usePathname();
-  const planetId = Number(pathname.split("/")[2]);
+export default function Side({ onClose, clickMarker, params }: ArticleProps) {
+  const user = useRecoilValue(userAtom);
 
+  // ===================================== 게시글 무한 스크롤 로직 =====================================
+
+  // 게시글 정보
+  const [article, setArticle] = useState<Partial<Posting[]>>([]);
+
+  // 페이지 정보 및 게시글 불러올 갯수
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  // const { setTargetRef } = useInfiniteScroll();
+
+  // 무한 스크롤 옵저버 인식 부분
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  // 지도 페이지 들어가서 전체 게시글 조회해서 무한 스크롤 되는 api (우주선 상관 o) = 사이드 바만 열었을 경우
+  // 지도 페이지 들어가서 마커에 해당하는 게시글만 조회해서 무한 스크롤 되는 api (우주선 상관 o) = 마커 클릭했을 경우
+  const getArticle = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
+        "get",
+        clickMarker
+          ? `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=2` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
+          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${100}`,
+      );
+      const data = response.data;
+
+      setArticle(data.articles);
+    } catch (error) {
+      console.error("에러 발생: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getArticle();
+  }, []);
+
+  // ===================================== 드롭 다운 메뉴 가져오기 =====================================
+
+  // 드롭 다운 메뉴
+  const [spaceship, setSpaceship] = useState<string[]>([]);
   const [selectedMenu, setSelectedMenu] = useState("전체");
+
+  // 드롭 다운 메뉴 받아오는 api
+  const getSpaceshipInfo = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${params}`);
+      const spaceshipName = response.data.map((el: Spaceship) => el.name);
+
+      setSpaceship(["전체", ...spaceshipName]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getSpaceshipInfo();
+  }, []);
 
   // 드롭다운 메뉴
   const dropDownProps = {
-    comment: "", //미선택시 보여질 문구(필요할 때만 추가)
-    menuList: ["전체", "우주선"],
-    selectedMenu: selectedMenu, //선택한 메뉴를 저장할 변수
-    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
+    comment: "", // 미선택시 보여질 문구(필요할 때만 추가)
+    menuList: spaceship,
+    selectedMenu: selectedMenu, // 선택한 메뉴를 저장할 변수
+    handleClick: setSelectedMenu, // 메뉴를 클릭했을 때 실행될 메서드를 전달
   };
+
+  // ===================================== 멤버 롤 체크 =====================================
 
   // 행성의 관리자 / 부관리자가 아니라면 혹은 행성 멤버를 가져오는 롤
   // 1. 행성에 가입되어 있는지 확인 / 2. 관리자인지 확인 / 3. 부 관리자인지 확인
@@ -39,17 +102,17 @@ export default function Side({ onClose, article, params }: ArticleProps) {
     OWNER: {
       roles: "관리자",
       tag: ["행성 관리", "우주선"],
-      link: [`/planet/${planetId}/modify`, `/planet/${planetId}/space-ship`],
+      link: [`/planet/${params}/modify`, `/planet/${params}/space-ship`],
     },
     ADMIN: {
       roles: "부관리자",
       tag: "행성 관리",
-      link: `/planet/${planetId}/modify`,
+      link: `/planet/${params}/modify`,
     },
     MEMBER: {
       roles: "일반",
       tag: "우주선",
-      link: `/planet/${planetId}/space-ship`,
+      link: `/planet/${params}/space-ship`,
     },
     GUEST: {
       roles: "게스트",
@@ -58,7 +121,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
   };
 
   const planetJoinRoleCheck = () => {
-    const memberCheck = memberships.planets.find(el => el?.planetId === planetId);
+    const memberCheck = user?.memberships.planets.find(el => el?.planetId === Number(params));
 
     const checkJoin = () => {
       if (memberCheck === undefined) return false;
@@ -95,7 +158,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
                   <DropDown color="none" font="md" shape="round" props={dropDownProps} />
                 </div>
 
-                {isAuth && checkJoin() && (
+                {user?.isAuth && checkJoin() && (
                   <Link href={`/planet/${params}/post/write`}>
                     <S.Button>새 글 작성</S.Button>
                   </Link>
@@ -104,7 +167,7 @@ export default function Side({ onClose, article, params }: ArticleProps) {
 
               <S.ScrollBox>
                 <S.ScrollBox>
-                  {!article.length && (
+                  {!article?.length && (
                     <Nothing
                       src="/assets/img/icons/no-postings.svg"
                       alt="no-postings"
@@ -117,7 +180,8 @@ export default function Side({ onClose, article, params }: ArticleProps) {
                   )}
 
                   {Array.isArray(article) &&
-                    article.map((article: Posting) => <PostPreview article={article} params={params} />)}
+                    article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)}
+                  {currentPage && <S.ObserverRef ref={observerRef} />}
                 </S.ScrollBox>
               </S.ScrollBox>
             </div>
