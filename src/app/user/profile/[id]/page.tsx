@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api/index";
-import { ResData, Planet, Postings, Posting } from "@/@types";
+import { ResData, Planet, PostingsType, PlanetsType, Posting } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -9,8 +9,9 @@ import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
-import Postingss from "@/app/user/profile/Postings";
-import ProfileSummary from "../ProfileSummary";
+import Postings from "@/app/user/profile/Postings";
+import ProfileSummary from "@/app/user/profile/ProfileSummary";
+import MESSAGE from "@/constants/message";
 
 interface ProfileParams {
   id: number;
@@ -36,12 +37,15 @@ export default function Profile({ params }: { params: ProfileParams }) {
   // 유저 행성 조회api 추가되면 수정예정
   async function getPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet[]>>("get", "/planet/my-planets");
-      setPlanets(response.data);
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
+        "get",
+        `/planet/other/${userId}/ownerships`,
+      );
+      setPlanets(response.data.data);
       console.log("planets", planets);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
 
@@ -49,12 +53,15 @@ export default function Profile({ params }: { params: ProfileParams }) {
   // 유저 게시글 조회api 추가되면 수정예정
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Postings>>("get", `/articles/ohter/${userId}/articles`);
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
+        "get",
+        `/articles/ohter/${userId}/articles?page=${1}&limit=10`,
+      );
       setPostings(response.data.data);
       // console.log("Postings", postings);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
 
@@ -114,7 +121,7 @@ export default function Profile({ params }: { params: ProfileParams }) {
             font="lg"
           />
         ) : (
-          <Postingss data={postings} />
+          <Postings data={postings} />
         ),
     },
   ];

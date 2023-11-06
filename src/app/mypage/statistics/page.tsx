@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, Planets } from "@/@types";
+import { ResData, Planet, PlanetsType } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -44,7 +44,7 @@ export default function Statistics() {
   //내 행성 불러오기
   async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
         "/planet/my-owned-planets?page=1&limit=5",
       );

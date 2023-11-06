@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting, Postings } from "@/@types";
+import { ResData, Posting, PostingsType } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -25,7 +25,7 @@ export default function FavoritePostings() {
   //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         `/articles/my/likes?page=${page}&limit=10`,
       );
