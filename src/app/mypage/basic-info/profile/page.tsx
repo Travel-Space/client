@@ -19,6 +19,7 @@ import SearchCountry from "@/components/common/SearchCountry";
 import Password from "./Password";
 
 import VALIDATE from "@/constants/regex";
+import MESSAGE from "@/constants/message";
 
 export default function Profile() {
   const [profile, setProfile] = useRecoilState(profileState);
@@ -80,6 +81,10 @@ export default function Profile() {
     setNotAllowChange(true);
   }, [passwordValid, isPasswordMatching]);
 
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   //프로필 조회 api
   async function getProfile() {
     try {
@@ -92,18 +97,12 @@ export default function Profile() {
     }
   }
 
-  useEffect(() => {
-    getProfile();
-  }, []);
-
-  //회원정보 수정 api
-  interface updateProfileProps {
+  interface UpdateProfile {
     nickName?: string;
     nationality?: string;
     profileImage?: string;
   }
-  //비밀번호 추가 후 수정예정
-  const updateProfile = async (data: updateProfileProps) => {
+  const updateProfile = async (data: UpdateProfile) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("put", "/auth/update", data);
       // console.log(response.status);
@@ -118,17 +117,46 @@ export default function Profile() {
     }
   };
 
-  //변경사항 저장
-  const saveData = () => {
+  interface ChangePassword {
+    email?: string;
+    password: string;
+  }
+  const changePassword = async (data: ChangePassword) => {
+    try {
+      const response = await axiosRequest.requestAxios<
+        ResData<{
+          success: boolean;
+          message: string;
+        }>
+      >("post", "/auth/passwordChange", data);
+      // console.log(response.status);
+      if (response.status === 201) {
+        getProfile();
+        alert("비밀번호가 성공적으로 변경되었습니다.");
+        return;
+      }
+    } catch (error) {
+      console.error("비밀번호 변경 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
+  };
+
+  //프로필 변경사항 저장
+  const saveProfile = () => {
     const changedData = {
       nickName: changedNickname,
       nationality: country.country_nm,
       profileImage: changedProfileImg,
-      password: password === "" ? null : password,
     };
-    //비밀번호 추가 후 수정예정
-    console.log(changedData);
-    // updateProfile(changedData);
+    updateProfile(changedData);
+  };
+  //비밀번호 변경사항 저장
+  const savePassword = () => {
+    const changedData = {
+      email: profile?.email,
+      password: password,
+    };
+    changePassword(changedData);
   };
 
   return (
@@ -165,7 +193,7 @@ export default function Profile() {
         </Item>
       </S.Main>
       <S.ButtonWrap>
-        <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllowSave}>
+        <Button variant="confirm" shape="medium" size="big" onClick={saveProfile} disabled={notAllowSave}>
           변경 사항 저장
         </Button>
       </S.ButtonWrap>
@@ -182,7 +210,7 @@ export default function Profile() {
           <Link href="/user/leave">회원탈퇴</Link>
         </S.Leave>
         <S.Save>
-          <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllowChange}>
+          <Button variant="confirm" shape="medium" size="big" onClick={savePassword} disabled={notAllowChange}>
             비밀번호 변경하기
           </Button>
         </S.Save>
