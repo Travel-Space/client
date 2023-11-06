@@ -1,6 +1,8 @@
 import axiosRequest from "@/api";
 import { ResData, Posting, Postings } from "@/@types";
 
+import { useRouter } from "next/navigation";
+
 import * as S from "./index.styled";
 
 import Image from "next/image";
@@ -20,9 +22,18 @@ export default function MyPostings({ page, data, setPage, saveData }: MyPostings
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(createdAt);
 
+  const router = useRouter();
+
   const handleEdit = () => {
-    console.log();
+    router.push(`/planet/${planet.id}/post/write/?id=${id}&isEdit=true`);
   };
+  const goToPlanet = () => {
+    router.push(`/planet/${data.planetId}/map/`);
+  };
+  const goToPost = () => {
+    router.push(`/planet/${data.planetId}/post/?detail=${data.id}`);
+  };
+
   const handleDelete = async () => {
     await deletePosting();
     getPostings();
@@ -64,7 +75,7 @@ export default function MyPostings({ page, data, setPage, saveData }: MyPostings
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
-          <S.Planet>{planet.name}</S.Planet>
+          <S.Planet onClick={goToPlanet}>{planet.name}</S.Planet>
           <S.Likes>
             <S.Heart>
               <Image src="/assets/img/icons/red-heart.svg" alt="likes" width={10} height={8.61} />
@@ -76,7 +87,7 @@ export default function MyPostings({ page, data, setPage, saveData }: MyPostings
            ${dayName}`}</S.CreatedDate>
       </S.InfoRow>
       <S.InfoRow>
-        <S.Title>{title}</S.Title>
+        <S.Title onClick={goToPost}>{title}</S.Title>
         <S.Buttons>
           <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleEdit}>
             수정

@@ -1,6 +1,8 @@
 export interface DailyViewCount {
+  id: number;
   date: Date;
-  _sum: Count;
+  count: number;
+  planetId: number;
 }
 export interface WeeklyViewCount {
   start: Date;

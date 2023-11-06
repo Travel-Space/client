@@ -20,11 +20,20 @@ export const Planet = styled.div`
   color: ${({ theme }) => theme.PALETTE.mainColor};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 400;
+  &:hover {
+    cursor: pointer;
+    font-weight: 500;
+    color: ${({ theme }) => theme.PALETTE.primary[100]};
+  }
 `;
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
 export const CreatedDate = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};

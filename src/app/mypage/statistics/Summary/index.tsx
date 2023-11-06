@@ -18,7 +18,7 @@ interface SummaryProps {
   dropDownProps: Menu;
 }
 const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) => {
-  const { shape, articles } = selectedPlanet as Planet;
+  const { shape, articles, viewCountTotal } = selectedPlanet as Planet;
 
   const todayViewCount = useRecoilValue(todayViewCountState);
 
@@ -41,7 +41,7 @@ const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) 
         <Line color="gray" size="vertical" />
         <div>
           <S.SummaryTitle>누적 방문 수</S.SummaryTitle>
-          <S.Number>100</S.Number>
+          <S.Number>{viewCountTotal}</S.Number>
         </div>
         <Line color="gray" size="vertical" />
         <div>

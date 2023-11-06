@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const Table = styled.table`
   width: 100%;
-  margin-top: 40px;
+  margin-top: 54px;
 `;
 export const Tablebody = styled.tbody`
   border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
@@ -28,11 +28,16 @@ export const TdLeft = styled.th`
   text-align: left;
 `;
 export const TdTitle = styled.th`
-  text-align: center;
-  white-space: nowrap;
   & > div {
     padding-bottom: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-weight: 600;
   }
+`;
+export const Title = styled.div`
+  margin-top: 54px;
+  padding-bottom: 8px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  font-weight: 600;
+  border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 `;

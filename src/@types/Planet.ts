@@ -26,6 +26,7 @@ export interface Planet {
   totalCount: number;
   currentPage: number;
   planets: Planet[];
+  viewCountTotal: number;
 }
 
 export interface Planets {

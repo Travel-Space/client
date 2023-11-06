@@ -1,5 +1,7 @@
 import { Planet } from "@/@types";
 
+import { useRouter } from "next/navigation";
+
 import * as S from "./index.styled";
 import PLANETSHAPE from "@/constants/planetShape";
 
@@ -13,13 +15,18 @@ interface FavoritePlanetProps {
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
 export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
+  const router = useRouter();
+
+  const goToPlanet = () => {
+    router.push(`/planet/${data.id}/map/`);
+  };
   return (
     <S.Container>
-      <Image src={PLANETSHAPE[data.shape]} alt="planet" width={60} height={60} />
+      <Image src={PLANETSHAPE[data.shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
       <S.Info>
         <S.InfoRow>
           <S.InfoRowCol>
-            <S.Name>{data.name}</S.Name>
+            <S.Name onClick={goToPlanet}>{data.name}</S.Name>
             <S.People>
               {data.memberCount}/{data.memberLimit}
             </S.People>

@@ -1,5 +1,4 @@
-import { atom, selector } from "recoil";
-import { recoilPersist } from "recoil-persist";
+import { atom } from "recoil";
 
 import { Follower, Following } from "@/@types";
 
@@ -23,12 +22,7 @@ export const totalFollowingsState = atom<number>({
   default: 0,
 });
 
-export const notMutualState = selector({
-  key: "notMutualState",
-  get: ({ get }) => {
-    const friends = get(followerState);
-    const result = friends.filter(item => item.isMutual === false);
-
-    return result;
-  },
+export const notMutualState = atom<Follower[]>({
+  key: "notMutualFriends",
+  default: [],
 });

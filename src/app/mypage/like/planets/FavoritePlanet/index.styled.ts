@@ -7,6 +7,9 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.white};
   padding: 24px 18px;
   ${flexSpaceBetweenCenter}
+  &>img:first-child {
+    cursor: pointer;
+  }
 `;
 export const Info = styled.div`
   width: 100%;
@@ -25,6 +28,10 @@ export const InfoRowCol = styled.div`
 export const Name = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 export const People = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};

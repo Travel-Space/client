@@ -8,16 +8,20 @@ export const TableRow = styled.tr`
     font-weight: 400;
   }
 `;
+export const PostTitle = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  font-weight: 400;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`;
 export const TdCenter = styled.td`
   text-align: center;
   width: 120px;
 `;
 export const TdLeft = styled.td`
   text-align: left;
-  & > div {
-    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-weight: 400;
-  }
 `;
 export const Ranking = styled.td`
   width: 24px;
