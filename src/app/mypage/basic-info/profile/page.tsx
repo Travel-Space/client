@@ -40,7 +40,8 @@ export default function Profile() {
     download_url: "",
   });
 
-  const [notAllow, setNotAllow] = useState(true);
+  const [notAllowSave, setNotAllowSave] = useState(true);
+  const [notAllowChange, setNotAllowChange] = useState(true);
 
   //프로필이미지 변경
   const handleChangeImg = (src: string) => {
@@ -64,19 +65,19 @@ export default function Profile() {
   //중복확인 체크
   useEffect(() => {
     if (!!isAvailableNickname) {
-      setNotAllow(false);
+      setNotAllowSave(false);
       return;
     }
-    setNotAllow(true);
+    setNotAllowSave(true);
   }, [changedNickname, isAvailableNickname]);
 
   //비밀번호 체크
   useEffect(() => {
-    if (password === "" || (passwordValid && isPasswordMatching)) {
-      setNotAllow(false);
+    if (passwordValid && isPasswordMatching) {
+      setNotAllowChange(false);
       return;
     }
-    setNotAllow(true);
+    setNotAllowChange(true);
   }, [passwordValid, isPasswordMatching]);
 
   //프로필 조회 api
@@ -164,7 +165,7 @@ export default function Profile() {
         </Item>
       </S.Main>
       <S.ButtonWrap>
-        <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllow}>
+        <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllowSave}>
           변경 사항 저장
         </Button>
       </S.ButtonWrap>
@@ -181,7 +182,7 @@ export default function Profile() {
           <Link href="/user/leave">회원탈퇴</Link>
         </S.Leave>
         <S.Save>
-          <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllow}>
+          <Button variant="confirm" shape="medium" size="big" onClick={saveData} disabled={notAllowChange}>
             비밀번호 변경하기
           </Button>
         </S.Save>
