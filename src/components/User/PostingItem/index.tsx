@@ -1,5 +1,6 @@
 import { Posting } from "@/@types";
 
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 import { getDateInfo } from "@/utils/getDateInfo";
@@ -19,15 +20,21 @@ export default function PostingItem({ page, setPage, data, saveData }: PostingIt
   //local날짜로 변환
   const { dateString, dayName } = getDateInfo(data.createdAt);
 
-  //좋아요페이지인지 확인
+  const router = useRouter();
   const pathname = usePathname();
   const parentPath = pathname.split("/")[2];
 
+  const goToPlanet = () => {
+    router.push(`/planet/${data.planetId}/map/`);
+  };
+  const goToPost = () => {
+    router.push(`/planet/${data.planetId}/post/?detail=${data.id}`);
+  };
   return (
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
-          <S.Planet>{data.planet.name}</S.Planet>
+          <S.Planet onClick={goToPlanet}>{data.planet.name}</S.Planet>
           <S.Likes>
             <S.Heart>
               <Image src="/assets/img/icons/red-heart.svg" alt="likes" width={10} height={8.61} />
@@ -41,7 +48,7 @@ export default function PostingItem({ page, setPage, data, saveData }: PostingIt
         </S.CreatedDate>
       </S.InfoRow>
       <S.InfoRow>
-        <S.Title>{data.title}</S.Title>
+        <S.Title onClick={goToPost}>{data.title}</S.Title>
         {parentPath === "like" && (
           <LikeCancelBtn item="posting" saveData={saveData} id={data.id} page={page} setPage={setPage} />
         )}

@@ -20,6 +20,11 @@ export const Planet = styled.div`
   color: ${({ theme }) => theme.PALETTE.mainColor};
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 400;
+  &:hover {
+    cursor: pointer;
+    font-weight: 500;
+    color: ${({ theme }) => theme.PALETTE.primary[100]};
+  }
 `;
 export const Heart = styled.div`
   display: flex;
@@ -41,6 +46,10 @@ export const CreatedDate = styled.div`
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
 export const Buttons = styled.div`
   display: flex;

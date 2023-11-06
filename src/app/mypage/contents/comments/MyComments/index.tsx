@@ -1,6 +1,8 @@
 import axiosRequest from "@/api";
 import { ResData, Comment, Comments } from "@/@types";
 
+import { useRouter } from "next/navigation";
+
 import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
@@ -15,7 +17,16 @@ interface MyCommentsProps {
 }
 
 export default function MyComments({ page, data, setPage, saveData }: MyCommentsProps) {
-  const { article, content, id } = data;
+  const { article, articleId, content, id } = data;
+
+  const router = useRouter();
+
+  const goToPlanet = () => {
+    router.push(`/planet/${article.planetId}/map/`);
+  };
+  const goToPost = () => {
+    router.push(`/planet/${article.planet.id}/post/?detail=${articleId}`);
+  };
 
   //UTC->LOCAL 날짜 변환
   const { dateString, dayName } = getDateInfo(article.createdAt);
@@ -56,15 +67,13 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
     await deleteComment();
     getComments();
   };
-  const handleEdit = () => {
-    console.log();
-  };
+
   return (
     <S.Container>
       <S.InfoRow>
         <S.InfoRowCol>
-          <S.Planet>{article.planet.name}</S.Planet>
-          <S.Title>{article.title}</S.Title>
+          <S.Planet onClick={goToPlanet}>{article.planet.name}</S.Planet>
+          <S.Title onClick={goToPost}>{article.title}</S.Title>
         </S.InfoRowCol>
         <S.CreatedDate>{` ${dateString}
            ${dayName}`}</S.CreatedDate>
@@ -72,7 +81,7 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
       <S.InfoRow>
         <S.Comment>{content}</S.Comment>
         <S.Buttons>
-          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={handleEdit}>
+          <Button variant="reverse" shape="medium" size="smallWithXsFont" onClick={goToPost}>
             수정
           </Button>
           <Button variant="error" shape="medium" size="smallWithXsFont" onClick={handleDelete}>
