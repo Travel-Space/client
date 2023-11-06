@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 
 import axiosRequest from "@/api";
-import { ResData } from "@/@types";
+import { Like } from "@/@types";
 import { Planet } from "@/@types/Planet";
 import { MembershipStatus } from "@/@types/Member";
 import { userAtom } from "@/recoil/atoms/user.atom";
@@ -14,41 +14,25 @@ import JoinPlanetModal from "../JoinPlanetModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import PLANETSHAPE from "@/constants/planetShape";
+import HeartAnimation from "@/components/common/HeartAnimation";
 
 interface PlanetProps {
   role: string | {};
+  planetInfo: Planet | undefined;
+  membership: MembershipStatus | undefined;
+  liked: boolean;
+  setLiked: any;
 }
 
-export default function PlanetInfo({ role }: PlanetProps) {
+export default function PlanetInfo({ role, liked, membership, planetInfo, setLiked }: PlanetProps) {
   const { link, roles, tag } = role;
 
-  const { id } = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
   const pathname = usePathname();
   const paramsId = pathname.split("/")[2]; // 행성 아이디 추출
 
   const [isModal, setIsModal] = useState(false);
-
-  const [planetInfo, setPlanetInfo] = useState<Partial<Planet>>({});
-  const [membership, setMembership] = useState<Partial<MembershipStatus>>();
-
-  // 특정 행성 정보
-  const getPlanetInfo = async () => {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${paramsId}`);
-      const data = response.data;
-      const memberStatus = data.members.filter(el => el.userId === id)[0];
-
-      setPlanetInfo(data);
-      setMembership(memberStatus.status);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getPlanetInfo();
-  }, []);
 
   const { name, description, hashtags, shape } = planetInfo;
 
@@ -66,6 +50,23 @@ export default function PlanetInfo({ role }: PlanetProps) {
         return PLANETSHAPE.SHAPE3;
     }
   };
+
+  const handleLiked = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<Partial<Like>>(
+        liked ? "delete" : "post",
+        `/planet/${paramsId}/bookmark`,
+      );
+      console.log(response);
+
+      setLiked((prev: boolean) => !prev);
+    } catch (error) {
+      alert("좋아요 안 되고 있음");
+      console.log(error);
+    }
+  };
+
+  const heartColor = liked ? "var(--c, #ff6b81)" : "#eee";
 
   return (
     <S.Container>
@@ -104,8 +105,16 @@ export default function PlanetInfo({ role }: PlanetProps) {
         {/* planet 행성 소개 */}
         <img src={img()} />
         <S.PlanetInfo>
-          <strong>{name}</strong>
+          <div>
+            <strong>{name}</strong>
+
+            <div onClick={handleLiked}>
+              {liked ? <HeartAnimation color={heartColor} /> : <S.HeartImg src="/assets/img/icons/gray-heart.svg" />}
+            </div>
+          </div>
+
           <Line size="horizontal" color="gray" />
+
           <span>{description}</span>
         </S.PlanetInfo>
       </S.Middle>

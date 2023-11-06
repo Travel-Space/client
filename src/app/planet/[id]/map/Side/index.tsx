@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Posting } from "@/@types/Posting";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import axiosRequest from "@/api";
-import { ResData } from "@/@types";
+import { Planet, ResData } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
@@ -17,6 +17,7 @@ import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
+import { MembershipStatus } from "@/@types/Member";
 
 export interface ArticleProps {
   params: Number;
@@ -37,7 +38,8 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  // const { setTargetRef } = useInfiniteScroll();
+  // 게시글 불러오기 스탑
+  const [noArticle, setNoArticle] = useState(false);
 
   // 무한 스크롤 옵저버 인식 부분
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -49,12 +51,19 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
         clickMarker
-          ? `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=2` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
-          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${100}`,
+          ? `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=10` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
+          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${10}`,
       );
       const data = response.data;
 
-      setArticle(data.articles);
+      console.log(data);
+
+      if (!data.articles.length) {
+        setNoArticle(true);
+        return;
+      }
+
+      setArticle(prev => [...prev, ...data.articles]);
     } catch (error) {
       console.error("에러 발생: ", error);
     }
@@ -62,7 +71,9 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
 
   useEffect(() => {
     getArticle();
-  }, []);
+  }, [currentPage]);
+
+  // const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
 
   // ===================================== 드롭 다운 메뉴 가져오기 =====================================
 
@@ -93,6 +104,33 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
     selectedMenu: selectedMenu, // 선택한 메뉴를 저장할 변수
     handleClick: setSelectedMenu, // 메뉴를 클릭했을 때 실행될 메서드를 전달
   };
+
+  // ===================================== 행성 정보 =====================================
+
+  const [planetInfo, setPlanetInfo] = useState<Partial<Planet>>({});
+  const [membership, setMembership] = useState<Partial<MembershipStatus>>();
+
+  const [liked, setLiked] = useState(false);
+
+  // 특정 행성 정보
+  const getPlanetInfo = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${params}`);
+      const data = response.data;
+      const memberStatus = data.members.filter(el => el.userId === user?.id)[0];
+      const bookmarkCheck = data.planetBookMark.filter(el => el.userId === user?.id).length === 1;
+
+      setPlanetInfo(data);
+      setLiked(bookmarkCheck);
+      setMembership(memberStatus.status);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPlanetInfo();
+  }, []);
 
   // ===================================== 멤버 롤 체크 =====================================
 
@@ -151,7 +189,14 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
       {createPortal(
         <S.Container>
           <S.Wrapper>
-            <PlanetInfo role={roleCheck()} />
+            <PlanetInfo
+              role={roleCheck()}
+              planetInfo={planetInfo}
+              membership={membership}
+              liked={liked}
+              setLiked={setLiked}
+            />
+
             <div>
               <S.Middle>
                 <div>

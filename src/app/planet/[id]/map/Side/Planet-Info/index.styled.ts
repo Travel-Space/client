@@ -43,15 +43,25 @@ export const Middle = styled.div`
 export const PlanetInfo = styled(Container)`
   gap: 8px;
 
-  > strong {
-    font-size: ${({ theme }) => theme.FONT_SIZE.em};
-    font-weight: 800;
+  > div {
+    ${flexAlignCenter}
+    gap: 4px;
+
+    > strong {
+      font-size: ${({ theme }) => theme.FONT_SIZE.em};
+      font-weight: 800;
+    }
   }
 
   > span {
     line-height: 1.3;
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   }
+`;
+
+export const HeartImg = styled.img`
+  width: 24px;
+  cursor: pointer;
 `;
 
 export const Bottom = styled.div`
