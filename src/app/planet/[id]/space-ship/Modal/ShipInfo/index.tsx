@@ -2,8 +2,8 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import { Default } from "@/@types/Modal";
-import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../../page";
-import { SpaceshipStatus, SpaceshipStatusName } from "@/@types/Spaceship";
+import { SpaceshipContext, SpaceshipContextType } from "../../page";
+import { Role, SpaceshipStatus, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -27,7 +27,13 @@ interface SpaceshipInfoType {
   status: SpaceshipStatus;
   startDate: string;
   endDate: string;
-  members: {};
+  members: {
+    email: string;
+    nickName: string;
+    profileImage: string;
+    userId: number;
+    role: Role;
+  }[];
 }
 
 export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
@@ -41,21 +47,22 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     status: "UPCOMING",
     startDate: "",
     endDate: "",
-    members: {},
+    members: [],
   });
   const { dateString: startDate } = getDateInfo(new Date(spaceshipInfo?.startDate));
   const { dateString: endDate } = getDateInfo(new Date(spaceshipInfo?.endDate));
   const user = useRecoilValue(userAtom);
   const { planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
   const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
-  const thisSpaceship = user?.memberships.spaceships.find(spaceship => spaceship?.spaceshipId === spaceshipInfo.id);
-  const imSpaceshipOwner = thisSpaceship?.role === "OWNER";
-  const imSpaceshipMember = thisSpaceship?.role === "MEMBER";
+  const thisSpaceship = user?.memberships.spaceships.find(spaceship => spaceship?.spaceshipId === shipId);
+  const [role, setRole] = useState<Role>();
+  const imSpaceshipOwner = role === "OWNER";
+  const imSpaceshipMember = role === "MEMBER";
   const imPlanetOwner = thisPlanet?.role === "OWNER";
 
   async function fetchSpaceshipData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>("get", `/spaceship/${shipId}`, {});
+      const response = await axiosRequest.requestAxios<ResData<SpaceshipInfoType>>("get", `/spaceship/${shipId}`, {});
       console.log(response);
       setSpaceshipInfo(response.data);
     } catch (error) {
@@ -67,7 +74,12 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
 
   useEffect(() => {
     fetchSpaceshipData();
+    setRole(thisSpaceship?.role);
   }, []);
+
+  useEffect(() => {
+    setRole(thisSpaceship?.role);
+  }, [role]);
 
   return (
     <BoxModal onClose={onClose} title="우주선 정보">
@@ -90,7 +102,29 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           </div>
         </S.Detail>
         <Line color="gray" size="horizontal" />
-        {/* 우주선 주인, 행성 주인만 가능 */}
+        <S.MemberGroup>
+          <S.MemberTitle>
+            <p>참여 멤버</p>
+            <span>
+              {spaceshipInfo.members.length} / {spaceshipInfo.maxMembers}
+            </span>
+          </S.MemberTitle>
+          <S.MemberList>
+            {spaceshipInfo.members.map(member => (
+              <S.Member key={member.userId}>
+                <img src={member.profileImage} width={32} height={32} alt="" />
+                <div>
+                  <p>
+                    {member.nickName}
+                    {member.role === "OWNER" && <span>우주선 방장</span>}
+                  </p>
+                  <p>{member.email}</p>
+                </div>
+              </S.Member>
+            ))}
+          </S.MemberList>
+        </S.MemberGroup>
+        {/* 우주선 방장, 행성 관리자만 삭제 가능 */}
         {imSpaceshipOwner && imPlanetOwner && <S.DeleteBtn>우주선 삭제 💥</S.DeleteBtn>}
         <S.CenterGroup>
           {(imSpaceshipOwner || imSpaceshipMember) && (
