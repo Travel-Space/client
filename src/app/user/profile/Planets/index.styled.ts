@@ -29,3 +29,8 @@ export const Content = styled.div`
     border-bottom: none;
   }
 `;
+export const InfiniteScrollTarget = styled.div`
+  height: "20px";
+  width: "100%";
+  border: "none";
+`;
