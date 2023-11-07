@@ -36,6 +36,19 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     }
   }
 
+  async function handleSpaceshipExit() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/leave/${id}`);
+      console.log(response);
+      response.status === 200 && alert("우주선을 성공적으로 떠났습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 탈출하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   async function handlePlanetTransferOwnership() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/transfer-ownership/${id}`, {
@@ -46,6 +59,25 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       onClose();
     } catch (error) {
       console.error("행성 위임하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  async function handleSpaceshipTransferOwnership() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
+        "put",
+        `/spaceship/transfer-ownership/${id}`,
+        {
+          newOwnerId: selectMember,
+        },
+      );
+      console.log(response);
+      response.status === 200 && alert("우주선을 성공적으로 위임했습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 위임하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -130,8 +162,8 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
                   ? handlePlanetTransferOwnership
                   : handlePlanetExit
                 : role === "OWNER"
-                ? handlePlanetTransferOwnership
-                : handlePlanetExit
+                ? handleSpaceshipTransferOwnership
+                : handleSpaceshipExit
             }
           >
             <S.CenterGroup>
