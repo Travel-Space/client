@@ -10,7 +10,7 @@ import usePagination from "@/hooks/usePagination";
 import * as S from "./page.styled";
 
 import Image from "next/image";
-import MyPlanet from "@/app/mypage/MyPlanet";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 import SearchForm from "@/app/mypage/SearchForm";
 import FavoritePlanet from "./FavoritePlanet";
 import Nothing from "@/components/common/Nothing";
@@ -87,7 +87,7 @@ export default function Planets() {
               planet === null ? (
                 <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
               ) : (
-                <MyPlanet key={`liked-myPlanet${idx}`} data={planet} />
+                <MyPlanetItem key={`liked-myPlanet${idx}`} data={planet} />
               ),
             )}
           </S.MyPlanetWrap>

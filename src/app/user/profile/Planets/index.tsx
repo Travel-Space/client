@@ -9,7 +9,7 @@ import PlanetItem from "@/components/User/PlanetItem";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
-import MyPlanet from "@/app/mypage/MyPlanet";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 
 const Planets = ({ id }: { id: number }) => {
   const [userPlanets, setUserPlanets] = useState<Planet[]>([]);
@@ -85,7 +85,7 @@ const Planets = ({ id }: { id: number }) => {
         <S.Title>소유 행성</S.Title>
         <S.Planets>
           {userPlanets.map((planet, idx) => (
-            <MyPlanet key={idx} data={planet} />
+            <MyPlanetItem key={idx} data={planet} />
           ))}
         </S.Planets>
       </S.UserPlanets>

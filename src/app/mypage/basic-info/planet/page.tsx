@@ -13,7 +13,7 @@ import * as S from "./page.styled";
 import Link from "next/link";
 import Image from "next/image";
 import Nothing from "@/components/common/Nothing";
-import MyPlanet from "@/app/mypage/MyPlanet";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
@@ -96,7 +96,7 @@ export default function Planet() {
             planet === null ? (
               <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
             ) : (
-              <MyPlanet key={idx} data={planet} />
+              <MyPlanetItem key={idx} data={planet} />
             ),
           )}
         </S.MyPlanetWrap>

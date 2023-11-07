@@ -11,22 +11,22 @@ import Image from "next/image";
 interface MyPlanetProps {
   data: Planet;
 }
-export default function MyPlanet({ data }: MyPlanetProps) {
+export default function MyPlanetItem({ data }: MyPlanetProps) {
   const { id, name, memberLimit, published, shape, planetBookMark, members } = data;
 
   const router = useRouter();
   const pathname = usePathname();
-  const parentPath = pathname.split("/")[2];
+  const parentPath = pathname.split("/");
 
   const goToPlanet = () => {
-    router.push(`/planet/${id}/modify/`);
+    parentPath[1] === "user" && router.push(`/planet/${id}/map/`);
+    parentPath[1] === "mypage" && router.push(`/planet/${id}/modify/`);
   };
 
   return (
     <S.Container onClick={goToPlanet}>
       <S.Header>
         <S.People>
-          {/* 멤버수 추가되면 수정예정 */}
           {members ? members.length : 1}/{memberLimit ? memberLimit : 15}
         </S.People>
         {published ? (
@@ -36,11 +36,9 @@ export default function MyPlanet({ data }: MyPlanetProps) {
         )}
       </S.Header>
       <Image src={PLANETSHAPE[shape]} alt="planet" width={96} height={96} />
-      {/* 행성좋아요 추가되면 수정예정 */}
-      {parentPath === "like" && (
+      {parentPath[2] === "like" && (
         <S.Likes>
           <Image src="/assets/img/icons/white-heart.svg" alt="heart" width={15} height={15} />
-          {/* 행성좋아요 추가되면 수정예정 */}
           <S.Number>{planetBookMark ? planetBookMark.length : 100}</S.Number>
         </S.Likes>
       )}
