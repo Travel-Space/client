@@ -19,6 +19,7 @@ import Ship from "./Ship";
 import { PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
+import { CommonUserInfo } from "@/@types/User";
 
 export interface SpaceShipType {
   id: number;
@@ -34,13 +35,16 @@ export interface SpaceShipType {
   chatRoomId: number;
   createdAt: string;
   updatedAt: string;
-  members: {
-    email: string;
-    nickName: string;
-    profileImage: string;
-    userId: number;
-    role: Role;
-  }[];
+  members: SpaceShipMembers[];
+}
+
+export interface SpaceShipMembers {
+  id: number;
+  email: string;
+  nickName: string;
+  profileImage: string;
+  userId: number;
+  role: Role;
 }
 
 export interface PlanetDataType {
@@ -53,7 +57,7 @@ export interface PlanetDataType {
 export interface SpaceshipContextType {
   planetData: PlanetDataType;
   planetId: string;
-  planetMember: PlanetMembership[];
+  planetMember: CommonUserInfo[];
 }
 
 export const SpaceshipContext = createContext<SpaceshipContextType>({
@@ -69,7 +73,7 @@ export const SpaceshipContext = createContext<SpaceshipContextType>({
 
 export default function SpaceShip() {
   const [spaceshipList, setSpaceshipList] = useState<SpaceShipType[]>([]);
-  const [planetMember, setPlanetMember] = useState<PlanetMembership[]>([]);
+  const [planetMember, setPlanetMember] = useState<CommonUserInfo[]>([]);
   const [planetData, setPlanetData] = useState<PlanetDataType>({
     name: "",
     memberLimit: 0,
@@ -126,7 +130,14 @@ export default function SpaceShip() {
       // 행성 관리자 제외한 멤버
       const member = response.data;
       const filteredMember = member.filter(m => m.role !== "OWNER");
-      setPlanetMember(filteredMember);
+      const resultMember = filteredMember.map((member: PlanetMembership) => ({
+        email: member.user.email,
+        nickName: member.user.nickName,
+        profileImage: member.user.profileImage,
+        role: member.role,
+        userId: member.user.id,
+      }));
+      setPlanetMember(resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;

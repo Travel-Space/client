@@ -15,6 +15,7 @@ import Button from "@/components/common/Button";
 import Delete from "@/components/SpaceModal/Delete";
 import { useModal } from "@/hooks/useModal";
 import ShipManage from "../ShipManage";
+import Exit from "@/components/SpaceModal/Exit";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -49,7 +50,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const imPlanetOwner = thisPlanet?.role === "OWNER";
 
   const [openDelete, setOpenDelete] = useState(false);
+  const [openExit, setOpenExit] = useState(false);
   const { openModal, closeModal } = useModal();
+  const onlyMember = spaceshipInfo.members.filter(m => m.role !== "OWNER");
 
   const shipManageModal = {
     title: "우주선 관리",
@@ -126,7 +129,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
         )}
         <S.CenterGroup>
           {(imSpaceshipOwner || imSpaceshipMember) && (
-            <Button variant="reverse" shape="medium" size="big" onClick={() => {}}>
+            <Button variant="reverse" shape="medium" size="big" onClick={() => setOpenExit(true)}>
               <S.CenterGroup>
                 <img src="/assets/img/icons/exit.svg" />
                 <span>우주선 탈출</span>
@@ -155,7 +158,17 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           onClose={() => setOpenDelete(false)}
           title={spaceshipInfo.name}
           type={ItemType.SpaceShip}
-          id={spaceshipInfo.id}
+          id={shipId}
+        />
+      )}
+      {openExit && (
+        <Exit
+          onClose={() => setOpenExit(false)}
+          title={spaceshipInfo.name}
+          type={ItemType.SpaceShip}
+          role={thisSpaceship?.role}
+          id={`${shipId}`}
+          members={onlyMember}
         />
       )}
     </BoxModal>

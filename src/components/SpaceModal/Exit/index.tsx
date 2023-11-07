@@ -3,18 +3,19 @@ import Member from "@/components/SpaceModal/Member";
 import { Default, ItemType } from "@/@types/Modal";
 import Button from "@/components/common/Button";
 import * as S from "../index.styled";
-import { Planet, PlanetMembership, Role } from "@/@types/Planet";
+import { Planet, Role } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useState } from "react";
+import { CommonUserInfo } from "@/@types/User";
 
 interface Type extends Default {
   title: string | undefined;
   type: ItemType;
   role?: Role;
   id: string;
-  members?: PlanetMembership[];
+  members?: CommonUserInfo[];
 }
 
 export default function Exit({ onClose, title, type, role, id, members }: Type) {
@@ -59,6 +60,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       alert(errorResponse?.data.message);
     }
   }
+  console.log("members", members);
 
   return (
     <BoxModal onClose={onClose} title={`${type} 탈출`}>
@@ -75,10 +77,16 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
               <b>{title}</b> {type} 멤버 중 한 명에게 <b>관리자를 위임</b>하시고 <br />
               {type} 나가기 버튼을 눌러주세요.
               <S.MemberList>
-                {members?.map(member => (
+                {members?.map((member, index) => (
                   <Member
-                    key={member.userId}
-                    {...member}
+                    user={{
+                      email: member.email,
+                      nickName: member.nickName,
+                      profileImage: member.profileImage,
+                      role: member.role,
+                      userId: member.userId,
+                    }}
+                    key={index}
                     type={type}
                     mode={"select"}
                     onSelectMember={userId => setSelectMember(userId)}
@@ -89,7 +97,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
           ) : (
             <>
               <b>{title}</b> {type}에 멤버가 없습니다. <br />
-              {type} 행성을 삭제하시겠습니까?
+              {type}을 삭제하시겠습니까?
             </>
           )}
         </S.NotificationBox>

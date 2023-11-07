@@ -1,20 +1,20 @@
 import { ItemType } from "@/@types/Modal";
 import * as S from "./index.styled";
-import { User } from "@/@types";
-import { Role, RoleName } from "@/@types/Planet";
+import { RoleName } from "@/@types/Planet";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
+import { CommonUserInfo } from "@/@types/User";
 
 interface Type {
   mode: "select" | "manage";
   type?: ItemType;
-  user: User;
-  role: Role;
+  user: CommonUserInfo;
   onSelectMember: (value: number) => void;
 }
 
-export default function Member({ mode, type, user, role, onSelectMember }: Type) {
-  const roleName = RoleName[role];
+export default function Member({ mode, type, user, onSelectMember }: Type) {
+  const roleName = RoleName[user.role];
+  console.log("user", user);
 
   const dropDownProps = {
     comment: "사유 선택",
@@ -35,7 +35,7 @@ export default function Member({ mode, type, user, role, onSelectMember }: Type)
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>
           </S.InfoGroup>
-          <S.Input type="radio" name="member" onChange={() => onSelectMember(user.id)} />
+          <S.Input type="radio" name="member" onChange={() => onSelectMember(user.userId)} />
         </S.Label>
       ) : (
         <S.MemberWrap>
