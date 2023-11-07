@@ -33,12 +33,13 @@ export default function PostDetail() {
   const [totalComments, setTotalComments] = useState(0); // 전체 댓글 수
   const hasMoreComments = totalComments > currentCommentsPage * commentsPerPage;
   const [repliesPageInfo, setRepliesPageInfo] = useState<RepliesPageInfo>({});
+  const [currentRepliesPage, setCurrentRepliesPage] = useState(1);
 
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
     const commentPageQuery = `commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}`;
-    const replyPageQuery = `replyPageSize=${commentsPerPage}`;
-    const endpoint = `/articles/${post}?${commentPageQuery}&${replyPageQuery}`;
+    const endpoint = `/articles/${post}?commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}&replyPage=${currentRepliesPage}&replyPageSize=${replyPageSize}`;
+    const replyPageQuery = `replyPage=${currentRepliesPage}&replyPageSize=${replyPageSize}`;
 
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting>>("get", endpoint, {});

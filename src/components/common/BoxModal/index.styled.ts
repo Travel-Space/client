@@ -1,8 +1,13 @@
 import styled, { css } from "styled-components";
 import { ModalBackground, flexSpaceBetweenCenter } from "@/styles/common";
 
-export const Background = styled.div`
+export const Background = styled.div<{ $depth?: boolean }>`
   ${ModalBackground}
+  ${({ $depth }) =>
+    $depth &&
+    css`
+      z-index: 101;
+    `}
 `;
 
 export const Container = styled.div`

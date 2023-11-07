@@ -1,7 +1,7 @@
 import { Posting } from "./Posting";
 import { Like } from "./Like";
 import { ChatMembership, Message } from "./Chat";
-import { Planet, PlanetBookmark, PlanetMembership } from "./Planet";
+import { Planet, PlanetBookmark, PlanetMembership, Role } from "./Planet";
 import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
 import { UserFriend } from "./Friend";
 import { Comment } from "./Comment";
@@ -10,6 +10,14 @@ export interface CountryInfo {
   country_eng_nm: string;
   country_nm: string;
   download_url: string;
+}
+
+export interface CommonUserInfo {
+  email: string;
+  nickName: string;
+  profileImage: string;
+  role: Role;
+  userId: number;
 }
 
 export interface User {

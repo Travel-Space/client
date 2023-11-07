@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import UserProfile from "@/components/common/UserProfile";
 import * as PC from "./index.styled";
@@ -50,7 +50,7 @@ export default function PostContent({ data }: PostContentProps) {
     });
   };
   // 게시글 날짜 변환
-  const { dateString } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "" };
+  const { dateString, dayName, time } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "" };
 
   return (
     <>
@@ -58,7 +58,7 @@ export default function PostContent({ data }: PostContentProps) {
         {modalDataState.isOpen && modalDataState.content}
         <PC.TitleSection>
           <PC.Title>{data?.title}</PC.Title>
-          <PC.Date>{dateString}</PC.Date>
+          <PC.Date>{dateString}{' '}{time}</PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
           <PC.StyledLink>
@@ -73,7 +73,7 @@ export default function PostContent({ data }: PostContentProps) {
           </PC.StyledLink>
           <PC.PostInfo>
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
-            피식대학 우주선
+            {/* {data?.} */}
             <Link
               href={{
                 pathname: `/planet/${data?.planetId}/map`,

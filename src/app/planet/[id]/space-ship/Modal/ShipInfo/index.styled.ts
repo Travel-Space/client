@@ -34,22 +34,6 @@ export const Detail = styled.div`
   }
 `;
 
-// export const OutlineButton = styled(OB)`
-//   ${flexCenter}
-//   gap: 8px;
-//   img {
-//     margin-top: -2px;
-//   }
-// `;
-
-// export const FillButton = styled(FB)`
-//   ${flexCenter}
-//   gap: 8px;
-//   img {
-//     margin-top: -2px;
-//   }
-// `;
-
 export const DeleteBtn = styled.button`
   width: fit-content;
   background: none;
@@ -57,4 +41,54 @@ export const DeleteBtn = styled.button`
   font-family: inherit;
   font-size: inherit;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.black};
+`;
+
+export const CenterGroup = styled.div`
+  ${flexCenter}
+  gap: 16px;
+`;
+
+export const MemberGroup = styled.div``;
+
+export const MemberTitle = styled.div`
+  ${flexSpaceBetweenCenter}
+  font-weight: 600;
+  margin-bottom: 16px;
+  span {
+    color: #a5a5a5;
+  }
+`;
+
+export const MemberList = styled.ul`
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 10px;
+  padding: 16px;
+  max-height: 160px;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+`;
+
+export const Member = styled.li`
+  ${flexAlignCenter}
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+  gap: 8px;
+  img {
+    border-radius: 100px;
+    object-fit: cover;
+    border: 1px solid #d9d9d9;
+  }
+  div {
+    ${flexColumn}
+    gap: 2px;
+    p:first-child {
+      font-weight: 600;
+      span {
+        font-weight: 400;
+        margin-left: 8px;
+        color: ${({ theme }) => theme.PALETTE.mainColor};
+      }
+    }
+  }
 `;

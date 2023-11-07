@@ -65,12 +65,13 @@ export interface PlanetMembership {
 
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
 
-export type Role = "OWNER" | "ADMIN" | "MEMBER";
+export type Role = "OWNER" | "ADMIN" | "MEMBER" | "GUEST";
 
 export enum RoleName {
   OWNER = "행성 관리자",
   ADMIN = "부관리자",
   MEMBER = "일반 멤버",
+  GUEST = "게스트",
 }
 
 export interface CancelLikePlanet {

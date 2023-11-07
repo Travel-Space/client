@@ -12,6 +12,8 @@ import MESSAGE from "@/constants/message";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import Link from "next/link";
+import Textarea from "@/components/common/Textarea";
+import Button from "@/components/common/Button";
 interface CommentItemProps {
   data?: Posting;
   isReply?: boolean;
@@ -70,6 +72,9 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       const response = await axiosRequest.requestAxios("put", `/comments/${editingCommentId}`, {
         content: editedContent,
       });
+      if (onCommentChange) {
+        onCommentChange();
+      }
       setIsEditing(false);
       setEditingCommentId(null);
       setEditedContent("");
@@ -82,7 +87,6 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
     setIsEditing(false);
     setEditingCommentId(null);
   };
-  console.log(data);
 
   return (
     <>
@@ -91,21 +95,29 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       {data?.comments
         ?.sort((a, b) => a.id - b.id)
         .map(comment => {
-          const { dateString } = getDateInfo(comment.createdAt);
+          const { dateString, time } = getDateInfo(comment.createdAt);
           {
-            /* 수정모드일 때  */
+            /* 수정모드일 때  작성 인풋*/
           }
           if (isEditing && comment.id === editingCommentId) {
             return (
               <CI.EditWrapper key={comment.id}>
-                <CI.EditInput value={editedContent} onChange={e => setEditedContent(e.target.value)} />
+                <UserProfile size="post" comment={comment} />
+                <Textarea
+                  placeholder={""}
+                  maxLength={200}
+                  size="comment"
+                  onChange={e => setEditedContent(e.target.value)}
+                  name={""}
+                  value={editedContent}
+                />
                 <CI.ActionButtons>
-                  <button className="save" onClick={handleUpdateComment}>
-                    저장하기
-                  </button>
-                  <button className="cancel" onClick={handleCancelEdit}>
+                  <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleCancelEdit}>
                     취소
-                  </button>
+                  </Button>
+                  <Button variant="confirm" size="big" shape="medium" fontWeight="bold" onClick={handleUpdateComment}>
+                    댓글 수정
+                  </Button>
                 </CI.ActionButtons>
               </CI.EditWrapper>
             );
@@ -125,7 +137,9 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
                         <UserProfile size="post" comment={comment} />
                       </Link>
                     </CI.StyledLink>
-                    <CI.CommentDate>{dateString}</CI.CommentDate>
+                    <CI.CommentDate>
+                      {dateString} {time}
+                    </CI.CommentDate>
                   </CI.ProfileAndDate>
                 </CI.UserComment>
                 <CI.CommentContent>{comment.content}</CI.CommentContent>

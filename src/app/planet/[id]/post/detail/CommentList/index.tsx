@@ -26,7 +26,7 @@ export default function CommentList({ data, onCommentChange, onLoadMoreComments,
       {hasMoreComments && (
         <>
           <CL.MoreBtn>
-            <Button variant="confirm" shape="large" fontWeight="bold" size="normal" onClick={onLoadMoreComments}>
+            <Button variant="reverse" shape="large" fontWeight="bold" size="normal" onClick={onLoadMoreComments}>
               더 보기
             </Button>
           </CL.MoreBtn>

@@ -39,7 +39,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
       setContent("");
       if (onClose) onClose();
 
-      if (parentId) {
+      if (parentId !) {
         
       }
     } catch (error) {

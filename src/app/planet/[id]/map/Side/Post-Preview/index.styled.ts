@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { flexColumn, flexSpaceBetweenCenter } from "@/styles/common";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.div`
   > a {
@@ -8,6 +17,7 @@ export const Container = styled.div`
   }
 
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  animation: ${fadeIn} 5s ease forwards;
 
   &:last-child {
     border: none;
@@ -32,8 +42,13 @@ export const PreviewImg = styled.img`
 `;
 
 export const Description = styled(MainBox)`
+  width: 262px;
+
   > span {
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    width: auto; // 표시할 너비 설정
+    height: 16px; // 라인수에 맞춰 길이 정해줘야 함
+    overflow: hidden;
     font-weight: 600;
   }
 
