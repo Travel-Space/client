@@ -25,7 +25,7 @@ export const Title = styled.div`
 `;
 export const Planets = styled.div`
   display: flex;
-  gap: 32px;
+  gap: 16px;
 `;
 export const Number = styled.div`
   & > span {
@@ -49,7 +49,7 @@ export const Content = styled.div`
   }
 `;
 export const InfiniteScrollTarget = styled.div`
-  height: "20px";
-  width: "100%";
-  border: "none";
+  height: 20px;
+  width: 100%;
+  border: none;
 `;

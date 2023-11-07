@@ -1,16 +1,14 @@
 "use client";
-import axiosRequest from "@/api/index";
-import { ResData, Planet, PostingsType, PlanetsType, Posting } from "@/@types";
-
 import { useState } from "react";
 
 import * as S from "./page.styled";
 
 import Line from "@/components/common/Line";
-import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
 import Postings from "@/app/user/profile/Postings";
 import ProfileSummary from "@/app/user/profile/ProfileSummary";
+import Followers from "../Followers";
+import Followings from "../Followings";
 
 interface ProfileParams {
   id: number;
@@ -27,29 +25,11 @@ export default function Profile({ params }: { params: ProfileParams }) {
   const TabList = [
     {
       title: "팔로워",
-      content: (
-        <Nothing
-          src="/assets/img/icons/no-friends.svg"
-          alt="no-friends"
-          width={216}
-          height={216}
-          comment="등록된 친구가 없습니다."
-          font="lg"
-        />
-      ),
+      content: tabIndex === 0 && <Followers id={userId} />,
     },
     {
       title: "팔로잉",
-      content: (
-        <Nothing
-          src="/assets/img/icons/no-friends.svg"
-          alt="no-friends"
-          width={216}
-          height={216}
-          comment="등록된 친구가 없습니다."
-          font="lg"
-        />
-      ),
+      content: tabIndex === 1 && <Followings id={userId} />,
     },
     {
       title: "행성목록",
