@@ -148,10 +148,13 @@ export const RocketInputWrapper = styled.div`
   height: 48px;
   background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
 
   & > div {
     & > div:first-child {
       padding: 11px 16px;
+      width: 290px;
+      height: 48px;
     }
     & > div:nth-child(2) > div {
       color: ${({ theme }) => theme.PALETTE.gray[100]};

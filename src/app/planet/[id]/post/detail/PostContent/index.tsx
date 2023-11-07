@@ -73,7 +73,7 @@ export default function PostContent({ data }: PostContentProps) {
           </PC.StyledLink>
           <PC.PostInfo>
             <PC.RocketImg src="/assets/img/icons/rocket.svg" />
-            피식대학 우주선
+            {/* {data?.} */}
             <Link
               href={{
                 pathname: `/planet/${data?.planetId}/map`,

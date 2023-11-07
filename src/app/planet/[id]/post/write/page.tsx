@@ -12,6 +12,8 @@ import LocationInput from "./LocationInput";
 import { GeocoderResult } from "@/@types/GeocoderResult";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Posting, ResData } from "@/@types";
+import { Spaceship } from "@/@types/Spaceship";
+import { Menu } from "@/@types/DropDown";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
@@ -33,7 +35,8 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [address, setAddress] = React.useState<GeocoderResult>();
   const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
-  // const [spaceShip, setSpaceShip] = React.useState<PostWrite>(null);
+  const [spaceships, setSpaceships] = useState<Spaceship[]>([]);
+  const [selectedSpaceshipId, setSelectedSpaceshipId] = useState<number | null>(null);
   const [isAddressChecked, setIsAddressChecked] = React.useState<boolean>(false);
   const latitude = locations?.geometry?.location.lat;
   const longitude = locations?.geometry?.location.lng;
@@ -42,20 +45,41 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const isEditMode = searchParams.get("isEdit") === "true";
   const router = useRouter();
 
-  const dropDownProps = {
-    //로고 필요할 때만 추가
-    logo: (
-      <img
-        src={selectedMenu !== "우주선" ? "/assets/img/icons/rocket.svg" : "/assets/img/icons/gray-rocket.svg"}
-        alt="rocket"
-        width={24}
-        height={24}
-      />
-    ),
-    comment: "우주선", //미선택시 보여질 문구(필요할 때만 추가)
-    menuList: ["가입한 우주선", "가입한 우주선2", "어쩌고 우주선", "우주선우주선"],
-    selectedMenu: selectedMenu, //선택한 메뉴를 저장할 변수
-    handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달
+  // 우주선 목록을 불러오는 함수
+  const fetchSpaceships = async (planetId: number) => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship[]>>("get", `/spaceship/by-planet/${planetId}`);
+      if (Array.isArray(response.data)) {
+        // 데이터가 배열인지 확인
+        setSpaceships(response.data);
+        setSelectedSpaceshipId(response.data.length > 0 ? response.data[0].id : null);
+      } else {
+        console.error("받은 데이터가 배열이 아닙니다.");
+      }
+    } catch (error) {
+      console.error("우주선 목록을 불러오는데 실패했습니다.", error);
+    }
+  };
+
+  // 컴포넌트 마운트 시 우주선 목록을 불러옵니다.
+  useEffect(() => {
+    fetchSpaceships(planetId);
+  }, [planetId]);
+
+  // 드롭다운에서 우주선을 선택할 때 호출되는 함수
+  const handleDropDownSelect = (spaceshipId: number) => {
+    setSelectedSpaceshipId(spaceshipId);
+  };
+
+  const dropDownProps: Menu = {
+    menuList: spaceships.map(spaceship => spaceship.name),
+    selectedMenu: selectedSpaceshipId
+      ? spaceships.find(spaceship => spaceship.id === selectedSpaceshipId)?.name || "우주선"
+      : "탑승한 우주선이 없습니다.",
+    handleClick: (menu: string) => {
+      const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
+      if (selectedSpaceship) setSelectedSpaceshipId(selectedSpaceship.id);
+    },
   };
 
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,6 +132,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         ],
         imageUrls: [],
         hashtags,
+        spaceshipId: selectedSpaceshipId,
       };
 
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>("post", "/articles", postData);
@@ -137,7 +162,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         try {
           const response = await axiosRequest.requestAxios<ResData<Posting>>(
             "get",
-            `/articles/${postId}?replyPageSize=5&commentPageSize=10&commentPage=1`,
+            `/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`,
           );
           if (response.data) {
             const { title, content, hashtags, address, locations } = response.data;
@@ -189,8 +214,10 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         ],
         imageUrls: [],
         hashtags,
+        spaceshipId: selectedSpaceshipId,
       };
 
+      console.log(selectedSpaceshipId);
       console.log("수정하기 위도경도", latitude);
       console.log("수정하기 위도경도", longitude);
 

@@ -8,4 +8,5 @@ export interface PostWrite {
   imageUrls: [string];
   tags: string[];
   id: number;
+  spaceship: [{ spaceshipId: number; role: string }];
 }
