@@ -13,7 +13,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 import MESSAGE from "@/constants/message";
 
-export default function Followers() {
+export default function Followers({ id }: { id: number }) {
   const [followers, setFollowers] = useRecoilState(followerState);
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
 
@@ -33,7 +33,7 @@ export default function Followers() {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
-        `/user/following?page=${1}&limit=${1}`,
+        `/user/other/${id}/following?page=${1}&limit=${1}`,
       );
       const total = response.data.total;
       setTotalFollowings(total);
@@ -50,7 +50,7 @@ export default function Followers() {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
-        `/user/followers?page=${page}&limit=${limit}`,
+        `/user/other/${id}/followers?page=${page}&limit=${limit}`,
       );
       const followers = response.data.data;
       const total = response.data.total;
