@@ -14,7 +14,7 @@ interface PlanetItemProps {
 }
 export default function PlanetItem({ data, userId }: PlanetItemProps) {
   const { name, hashtags, memberLimit, published, shape, members } = data;
-  const userRole = members.find(el => el.userId == userId)?.role;
+  const userRole = members.find(el => el.userId === userId)?.role;
 
   const router = useRouter();
   const goToPlanet = () => {

@@ -16,7 +16,7 @@ interface ProfileParams {
   id: number;
 }
 export default function Profile({ params }: { params: ProfileParams }) {
-  const userId = params.id;
+  const userId = Number(params.id);
 
   const [tabIndex, setTabIndex] = useState(0);
 
