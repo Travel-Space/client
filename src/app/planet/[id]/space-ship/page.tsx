@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { SpaceshipStatus } from "@/@types/Spaceship";
+import { Role, SpaceshipStatus } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -34,7 +34,13 @@ export interface SpaceShipType {
   chatRoomId: number;
   createdAt: string;
   updatedAt: string;
-  members: {};
+  members: {
+    email: string;
+    nickName: string;
+    profileImage: string;
+    userId: number;
+    role: Role;
+  }[];
 }
 
 export interface PlanetDataType {

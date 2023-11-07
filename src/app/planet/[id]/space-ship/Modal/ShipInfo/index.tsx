@@ -2,8 +2,8 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import { Default, ItemType } from "@/@types/Modal";
-import { SpaceshipContext, SpaceshipContextType } from "../../page";
-import { Role, SpaceshipStatus, SpaceshipStatusName } from "@/@types/Spaceship";
+import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../../page";
+import { Role, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -13,41 +13,28 @@ import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
 import Button from "@/components/common/Button";
 import Delete from "@/components/SpaceModal/Delete";
+import { useModal } from "@/hooks/useModal";
+import ShipManage from "../ShipManage";
 
 interface ShipInfoType extends Default {
   shipId: number;
 }
 
-interface SpaceshipInfoType {
-  id: number;
-  planetId: number;
-  name: string;
-  description: string;
-  maxMembers: number;
-  ownerId: number;
-  status: SpaceshipStatus;
-  startDate: string;
-  endDate: string;
-  members: {
-    email: string;
-    nickName: string;
-    profileImage: string;
-    userId: number;
-    role: Role;
-  }[];
-}
-
 export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
-  const [spaceshipInfo, setSpaceshipInfo] = useState<SpaceshipInfoType>({
+  const [spaceshipInfo, setSpaceshipInfo] = useState<SpaceShipType>({
     id: 0,
-    planetId: 0,
     name: "",
+    image: "",
     description: "",
     maxMembers: 0,
     ownerId: 0,
     status: "UPCOMING",
     startDate: "",
     endDate: "",
+    planetId: 0,
+    chatRoomId: 0,
+    createdAt: "",
+    updatedAt: "",
     members: [],
   });
   const { dateString: startDate } = getDateInfo(new Date(spaceshipInfo?.startDate));
@@ -60,11 +47,18 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const imSpaceshipOwner = role === "OWNER";
   const imSpaceshipMember = role === "MEMBER";
   const imPlanetOwner = thisPlanet?.role === "OWNER";
+
   const [openDelete, setOpenDelete] = useState(false);
+  const { openModal, closeModal } = useModal();
+
+  const shipManageModal = {
+    title: "우주선 관리",
+    content: <ShipManage onClose={closeModal} ship={spaceshipInfo} />,
+  };
 
   async function fetchSpaceshipData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<SpaceshipInfoType>>("get", `/spaceship/${shipId}`, {});
+      const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>("get", `/spaceship/${shipId}`, {});
       console.log(response);
       setSpaceshipInfo(response.data);
     } catch (error) {
@@ -140,7 +134,12 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
             </Button>
           )}
           {!imSpaceshipMember && (
-            <Button variant="confirm" shape="medium" size="big" onClick={() => {}}>
+            <Button
+              variant="confirm"
+              shape="medium"
+              size="big"
+              onClick={() => (imSpaceshipOwner ? openModal(shipManageModal) : "")}
+            >
               <S.CenterGroup>
                 <img src="/assets/img/icons/space-ship/rocket.svg" />
                 <span>우주선 {imSpaceshipOwner ? "관리하기" : "탑승하기"}</span>
