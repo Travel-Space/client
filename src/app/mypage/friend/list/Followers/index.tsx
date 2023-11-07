@@ -31,16 +31,18 @@ export default function Followers({ loadData, updateData }: FollowersProps) {
           font="lg"
         />
       ) : (
-        <S.MyFriendsWrap>
-          <S.MyFriends>
-            {followers.map((el, idx) => (
-              <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} updateData={updateData} />
-            ))}
-          </S.MyFriends>
+        <>
+          <S.MyFriendsWrap>
+            <S.MyFriends>
+              {followers.map((el, idx) => (
+                <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} updateData={updateData} />
+              ))}
+            </S.MyFriends>
+          </S.MyFriendsWrap>
           <S.ShowMoreBtn onClick={handleClick} disabled={followers.length === totalFollowers}>
             목록 더보기
           </S.ShowMoreBtn>
-        </S.MyFriendsWrap>
+        </>
       )}
     </>
   );

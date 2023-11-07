@@ -40,10 +40,9 @@ export const FollowingNumber = styled.div<{ clicked: boolean }>`
 export const Title = styled.div`
   &:hover {
     color: ${({ theme }) => theme.PALETTE.mainColor};
+    cursor: pointer;
   }
-  &:focus {
-    color: ${({ theme }) => theme.PALETTE.mainColor};
-  }
+
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 500;
   margin-bottom: 8px;

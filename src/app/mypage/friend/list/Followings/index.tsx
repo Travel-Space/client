@@ -40,10 +40,10 @@ export default function Followings({ loadData, updateData }: FollowingsProps) {
                 <Person key={`following${idx}`} data={el.friend} updateData={updateData} />
               ))}
             </S.MyFriends>
-            <S.ShowMoreBtn onClick={handleClick} disabled={followings.length === totalFollowings}>
-              목록 더보기
-            </S.ShowMoreBtn>
           </S.MyFriendsWrap>
+          <S.ShowMoreBtn onClick={handleClick} disabled={followings.length === totalFollowings}>
+            목록 더보기
+          </S.ShowMoreBtn>
         </>
       )}
     </>
