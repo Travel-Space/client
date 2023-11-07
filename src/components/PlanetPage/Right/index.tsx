@@ -13,12 +13,15 @@ import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
 import { AxiosError } from "axios";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { useRouter } from "next/navigation";
 
 export default function Right() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
-  const { id } = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
+  const [auth, setAuth] = useRecoilState(userAtom);
+  const router = useRouter();
 
   if (!planetContext) {
     return;
@@ -65,7 +68,21 @@ export default function Right() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
       console.log(response);
-      response.status === 201 && alert("새로운 행성이 생성되었습니다!");
+      const data = response.data;
+      if (response.status === 201) {
+        alert("새로운 행성이 생성되었습니다!");
+        const updatedUser = {
+          memberships: {
+            planets: [...(auth?.memberships.planets || []), { planetId: data.id, role: "OWNER" }],
+            spaceships: auth?.memberships.spaceships || [],
+          },
+          isAuth: auth?.isAuth,
+          id: auth?.id,
+          role: auth?.role,
+        } as UserType;
+        setAuth(updatedUser);
+        router.push(`/planet/${data.id}/map/`);
+      }
     } catch (error) {
       console.error("새 행성 생성하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -77,10 +94,13 @@ export default function Right() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, {
         ...planetInfo,
-        ownerId: id,
+        ownerId: user?.id,
       });
       console.log(response);
-      response.status === 200 && alert("행성이 수정되었습니다!");
+      if (response.status === 200) {
+        alert("행성이 수정되었습니다!");
+        router.push(`/planet/${planetInfo.id}/map/`);
+      }
     } catch (error) {
       console.error("행성 수정하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;

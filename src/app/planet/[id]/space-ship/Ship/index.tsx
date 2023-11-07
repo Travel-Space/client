@@ -5,43 +5,38 @@ import { SpaceShipType } from "../page";
 import ShipInfo from "../Modal/ShipInfo";
 
 interface ShipType {
-  planetId: number;
-  planetMaxMember?: number;
-  spaceShip?: number | SpaceShipType;
+  ship: number | SpaceShipType;
 }
 
-export default function Ship({ planetId, planetMaxMember, spaceShip }: ShipType) {
+export default function Ship({ ship }: ShipType) {
   const { openModal, closeModal } = useModal();
+
+  const isNewShip = typeof ship === "number";
+  const isSpaceShip = !isNewShip;
 
   const shipManageModal = {
     title: "우주선 관리",
-    content: (
-      <ShipManage onClose={closeModal} planetId={planetId} planetMaxMember={planetMaxMember} spaceShip={spaceShip} />
-    ),
+    content: <ShipManage onClose={closeModal} ship={ship} />,
   };
 
   const shipInfoModal = {
     title: "우주선 정보",
-    content: <ShipInfo onClose={closeModal} spaceShip={typeof spaceShip === "object" ? spaceShip : undefined} />,
+    content: isSpaceShip ? <ShipInfo onClose={closeModal} shipId={ship.id} /> : <></>,
   };
 
   return (
     <S.Wrap>
       <S.Container>
         {/* <S.Img onClick={() => openModal(shipManageModal)}> */}
-        <S.Img onClick={() => (typeof spaceShip === "number" ? openModal(shipManageModal) : openModal(shipInfoModal))}>
+        <S.Img onClick={() => (isNewShip ? openModal(shipManageModal) : openModal(shipInfoModal))}>
           <img
-            // src={typeof spaceShip === "number" ? "/assets/img/icons/ship-profile-create.svg" : spaceShip?.image}
-            src={
-              typeof spaceShip === "number"
-                ? "/assets/img/icons/ship-profile-create.svg"
-                : "/assets/img/icons/ship-profile-default.svg"
-            }
+            // src={isNewShip ? "/assets/img/icons/ship-profile-create.svg" : spaceShip?.image}
+            src={isNewShip ? "/assets/img/icons/ship-profile-create.svg" : "/assets/img/icons/ship-profile-default.svg"}
             alt=""
           />
         </S.Img>
-        <S.Title>{typeof spaceShip === "number" ? `우주선 ${spaceShip}` : spaceShip?.name}</S.Title>
-        <S.MemberCount>{typeof spaceShip === "number" ? "" : `0 / ${spaceShip?.maxMembers}`}</S.MemberCount>
+        <S.Title>{isNewShip ? `우주선 ${ship}` : ship.id}</S.Title>
+        <S.MemberCount>{isNewShip ? "" : `0 / ${ship.maxMembers}`}</S.MemberCount>
       </S.Container>
     </S.Wrap>
   );

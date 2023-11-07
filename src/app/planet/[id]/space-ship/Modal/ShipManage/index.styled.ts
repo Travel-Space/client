@@ -45,14 +45,3 @@ export const BtnInput = styled.div`
     border-right: none;
   }
 `;
-
-// export const BtnIcon = styled(OB)`
-//   display: inline-block;
-//   width: 30%;
-//   border-radius: 0 10px 10px 0;
-//   vertical-align: top;
-//   border-color: ${({ theme }) => theme.PALETTE.gray[100]};
-//   img {
-//     transform: scale(1.7);
-//   }
-// `;
