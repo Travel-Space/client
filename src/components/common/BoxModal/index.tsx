@@ -5,11 +5,12 @@ import { createPortal } from "react-dom";
 interface BoxModalType extends Default {
   children: React.ReactNode;
   title: string;
+  depth?: boolean;
 }
 
-export default function BoxModal({ children, title, onClose }: BoxModalType) {
+export default function BoxModal({ children, title, onClose, depth }: BoxModalType) {
   return createPortal(
-    <S.Background>
+    <S.Background $depth={depth}>
       <S.Container>
         <S.Header>
           <S.Title>{title}</S.Title>

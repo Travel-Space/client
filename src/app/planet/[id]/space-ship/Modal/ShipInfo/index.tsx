@@ -1,7 +1,7 @@
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
-import { Default } from "@/@types/Modal";
+import { Default, ItemType } from "@/@types/Modal";
 import { SpaceshipContext, SpaceshipContextType } from "../../page";
 import { Role, SpaceshipStatus, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
 import Button from "@/components/common/Button";
+import Delete from "@/components/SpaceModal/Delete";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -59,6 +60,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const imSpaceshipOwner = role === "OWNER";
   const imSpaceshipMember = role === "MEMBER";
   const imPlanetOwner = thisPlanet?.role === "OWNER";
+  const [openDelete, setOpenDelete] = useState(false);
 
   async function fetchSpaceshipData() {
     try {
@@ -125,7 +127,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           </S.MemberList>
         </S.MemberGroup>
         {/* 우주선 방장, 행성 관리자만 삭제 가능 */}
-        {imSpaceshipOwner && imPlanetOwner && <S.DeleteBtn>우주선 삭제 💥</S.DeleteBtn>}
+        {imSpaceshipOwner && imPlanetOwner && (
+          <S.DeleteBtn onClick={() => setOpenDelete(true)}>우주선 삭제 💥</S.DeleteBtn>
+        )}
         <S.CenterGroup>
           {(imSpaceshipOwner || imSpaceshipMember) && (
             <Button variant="reverse" shape="medium" size="big" onClick={() => {}}>
@@ -145,6 +149,16 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           )}
         </S.CenterGroup>
       </S.Content>
+
+      {openDelete && (
+        <Delete
+          depth={true}
+          onClose={() => setOpenDelete(false)}
+          title={spaceshipInfo.name}
+          type={ItemType.SpaceShip}
+          id={spaceshipInfo.id}
+        />
+      )}
     </BoxModal>
   );
 }

@@ -5,14 +5,16 @@ import * as S from "../index.styled";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
 import { AxiosError } from "axios";
+import { Spaceship } from "@/@types/Spaceship";
 
 interface Type extends Default {
   title?: string;
   type: ItemType;
   id?: number;
+  depth?: boolean;
 }
 
-export default function Delete({ onClose, title, type, id }: Type) {
+export default function Delete({ onClose, title, type, id, depth }: Type) {
   async function handlePlanetDelete() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
@@ -26,10 +28,21 @@ export default function Delete({ onClose, title, type, id }: Type) {
     }
   }
 
-  function handleSpaceshipDelete() {}
+  async function handleSpaceshipDelete() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
+      console.log(response);
+      response.status === 200 && alert("우주선이 성공적으로 삭제되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 삭제하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
 
   return (
-    <BoxModal onClose={onClose} title={`${type} 삭제`}>
+    <BoxModal onClose={onClose} title={`${type} 삭제`} depth={depth}>
       <S.Notification>
         <b>{title}</b>
         <br />
