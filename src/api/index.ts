@@ -6,11 +6,12 @@ const allowMethod: string[] = ["get", "post", "put", "patch", "delete"];
 // Axios 인스턴스 생성
 const instance = axios.create({
   baseURL: "http://localhost:8080",
-  timeout: 5000,
+  timeout: 10000,
   withCredentials: true,
 });
 
-instance.defaults.headers.post["Content-Type"] = "application/json";
+// instance.defaults.headers.post["Content-Type"] = "application/json";
+// instance.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
 // authInterceptor(instance);
 
@@ -34,10 +35,22 @@ const axiosRequest: AxiosRequest = {
     // 이상한 method 넣으면 실행 못하게 미리 에러 처리 한다.
     if (!allowMethod.includes(method.toLowerCase())) throw new Error("허용되지 않은 호출 method입니다.");
     try {
+      let headers = {
+        Accept: "application/json",
+      };
+
+      if (data instanceof FormData) {
+        headers = {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        };
+      }
+
       const response = await instance({
         method,
         url: `${instance.defaults.baseURL}${url}`,
         data,
+        headers,
       });
 
       return response as T;
