@@ -1,23 +1,79 @@
-import { useRecoilValue } from "recoil";
-import { followerState, totalFollowersState } from "@/recoil/atoms/friend.atom";
+import axiosRequest from "@/api";
+import { ResData, FollowingsType, FollowersType } from "@/@types";
+
+import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { followerState, totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
-interface FollowersProps {
-  loadData: () => void;
-  updateData: () => void;
-}
-
-export default function Followers({ loadData, updateData }: FollowersProps) {
-  const followers = useRecoilValue(followerState);
-  const totalFollowers = useRecoilValue(totalFollowersState);
-
+export default function Followers() {
   const handleClick = () => {
-    loadData();
+    setPage(prev => prev + 1);
   };
+
+  const [followers, setFollowers] = useRecoilState(followerState);
+
+  const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
+  const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
+
+  const [page, setPage] = useState(1);
+  const limit = 5;
+
+  //팔로잉 조회
+  async function getFollowings() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
+        "get",
+        `/user/following?page=${1}&limit=${1}`,
+      );
+      const total = response.data.total;
+
+      setTotalFollowings(total);
+      // console.log("followings", followings);
+    } catch (error) {
+      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followings data: ", error);
+    }
+  }
+  //팔로워 조회
+  async function getFollowers(page: number, limit: number) {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
+        "get",
+        `/user/followers?page=${page}&limit=${limit}`,
+      );
+      const followers = response.data.data;
+      const total = response.data.total;
+
+      if (page === 1) setFollowers(followers);
+      else setFollowers(prev => [...prev, ...followers]);
+
+      setTotalFollowers(total);
+      // console.log("followings", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
+
+  const updateData = () => {
+    getFollowings();
+    getFollowers(1, page * limit);
+  };
+  useEffect(() => {
+    // console.log("page", page);
+    getFollowers(page, limit);
+  }, [page]);
+
+  useEffect(() => {
+    getFollowings();
+    getFollowers(page, limit);
+  }, []);
+
   return (
     <>
       {followers.length === 0 ? (
