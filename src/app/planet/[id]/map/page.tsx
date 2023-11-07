@@ -30,8 +30,8 @@ export default function Map({ params }: { params: { id: number } }) {
   // 마커 버튼 선택 유무
   const [clickedMarker, setClickedMarker] = useState(false);
   const [clickedMarkerLocation, setClickedMarkerLocation] = useState<Partial<Locations>>({
-    latitude: "",
-    longitude: "",
+    latitude: 0,
+    longitude: 0,
   });
 
   // 구글 맵 키
@@ -51,8 +51,11 @@ export default function Map({ params }: { params: { id: number } }) {
       );
       const data = response.data;
       const locations = data.articles.flatMap((article: Posting) => article.locations); // [{}, {}, {}, {} ... {}]
+      const uniqueLocations = Array.from(new Set(locations.map(item => `${item.latitude}-${item.longitude}`))).map(
+        key => locations.find(obj => `${obj.latitude}-${obj.longitude}` === key),
+      );
 
-      setMarker(locations);
+      setMarker(uniqueLocations);
     } catch (error) {
       console.error("에러 발생: ", error);
     }
@@ -62,13 +65,11 @@ export default function Map({ params }: { params: { id: number } }) {
     getMarker();
   }, []);
 
-  // 지도 중심 잡아 주는 코드 → calculateCenter 함수는 marker의 유효한 위치들로부터 중심값을 계산합니다
+  // 지도 중심 잡아 주는 코드
   const calculateCenter = (marker: Locations[]) => {
     if (marker?.length > 0) {
-      const totalLat = marker.reduce((sum, el) => sum + el.latitude, 0);
-      const totalLng = marker.reduce((sum, el) => sum + el.longitude, 0);
-      const avgLat = totalLat / marker.length;
-      const avgLng = totalLng / marker.length;
+      const avgLat = marker.reduce((sum, el) => sum + el.latitude, 0) / marker.length;
+      const avgLng = marker.reduce((sum, el) => sum + el.longitude, 0) / marker.length;
 
       return { lat: avgLat, lng: avgLng };
     }
