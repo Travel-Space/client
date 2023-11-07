@@ -9,6 +9,7 @@ interface Type extends Default {
 }
 
 export default function PlanetMember({ onClose, members }: Type) {
+  console.log(members);
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>

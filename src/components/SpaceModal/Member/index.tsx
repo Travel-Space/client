@@ -2,6 +2,8 @@ import { ItemType } from "@/@types/Modal";
 import * as S from "./index.styled";
 import { User } from "@/@types";
 import { Role, RoleName } from "@/@types/Planet";
+import Button from "@/components/common/Button";
+import DropDown from "@/components/common/DropDown";
 
 interface Type {
   mode: "select" | "manage";
@@ -13,6 +15,13 @@ interface Type {
 
 export default function Member({ mode, type, user, role, onSelectMember }: Type) {
   const roleName = RoleName[role];
+
+  const dropDownProps = {
+    comment: "사유 선택",
+    menuList: ["부관리자", "일반 멤버"],
+    selectedMenu: "부관리자",
+    handleClick: (value: string) => console.log(value),
+  };
 
   return (
     <S.Wrap>
@@ -30,8 +39,8 @@ export default function Member({ mode, type, user, role, onSelectMember }: Type)
         </S.Label>
       ) : (
         <S.MemberWrap>
-          <S.ProfileImg src={user.profileImage} />
           <S.InfoGroup>
+            <S.ProfileImg src={user.profileImage} />
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
             </S.NicknameRole>
@@ -46,10 +55,14 @@ export default function Member({ mode, type, user, role, onSelectMember }: Type)
             {/* <S.FillButton>수락</S.FillButton> 
               <S.OutlineButton>거절</S.OutlineButton> */}
             {/* 멤버 권한 관리 */}
-            {/* select */}
-            {/* <S.FillButton $icons>
-                <img src="/assets/img/icons/exit-white.svg" />
-              </S.FillButton> */}
+            <>
+              <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
+              <Button variant="confirm" shape="medium" size="normal">
+                <S.Group>
+                  <img src="/assets/img/icons/exit-white.svg" />
+                </S.Group>
+              </Button>
+            </>
           </S.Group>
         </S.MemberWrap>
       )}

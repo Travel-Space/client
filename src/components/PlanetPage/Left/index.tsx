@@ -32,7 +32,7 @@ export default function Left() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
   const { modalDataState, openModal, closeModal } = useModal();
-  const { id } = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
   if (!planetContext) {
     return;
@@ -166,7 +166,7 @@ export default function Left() {
             탑승 우주선으로 이동
           </Button>
           {/* 행성 관리자만 삭제 가능 */}
-          {planetInfo.ownerId === id && (
+          {planetInfo.ownerId === user?.id && (
             <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
               행성 삭제 💥
             </S.DeleteBtn>

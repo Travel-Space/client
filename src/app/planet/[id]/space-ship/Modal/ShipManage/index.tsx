@@ -7,14 +7,14 @@ import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
 import SelectBtn, { ListType } from "@/components/common/SelectBtn";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
 import { AxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
-import { SpaceShipType } from "../../page";
+import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../../page";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -38,19 +38,21 @@ const shipStatus: ListType[] = [
 ];
 
 interface ShipManageType extends Default {
-  planetId: number;
-  planetMaxMember?: number;
-  spaceShip?: number | SpaceShipType;
+  ship: number | SpaceShipType;
 }
 
-export default function ShipManage({ onClose, planetId, planetMaxMember, spaceShip }: ShipManageType) {
+export default function ShipManage({ onClose, ship }: ShipManageType) {
+  const isNewShip = typeof ship === "number";
+  const isSpaceShip = !isNewShip;
+
+  const { planetData, planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
   const [shipInfo, setShipInfo] = useState<ShipType>({
     name: "",
     description: "",
-    maxMembers: planetMaxMember,
+    maxMembers: planetData.memberLimit,
     startDate: todayString,
     endDate: todayString,
-    planetId: planetId,
+    planetId: parseInt(planetId),
     status: "UPCOMING",
     image: "",
   });
@@ -100,8 +102,8 @@ export default function ShipManage({ onClose, planetId, planetMaxMember, spaceSh
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
         "put",
-        `/spaceship/${typeof spaceShip === "object" && spaceShip?.id}`,
-        shipInfo,
+        `/spaceship/${isSpaceShip && ship.id}`,
+        { ...shipInfo, spaceshipStatus: shipInfo.status },
       );
       console.log(response);
       response.status === 200 && alert("우주선 정보가 업데이트 되었습니다!");
@@ -114,11 +116,11 @@ export default function ShipManage({ onClose, planetId, planetMaxMember, spaceSh
   }
 
   useEffect(() => {
-    if (typeof spaceShip === "object") {
+    if (isSpaceShip) {
       setShipInfo({
-        ...spaceShip,
-        startDate: `${getDateFormat(new Date(spaceShip.startDate))}`,
-        endDate: `${getDateFormat(new Date(spaceShip.endDate))}`,
+        ...ship,
+        startDate: `${getDateFormat(new Date(ship.startDate))}`,
+        endDate: `${getDateFormat(new Date(ship.endDate))}`,
       });
     }
   }, []);
@@ -156,7 +158,7 @@ export default function ShipManage({ onClose, planetId, planetMaxMember, spaceSh
               id="spaceship-member-limit"
               value={shipInfo.maxMembers}
               min={1}
-              max={!planetMaxMember ? 0 : planetMaxMember}
+              max={planetData.memberLimit}
               onNumber={handleMaxMembers}
             />
           </S.Group>
@@ -197,9 +199,9 @@ export default function ShipManage({ onClose, planetId, planetMaxMember, spaceSh
             variant="confirm"
             shape="medium"
             size="big"
-            onClick={typeof spaceShip === "object" ? submitModifySpaceship : submitCreateSpaceship}
+            onClick={isSpaceShip ? submitModifySpaceship : submitCreateSpaceship}
           >
-            {typeof spaceShip === "object" ? "수정" : "완료"}
+            {isSpaceShip ? "수정" : "완료"}
           </Button>
         </S.Center>
       </S.Content>

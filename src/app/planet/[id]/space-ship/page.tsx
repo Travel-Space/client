@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { createContext, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
@@ -13,16 +13,12 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import Exit from "@/components/SpaceModal/Exit";
-import Button from "@/components/common/Button";
-import Ship from "./Ship";
-
 import * as S from "./page.styled";
-import { ItemType } from "@/@types/Modal";
-import PlanetMember from "./Modal/PlanetMember";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
+
+import Ship from "./Ship";
 import { PlanetMembership } from "@/@types/Planet";
+import SpaceshipTop from "./Top";
+import SpaceshipBottom from "./Bottom";
 
 export interface SpaceShipType {
   id: number;
@@ -38,54 +34,61 @@ export interface SpaceShipType {
   chatRoomId: number;
   createdAt: string;
   updatedAt: string;
+  members: {};
 }
 
+export interface PlanetDataType {
+  name: string;
+  memberLimit: number;
+  spaceshipLimit: number;
+  ownerId: number;
+}
+
+export interface SpaceshipContextType {
+  planetData: PlanetDataType;
+  planetId: string;
+  planetMember: PlanetMembership[];
+}
+
+export const SpaceshipContext = createContext<SpaceshipContextType>({
+  planetData: {
+    name: "",
+    memberLimit: 0,
+    spaceshipLimit: 0,
+    ownerId: 0,
+  },
+  planetId: "",
+  planetMember: [],
+});
+
 export default function SpaceShip() {
-  const [spaceShipList, setSpaceShipList] = useState<SpaceShipType[]>([]);
-  const [spaceShipLimit, setSpaceShipLimit] = useState<number>(0);
-  const [planetName, setPlanetName] = useState<string>();
-  const [planetMember, setPlanetMember] = useState<PlanetMembership[]>();
-  const [planetMaxMember, setPlanetMaxMember] = useState<number>();
+  const [spaceshipList, setSpaceshipList] = useState<SpaceShipType[]>([]);
+  const [planetMember, setPlanetMember] = useState<PlanetMembership[]>([]);
+  const [planetData, setPlanetData] = useState<PlanetDataType>({
+    name: "",
+    memberLimit: 0,
+    spaceshipLimit: 0,
+    ownerId: 0,
+  });
 
-  const { modalDataState, openModal, closeModal } = useModal();
+  const { modalDataState } = useModal();
 
-  const router = useRouter();
   const params = useParams();
-  const user = useRecoilValue(userAtom);
-  const id: string = params.id as string;
-  const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(id));
 
-  const exitModal = {
-    title: "행성 탈출",
-    content: (
-      <Exit
-        onClose={closeModal}
-        title={planetName}
-        type={ItemType.Planet}
-        role={thisPlanet?.role}
-        id={id}
-        members={planetMember}
-      />
-    ),
-  };
+  const planetId: string = params.id as string;
 
-  const planetMemberModal = {
-    title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} members={planetMember} />,
-  };
-
-  const limitNumber = Array.from({ length: spaceShipLimit }, (_, index) => index + 1);
-  const remainingSpaceships = [...spaceShipList, ...limitNumber?.slice(spaceShipList.length)];
+  const limitNumber = Array.from({ length: planetData.spaceshipLimit }, (_, index) => index + 1);
+  const remainingSpaceships = [...spaceshipList, ...limitNumber?.slice(spaceshipList.length)];
 
   async function fetchSpaceshipData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<SpaceShipType[]>>(
         "get",
-        `/spaceship/by-planet/${id}`,
+        `/spaceship/by-planet/${planetId}`,
         {},
       );
       console.log(response);
-      setSpaceShipList(response.data);
+      setSpaceshipList(response.data);
     } catch (error) {
       console.error("우주선 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -95,12 +98,10 @@ export default function SpaceShip() {
 
   async function fetchPlanetData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${id}`, {});
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       console.log(response);
-      const { spaceshipLimit, name, memberLimit } = response.data;
-      setSpaceShipLimit(spaceshipLimit);
-      setPlanetName(name);
-      setPlanetMaxMember(memberLimit);
+      const { spaceshipLimit, name, memberLimit, ownerId } = response.data;
+      setPlanetData({ spaceshipLimit, name, memberLimit, ownerId });
     } catch (error) {
       console.error("행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -110,7 +111,11 @@ export default function SpaceShip() {
 
   async function fetchMemberListData() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>("get", `/planet/members/${id}`, {});
+      const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>(
+        "get",
+        `/planet/members/${planetId}`,
+        {},
+      );
       console.log(response);
       // 행성 관리자 제외한 멤버
       const member = response.data;
@@ -130,50 +135,28 @@ export default function SpaceShip() {
   }, []);
 
   return (
-    <S.Wrap>
+    <SpaceshipContext.Provider value={{ planetData, planetId, planetMember }}>
       {modalDataState.isOpen && modalDataState.content}
-      <S.Header>
-        <Button variant="basic" size="normal" shape="large" onClick={() => router.back()}>
-          <img src="/assets/img/icons/prev-white.svg" height={16} />
-        </Button>
-        <S.Title>{planetName}</S.Title>
-        <Button variant="basic" size="normal" shape="large">
-          <S.CenterGroup>
-            <span>탑승링크</span>
-            <img src="/assets/img/icons/share-white.svg" height={16} />
-          </S.CenterGroup>
-        </Button>
-      </S.Header>
-
-      <S.List
-        slidesPerView={5}
-        slidesPerGroup={5}
-        spaceBetween={24}
-        grabCursor={false}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-      >
-        {remainingSpaceships?.map((ship, index) => (
-          <SwiperSlide key={index}>
-            <Ship planetId={parseInt(id)} planetMaxMember={planetMaxMember} spaceShip={ship} />
-          </SwiperSlide>
-        ))}
-      </S.List>
-
-      <S.Footer>
-        {/* 현재 내 user recoil 행성별 role이 OWNER일 경우 관리버튼 노출 */}
-        <S.MemberBtn>
-          <Button variant="gradient" shape="large" size="big" onClick={() => openModal(planetMemberModal)}>
-            <S.CenterGroup>
-              <img src="/assets/img/icons/users.svg" />
-              <span>행성 멤버 관리</span>
-            </S.CenterGroup>
-          </Button>
-        </S.MemberBtn>
-        <S.ExitBtn onClick={() => openModal(exitModal)}>행성 탈출 💥</S.ExitBtn>
-      </S.Footer>
-    </S.Wrap>
+      <S.Wrap>
+        <SpaceshipTop />
+        <S.List
+          slidesPerView={5}
+          slidesPerGroup={5}
+          spaceBetween={24}
+          grabCursor={false}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+        >
+          {remainingSpaceships?.map((ship, index) => (
+            <SwiperSlide key={index}>
+              <Ship ship={ship} />
+            </SwiperSlide>
+          ))}
+        </S.List>
+        <SpaceshipBottom />
+      </S.Wrap>
+    </SpaceshipContext.Provider>
   );
 }
