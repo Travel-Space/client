@@ -72,6 +72,7 @@ export default function Followers({ id }: { id: number }) {
   }
   useEffect(() => {
     getFollowers(page, limit);
+    getFollowings();
   }, []);
 
   //무한 스크롤
