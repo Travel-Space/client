@@ -18,16 +18,26 @@ import DropDown from "@/components/common/DropDown";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
 import { MembershipStatus } from "@/@types/Member";
+import { Locations } from "@/@types/Locations";
 
 export interface ArticleProps {
   params: Number;
   clickMarker?: boolean;
   onClose?: () => void;
   article?: Posting;
+  markerLocation?: Locations | undefined;
 }
 
-export default function Side({ onClose, clickMarker, params }: ArticleProps) {
+export default function Side({ onClose, clickMarker, params, markerLocation }: ArticleProps) {
   const user = useRecoilValue(userAtom);
+
+  const { latitude, longitude } = markerLocation;
+
+  console.log(`위도: ${latitude}, 경도: ${longitude} 마커 클릭 시 좌표가 잘 넘어가는지 확인`);
+
+  // 드롭 다운 메뉴
+  const [spaceship, setSpaceship] = useState<string[]>([]);
+  const [selectedMenu, setSelectedMenu] = useState("전체");
 
   // ===================================== 게시글 무한 스크롤 로직 =====================================
 
@@ -37,9 +47,10 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
   // 페이지 정보 및 게시글 불러올 갯수
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [totalPage, setTotalPage] = useState(0);
 
   // 게시글 불러오기 스탑
-  const [noArticle, setNoArticle] = useState(false);
+  const [notData, setNotData] = useState(false);
 
   // 무한 스크롤 옵저버 인식 부분
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -48,18 +59,22 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
   // 지도 페이지 들어가서 마커에 해당하는 게시글만 조회해서 무한 스크롤 되는 api (우주선 상관 o) = 마커 클릭했을 경우
   const getArticle = async () => {
     try {
+      const dropdown = selectedMenu === "전체" ? "" : `&spaceshipName=${selectedMenu}`;
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
         clickMarker
-          ? `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=10` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
-          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${10}`,
+          ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=1&limit=100${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
+          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${1000}${dropdown}`,
       );
       const data = response.data;
+      const totalPage = Math.ceil(data.total / 10);
 
-      console.log(data);
+      setTotalPage(totalPage);
+
+      console.log(article, `${currentPage}번째 페이지`);
 
       if (!data.articles.length) {
-        setNoArticle(true);
+        setNotData(true);
         return;
       }
 
@@ -71,24 +86,35 @@ export default function Side({ onClose, clickMarker, params }: ArticleProps) {
 
   useEffect(() => {
     getArticle();
-  }, [currentPage]);
+  }, [currentPage, selectedMenu]);
+
+  // const loadData = () => {
+  //   if (notData) return;
+  //   setCurrentPage(prev => prev + 1);
+  //   console.log(currentPage, "currentPage");
+  // };
 
   // const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
 
-  // ===================================== 드롭 다운 메뉴 가져오기 =====================================
+  // useEffect(() => {
+  //   if (observerRef.current) {
+  //     setTargetRef(observerRef);
+  //   }
+  // }, [observerRef, setTargetRef]);
 
-  // 드롭 다운 메뉴
-  const [spaceship, setSpaceship] = useState<string[]>([]);
-  const [selectedMenu, setSelectedMenu] = useState("전체");
+  // ===================================== 드롭 다운 메뉴 가져오기 =====================================
 
   // 드롭 다운 메뉴 받아오는 api
   const getSpaceshipInfo = async () => {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${params}`);
-      const spaceshipName = response.data.map((el: Spaceship) => el.name);
+      if (user?.isAuth) {
+        const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${params}`);
+        const spaceshipName = response.data.map((el: Spaceship) => el.name);
 
-      setSpaceship(["전체", ...spaceshipName]);
+        setSpaceship(["전체", ...spaceshipName]);
+      }
     } catch (error) {
+      alert("spaceship name error");
       console.error(error);
     }
   };
