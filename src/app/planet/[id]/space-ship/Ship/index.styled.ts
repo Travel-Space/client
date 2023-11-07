@@ -13,6 +13,10 @@ export const Container = styled.div<{ $newShip: boolean }>`
     $newShip &&
     css`
       filter: brightness(0.5);
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        filter: brightness(1);
+      }
     `}
 `;
 
