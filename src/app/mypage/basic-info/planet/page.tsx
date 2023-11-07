@@ -5,6 +5,7 @@ import { ResData, Planet, PlanetsType, JoinedPlanets } from "@/@types";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { myPlanetsState, joinedPlanetsState } from "@/recoil/atoms/planets.atom";
+import { userAtom } from "@/recoil/atoms/user.atom";
 import usePagination from "@/hooks/usePagination";
 
 import * as S from "./page.styled";
@@ -18,6 +19,8 @@ import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
 
 export default function Planet() {
+  const userId = useRecoilState(userAtom)[0]?.id;
+
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
   const [overLimit, setOverLimit] = useState(false);
 
@@ -67,7 +70,6 @@ export default function Planet() {
   useEffect(() => {
     getMyPlanets();
     getJoinedPlanets();
-    // console.log("id", user.id);
 
     if (myPlanets.length >= 5) setOverLimit(true);
   }, []);
@@ -118,7 +120,7 @@ export default function Planet() {
           </S.JoinedPlanetInfo>
           <S.JoinedPlanetList>
             {joinedPlanets.map((planet, idx) => (
-              <PlanetItem key={idx} data={planet} />
+              <PlanetItem key={idx} data={planet} userId={userId} />
             ))}
           </S.JoinedPlanetList>
           <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />

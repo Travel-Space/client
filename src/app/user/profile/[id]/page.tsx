@@ -11,7 +11,6 @@ import Nothing from "@/components/common/Nothing";
 import Planets from "@/app/user/profile/Planets";
 import Postings from "@/app/user/profile/Postings";
 import ProfileSummary from "@/app/user/profile/ProfileSummary";
-import MESSAGE from "@/constants/message";
 
 interface ProfileParams {
   id: number;
@@ -21,26 +20,9 @@ export default function Profile({ params }: { params: ProfileParams }) {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const [planets, setPlanets] = useState<Planet[]>([]);
-
   const selectTab = (idx: number) => {
     setTabIndex(idx);
   };
-
-  //행성 불러오기
-  async function getPlanets() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
-        "get",
-        `/planet/other/${userId}/ownerships`,
-      );
-      setPlanets(response.data.data);
-      //   console.log("planets", planets);
-    } catch (error) {
-      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
-      alert(MESSAGE.ERROR.DEFAULT);
-    }
-  }
 
   const TabList = [
     {
@@ -71,19 +53,7 @@ export default function Profile({ params }: { params: ProfileParams }) {
     },
     {
       title: "행성목록",
-      content:
-        planets.length === 0 ? (
-          <Nothing
-            src="/assets/img/icons/no-planets.svg"
-            alt="no-TravelingPlanets"
-            width={148}
-            height={148}
-            comment="여행 중인 행성이 없습니다."
-            font="lg"
-          />
-        ) : (
-          <Planets data={planets} />
-        ),
+      content: tabIndex === 2 && <Planets id={userId} />,
     },
     {
       title: "게시글",
