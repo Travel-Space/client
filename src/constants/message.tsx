@@ -33,6 +33,9 @@ const MESSAGE = {
     JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
   },
+  REPORTS: {
+    COMPLETE: "신고가 완료되었습니다.",
+  },
   MYPAGE: {
     NICKNAME: "닉네임을 입력해 주세요.",
   },
