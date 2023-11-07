@@ -2,15 +2,16 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import { Default } from "@/@types/Modal";
-import { SpaceShipType } from "../../page";
+import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../../page";
 import { SpaceshipStatus, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
+import Button from "@/components/common/Button";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -45,8 +46,12 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const { dateString: startDate } = getDateInfo(new Date(spaceshipInfo?.startDate));
   const { dateString: endDate } = getDateInfo(new Date(spaceshipInfo?.endDate));
   const user = useRecoilValue(userAtom);
+  const { planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
+  const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
   const thisSpaceship = user?.memberships.spaceships.find(spaceship => spaceship?.spaceshipId === spaceshipInfo.id);
-  console.log(thisSpaceship);
+  const imSpaceshipOwner = thisSpaceship?.role === "OWNER";
+  const imSpaceshipMember = thisSpaceship?.role === "MEMBER";
+  const imPlanetOwner = thisPlanet?.role === "OWNER";
 
   async function fetchSpaceshipData() {
     try {
@@ -86,17 +91,25 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
         </S.Detail>
         <Line color="gray" size="horizontal" />
         {/* 우주선 주인, 행성 주인만 가능 */}
-        <S.DeleteBtn>우주선 삭제 💥</S.DeleteBtn>
-        {/* <ButtonGroup>
-          <S.OutlineButton>
-            <img src="/assets/img/icons/exit.svg" />
-            퇴장하기
-          </S.OutlineButton>
-          <S.FillButton>
-            <img src="/assets/img/icons/mini-ship.svg" />
-            우주선 관리하기
-          </S.FillButton>
-        </ButtonGroup> */}
+        {imSpaceshipOwner && imPlanetOwner && <S.DeleteBtn>우주선 삭제 💥</S.DeleteBtn>}
+        <S.CenterGroup>
+          {(imSpaceshipOwner || imSpaceshipMember) && (
+            <Button variant="reverse" shape="medium" size="big" onClick={() => {}}>
+              <S.CenterGroup>
+                <img src="/assets/img/icons/exit.svg" />
+                <span>우주선 탈출</span>
+              </S.CenterGroup>
+            </Button>
+          )}
+          {!imSpaceshipMember && (
+            <Button variant="confirm" shape="medium" size="big" onClick={() => {}}>
+              <S.CenterGroup>
+                <img src="/assets/img/icons/space-ship/rocket.svg" />
+                <span>우주선 {imSpaceshipOwner ? "관리하기" : "탑승하기"}</span>
+              </S.CenterGroup>
+            </Button>
+          )}
+        </S.CenterGroup>
       </S.Content>
     </BoxModal>
   );

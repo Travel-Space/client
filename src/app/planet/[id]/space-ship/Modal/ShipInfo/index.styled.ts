@@ -34,22 +34,6 @@ export const Detail = styled.div`
   }
 `;
 
-// export const OutlineButton = styled(OB)`
-//   ${flexCenter}
-//   gap: 8px;
-//   img {
-//     margin-top: -2px;
-//   }
-// `;
-
-// export const FillButton = styled(FB)`
-//   ${flexCenter}
-//   gap: 8px;
-//   img {
-//     margin-top: -2px;
-//   }
-// `;
-
 export const DeleteBtn = styled.button`
   width: fit-content;
   background: none;
@@ -57,4 +41,9 @@ export const DeleteBtn = styled.button`
   font-family: inherit;
   font-size: inherit;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.black};
+`;
+
+export const CenterGroup = styled.div`
+  ${flexCenter}
+  gap: 16px;
 `;
