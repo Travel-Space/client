@@ -41,9 +41,7 @@ export const Content = styled.div`
   padding: 24px;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
-  & > div:nth-child(10n) {
-    border-bottom: none;
-  }
+
   & > div:last-child {
     border-bottom: none;
   }
