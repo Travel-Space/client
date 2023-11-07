@@ -71,6 +71,23 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     }
   }
 
+  async function handleSpaceshipJoin() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>(
+        "post",
+        `/spaceship/board/${shipId}`,
+        {},
+      );
+      console.log(response);
+      response.status === 201 && alert("우주선에 성공적으로 탑승하였습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 탑승 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchSpaceshipData();
     setRole(thisSpaceship?.role);
@@ -141,7 +158,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
               variant="confirm"
               shape="medium"
               size="big"
-              onClick={() => (imSpaceshipOwner ? openModal(shipManageModal) : "")}
+              onClick={imSpaceshipOwner ? () => openModal(shipManageModal) : handleSpaceshipJoin}
             >
               <S.CenterGroup>
                 <img src="/assets/img/icons/space-ship/rocket.svg" />
