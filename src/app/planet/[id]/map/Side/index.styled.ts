@@ -12,15 +12,6 @@ const slide = keyframes`
   }
 `;
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
 export const Container = styled.div`
   ${ModalBackground}
   width: ${WIDTH};
@@ -39,8 +30,6 @@ export const Wrapper = styled.div`
   gap: 40px;
   padding: 32px 56px;
   background: ${({ theme }) => theme.PALETTE.white};
-
-  animation: ${fadeIn} 0.3s ease forwards;
 `;
 
 export const Middle = styled.div`
