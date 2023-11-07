@@ -2,13 +2,14 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Member from "@/components/SpaceModal/Member";
 import { Default } from "@/@types/Modal";
-import { PlanetMembership } from "@/@types/Planet";
+import { CommonUserInfo } from "@/@types/User";
 
 interface Type extends Default {
-  members?: PlanetMembership[];
+  members?: CommonUserInfo[];
 }
 
 export default function PlanetMember({ onClose, members }: Type) {
+  console.log(members);
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
       <S.Notification>
@@ -33,7 +34,20 @@ export default function PlanetMember({ onClose, members }: Type) {
 
         {/* 친구 있을 때 */}
         <S.MemberList>
-          {members?.map(member => <Member key={member.userId} mode="manage" {...member} onSelectMember={() => {}} />)}
+          {members?.map(member => (
+            <Member
+              key={member.userId}
+              mode="manage"
+              user={{
+                email: member.email,
+                nickName: member.nickName,
+                profileImage: member.profileImage,
+                role: member.role,
+                userId: member.userId,
+              }}
+              onSelectMember={() => {}}
+            />
+          ))}
         </S.MemberList>
       </S.Notification>
       {/* <S.LinkButton>
