@@ -101,7 +101,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     <BoxModal onClose={onClose} title="우주선 정보">
       <S.Content>
         <S.Title>
-          <h2>{spaceshipInfo.name}</h2>
+          <h2>
+            {spaceshipInfo.id}. {spaceshipInfo.name}
+          </h2>
           <span>{SpaceshipStatusName[spaceshipInfo.status]}</span>
         </S.Title>
         <Line color="gray" size="horizontal" />
