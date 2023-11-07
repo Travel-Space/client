@@ -95,7 +95,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       {data?.comments
         ?.sort((a, b) => a.id - b.id)
         .map(comment => {
-          const { dateString } = getDateInfo(comment.createdAt);
+          const { dateString, time } = getDateInfo(comment.createdAt);
           {
             /* 수정모드일 때  작성 인풋*/
           }
@@ -137,7 +137,9 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
                         <UserProfile size="post" comment={comment} />
                       </Link>
                     </CI.StyledLink>
-                    <CI.CommentDate>{dateString}</CI.CommentDate>
+                    <CI.CommentDate>
+                      {dateString} {time}
+                    </CI.CommentDate>
                   </CI.ProfileAndDate>
                 </CI.UserComment>
                 <CI.CommentContent>{comment.content}</CI.CommentContent>
