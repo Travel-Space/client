@@ -9,6 +9,7 @@ import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { CommonUserInfo } from "@/@types/User";
+import { Spaceship } from "@/@types/Spaceship";
 
 interface Type extends Default {
   title: string | undefined;
@@ -20,6 +21,8 @@ interface Type extends Default {
 
 export default function Exit({ onClose, title, type, role, id, members }: Type) {
   const [selectMember, setSelectMember] = useState<number>();
+  const hasMember = members && members.length > 0;
+
   async function handlePlanetExit() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", `/planet/leave/${id}`);
@@ -60,7 +63,19 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       alert(errorResponse?.data.message);
     }
   }
-  console.log("members", members);
+
+  async function handleSpaceshipDelete() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
+      console.log(response);
+      response.status === 200 && alert("우주선이 성공적으로 삭제되었습니다!");
+      onClose();
+    } catch (error) {
+      console.error("우주선 삭제하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
 
   return (
     <BoxModal onClose={onClose} title={`${type} 탈출`}>
@@ -72,7 +87,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         </S.Notification>
       ) : (
         <S.NotificationBox>
-          {members && members.length > 0 ? (
+          {hasMember ? (
             <>
               <b>{title}</b> {type} 멤버 중 한 명에게 <b>관리자를 위임</b>하시고 <br />
               {type} 나가기 버튼을 눌러주세요.
@@ -97,7 +112,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
           ) : (
             <>
               <b>{title}</b> {type}에 멤버가 없습니다. <br />
-              {type}을 삭제하시겠습니까?
+              {type}을 <b>삭제</b>하시겠습니까?
             </>
           )}
         </S.NotificationBox>
@@ -125,7 +140,12 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
             </S.CenterGroup>
           </Button>
         ) : (
-          <Button variant="reverse" shape="medium" size="big" onClick={handlePlanetDelete}>
+          <Button
+            variant="reverse"
+            shape="medium"
+            size="big"
+            onClick={type === ItemType.Planet ? handlePlanetDelete : handleSpaceshipDelete}
+          >
             <S.CenterGroup>
               <img src="/assets/img/icons/trash.svg" />
               <span>{type} 삭제하기</span>
