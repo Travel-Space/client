@@ -2,6 +2,8 @@ import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types";
 
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
@@ -11,6 +13,8 @@ import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
 export default function ProfileSummary({ id }: { id: number }) {
   const [userProfile, setUserProfile] = useState<User>();
+  const user = useRecoilValue(userAtom);
+
   //프로필 조회
   async function getUserProfile() {
     try {
@@ -33,11 +37,11 @@ export default function ProfileSummary({ id }: { id: number }) {
     <S.Container>
       <S.UserInfo>
         <Image src="/assets/img/icons/default-user.svg" alt="user-img" width={120} height={120} />
-        <div>
+        <S.Profile>
           <S.Nickname>{userProfile?.nickName}</S.Nickname>
           <S.Email>{userProfile?.email}</S.Email>
-          <FollowBtn userId={id} isMutual={userProfile?.isFollowing} updateData={getUserProfile} />
-        </div>
+          {user?.id !== id && <FollowBtn userId={id} isMutual={userProfile?.isFollowing} updateData={getUserProfile} />}
+        </S.Profile>
       </S.UserInfo>
       <S.Friends>
         <S.FollowerNumber>
