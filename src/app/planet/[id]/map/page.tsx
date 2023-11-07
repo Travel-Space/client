@@ -29,6 +29,10 @@ export default function Map({ params }: { params: { id: number } }) {
 
   // 마커 버튼 선택 유무
   const [clickedMarker, setClickedMarker] = useState(false);
+  const [clickedMarkerLocation, setClickedMarkerLocation] = useState<Partial<Locations>>({
+    latitude: "",
+    longitude: "",
+  });
 
   // 구글 맵 키
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY || "";
@@ -85,14 +89,24 @@ export default function Map({ params }: { params: { id: number } }) {
   };
 
   // 마커 클릭 시 사이드 바에 마커에 해당하는 게시글만 담기
-  const handleMarkerClick = () => {
+  const handleMarkerClick = (location: Locations) => {
+    console.log(location, "마커 클릭 시 나오는 좌표");
+    const newLocation = location;
     setIsOpen(true);
+    setClickedMarkerLocation(newLocation);
     setClickedMarker(true);
   };
 
   return (
     <S.Container>
-      {isOpen && <Side onClose={handleClickSide} clickMarker={clickedMarker} params={params.id} />}
+      {isOpen && (
+        <Side
+          onClose={handleClickSide}
+          clickMarker={clickedMarker}
+          params={params.id}
+          markerLocation={clickedMarkerLocation}
+        />
+      )}
 
       <S.Button onClick={handleClickSide}>→</S.Button>
 
@@ -110,7 +124,7 @@ export default function Map({ params }: { params: { id: number } }) {
                   url: "/assets/img/icons/marker2.svg",
                   scaledSize: new window.google.maps.Size(50, 50),
                 }}
-                onClick={handleMarkerClick}
+                onClick={() => handleMarkerClick(location)}
               />
             ))}
         </GoogleMap>
