@@ -42,6 +42,7 @@ export const NicknameRole = styled.p`
   .nickname {
     font-weight: 600;
     margin-right: 8px;
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
   .role {
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
@@ -49,7 +50,9 @@ export const NicknameRole = styled.p`
   }
 `;
 
-export const Email = styled.p``;
+export const Email = styled.p`
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+`;
 
 export const Input = styled.input`
   cursor: pointer;

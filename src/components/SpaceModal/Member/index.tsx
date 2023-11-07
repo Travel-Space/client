@@ -55,14 +55,16 @@ export default function Member({ mode, type, user, onSelectMember }: Type) {
             {/* <S.FillButton>수락</S.FillButton> 
               <S.OutlineButton>거절</S.OutlineButton> */}
             {/* 멤버 권한 관리 */}
-            <>
-              <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
-              <Button variant="confirm" shape="medium" size="normal">
-                <S.Group>
-                  <img src="/assets/img/icons/exit-white.svg" />
-                </S.Group>
-              </Button>
-            </>
+            {user.role !== "GUEST" && (
+              <>
+                <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
+                <Button variant="confirm" shape="medium" size="normal">
+                  <S.Group>
+                    <img src="/assets/img/icons/exit-white.svg" />
+                  </S.Group>
+                </Button>
+              </>
+            )}
           </S.Group>
         </S.MemberWrap>
       )}

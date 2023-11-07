@@ -4,10 +4,13 @@ import Exit from "@/components/SpaceModal/Exit";
 import PlanetMember from "../Modal/PlanetMember";
 import { ItemType } from "@/@types/Modal";
 import { useModal } from "@/hooks/useModal";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SpaceshipContext, SpaceshipContextType } from "../page";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
+import axiosRequest from "@/api";
+import { AxiosError } from "axios";
+import { ResData } from "@/@types";
 
 export default function SpaceshipBottom() {
   const { openModal, closeModal } = useModal();
@@ -15,6 +18,25 @@ export default function SpaceshipBottom() {
   const user = useRecoilValue(userAtom);
   const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
   const onlyMember = planetMember.filter(m => m.role !== "GUEST");
+
+  async function fetchPendingData() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<{ pendingApplications: []; invitations: [] }>>(
+        "get",
+        `/planet/applications-invitations/${planetId}`,
+        {},
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("초대 및 탑승신청 조회 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchPendingData();
+  }, []);
 
   const exitModal = {
     title: "행성 탈출",
@@ -32,7 +54,7 @@ export default function SpaceshipBottom() {
 
   const planetMemberModal = {
     title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} members={planetMember} />,
+    content: <PlanetMember onClose={closeModal} members={onlyMember} />,
   };
 
   return (
