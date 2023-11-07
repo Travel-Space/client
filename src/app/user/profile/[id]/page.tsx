@@ -63,7 +63,7 @@ export default function Profile({ params }: { params: ProfileParams }) {
 
   return (
     <S.Container>
-      <ProfileSummary />
+      <ProfileSummary id={userId} />
       <S.MainContainer>
         <S.TabListWrap selectedTab={tabIndex}>
           {TabList.map((el, idx) => (
