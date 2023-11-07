@@ -7,11 +7,11 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
 export default function ChatBtn() {
-  const { isAuth } = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
   return (
     <>
-      {isAuth && (
+      {user?.isAuth && (
         <S.ChatBtnBox>
           <Link href={"/chat"}>
             <img src="/assets/img/icons/chat.svg" />
