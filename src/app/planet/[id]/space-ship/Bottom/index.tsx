@@ -14,6 +14,7 @@ export default function SpaceshipBottom() {
   const { planetData, planetId, planetMember } = useContext<SpaceshipContextType>(SpaceshipContext);
   const user = useRecoilValue(userAtom);
   const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
+  const onlyMember = planetMember.filter(m => m.role !== "GUEST");
 
   const exitModal = {
     title: "행성 탈출",
@@ -24,7 +25,7 @@ export default function SpaceshipBottom() {
         type={ItemType.Planet}
         role={thisPlanet?.role}
         id={planetId}
-        members={planetMember}
+        members={onlyMember}
       />
     ),
   };
