@@ -2,7 +2,7 @@
 import axiosRequest from "@/api/index";
 import { ResData, Planet, PostingsType, PlanetsType, Posting } from "@/@types";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import * as S from "./page.styled";
 
@@ -22,19 +22,12 @@ export default function Profile({ params }: { params: ProfileParams }) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const [planets, setPlanets] = useState<Planet[]>([]);
-  const [postings, setPostings] = useState<Posting[]>([]);
 
   const selectTab = (idx: number) => {
     setTabIndex(idx);
   };
 
-  useEffect(() => {
-    getPlanets();
-    getPostings();
-  }, []);
-
   //행성 불러오기
-  // 유저 행성 조회api 추가되면 수정예정
   async function getPlanets() {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
@@ -42,25 +35,9 @@ export default function Profile({ params }: { params: ProfileParams }) {
         `/planet/other/${userId}/ownerships`,
       );
       setPlanets(response.data.data);
-      console.log("planets", planets);
+      //   console.log("planets", planets);
     } catch (error) {
       console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
-      alert(MESSAGE.ERROR.DEFAULT);
-    }
-  }
-
-  //게시글 불러오기
-  // 유저 게시글 조회api 추가되면 수정예정
-  async function getPostings() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
-        "get",
-        `/articles/ohter/${userId}/articles?page=${1}&limit=10`,
-      );
-      setPostings(response.data.data);
-      // console.log("Postings", postings);
-    } catch (error) {
-      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   }
@@ -110,19 +87,7 @@ export default function Profile({ params }: { params: ProfileParams }) {
     },
     {
       title: "게시글",
-      content:
-        planets.length === 0 ? (
-          <Nothing
-            src="/assets/img/icons/no-postings.svg"
-            alt="no-postings"
-            width={96}
-            height={96}
-            comment="작성된 게시글이 없습니다."
-            font="lg"
-          />
-        ) : (
-          <Postings data={postings} />
-        ),
+      content: tabIndex === 3 && <Postings id={userId} />,
     },
   ];
 

@@ -19,7 +19,7 @@ export const Number = styled.div`
   color: ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 export const Content = styled.div`
-  padding: 24px;
+  padding: 16px 24px;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
   & > div:nth-child(10n) {
@@ -28,4 +28,9 @@ export const Content = styled.div`
   & > div:last-child {
     border-bottom: none;
   }
+`;
+export const InfiniteScrollTarget = styled.div`
+  height: "20px";
+  width: "100%";
+  border: "none";
 `;
