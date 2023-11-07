@@ -1,14 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, FollowersType, FollowingsType, Follow } from "@/@types";
-
-import { useRecoilState } from "recoil";
-import {
-  followerState,
-  followingState,
-  totalFollowersState,
-  totalFollowingsState,
-  notMutualState,
-} from "@/recoil/atoms/friend.atom";
+import { ResData, Follow } from "@/@types";
 
 import * as S from "./index.styled";
 
@@ -17,74 +8,9 @@ import Button from "@/components/common/Button";
 interface FollowBtnProps {
   userId: number;
   isMutual?: boolean;
-  page: number;
-  limit: number;
+  updateData: () => void;
 }
-export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnProps) {
-  const [followers, setFollowers] = useRecoilState(followerState);
-  const [followings, setFollowings] = useRecoilState(followingState);
-  const [notMutualFriends, setNotMutualFriends] = useRecoilState(notMutualState);
-
-  const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
-  const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
-
-  const updateData = (page: number, limit: number) => {
-    getFollowings(page, limit);
-    getFollowers(page, limit);
-    getNotMutualFriends();
-  };
-  //팔로잉 조회
-  async function getFollowings(page: number, limit: number) {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
-        "get",
-        `/user/following?page=${page}&limit=${limit}`,
-      );
-      const followings = response.data.data;
-      const total = response.data.total;
-
-      if (page === 1) setFollowings(followings);
-      else setFollowings(prev => [...prev, ...followings]);
-
-      setTotalFollowings(total);
-      // console.log("followings", response.data);
-    } catch (error) {
-      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followings data: ", error);
-    }
-  }
-  //팔로워 조회
-  async function getFollowers(page: number, limit: number) {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
-        "get",
-        `/user/followers?page=${page}&limit=${limit}`,
-      );
-      const followers = response.data.data;
-      const total = response.data.total;
-
-      if (page === 1) setFollowers(followers);
-      else setFollowers(prev => [...prev, ...followers]);
-
-      setTotalFollowers(total);
-      // console.log("followings", response.data);
-    } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
-    }
-  }
-  //추천친구 조회
-  //무한스크롤 추후 적용 - 수정예정
-  async function getNotMutualFriends() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<FollowersType>>("get", `/user/followers/not-mutual`);
-      setNotMutualFriends(response.data.data);
-      // console.log("notMutualFriends", response.data);
-    } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
-    }
-  }
+export default function FollowBtn({ userId, isMutual, updateData }: FollowBtnProps) {
   //팔로우 하기
   async function follow(userId: number) {
     try {
@@ -109,11 +35,11 @@ export default function FollowBtn({ userId, isMutual, page, limit }: FollowBtnPr
 
   const handleClickFollow = async () => {
     await follow(userId);
-    updateData(1, page * limit);
+    updateData();
   };
   const handleClickUnfollow = async () => {
     await unfollow(userId);
-    updateData(1, page * limit);
+    updateData();
   };
   return (
     <S.Container>

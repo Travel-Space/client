@@ -75,7 +75,10 @@ export default function FriendList() {
   const loadData = () => {
     setPage(prev => prev + 1);
   };
-
+  const updateData = () => {
+    getFollowings(1, page * limit);
+    getFollowers(1, page * limit);
+  };
   useEffect(() => {
     // console.log("page", page);
 
@@ -106,9 +109,9 @@ export default function FriendList() {
       </S.Header>
       <S.MainContainer>
         {tab === "followers" ? (
-          <Followers loadData={loadData} page={page} limit={limit} />
+          <Followers loadData={loadData} updateData={updateData} />
         ) : (
-          <Followings loadData={loadData} page={page} limit={limit} />
+          <Followings loadData={loadData} updateData={updateData} />
         )}
       </S.MainContainer>
     </S.Container>

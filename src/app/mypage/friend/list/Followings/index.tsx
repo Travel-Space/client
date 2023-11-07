@@ -8,11 +8,10 @@ import Person from "@/app/mypage/friend/Person";
 
 interface FollowingsProps {
   loadData: () => void;
-  page: number;
-  limit: number;
+  updateData: () => void;
 }
 
-export default function Followings({ loadData, page, limit }: FollowingsProps) {
+export default function Followings({ loadData, updateData }: FollowingsProps) {
   const followings = useRecoilValue(followingState);
   const totalFollowings = useRecoilValue(totalFollowingsState);
 
@@ -38,7 +37,7 @@ export default function Followings({ loadData, page, limit }: FollowingsProps) {
           <S.MyFriendsWrap>
             <S.MyFriends>
               {followings.map((el, idx) => (
-                <Person key={`following${idx}`} data={el.friend} page={page} limit={limit} />
+                <Person key={`following${idx}`} data={el.friend} updateData={updateData} />
               ))}
             </S.MyFriends>
             <S.ShowMoreBtn onClick={handleClick} disabled={followings.length === totalFollowings}>

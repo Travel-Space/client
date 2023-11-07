@@ -8,10 +8,9 @@ import FollowBtn from "../FollowBtn";
 interface PersonProps {
   data: User;
   isMutual?: boolean;
-  page: number;
-  limit: number;
+  updateData: () => void;
 }
-export default function Person({ data, isMutual, page, limit }: PersonProps) {
+export default function Person({ data, isMutual, updateData }: PersonProps) {
   return (
     <S.Container>
       <div>
@@ -21,7 +20,7 @@ export default function Person({ data, isMutual, page, limit }: PersonProps) {
           <S.Email>{data.email}</S.Email>
         </S.Info>
       </div>
-      <FollowBtn userId={data.id} isMutual={isMutual} page={page} limit={limit} />
+      <FollowBtn userId={data.id} isMutual={isMutual} updateData={updateData} />
     </S.Container>
   );
 }

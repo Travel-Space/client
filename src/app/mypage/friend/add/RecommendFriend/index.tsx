@@ -7,13 +7,14 @@ import FollowBtn from "../../FollowBtn";
 
 interface RecommendFriendProps {
   data: Follower;
+  updateData: () => void;
 }
-export default function RecommendFriend({ data }: RecommendFriendProps) {
+export default function RecommendFriend({ data, updateData }: RecommendFriendProps) {
   return (
     <S.Container>
       <Image src="/assets/img/icons/default-user.svg" alt="default-user" width={76} height={76} />
       <S.Nickname>{data.user.nickName}</S.Nickname>
-      <FollowBtn userId={data.userId} isMutual={data.isMutual} page={1} limit={10} />
+      <FollowBtn userId={data.userId} isMutual={data.isMutual} updateData={updateData} />
     </S.Container>
   );
 }

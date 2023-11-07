@@ -7,29 +7,28 @@ import * as S from "./index.styled";
 
 import Image from "next/image";
 import Line from "@/components/common/Line";
-import Button from "@/components/common/Button";
+import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
 export default function ProfileSummary({ id }: { id: number }) {
   const [userProfile, setUserProfile] = useState<User>();
   //프로필 조회
   async function getUserProfile() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/ohter/${id}`);
+      const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/other/${id}`);
       const profile = response.data;
 
       setUserProfile(profile);
-      console.log("profile", profile);
+      // console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
     }
   }
+
   useEffect(() => {
     getUserProfile();
   }, []);
-  const handleClick = () => {
-    console.log();
-  };
+
   return (
     <S.Container>
       <S.UserInfo>
@@ -37,11 +36,7 @@ export default function ProfileSummary({ id }: { id: number }) {
         <div>
           <S.Nickname>{userProfile?.nickName}</S.Nickname>
           <S.Email>{userProfile?.email}</S.Email>
-          <S.FollowBtn>
-            <Button variant="confirm" shape="medium" size="smallWithXsFont" onClick={handleClick}>
-              팔로우
-            </Button>
-          </S.FollowBtn>
+          <FollowBtn userId={id} isMutual={userProfile?.isFollowing} updateData={getUserProfile} />
         </div>
       </S.UserInfo>
       <S.Friends>
