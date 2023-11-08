@@ -14,7 +14,7 @@ export default function Person({ data, isMutual, updateData }: PersonProps) {
   return (
     <S.Container>
       <div>
-        <Image src="/assets/img/icons/default-user.svg" alt="planet" width={76} height={76} />
+        <Image src={data.profileImage} alt="planet" width={76} height={76} />
         <S.Info>
           <S.Name>{data.nickName}</S.Name>
           <S.Email>{data.email}</S.Email>
