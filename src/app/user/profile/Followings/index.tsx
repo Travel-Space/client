@@ -106,7 +106,7 @@ export default function Followings({ id }: { id: number }) {
         <S.Container>
           <S.MyFriends>
             {followings.map((el, idx) => (
-              <Person key={`following${idx}`} data={el.friend} updateData={updateData} />
+              <Person key={`following${idx}`} data={el.friend} isMutual={el.isFollowing} updateData={updateData} />
             ))}
           </S.MyFriends>
           <S.InfiniteScrollTarget ref={observerRef} />

@@ -5,6 +5,7 @@ export interface Follower {
   isMutual: boolean;
   user: User;
   userId: number;
+  isFollowing: boolean;
 }
 export interface FollowersType {
   data: Follower[];
@@ -16,6 +17,7 @@ export interface Following {
   friend: User;
   friendId: number;
   userId: number;
+  isFollowing: boolean;
 }
 export interface FollowingsType {
   data: Following[];

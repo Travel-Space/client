@@ -64,7 +64,7 @@ export default function Followers({ id }: { id: number }) {
       if (page === 1) setFollowers(followers);
       else setFollowers(prev => [...prev, ...followers]);
       setPage(prev => prev + 1);
-      console.log("page", page);
+      // console.log("page", page);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
@@ -107,7 +107,7 @@ export default function Followers({ id }: { id: number }) {
         <S.MyFriendsWrap>
           <S.MyFriends>
             {followers.map((el, idx) => (
-              <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} updateData={updateData} />
+              <Person key={`following${idx}`} data={el.user} isMutual={el.isFollowing} updateData={updateData} />
             ))}
           </S.MyFriends>
           <S.InfiniteScrollTarget ref={observerRef} />
