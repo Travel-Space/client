@@ -1,7 +1,7 @@
 import { User, NicknameCheck } from "./User";
 import { Like } from "./Like";
-import { Planet, CancelLikePlanet, Planets, LikedPlanets, JoinedPlanets } from "./Planet";
-import { Posting, CancelLikePost, Postings } from "./Posting";
+import { Planet, CancelLikePlanet, PlanetsType, LikedPlanets, JoinedPlanets } from "./Planet";
+import { Posting, CancelLikePost, PostingsType } from "./Posting";
 import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow, FollowingsType, FollowersType } from "./Friend";
 import { DailyViewCount, WeeklyViewCount } from "./ViewCount";
@@ -16,7 +16,7 @@ export type {
   ResData,
   User,
   Posting,
-  Postings,
+  PostingsType,
   Like,
   Planet,
   NicknameCheck,
@@ -25,7 +25,7 @@ export type {
   Following,
   CancelLikePost,
   CancelLikePlanet,
-  Planets,
+  PlanetsType,
   Follow,
   Comments,
   LikedPlanets,

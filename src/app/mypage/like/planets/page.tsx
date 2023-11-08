@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, Planets, LikedPlanets } from "@/@types";
+import { ResData, Planet, PlanetsType, LikedPlanets } from "@/@types";
 
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -10,7 +10,7 @@ import usePagination from "@/hooks/usePagination";
 import * as S from "./page.styled";
 
 import Image from "next/image";
-import MyPlanet from "@/app/mypage/MyPlanet";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 import SearchForm from "@/app/mypage/SearchForm";
 import FavoritePlanet from "./FavoritePlanet";
 import Nothing from "@/components/common/Nothing";
@@ -33,7 +33,7 @@ export default function Planets() {
   //소유한 행성 불러오기
   async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
         "/planet/my-owned-planets?page=1&limit=5",
       );
@@ -87,7 +87,7 @@ export default function Planets() {
               planet === null ? (
                 <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
               ) : (
-                <MyPlanet key={`liked-myPlanet${idx}`} data={planet} />
+                <MyPlanetItem key={`liked-myPlanet${idx}`} data={planet} />
               ),
             )}
           </S.MyPlanetWrap>

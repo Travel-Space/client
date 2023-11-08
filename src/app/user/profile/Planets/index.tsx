@@ -1,20 +1,119 @@
-import { Planet } from "@/@types";
+import axiosRequest from "@/api/index";
+import { ResData, JoinedPlanets, Planet, PlanetsType } from "@/@types";
+
+import { useState, useEffect, useRef } from "react";
 
 import * as S from "./index.styled";
 
 import PlanetItem from "@/components/User/PlanetItem";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import Nothing from "@/components/common/Nothing";
+import MESSAGE from "@/constants/message";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 
-const Planets = ({ data }: { data: Planet[] }) => {
+const Planets = ({ id }: { id: number }) => {
+  const [userPlanets, setUserPlanets] = useState<Planet[]>([]);
+  const [planets, setPlanets] = useState<Planet[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [page, setPage] = useState(1);
+  const [disableLoadData, setDisableLoadDate] = useState(false);
+
+  //소유 행성 조회
+  async function getUserPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
+        "get",
+        `/planet/other/${id}/ownerships?page=1&limit=5`,
+      );
+      const planets = response.data.data;
+
+      setUserPlanets(planets);
+    } catch (error) {
+      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
+  }
+  //여행중인 행성 조회
+  async function getPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<JoinedPlanets>>(
+        "get",
+        `/planet/other/${id}/memberships?page=${page}&limit=10`,
+      );
+      const planets = response.data.data;
+      const totalCount = response.data.totalMemberships;
+
+      if (!planets.length) {
+        setDisableLoadDate(true);
+        return;
+      }
+
+      setPlanets(prev => [...prev, ...planets]);
+      setPage(prev => prev + 1);
+      setTotalCount(totalCount);
+    } catch (error) {
+      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
+  }
+
+  const loadData = () => {
+    if (disableLoadData) return;
+    getPlanets();
+  };
+
+  const { setTargetRef } = useInfiniteScroll(loadData, [page]);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (observerRef.current) {
+      setTargetRef(observerRef);
+    }
+  }, [observerRef, setTargetRef]);
+
+  useEffect(() => {
+    getPlanets();
+    getUserPlanets();
+    // console.log("planets", planets);
+  }, []);
+
   return (
     <S.Container>
-      <S.Number>
-        총 <span>{data.length}</span>개의 행성
-      </S.Number>
-      <S.Content>
-        {data.map((planet, idx) => (
-          <PlanetItem key={idx} data={planet} />
-        ))}
-      </S.Content>
+      <S.UserPlanets>
+        <S.Title>소유 행성</S.Title>
+        <S.Planets>
+          {userPlanets.map((planet, idx) => (
+            <MyPlanetItem key={idx} data={planet} />
+          ))}
+        </S.Planets>
+      </S.UserPlanets>
+      <S.Header>
+        <S.Title>여행 중인 행성</S.Title>
+        <S.Number>
+          총 <span>{totalCount}</span>개의 행성
+        </S.Number>
+      </S.Header>
+      {!!totalCount ? (
+        <S.Content>
+          {planets.map((planet, idx) => (
+            <PlanetItem key={`user-planet${idx}`} data={planet} userId={id} />
+          ))}
+        </S.Content>
+      ) : (
+        <S.Content>
+          <Nothing
+            src="/assets/img/icons/no-planets.svg"
+            alt="no-TravelingPlanets"
+            width={148}
+            height={148}
+            comment="여행 중인 행성이 없습니다."
+            font="lg"
+          />
+        </S.Content>
+      )}
+      <S.InfiniteScrollTarget ref={observerRef} />
     </S.Container>
   );
 };

@@ -29,7 +29,7 @@ export interface Planet {
   viewCountTotal: number;
 }
 
-export interface Planets {
+export interface PlanetsType {
   data: Planet[];
   page: number;
   limit: number;

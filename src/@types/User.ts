@@ -50,6 +50,7 @@ export interface User {
   friendedBy: UserFriend[];
   friends: UserFriend[];
   reportCount?: number | string;
+  isFollowing: boolean;
 }
 
 enum SocialProvider {

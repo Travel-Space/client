@@ -14,6 +14,11 @@ export const UserInfo = styled.div`
   gap: 24px;
   ${flexAlignCenter}
 `;
+export const Profile = styled.div`
+  & > div:last-child {
+    margin-top: 16px;
+  }
+`;
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
   font-weight: 700;
@@ -23,7 +28,6 @@ export const Email = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
-  margin-bottom: 16px;
 `;
 export const FollowBtn = styled.div`
   width: 80px;

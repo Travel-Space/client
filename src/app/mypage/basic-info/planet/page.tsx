@@ -1,10 +1,11 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, Planets, JoinedPlanets } from "@/@types";
+import { ResData, Planet, PlanetsType, JoinedPlanets } from "@/@types";
 
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { myPlanetsState, joinedPlanetsState } from "@/recoil/atoms/planets.atom";
+import { userAtom } from "@/recoil/atoms/user.atom";
 import usePagination from "@/hooks/usePagination";
 
 import * as S from "./page.styled";
@@ -12,12 +13,14 @@ import * as S from "./page.styled";
 import Link from "next/link";
 import Image from "next/image";
 import Nothing from "@/components/common/Nothing";
-import MyPlanet from "@/app/mypage/MyPlanet";
+import MyPlanetItem from "@/components/User/MyPlanetItem";
 import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
 
 export default function Planet() {
+  const userId = useRecoilState(userAtom)[0]?.id;
+
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
   const [overLimit, setOverLimit] = useState(false);
 
@@ -32,7 +35,7 @@ export default function Planet() {
   //소유한 행성 불러오기
   async function getMyPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>(
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
         "/planet/my-owned-planets?page=1&limit=5",
       );
@@ -67,7 +70,6 @@ export default function Planet() {
   useEffect(() => {
     getMyPlanets();
     getJoinedPlanets();
-    // console.log("id", user.id);
 
     if (myPlanets.length >= 5) setOverLimit(true);
   }, []);
@@ -94,7 +96,7 @@ export default function Planet() {
             planet === null ? (
               <Image src="/assets/img/icons/empty-space.svg" alt="empty-space" width={152} height={186} />
             ) : (
-              <MyPlanet key={idx} data={planet} />
+              <MyPlanetItem key={idx} data={planet} />
             ),
           )}
         </S.MyPlanetWrap>
@@ -118,7 +120,7 @@ export default function Planet() {
           </S.JoinedPlanetInfo>
           <S.JoinedPlanetList>
             {joinedPlanets.map((planet, idx) => (
-              <PlanetItem key={idx} data={planet} />
+              <PlanetItem key={idx} data={planet} userId={userId} />
             ))}
           </S.JoinedPlanetList>
           <Pagination totalPage={totalPage} limit={5} page={page} setPage={setPage} />

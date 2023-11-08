@@ -1,5 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, Posting, Postings } from "@/@types";
+import { ResData, Posting, PostingsType } from "@/@types";
 
 import { useRouter } from "next/navigation";
 
@@ -53,7 +53,7 @@ export default function MyPostings({ page, data, setPage, saveData }: MyPostings
   //게시글 조회
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         `/articles/my/articles?page=${page}&limit=10`,
       );

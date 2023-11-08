@@ -3,7 +3,14 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   ${flexColumn}
-  gap: 16px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 10px;
+  & > div:first-child > div {
+    border-top-left-radius: 10px;
+  }
+  & > div:last-child > div {
+    border-bottom-left-radius: 10px;
+  }
 `;
 export const Error = styled.span`
   color: ${({ theme }) => theme.PALETTE.error};

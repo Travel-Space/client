@@ -1,42 +1,48 @@
 import axiosRequest from "@/api";
 import { ResData, FollowingsType, FollowersType } from "@/@types";
 
-import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { followerState, totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
+import { followerState, totalFollowingsState, totalFollowersState } from "@/recoil/atoms/friend.atom";
+
+import { useState, useEffect, useRef } from "react";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 import * as S from "./index.styled";
 
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
+import MESSAGE from "@/constants/message";
 
-export default function Followers() {
-  const handleClick = () => {
-    setPage(prev => prev + 1);
-  };
-
+export default function Followers({ id }: { id: number }) {
   const [followers, setFollowers] = useRecoilState(followerState);
-
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
+
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
 
+  const limit = 10;
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const [disableLoadData, setDisableLoadDate] = useState(false);
+
+  const updateData = () => {
+    getFollowings();
+    getFollowers(1, page * limit);
+  };
 
   //팔로잉 조회
   async function getFollowings() {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
-        `/user/following?page=${1}&limit=${1}`,
+        `/user/other/${id}/following?page=${1}&limit=${1}`,
       );
       const total = response.data.total;
-
       setTotalFollowings(total);
+
       // console.log("followings", followings);
+      // console.log("page", page);
     } catch (error) {
-      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followings data: ", error);
+      console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
   //팔로워 조회
@@ -44,35 +50,46 @@ export default function Followers() {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
-        `/user/followers?page=${page}&limit=${limit}`,
+        `/user/other/${id}/followers?page=${page}&limit=${limit}`,
       );
       const followers = response.data.data;
       const total = response.data.total;
+      setTotalFollowers(total);
+
+      if (!followers.length) {
+        setDisableLoadDate(true);
+        return;
+      }
 
       if (page === 1) setFollowers(followers);
       else setFollowers(prev => [...prev, ...followers]);
-
-      setTotalFollowers(total);
-      // console.log("followings", response.data);
+      setPage(prev => prev + 1);
+      console.log("page", page);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
     }
   }
-
-  const updateData = () => {
-    getFollowings();
-    getFollowers(1, page * limit);
-  };
   useEffect(() => {
-    // console.log("page", page);
     getFollowers(page, limit);
-  }, [page]);
-
-  useEffect(() => {
     getFollowings();
-    getFollowers(page, limit);
   }, []);
+
+  //무한 스크롤
+  const loadData = () => {
+    if (disableLoadData) return;
+    getFollowers(page, limit);
+  };
+
+  const { setTargetRef } = useInfiniteScroll(loadData, [page]);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (observerRef.current) {
+      setTargetRef(observerRef);
+    }
+  }, [observerRef, setTargetRef]);
 
   return (
     <>
@@ -87,18 +104,14 @@ export default function Followers() {
           font="lg"
         />
       ) : (
-        <>
-          <S.MyFriendsWrap>
-            <S.MyFriends>
-              {followers.map((el, idx) => (
-                <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} updateData={updateData} />
-              ))}
-            </S.MyFriends>
-          </S.MyFriendsWrap>
-          <S.ShowMoreBtn onClick={handleClick} disabled={followers.length === totalFollowers}>
-            목록 더보기
-          </S.ShowMoreBtn>
-        </>
+        <S.MyFriendsWrap>
+          <S.MyFriends>
+            {followers.map((el, idx) => (
+              <Person key={`following${idx}`} data={el.user} isMutual={el.isMutual} updateData={updateData} />
+            ))}
+          </S.MyFriends>
+          <S.InfiniteScrollTarget ref={observerRef} />
+        </S.MyFriendsWrap>
       )}
     </>
   );

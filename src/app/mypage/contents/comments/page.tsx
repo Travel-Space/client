@@ -53,7 +53,7 @@ export default function Comments() {
         <>
           <S.Header>
             <S.CommentsNumber>
-              총 <span>{totalCount}</span>개의 게시글
+              총 <span>{totalCount}</span>개의 댓글
             </S.CommentsNumber>
           </S.Header>
           <S.MyCommentsWrap>

@@ -35,5 +35,4 @@ export const userAtom = atom<UserType | null>({
 export const profileState = atom<User | null>({
   key: "profile",
   default: null,
-  effects_UNSTABLE: [persistAtom],
 });

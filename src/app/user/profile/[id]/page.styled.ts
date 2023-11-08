@@ -33,6 +33,7 @@ export const Tab = styled.div`
   padding: 10px 20px;
 
   &:hover {
+    cursor: pointer;
     color: ${({ theme }) => theme.PALETTE.black};
   }
 `;

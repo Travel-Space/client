@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting, Postings } from "@/@types";
+import { ResData, Posting, PostingsType } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -11,6 +11,7 @@ import MyPostings from "./MyPostings";
 import SearchForm from "@/app/mypage/SearchForm";
 import Pagination from "@/components/common/Pagination";
 import usePagination from "@/hooks/usePagination";
+import MESSAGE from "@/constants/message";
 
 export default function Postings() {
   //드롭다운 데이터
@@ -30,7 +31,7 @@ export default function Postings() {
   //게시글 불러오기
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         `/articles/my/articles?page=${page}&limit=10`,
       );
@@ -41,8 +42,8 @@ export default function Postings() {
 
       // console.log("postings", postings);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
 

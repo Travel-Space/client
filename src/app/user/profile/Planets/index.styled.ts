@@ -6,9 +6,28 @@ export const Container = styled.div`
   display: flex;
   ${flexColumn}
 `;
-export const Number = styled.div`
-  margin-top: 40px;
+export const UserPlanets = styled.div`
+  margin-top: 32px;
+  margin-bottom: 48px;
+
+  ${flexColumn}
+`;
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Title = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  font-weight: 700;
+  color: ${({ theme }) => theme.PALETTE.black};
   margin-bottom: 16px;
+`;
+export const Planets = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+export const Number = styled.div`
   & > span {
     color: ${({ theme }) => theme.PALETTE.gray[200]};
     font-weight: 700;
@@ -22,10 +41,13 @@ export const Content = styled.div`
   padding: 24px;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
-  & > div:nth-child(10n) {
-    border-bottom: none;
-  }
+
   & > div:last-child {
     border-bottom: none;
   }
+`;
+export const InfiniteScrollTarget = styled.div`
+  height: 20px;
+  width: 100%;
+  border: none;
 `;

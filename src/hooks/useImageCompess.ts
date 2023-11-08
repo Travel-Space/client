@@ -9,7 +9,7 @@ const useImageCompress = () => {
 
     setIsLoading(true);
 
-    console.log(`원본 이미지 사이즈 : ${imageFile.size / 1024 / 1024} MB`);
+    // console.log(`원본 이미지 사이즈 : ${imageFile.size / 1024 / 1024} MB`);
 
     const options = {
       maxSizeMB: 2,
@@ -19,7 +19,7 @@ const useImageCompress = () => {
     try {
       const compressedFile = await imageCompression(imageFile, options);
 
-      console.log(`압축된 이미지 사이즈 : ${compressedFile.size / 1024 / 1024} MB`);
+      // console.log(`압축된 이미지 사이즈 : ${compressedFile.size / 1024 / 1024} MB`);
 
       setIsLoading(false);
 

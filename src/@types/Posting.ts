@@ -33,7 +33,7 @@ export interface CancelLikePost {
   articleId: number;
   userId: number;
 }
-export interface Postings {
+export interface PostingsType {
   data: Posting[];
   page: number;
   limit: number;

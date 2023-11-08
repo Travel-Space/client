@@ -1,3 +1,6 @@
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+
 import { useEffect, useState } from "react";
 
 import ImageCropper from "../ImageCropper";
@@ -10,11 +13,12 @@ import { dataURItoFile } from "@/utils/dataURItoFile";
 import Image from "next/image";
 
 interface ProfileImageProps {
-  prev?: string;
+  imgSrc: string;
   onChange: (src: string) => void;
 }
-export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
+export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
   const defaultImage = "/assets/img/icons/default-user.svg";
+
   const [uploadImage, setUploadImage] = useState<string | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const { isLoading: isCompressLoading, compressImage } = useImageCompress();
@@ -34,7 +38,8 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
     if (!compressedImage) return;
     const imageUrl = URL.createObjectURL(compressedImage);
     setCompressedImage(imageUrl);
-    onChange(imageUrl);
+
+    await getImgUrl(compressedImage);
   };
 
   useEffect(() => {
@@ -47,6 +52,21 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
   const deleteImg = () => {
     setCompressedImage(defaultImage);
   };
+
+  //파일 -> url
+  const getImgUrl = async (compressedFile: Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append("files", compressedFile);
+      const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
+      const imageUrl = response.data[0];
+
+      onChange(imageUrl);
+      // console.log(imageUrl, "imageUrl");
+    } catch (error) {
+      console.error("프로필 이미지를 저장하는 중 오류가 발생했습니다.", error);
+    }
+  };
   return (
     <>
       <S.DeleteImgBtn onClick={deleteImg} />
@@ -58,7 +78,7 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
             {isCompressLoading ? (
               <S.Loading>이미지 압축 중..</S.Loading>
             ) : (
-              <Image src={prev ? prev : defaultImage} alt="profile-image" width={120} height={120} />
+              <Image src={imgSrc} alt="profile-image" width={120} height={120} />
             )}
           </S.ProfileCover>
         )}

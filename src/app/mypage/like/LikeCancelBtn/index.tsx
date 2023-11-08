@@ -1,7 +1,7 @@
 import axiosRequest from "@/api";
-import { ResData, Posting, Planet, CancelLikePlanet, Planets } from "@/@types";
+import { ResData, Posting, PlanetsType, CancelLikePlanet } from "@/@types";
 
-import { Postings } from "@/@types";
+import { PostingsType } from "@/@types";
 
 import * as S from "./index.styled";
 
@@ -16,7 +16,7 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
   //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Postings>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         `/articles/my/likes?page=${page}&limit=10`,
       );
@@ -37,7 +37,7 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
 
   async function getPlanets() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planets>>("get", `/planet/my/bookmarks`);
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>("get", `/planet/my/bookmarks`);
       const planets = response.data.data;
       const totalCount = response.data.totalCount;
       const totalPage = Math.ceil(totalCount / 10);

@@ -1,17 +1,21 @@
-import { flexCenter } from "@/styles/common";
+import { flexCenter, flexColumn } from "@/styles/common";
 import { styled } from "styled-components";
 
-export const MyFriendsWrap = styled.div`
+export const Container = styled.div`
+  ${flexColumn};
   width: 100%;
+`;
+export const MyFriends = styled.div`
+  margin-top: 40px;
+
   padding: 24px 42px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
-`;
-export const MyFriends = styled.div`
   & > div:last-child {
     border: none;
   }
 `;
+
 export const ShowMoreBtn = styled.button`
   width: 140px;
   height: 40px;
@@ -24,4 +28,9 @@ export const ShowMoreBtn = styled.button`
   &:disabled {
     display: none;
   }
+`;
+export const InfiniteScrollTarget = styled.div`
+  height: 20px;
+  width: 100%;
+  border: none;
 `;

@@ -63,7 +63,7 @@ export default function Planet() {
         >
           {notMutualFriends.map((el, idx) => (
             <SwiperSlide>
-              <RecommendFriend key={`notMutualFriend${idx}`} data={el} />
+              <RecommendFriend key={`notMutualFriend${idx}`} data={el} updateData={getNotMutualFriends} />
             </SwiperSlide>
           ))}
         </Swiper>
