@@ -11,10 +11,12 @@ interface PersonProps {
   updateData: () => void;
 }
 export default function Person({ data, isMutual, updateData }: PersonProps) {
+  const defaultImage = "/assets/img/icons/default-user.svg";
+
   return (
     <S.Container>
       <div>
-        <Image src={data.profileImage} alt="planet" width={76} height={76} />
+        <Image src={data.profileImage || defaultImage} alt="profileImage" width={76} height={76} />
         <S.Info>
           <S.Name>{data.nickName}</S.Name>
           <S.Email>{data.email}</S.Email>
