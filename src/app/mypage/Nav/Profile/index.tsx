@@ -2,8 +2,8 @@ import * as S from "./index.styled";
 
 interface ProfileProps {
   // imgSrc: string;
-  nickname: string;
-  email: string;
+  nickname?: string;
+  email?: string;
 }
 
 export default function Profile({ nickname, email }: ProfileProps) {

@@ -26,8 +26,6 @@ interface NavProps {
 
 export default function Nav({ navData }: NavProps) {
   const [profile, setProfile] = useRecoilState(profileState);
-  //profileImage 수정예정
-  const { nickName, email } = profile as User;
 
   async function getProfile() {
     try {
@@ -44,7 +42,7 @@ export default function Nav({ navData }: NavProps) {
   }, []);
   return (
     <S.Container>
-      <Profile nickname={nickName} email={email} />
+      <Profile nickname={profile?.nickName} email={profile?.email} />
       {navData.map((el, idx) => (
         <NavList key={idx} logo={el.logo} parent={el.parentMenu} sub={el.subMenu} />
       ))}
