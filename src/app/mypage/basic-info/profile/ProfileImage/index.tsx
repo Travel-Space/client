@@ -1,3 +1,6 @@
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
+
 import { useEffect, useState } from "react";
 
 import ImageCropper from "../ImageCropper";
@@ -32,9 +35,7 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
 
     // 이미지 서버 저장 로직
     if (!compressedImage) return;
-    const imageUrl = URL.createObjectURL(compressedImage);
-    setCompressedImage(imageUrl);
-    onChange(imageUrl);
+    getImgUrl(compressedImage);
   };
 
   useEffect(() => {
@@ -47,6 +48,21 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
   const deleteImg = () => {
     setCompressedImage(defaultImage);
   };
+
+  const getImgUrl = async (compressedFile: Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append("files", compressedFile);
+      const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
+      const imageUrl = response.data[0];
+
+      setCompressedImage(imageUrl);
+      onChange(imageUrl);
+      console.log(imageUrl, "imageUrl");
+    } catch (error) {
+      console.error("프로필 이미지를 저장하는 중 오류가 발생했습니다.", error);
+    }
+  };
   return (
     <>
       <S.DeleteImgBtn onClick={deleteImg} />
@@ -58,7 +74,7 @@ export default function ProfileImage({ prev, onChange }: ProfileImageProps) {
             {isCompressLoading ? (
               <S.Loading>이미지 압축 중..</S.Loading>
             ) : (
-              <Image src={prev ? prev : defaultImage} alt="profile-image" width={120} height={120} />
+              <Image src={prev || defaultImage} alt="profile-image" width={120} height={120} />
             )}
           </S.ProfileCover>
         )}

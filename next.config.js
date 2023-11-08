@@ -18,6 +18,9 @@ const nextConfig = {
   },
   reactStrictMode: false,
   swcMinify: true,
+  images: {
+    domains: [`travelspace-bucket.s3.ap-northeast-2.amazonaws.com`],
+  },
 };
 
 module.exports = nextConfig;
