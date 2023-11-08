@@ -26,17 +26,17 @@ export default function Profile() {
 
   const [showSearch, setShowSearch] = useState(false);
 
-  const [changedNickname, setChangedNickname] = useState(profile?.nickName);
+  const [changedNickname, setChangedNickname] = useState("");
   const [isAvailableNickname, setIsAvailableNickname] = useState(true);
 
-  const [changedProfileImg, setChangedProfileImg] = useState(profile?.profileImage);
+  const [changedProfileImg, setChangedProfileImg] = useState("");
 
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(false);
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
 
   const [country, setCountry] = useState<CountryInfo>({
-    country_nm: profile?.nationality,
+    country_nm: profile?.nationality || "",
     country_eng_nm: "",
     download_url: "",
   });
@@ -92,7 +92,14 @@ export default function Profile() {
       const profile = response.data;
 
       setProfile(profile);
-      // console.log("profile", profile);
+      setChangedNickname(profile.nickName);
+      setCountry({
+        country_nm: profile?.nationality,
+        country_eng_nm: "",
+        download_url: "",
+      });
+
+      console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -157,6 +164,7 @@ export default function Profile() {
     await updateProfile(changedData);
     getProfile();
   };
+
   //비밀번호 변경사항 저장
   const savePassword = () => {
     const changedData = {
@@ -171,7 +179,6 @@ export default function Profile() {
       <S.Title>프로필 편집</S.Title>
       <S.Main>
         <Item name="프로필 사진">
-          {/* 기본이미지 픽스 후 수정예정 */}
           <ProfileImage imgSrc={profile?.profileImage} onChange={handleChangeImg} />
         </Item>
         <Line color="gray" size="horizontal" />
