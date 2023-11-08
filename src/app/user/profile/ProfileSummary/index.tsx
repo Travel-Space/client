@@ -4,7 +4,7 @@ import { ResData, User } from "@/@types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
-import { followerState, followingState, totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
+import { totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
 
 import * as S from "./index.styled";
 
@@ -40,7 +40,12 @@ export default function ProfileSummary({ id }: { id: number }) {
   return (
     <S.Container>
       <S.UserInfo>
-        <Image src="/assets/img/icons/default-user.svg" alt="user-img" width={120} height={120} />
+        <Image
+          src={userProfile?.profileImage || "/assets/img/icons/default-user.svg"}
+          alt="user-img"
+          width={120}
+          height={120}
+        />
         <S.Profile>
           <S.Nickname>{userProfile?.nickName}</S.Nickname>
           <S.Email>{userProfile?.email}</S.Email>
