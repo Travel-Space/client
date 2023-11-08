@@ -26,7 +26,7 @@ export default function Profile() {
 
   const [showSearch, setShowSearch] = useState(false);
 
-  const [changedNickname, setChangedNickname] = useState(profile?.nickName || "");
+  const [changedNickname, setChangedNickname] = useState(profile?.nickName);
   const [isAvailableNickname, setIsAvailableNickname] = useState(true);
 
   const [changedProfileImg, setChangedProfileImg] = useState(profile?.profileImage);
@@ -36,7 +36,7 @@ export default function Profile() {
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
 
   const [country, setCountry] = useState<CountryInfo>({
-    country_nm: profile?.nationality || "",
+    country_nm: profile?.nationality,
     country_eng_nm: "",
     download_url: "",
   });
@@ -89,7 +89,9 @@ export default function Profile() {
   async function getProfile() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
-      setProfile(response.data);
+      const profile = response.data;
+
+      setProfile(profile);
       // console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
@@ -97,6 +99,7 @@ export default function Profile() {
     }
   }
 
+  //프로필 변경사항 저장
   interface UpdateProfile {
     nickName?: string;
     nationality?: string;
@@ -150,6 +153,7 @@ export default function Profile() {
       nationality: country.country_nm,
       profileImage: changedProfileImg,
     };
+    // console.log("changedData", changedData);
     await updateProfile(changedData);
     getProfile();
   };
@@ -168,7 +172,7 @@ export default function Profile() {
       <S.Main>
         <Item name="프로필 사진">
           {/* 기본이미지 픽스 후 수정예정 */}
-          <ProfileImage prev={"/assets/img/icons/default-user.svg"} onChange={handleChangeImg} />
+          <ProfileImage imgSrc={profile?.profileImage} onChange={handleChangeImg} />
         </Item>
         <Line color="gray" size="horizontal" />
         <Item name="이름">
