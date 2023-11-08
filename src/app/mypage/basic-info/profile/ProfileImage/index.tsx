@@ -51,6 +51,7 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
 
   const deleteImg = () => {
     setCompressedImage(defaultImage);
+    onChange(defaultImage);
   };
 
   //파일 -> url
