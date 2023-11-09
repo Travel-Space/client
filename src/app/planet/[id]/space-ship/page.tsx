@@ -58,6 +58,7 @@ export interface SpaceshipContextType {
   planetData: PlanetDataType;
   planetId: string;
   planetMember: CommonUserInfo[];
+  setPlanetMember: React.Dispatch<React.SetStateAction<CommonUserInfo[]>>;
 }
 
 export const SpaceshipContext = createContext<SpaceshipContextType>({
@@ -69,6 +70,9 @@ export const SpaceshipContext = createContext<SpaceshipContextType>({
   },
   planetId: "",
   planetMember: [],
+  setPlanetMember: () => {
+    [];
+  },
 });
 
 export default function SpaceShip() {
@@ -152,7 +156,7 @@ export default function SpaceShip() {
   }, []);
 
   return (
-    <SpaceshipContext.Provider value={{ planetData, planetId, planetMember }}>
+    <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, setPlanetMember }}>
       {modalDataState.isOpen && modalDataState.content}
       <S.Wrap>
         <SpaceshipTop />

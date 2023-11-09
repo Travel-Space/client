@@ -76,32 +76,8 @@ export const Input = styled.input`
 export const Group = styled.div`
   ${flexCenter}
   gap: 8px;
+  > button {
+    width: auto;
+    padding: 8px 16px;
+  }
 `;
-
-// export const FillButton = styled(FB)<{ $icons: boolean }>`
-//   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-//   padding: 8px 16px;
-//   width: auto;
-//   ${({ $icons }) => {
-//     return (
-//       $icons &&
-//       css`
-//         display: flex;
-//         padding: 8px;
-//       `
-//     );
-//   }}
-// `;
-
-// export const OutlineButton = styled(OB)`
-//   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-//   padding: 8px 16px;
-//   width: auto;
-// `;
-
-// export const DisabledButton = styled(FB)`
-//   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-//   padding: 8px 16px;
-//   background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-//   border-color: ${({ theme }) => theme.PALETTE.gray[100]};
-// `;
