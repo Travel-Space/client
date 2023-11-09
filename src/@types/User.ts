@@ -16,8 +16,9 @@ export interface CommonUserInfo {
   email: string;
   nickName: string;
   profileImage: string;
-  role: Role;
+  role?: Role;
   userId: number;
+  invite?: boolean;
 }
 
 export interface User {
