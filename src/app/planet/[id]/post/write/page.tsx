@@ -46,13 +46,16 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const router = useRouter();
 
   // 우주선 목록을 불러오는 함수
-  const fetchSpaceships = async (planetId: number) => {
+  const fetchSpaceships = async (planetId: number, currentSpaceshipId?: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship[]>>("get", `/spaceship/by-planet/${planetId}`);
       if (Array.isArray(response.data)) {
-        // 데이터가 배열인지 확인
-        setSpaceships(response.data);
-        setSelectedSpaceshipId(response.data.length > 0 ? response.data[0].id : null);
+        setSpaceships([{ id: -1, name: "나 홀로 여행" }, ...response.data]);
+        // 현재 게시글의 spaceshipId와 일치하는 우주선이 있는지 확인
+        const matchingSpaceship = response.data.find(spaceship => spaceship.id === currentSpaceshipId);
+        // 일치하는 우주선이 있으면 해당 ID를 선택된 상태로 설정
+        setSelectedSpaceshipId(matchingSpaceship ? matchingSpaceship.id : -1);
+        console.log(matchingSpaceship);
       } else {
         console.error("받은 데이터가 배열이 아닙니다.");
       }
@@ -67,20 +70,27 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   }, [planetId]);
 
   // 드롭다운에서 우주선을 선택할 때 호출되는 함수
-  const handleDropDownSelect = (spaceshipId: number) => {
-    setSelectedSpaceshipId(spaceshipId);
-  };
+const handleDropDownSelect = (menu: string) => {
+  if (menu === "나 홀로 여행") {
+    setSelectedSpaceshipId(null); // 나 홀로 여행  선택했을 때 null
+  } else {
+    const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
+    if (selectedSpaceship) {
+      setSelectedSpaceshipId(selectedSpaceship.id); // 다른 우주선을 선택했을 때 해당 ID
+    } else {
+      setSelectedSpaceshipId(null); // 선택한 우주선이 목록에 없으면 null
+    }
+  }
+};
 
-  const dropDownProps: Menu = {
-    menuList: spaceships.map(spaceship => spaceship.name),
-    selectedMenu: selectedSpaceshipId
+const dropDownProps: Menu = {
+  menuList: spaceships.map(spaceship => spaceship.name),
+  selectedMenu:
+    selectedSpaceshipId !== null
       ? spaceships.find(spaceship => spaceship.id === selectedSpaceshipId)?.name || "우주선"
-      : "탑승한 우주선이 없습니다.",
-    handleClick: (menu: string) => {
-      const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
-      if (selectedSpaceship) setSelectedSpaceshipId(selectedSpaceship.id);
-    },
-  };
+      : "나 홀로 여행",
+  handleClick: handleDropDownSelect, 
+};
 
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
@@ -132,7 +142,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         ],
         imageUrls: [],
         hashtags,
-        spaceshipId: selectedSpaceshipId,
+        spaceshipId: selectedSpaceshipId === -1 ? null : selectedSpaceshipId,
       };
 
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>("post", "/articles", postData);
@@ -165,10 +175,11 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
             `/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`,
           );
           if (response.data) {
-            const { title, content, hashtags, address, locations } = response.data;
+            const { title, content, hashtags, address, locations, spaceshipId } = response.data;
             setTitle(title);
             setContent(content);
             setHashtags(hashtags);
+            fetchSpaceships(planetId, spaceshipId);
 
             if (address) {
               setAddress({
@@ -189,7 +200,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
     }
 
     fetchPostData();
-  }, [postId, isEditMode]);
+  }, [postId, isEditMode, planetId]);
 
   //게시글 수정하기
   const handlePostEdit = async () => {
@@ -198,8 +209,8 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         alert("주소를 검색 후 선택 버튼을 눌러주세요.");
         return;
       }
-      console.log("수정하기 위도경도", latitude);
-      console.log("수정하기 위도경도", longitude);
+
+      // 수정 요청 데이터 준비
       const postData = {
         title,
         content,
@@ -216,23 +227,21 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         hashtags,
         spaceshipId: selectedSpaceshipId,
       };
+      console.log("Selected spaceship ID:", selectedSpaceshipId);
+      console.log("Post data for edit:", postData);
 
-      console.log(selectedSpaceshipId);
-      console.log("수정하기 위도경도", latitude);
-      console.log("수정하기 위도경도", longitude);
-
-      console.log(planetId);
+      // 서버로 수정 요청 전송
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>(
         "put",
         `/articles/${postId}?replyPageSize=5&commentPageSize=10&commentPage=1`,
         postData,
       );
-      if (response.data && response?.data?.id) {
-        // 리디렉션을 여기서 바로 처리
+
+      if (response.data && response.data.id) {
+        // 리디렉션 처리
         router.push(`/planet/${planetId}/post?detail=${response.data.id}`);
         alert("게시글 수정에 성공했습니다.");
       } else {
-        // id가 없는 경우 에러 처리
         console.error("응답에서 게시글 ID를 찾을 수 없습니다.", response);
         alert("게시글은 생성되었으나, 페이지를 이동할 수 없습니다.");
       }
