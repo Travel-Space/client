@@ -15,6 +15,8 @@ import { AxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../../page";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { useRecoilState } from "recoil";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -44,6 +46,7 @@ interface ShipManageType extends Default {
 export default function ShipManage({ onClose, ship }: ShipManageType) {
   const isNewShip = typeof ship === "number";
   const isSpaceShip = !isNewShip;
+  const [auth, setAuth] = useRecoilState(userAtom);
 
   const { planetData, planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
   const [shipInfo, setShipInfo] = useState<ShipType>({
@@ -89,8 +92,18 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", shipInfo);
       console.log(response);
-      response.status === 201 && alert("새로운 우주선이 생성되었습니다!");
-      onClose();
+      if (response.status === 201) {
+        alert("새로운 우주선이 생성되었습니다!");
+        const updatedUser = {
+          ...auth,
+          memberships: {
+            planets: auth?.memberships.planets || [],
+            spaceships: [...(auth?.memberships.spaceships || []), { planetId: response.data.id, role: "OWNER" }],
+          },
+        } as UserType;
+        setAuth(updatedUser);
+        onClose();
+      }
     } catch (error) {
       console.error("새 우주선 생성하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
