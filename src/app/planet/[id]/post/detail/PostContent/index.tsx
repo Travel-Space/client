@@ -50,7 +50,7 @@ export default function PostContent({ data }: PostContentProps) {
     });
   };
   // 게시글 날짜 변환
-  const { dateString, dayName, time } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "" };
+  const { dateString, time } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "", time: "" };
 
   return (
     <>
@@ -76,14 +76,13 @@ export default function PostContent({ data }: PostContentProps) {
           <PC.PostInfo>
             <Link
               href={{
-                pathname: ``,
-                query: { userId: data?.authorId },
+                pathname: `/planet/${data?.planetId}/space-ship`,
+                query: { spaceshipId: data?.spaceshipId },
               }}
             >
               <PC.RocketImg src="/assets/img/icons/rocket.svg" />
               {data?.spaceshipId != null ? data?.spaceship?.name : "나 홀로 여행"}
             </Link>
-
             <Link
               href={{
                 pathname: `/planet/${data?.planetId}/map`,
