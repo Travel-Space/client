@@ -71,7 +71,7 @@ export default function SearchPlanet() {
           </S.SearchBtn>
         </S.SearchContainer>
         <S.BtnContainer>
-          {user.isAuth && (
+          {user?.isAuth && (
             <S.NewCreateBtn>
               <Link href="/create-planet">
                 <Button variant="white" shape="large" size="big" fontWeight="bold">

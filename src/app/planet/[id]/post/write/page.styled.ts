@@ -163,6 +163,9 @@ export const RocketInputWrapper = styled.div`
       &:hover {
         color: ${({ theme }) => theme.PALETTE.black};
       }
+      &:focus {
+        border: none;
+      }
     }
   }
 `;

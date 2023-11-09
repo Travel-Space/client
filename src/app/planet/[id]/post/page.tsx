@@ -76,8 +76,6 @@ export default function PostDetail() {
     setCurrentCommentsPage(prevPage => prevPage + 1);
   };
 
-
-
   // 댓글의 변경사항이 있을 때 호출될 함수
   const handleCommentChange = () => {
     fetchPostDetail();

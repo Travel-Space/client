@@ -58,7 +58,9 @@ export default function PostContent({ data }: PostContentProps) {
         {modalDataState.isOpen && modalDataState.content}
         <PC.TitleSection>
           <PC.Title>{data?.title}</PC.Title>
-          <PC.Date>{dateString}{' '}{time}</PC.Date>
+          <PC.Date>
+            {dateString} {time}
+          </PC.Date>
         </PC.TitleSection>
         <PC.PostInfoSection>
           <PC.StyledLink>
@@ -72,8 +74,16 @@ export default function PostContent({ data }: PostContentProps) {
             </Link>
           </PC.StyledLink>
           <PC.PostInfo>
-            <PC.RocketImg src="/assets/img/icons/rocket.svg" />
-            {/* {data?.} */}
+            <Link
+              href={{
+                pathname: ``,
+                query: { userId: data?.authorId },
+              }}
+            >
+              <PC.RocketImg src="/assets/img/icons/rocket.svg" />
+              {data?.spaceshipId != null ? data?.spaceship?.name : "나 홀로 여행"}
+            </Link>
+
             <Link
               href={{
                 pathname: `/planet/${data?.planetId}/map`,

@@ -24,6 +24,8 @@ export interface Posting {
   hashtags: [];
   totalTopLevelCommentsCount: number;
   monthlyViews: number;
+  spaceshipId: number;
+  spaceship: { name: String };
 }
 
 interface Images {
