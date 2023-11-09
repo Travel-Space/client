@@ -28,19 +28,19 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
   const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
 
-  function deletedMemberships(id: string, type: "planet" | "spaceship") {
+  function deletedMemberships(id: string, type: ItemType) {
     const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== parseInt(id));
     const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== parseInt(id));
     const updatedUser = {
       ...auth,
       memberships: {
-        planets: type === "planet" ? planets : auth?.memberships.planets || [],
-        spaceships: type === "spaceship" ? spaceships : auth?.memberships.spaceships || [],
+        planets: ItemType.Planet ? planets : auth?.memberships.planets || [],
+        spaceships: ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
       },
     } as UserType;
     setAuth(updatedUser);
     onClose();
-    type === "planet" && router.push("/");
+    ItemType.Planet && router.push("/");
   }
 
   async function handlePlanetDelete() {
@@ -49,7 +49,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 200) {
         alert("행성이 성공적으로 삭제되었습니다!");
-        deletedMemberships(id, "planet");
+        deletedMemberships(id, ItemType.Planet);
       }
     } catch (error) {
       console.error("행성 삭제하기 에러", error);
@@ -64,7 +64,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 201) {
         alert("행성을 성공적으로 떠났습니다!");
-        deletedMemberships(id, "planet");
+        deletedMemberships(id, ItemType.Planet);
       }
     } catch (error) {
       console.error("행성 탈출하기 에러", error);
@@ -81,7 +81,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 200) {
         alert("행성을 성공적으로 위임했습니다!");
-        deletedMemberships(id, "planet");
+        deletedMemberships(id, ItemType.Planet);
       }
     } catch (error) {
       console.error("행성 위임하기 에러", error);
@@ -96,7 +96,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 200) {
         alert("우주선을 성공적으로 떠났습니다!");
-        deletedMemberships(id, "spaceship");
+        deletedMemberships(id, ItemType.SpaceShip);
       }
     } catch (error) {
       console.error("우주선 탈출하기 에러", error);
@@ -117,7 +117,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 200) {
         alert("우주선을 성공적으로 위임했습니다!");
-        deletedMemberships(id, "spaceship");
+        deletedMemberships(id, ItemType.SpaceShip);
       }
     } catch (error) {
       console.error("우주선 위임하기 에러", error);
@@ -132,7 +132,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === 200) {
         alert("우주선이 성공적으로 삭제되었습니다!");
-        deletedMemberships(id, "spaceship");
+        deletedMemberships(id, ItemType.SpaceShip);
       }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
