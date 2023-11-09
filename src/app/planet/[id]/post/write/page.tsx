@@ -1,7 +1,6 @@
 "use client";
 
 import axiosRequest from "@/api";
-import MESSAGE from "@/constants/message";
 import { PostWrite } from "@/@types/PostWrite";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -14,6 +13,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Posting, ResData } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
 import { Menu } from "@/@types/DropDown";
+import { PlanetMembership } from "@/@types/Planet";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
+import Error from "@/app/error";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
@@ -24,11 +27,12 @@ interface PostWriteProps {
   };
   id?: number;
   isEdit?: boolean;
+  spaceship?: Spaceship;
+  member?: PlanetMembership;
 }
 export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
-  const [selectedMenu, setSelectedMenu] = useState("우주선");
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const [planetId, setPlanetId] = React.useState<number>(params.id);
@@ -44,11 +48,14 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const postId = searchParams.get("id");
   const isEditMode = searchParams.get("isEdit") === "true";
   const router = useRouter();
+  const user = useRecoilValue(userAtom);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 우주선 목록을 불러오는 함수
   const fetchSpaceships = async (planetId: number, currentSpaceshipId?: number) => {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Spaceship[]>>("get", `/spaceship/by-planet/${planetId}`);
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${planetId}`);
       if (Array.isArray(response.data)) {
         setSpaceships([{ id: -1, name: "나 홀로 여행" }, ...response.data]);
         // 현재 게시글의 spaceshipId와 일치하는 우주선이 있는지 확인
@@ -64,33 +71,53 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
     }
   };
 
-  // 컴포넌트 마운트 시 우주선 목록을 불러옵니다.
+  //로그인 아닐 시, 행성의 멤버 아닐 시 행성의 지도로 이동시킴
+  useEffect(() => {
+    if (!user?.isAuth) {
+      setHasError(true);
+      alert("로그인이 필요한 페이지입니다.");
+      setTimeout(() => router.push(`/planet/${planetId}/map`), 1500);
+    } else {
+      const isMemberOfPlanet = user?.memberships?.planets?.some(membership => membership?.planetId === planetId);
+      if (!isMemberOfPlanet) {
+        setHasError(true);
+        alert("행성의 멤버만 게시글을 작성할 수 있습니다.");
+        setTimeout(() => router.push(`/planet/${planetId}/map`), 1500);
+      }
+    }
+  }, [user, planetId]);
+
+  if (hasError) {
+    return <Error />;
+  }
+
+  // 컴포넌트 마운트 시 우주선 목록
   useEffect(() => {
     fetchSpaceships(planetId);
   }, [planetId]);
 
   // 드롭다운에서 우주선을 선택할 때 호출되는 함수
-const handleDropDownSelect = (menu: string) => {
-  if (menu === "나 홀로 여행") {
-    setSelectedSpaceshipId(null); // 나 홀로 여행  선택했을 때 null
-  } else {
-    const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
-    if (selectedSpaceship) {
-      setSelectedSpaceshipId(selectedSpaceship.id); // 다른 우주선을 선택했을 때 해당 ID
+  const handleDropDownSelect = (menu: string) => {
+    if (menu === "나 홀로 여행") {
+      setSelectedSpaceshipId(null); // 나 홀로 여행  선택했을 때 null
     } else {
-      setSelectedSpaceshipId(null); // 선택한 우주선이 목록에 없으면 null
+      const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
+      if (selectedSpaceship) {
+        setSelectedSpaceshipId(selectedSpaceship.id); // 다른 우주선을 선택했을 때 해당 ID
+      } else {
+        setSelectedSpaceshipId(null); // 선택한 우주선이 목록에 없으면 null
+      }
     }
-  }
-};
+  };
 
-const dropDownProps: Menu = {
-  menuList: spaceships.map(spaceship => spaceship.name),
-  selectedMenu:
-    selectedSpaceshipId !== null
-      ? spaceships.find(spaceship => spaceship.id === selectedSpaceshipId)?.name || "우주선"
-      : "나 홀로 여행",
-  handleClick: handleDropDownSelect, 
-};
+  const dropDownProps: Menu = {
+    menuList: spaceships.map(spaceship => spaceship.name),
+    selectedMenu:
+      selectedSpaceshipId !== null
+        ? spaceships.find(spaceship => spaceship.id === selectedSpaceshipId)?.name || "우주선"
+        : "나 홀로 여행",
+    handleClick: handleDropDownSelect,
+  };
 
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
