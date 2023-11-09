@@ -48,7 +48,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
   const isSpaceShip = !isNewShip;
   const [auth, setAuth] = useRecoilState(userAtom);
 
-  const { planetData, planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
+  const { planetData, planetId, fetchSpaceshipData } = useContext<SpaceshipContextType>(SpaceshipContext);
   const [shipInfo, setShipInfo] = useState<ShipType>({
     name: "",
     description: "",
@@ -98,11 +98,12 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { planetId: response.data.id, role: "OWNER" }],
+            spaceships: [...(auth?.memberships.spaceships || []), { spaceshipId: response.data.id, role: "OWNER" }],
           },
         } as UserType;
         setAuth(updatedUser);
         onClose();
+        fetchSpaceshipData();
       }
     } catch (error) {
       console.error("새 우주선 생성하기 에러", error);
@@ -119,8 +120,11 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
         { ...shipInfo, spaceshipStatus: shipInfo.status },
       );
       console.log(response);
-      response.status === 200 && alert("우주선 정보가 업데이트 되었습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("우주선 정보가 업데이트 되었습니다!");
+        onClose();
+        fetchSpaceshipData();
+      }
     } catch (error) {
       console.error("우주선 수정하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;

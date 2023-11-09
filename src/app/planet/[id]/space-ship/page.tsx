@@ -58,7 +58,8 @@ export interface SpaceshipContextType {
   planetData: PlanetDataType;
   planetId: string;
   planetMember: CommonUserInfo[];
-  setPlanetMember: React.Dispatch<React.SetStateAction<CommonUserInfo[]>>;
+  fetchMemberListData: () => void;
+  fetchSpaceshipData: () => void;
 }
 
 export const SpaceshipContext = createContext<SpaceshipContextType>({
@@ -70,9 +71,8 @@ export const SpaceshipContext = createContext<SpaceshipContextType>({
   },
   planetId: "",
   planetMember: [],
-  setPlanetMember: () => {
-    [];
-  },
+  fetchMemberListData: () => {},
+  fetchSpaceshipData: () => {},
 });
 
 export default function SpaceShip() {
@@ -102,6 +102,7 @@ export default function SpaceShip() {
         {},
       );
       console.log(response);
+      response.data.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       setSpaceshipList(response.data);
     } catch (error) {
       console.error("우주선 조회 에러", error);
@@ -134,13 +135,16 @@ export default function SpaceShip() {
       // 행성 관리자 제외한 멤버
       const member = response.data;
       const filteredMember = member.filter(m => m.role !== "OWNER");
-      const resultMember = filteredMember.map((member: PlanetMembership) => ({
-        email: member.user.email,
-        nickName: member.user.nickName,
-        profileImage: member.user.profileImage,
-        role: member.role,
-        userId: member.user.id,
-      }));
+      const resultMember = filteredMember.map(
+        (member: PlanetMembership): CommonUserInfo => ({
+          email: member.user.email,
+          nickName: member.user.nickName,
+          profileImage: member.user.profileImage,
+          role: member.role,
+          userId: member.user.id,
+          invited: member.user.invited,
+        }),
+      );
       setPlanetMember(resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
@@ -156,7 +160,7 @@ export default function SpaceShip() {
   }, []);
 
   return (
-    <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, setPlanetMember }}>
+    <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, fetchMemberListData, fetchSpaceshipData }}>
       {modalDataState.isOpen && modalDataState.content}
       <S.Wrap>
         <SpaceshipTop />

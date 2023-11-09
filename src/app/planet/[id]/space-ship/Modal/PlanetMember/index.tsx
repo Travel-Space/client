@@ -10,11 +10,9 @@ import { AxiosError } from "axios";
 import { SpaceshipContext, SpaceshipContextType } from "../../page";
 
 export default function PlanetMember({ onClose }: Default) {
-  const { planetId, planetMember, setPlanetMember } = useContext<SpaceshipContextType>(SpaceshipContext);
+  const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
   const [updatedPlanetMember, setUpdatedPlanetMember] = useState<CommonUserInfo[]>([]);
-  const [friendList, setFriend] = useState<CommonUserInfo[]>([]);
-  const [inviteList, setInviteList] = useState<CommonUserInfo[]>([]);
-  const [joinList, setJoinList] = useState<CommonUserInfo[]>([]);
+  const [followingList, setFollowingList] = useState<CommonUserInfo[]>([]);
 
   async function handleInvite(userId: number) {
     try {
@@ -26,7 +24,7 @@ export default function PlanetMember({ onClose }: Default) {
       console.log(response);
       if (response.status === 201) {
         alert(response.data.message);
-        fetchFollowingData();
+        fetchMemberListData();
       }
     } catch (error) {
       console.error("초대하기 에러", error);
@@ -48,13 +46,11 @@ export default function PlanetMember({ onClose }: Default) {
           nickName: member.friend.nickName,
           email: member.friend.email,
           profileImage: member.friend.profileImage,
+          role: undefined,
+          invited: false,
         }),
       );
-      const newArray = resultMember
-        .filter(item1 => !planetMember.some(item2 => item2.userId === item1.userId))
-        .concat(planetMember.filter(item2 => !resultMember.some(item1 => item1.userId === item2.userId)));
-
-      setFriend(newArray);
+      setFollowingList(resultMember);
     } catch (error) {
       console.error("내가 팔로우하는 친구 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -62,64 +58,17 @@ export default function PlanetMember({ onClose }: Default) {
     }
   }
 
-  async function fetchPendingData() {
-    try {
-      const response = await axiosRequest.requestAxios<
-        ResData<{
-          pendingApplications: { user: { id: number; profileImage: string; nickName: string; email: string } }[];
-          invitations: { invitee: { id: number; profileImage: string; nickName: string; email: string } }[];
-        }>
-      >("get", `/planet/applications-invitations/${planetId}`, {});
-      console.log(response);
-      const data = response.data;
-      const joinMember = data.pendingApplications.map(
-        (member: { user: { id: number; profileImage: string; nickName: string; email: string } }) => ({
-          userId: member.user.id,
-          nickName: member.user.nickName,
-          email: member.user.email,
-          profileImage: member.user.profileImage,
-          invite: false,
-        }),
-      );
-      const inviteMember = data.invitations.map(
-        (member: { invitee: { id: number; profileImage: string; nickName: string; email: string } }) => ({
-          userId: member.invitee.id,
-          nickName: member.invitee.nickName,
-          email: member.invitee.email,
-          profileImage: member.invitee.profileImage,
-          invite: true,
-        }),
-      );
-      setInviteList(inviteMember);
-      setJoinList(joinMember);
-    } catch (error) {
-      console.error("초대 및 탑승신청 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
-    }
-  }
-
   useEffect(() => {
-    fetchPendingData();
     fetchFollowingData();
   }, []);
 
   useEffect(() => {
-    const updatedPlanetMember = planetMember.map(member => {
-      const joinItem = joinList.find(item => item.userId === member.userId);
-      const inviteItem = inviteList.find(item => item.userId === member.userId);
-
-      if (joinItem) {
-        return { ...member, invite: false };
-      } else if (inviteItem) {
-        return { ...member, invite: true };
-      } else {
-        return member;
-      }
-    });
+    const updatedPlanetMember = [...planetMember, ...followingList].filter(
+      (value, index, self) => self.findIndex(el => el.userId === value.userId) === index,
+    );
 
     setUpdatedPlanetMember(updatedPlanetMember);
-  }, [joinList, inviteList, planetMember]);
+  }, [followingList, planetMember]);
 
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리">
@@ -133,7 +82,7 @@ export default function PlanetMember({ onClose }: Default) {
         </S.InputGroup> */}
 
         {/* 친구 없고 멤버 없을 때 */}
-        {friendList.length === 0 && planetMember.length === 0 && (
+        {/* {followingList.length === 0 && planetMember.length === 0 && (
           <S.NoList>
             <img src="/assets/img/icons/user-profile-default.svg" height={100} />
             <p>
@@ -141,13 +90,13 @@ export default function PlanetMember({ onClose }: Default) {
               <br />
               팔로우할 친구를 찾아보세요!
             </p>
-            {/* <S.OutlineButton>친구 관리하기</S.OutlineButton> */}
+            친구관리 링크
           </S.NoList>
-        )}
+        )} */}
 
         {/* 친구나 멤버 있을 때 */}
         <S.MemberList>
-          {[...updatedPlanetMember, ...friendList]?.map(member => (
+          {updatedPlanetMember?.map(member => (
             <Member
               key={member.userId}
               mode="manage"
@@ -157,7 +106,7 @@ export default function PlanetMember({ onClose }: Default) {
                 profileImage: member.profileImage,
                 role: member.role,
                 userId: member.userId,
-                invite: member.invite,
+                invited: member.invited,
               }}
               onInvite={handleInvite}
             />
