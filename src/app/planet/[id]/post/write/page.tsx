@@ -72,23 +72,30 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   };
 
   //로그인 아닐 시, 행성의 멤버 아닐 시 행성의 지도로 이동시킴
+  // 에러 메시지를 직접 에러 컴포넌트에 포함할 예정
   useEffect(() => {
     if (!user?.isAuth) {
       setHasError(true);
-      alert("로그인이 필요한 페이지입니다.");
-      setTimeout(() => router.push(`/planet/${planetId}/map`), 1500);
+      setTimeout(() => {
+        alert("로그인이 필요한 페이지입니다."); 
+        router.push(`/planet/${planetId}/map`); 
+      }, 1500);
     } else {
-      const isMemberOfPlanet = user?.memberships?.planets?.some(membership => membership?.planetId === planetId);
+      const isMemberOfPlanet = user?.memberships?.planets?.some(
+        membership => membership?.planetId === planetId && membership?.role !== "GUEST",
+      );
       if (!isMemberOfPlanet) {
-        setHasError(true);
-        alert("행성의 멤버만 게시글을 작성할 수 있습니다.");
-        setTimeout(() => router.push(`/planet/${planetId}/map`), 1500);
+        setHasError(true); 
+        setTimeout(() => {
+          alert("행성의 멤버만 게시글을 작성할 수 있습니다."); 
+          router.push(`/planet/${planetId}/map`); 
+        }, 1500);
       }
     }
-  }, [user, planetId]);
-
+  }, [user, planetId, router]);
+  
   if (hasError) {
-    return <Error />;
+    return <Error />; 
   }
 
   // 컴포넌트 마운트 시 우주선 목록

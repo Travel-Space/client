@@ -11,7 +11,7 @@ export interface Comment {
   article: Posting;
   author: {
     profileImage: string | null;
-    nationality: string;
+    nationImage: string;
     nickName: string;
   };
   parent: Comment | null;
