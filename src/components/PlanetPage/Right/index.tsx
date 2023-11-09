@@ -72,13 +72,11 @@ export default function Right() {
       if (response.status === 201) {
         alert("새로운 행성이 생성되었습니다!");
         const updatedUser = {
+          ...auth,
           memberships: {
             planets: [...(auth?.memberships.planets || []), { planetId: data.id, role: "OWNER" }],
             spaceships: auth?.memberships.spaceships || [],
           },
-          isAuth: auth?.isAuth,
-          id: auth?.id,
-          role: auth?.role,
         } as UserType;
         setAuth(updatedUser);
         router.push(`/planet/${data.id}/map/`);
