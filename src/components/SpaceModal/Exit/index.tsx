@@ -34,13 +34,13 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     const updatedUser = {
       ...auth,
       memberships: {
-        planets: ItemType.Planet ? planets : auth?.memberships.planets || [],
-        spaceships: ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
+        planets: type === ItemType.Planet ? planets : auth?.memberships.planets || [],
+        spaceships: type === ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
       },
     } as UserType;
     setAuth(updatedUser);
     onClose();
-    ItemType.Planet && router.push("/");
+    type === ItemType.Planet && router.push("/");
   }
 
   async function handlePlanetDelete() {
