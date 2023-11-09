@@ -69,7 +69,7 @@ export default function Member({ mode, type, user, onSelectMember, onInvite, onA
               </>
             ) : user.role === "GUEST" ? (
               <>
-                {user.invite ? (
+                {user.invited ? (
                   <Button disabled variant="confirm" shape="medium" size="smallWithSmFont">
                     초대 중
                   </Button>
