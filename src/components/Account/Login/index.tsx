@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 
@@ -29,7 +29,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const [passwordValid, setPasswordValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
-  const [_, setAuth] = useRecoilState(userAtom);
+  const setAuth = useSetRecoilState(userAtom);
   const router = useRouter();
 
   async function googleLogin() {

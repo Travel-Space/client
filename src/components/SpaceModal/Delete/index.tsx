@@ -6,6 +6,9 @@ import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { Spaceship } from "@/@types/Spaceship";
+import { useRouter } from "next/navigation";
+import { useRecoilState } from "recoil";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 
 interface Type extends Default {
   title?: string;
@@ -15,12 +18,32 @@ interface Type extends Default {
 }
 
 export default function Delete({ onClose, title, type, id, depth }: Type) {
+  const [auth, setAuth] = useRecoilState(userAtom);
+  const router = useRouter();
+
+  function deletedMemberships(id: number, type: ItemType) {
+    const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== id);
+    const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== id);
+    const updatedUser = {
+      ...auth,
+      memberships: {
+        planets: type === ItemType.Planet ? planets : auth?.memberships.planets || [],
+        spaceships: type === ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
+      },
+    } as UserType;
+    setAuth(updatedUser);
+    onClose();
+    type === ItemType.Planet && router.push("/");
+  }
+
   async function handlePlanetDelete() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
-      response.status === 200 && alert("행성이 성공적으로 삭제되었습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("행성이 성공적으로 삭제되었습니다!");
+        id && deletedMemberships(id, ItemType.Planet);
+      }
     } catch (error) {
       console.error("행성 삭제하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -32,8 +55,10 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
-      response.status === 200 && alert("우주선이 성공적으로 삭제되었습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("우주선이 성공적으로 삭제되었습니다!");
+        id && deletedMemberships(id, ItemType.SpaceShip);
+      }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;

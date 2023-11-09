@@ -4,11 +4,20 @@ export const Wrap = styled.div`
   height: 424px;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ $newShip: boolean }>`
   width: 100%;
   height: 100%;
   background: url("/assets/img/icons/ship-container.svg") no-repeat center / contain;
   position: relative;
+  ${({ $newShip }) =>
+    $newShip &&
+    css`
+      filter: brightness(0.5);
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        filter: brightness(1);
+      }
+    `}
 `;
 
 const textStyle = css`

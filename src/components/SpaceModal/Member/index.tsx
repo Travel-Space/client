@@ -4,23 +4,28 @@ import { RoleName } from "@/@types/Planet";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import { CommonUserInfo } from "@/@types/User";
+import { useState } from "react";
 
 interface Type {
   mode: "select" | "manage";
   type?: ItemType;
   user: CommonUserInfo;
-  onSelectMember: (value: number) => void;
+  onSelectMember?: (value: number) => void;
+  onInvite?: (value: number) => void;
+  onApprove?: (value: number) => void;
+  onReject?: (value: number) => void;
+  onKick?: (value: number) => void;
 }
 
-export default function Member({ mode, type, user, onSelectMember }: Type) {
-  const roleName = RoleName[user.role];
+export default function Member({ mode, type, user, onSelectMember, onInvite, onApprove, onReject, onKick }: Type) {
+  const roleName = user.role && RoleName[user.role];
+  const [selectedMenu, setSelectedMenu] = useState(roleName as string);
   console.log("user", user);
 
   const dropDownProps = {
-    comment: "사유 선택",
-    menuList: ["부관리자", "일반 멤버"],
-    selectedMenu: "부관리자",
-    handleClick: (value: string) => console.log(value),
+    menuList: [RoleName.ADMIN, RoleName.MEMBER],
+    selectedMenu: selectedMenu,
+    handleClick: setSelectedMenu,
   };
 
   return (
@@ -35,34 +40,73 @@ export default function Member({ mode, type, user, onSelectMember }: Type) {
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>
           </S.InfoGroup>
-          <S.Input type="radio" name="member" onChange={() => onSelectMember(user.userId)} />
+          <S.Input type="radio" name="member" onChange={() => onSelectMember && onSelectMember(user.userId)} />
         </S.Label>
       ) : (
         <S.MemberWrap>
+          <S.ProfileImg src={user.profileImage} />
           <S.InfoGroup>
-            <S.ProfileImg src={user.profileImage} />
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>
           </S.InfoGroup>
           <S.Group>
-            {/* 초대 전 */}
-            {/* <S.Input type="checkbox" name="member" /> */}
-            {/* 초대 중 */}
-            {/* <S.DisabledButton>초대 중</S.DisabledButton> */}
-            {/* 승인 대기 */}
-            {/* <S.FillButton>수락</S.FillButton> 
-              <S.OutlineButton>거절</S.OutlineButton> */}
             {/* 멤버 권한 관리 */}
-            <>
-              <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
-              <Button variant="confirm" shape="medium" size="normal">
+            {user.role === "MEMBER" || user.role === "ADMIN" ? (
+              <>
+                <DropDown font="md" shape="round" color="gray" props={dropDownProps} />
+                <Button
+                  variant="error"
+                  shape="medium"
+                  size="smallWithSmFont"
+                  onClick={() => onKick && onKick(user.userId)}
+                >
+                  <S.Group>
+                    <img src="/assets/img/icons/exit-white.svg" />
+                  </S.Group>
+                </Button>
+              </>
+            ) : user.role === "GUEST" ? (
+              <>
+                {user.invited ? (
+                  <Button disabled variant="confirm" shape="medium" size="smallWithSmFont">
+                    초대 중
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="confirm"
+                      shape="medium"
+                      size="smallWithSmFont"
+                      onClick={() => onApprove && onApprove(user.userId)}
+                    >
+                      <span>수락</span>
+                    </Button>
+                    <Button
+                      variant="reverse"
+                      shape="medium"
+                      size="smallWithSmFont"
+                      onClick={() => onReject && onReject(user.userId)}
+                    >
+                      <span>거절</span>
+                    </Button>
+                  </>
+                )}
+              </>
+            ) : (
+              <Button
+                variant="gradient"
+                shape="medium"
+                size="smallWithSmFont"
+                onClick={() => onInvite && onInvite(user.userId)}
+              >
                 <S.Group>
-                  <img src="/assets/img/icons/exit-white.svg" />
+                  <img src="/assets/img/icons/space-ship/invite.svg" width={16} />
+                  <span>초대하기</span>
                 </S.Group>
               </Button>
-            </>
+            )}
           </S.Group>
         </S.MemberWrap>
       )}

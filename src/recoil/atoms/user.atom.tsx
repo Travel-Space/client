@@ -2,8 +2,8 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
 import { User } from "@/@types";
-import { PlanetMembership } from "@/@types/Planet";
-import { SpaceshipMember } from "@/@types/Spaceship";
+import { Role as PlanetRole } from "@/@types/Planet";
+import { Role as SpaceshipRole } from "@/@types/Spaceship";
 import { UserRole } from "@/@types/User";
 
 const { persistAtom } = recoilPersist();
@@ -13,8 +13,8 @@ export interface UserType {
   id: number;
   role: UserRole;
   memberships: {
-    planets: Partial<PlanetMembership[]>;
-    spaceships: Partial<SpaceshipMember[]>;
+    planets: { planetId: number; role: PlanetRole }[];
+    spaceships: { spaceshipId: number; role: SpaceshipRole }[];
   };
 }
 

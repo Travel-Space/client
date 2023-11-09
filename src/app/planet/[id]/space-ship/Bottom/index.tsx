@@ -15,6 +15,7 @@ export default function SpaceshipBottom() {
   const user = useRecoilValue(userAtom);
   const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
   const onlyMember = planetMember.filter(m => m.role !== "GUEST");
+  console.log(thisPlanet);
 
   const exitModal = {
     title: "행성 탈출",
@@ -32,7 +33,7 @@ export default function SpaceshipBottom() {
 
   const planetMemberModal = {
     title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} members={planetMember} />,
+    content: <PlanetMember onClose={closeModal} />,
   };
 
   return (

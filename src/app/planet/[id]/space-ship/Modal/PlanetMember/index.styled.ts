@@ -2,7 +2,6 @@ import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Notification = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE.em};
   text-align: center;
   line-height: 32px;
   b {
@@ -10,34 +9,6 @@ export const Notification = styled.div`
   }
   margin-bottom: 24px;
 `;
-
-// export const OutlineButton = styled(OB)`
-//   border-radius: 100px;
-//   width: 50%;
-//   margin-top: 24px;
-// `;
-
-// export const LinkButton = styled(LB)`
-//   border-radius: 100px;
-//   width: 50%;
-//   margin: 0 auto;
-// `;
-
-// export const InputGroup = styled(IG)`
-//   display: flex;
-// `;
-
-// export const SearchButton = styled(FB)`
-//   flex: 1;
-//   border-radius: 0 10px 10px 0;
-//   ${flexCenter}
-//   gap: 8px;
-// `;
-
-// export const Input = styled(I)`
-//   flex: 4;
-//   border-radius: 10px 0 0 10px;
-// `;
 
 export const NoList = styled.div`
   padding: 40px 0;
