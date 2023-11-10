@@ -22,11 +22,29 @@ export default function Followings({ id }: { id: number }) {
   const [page, setPage] = useState(1);
   const [disableLoadData, setDisableLoadDate] = useState(false);
 
-  const updateData = () => {
-    getFollowings(1, page * limit);
+  const updateData = async () => {
+    // console.log("updateDataPage", page);
+    await updateFollowings(1, (page - 1) * limit);
     getFollowers();
   };
+  //팔로잉 업데이트(팔로우 또는 언팔로우 후)
+  async function updateFollowings(page: number, limit: number) {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
+        "get",
+        `/user/other/${id}/following?page=${page}&limit=${limit}`,
+      );
+      const followings = response.data.data;
+      const total = response.data.total;
 
+      setTotalFollowings(total);
+      setFollowings(followings);
+      // console.log("updateFollowings", page, followings);
+    } catch (error) {
+      console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
+  }
   //팔로잉 조회
   async function getFollowings(page: number, limit: number) {
     try {
@@ -38,21 +56,24 @@ export default function Followings({ id }: { id: number }) {
       const total = response.data.total;
       setTotalFollowings(total);
 
+      //더이상 불러올 데이터가 없을 경우
       if (!followings.length) {
+        !total && setFollowings(followings);
         setDisableLoadDate(true);
         return;
       }
 
       if (page === 1) setFollowings(followings);
       else setFollowings(prev => [...prev, ...followings]);
+
       setPage(prev => prev + 1);
-      // console.log("followings", followings);
-      // console.log("page", page);
+      // console.log("getFollowings", page, followings);
     } catch (error) {
       console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   }
+
   //팔로워 조회
   async function getFollowers() {
     try {
@@ -63,26 +84,22 @@ export default function Followings({ id }: { id: number }) {
       const total = response.data.total;
 
       setTotalFollowers(total);
-      // console.log("followings", response.data);
-      // console.log("page", page);
     } catch (error) {
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
     }
   }
-  useEffect(() => {
-    getFollowings(page, limit);
-  }, []);
 
   //무한 스크롤
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
   const loadData = () => {
+    // console.log("loadData", page, followings);
     if (disableLoadData) return;
     getFollowings(page, limit);
   };
 
   const { setTargetRef } = useInfiniteScroll(loadData, [page]);
-
-  const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (observerRef.current) {
@@ -92,7 +109,7 @@ export default function Followings({ id }: { id: number }) {
 
   return (
     <>
-      {followings.length === 0 ? (
+      {!totalFollowings ? (
         <Nothing
           src="/assets/img/icons/no-friends.svg"
           alt="no-friends"
@@ -109,9 +126,9 @@ export default function Followings({ id }: { id: number }) {
               <Person key={`following${idx}`} data={el.friend} isMutual={el.isFollowing} updateData={updateData} />
             ))}
           </S.MyFriends>
-          <S.InfiniteScrollTarget ref={observerRef} />
         </S.Container>
       )}
+      <S.InfiniteScrollTarget ref={observerRef} />
     </>
   );
 }
