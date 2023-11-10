@@ -108,7 +108,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("우주선 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -121,7 +121,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -150,7 +150,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -160,7 +160,7 @@ export default function SpaceShip() {
     fetchMemberListData();
   }, []);
 
-  const isLoggedIn = useAuth(parseInt(planetId));
+  const isLoggedIn = useAuth(parseInt(planetId), "MEMBER");
 
   if (!isLoggedIn) {
     return null;
