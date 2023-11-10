@@ -99,8 +99,9 @@ export default function Profile() {
         country_eng_nm: "",
         download_url: profile.nationImage,
       });
+      setChangedProfileImg(profile.profileImage);
 
-      console.log("profile", profile);
+      // console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
