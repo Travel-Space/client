@@ -11,7 +11,6 @@ import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
 
 export interface PlanetType {
   id?: number;
@@ -33,12 +32,6 @@ export interface PlanetContextType {
 export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
 
 export default function PlanetPage({ planetId }: { planetId?: string[] | string }) {
-  const isLoggedIn = useAuth();
-
-  if (!isLoggedIn) {
-    return null;
-  }
-
   const [planetInfo, setPlanetInfo] = useState<PlanetType>({
     name: "",
     description: "",
