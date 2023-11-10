@@ -43,20 +43,31 @@ const Planets = ({ id }: { id: number }) => {
       );
       const planets = response.data.data;
       const totalCount = response.data.totalMemberships;
+      setTotalCount(totalCount);
 
       if (!planets.length) {
         setDisableLoadDate(true);
         return;
       }
 
-      setPlanets(prev => [...prev, ...planets]);
+      if (page === 1) setPlanets(planets);
+      else setPlanets(prev => [...prev, ...planets]);
+
       setPage(prev => prev + 1);
-      setTotalCount(totalCount);
     } catch (error) {
       console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   }
+
+  useEffect(() => {
+    getPlanets();
+    getUserPlanets();
+    // console.log("planets", planets);
+  }, []);
+
+  //무한스크롤
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const loadData = () => {
     if (disableLoadData) return;
@@ -65,19 +76,11 @@ const Planets = ({ id }: { id: number }) => {
 
   const { setTargetRef } = useInfiniteScroll(loadData, [page]);
 
-  const observerRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     if (observerRef.current) {
       setTargetRef(observerRef);
     }
   }, [observerRef, setTargetRef]);
-
-  useEffect(() => {
-    getPlanets();
-    getUserPlanets();
-    // console.log("planets", planets);
-  }, []);
 
   return (
     <S.Container>
