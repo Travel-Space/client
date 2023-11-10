@@ -69,10 +69,10 @@ export const InputGroup = styled.div<{ $marginBottom?: number; $marginTop?: numb
 export const SmallBtnGroup = styled.div<{ $country?: boolean }>`
   ${flexAlignCenter}
   gap: 8px;
-  position: absolute;
+  position: ${props => (props.$country ? "initial" : "absolute")};
   right: 12px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: ${props => (props.$country ? "initial" : "translateY(-50%)")};
   button {
     flex: 1;
   }
@@ -107,7 +107,15 @@ export const Error = styled.span`
 `;
 
 export const CountryGroup = styled(InputGroup)`
-  > input {
+  ${flexSpaceBetweenCenter}
+  height: 53px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  > span {
+    flex: 1;
+  }
+  > * {
     cursor: pointer;
   }
 `;

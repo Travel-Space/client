@@ -188,15 +188,18 @@ export default function Signup({ goToLogin }: PropsType) {
       <InputGroup>
         <Label id="nationality">국적</Label>
         <CountryGroup>
-          <Input
+          <span onClick={() => setShowSearch(prev => !prev)}>
+            {country.country_nm}, {country.country_eng_nm}
+          </span>
+          {/* <Input
             id="nationality"
             type="text"
             name="nationality"
             readOnly
             value={`${country.country_nm}, ${country.country_eng_nm}`}
             onClick={() => setShowSearch(prev => !prev)}
-          />
-          <SmallBtnGroup $country>
+          /> */}
+          <SmallBtnGroup $country onClick={() => setShowSearch(prev => !prev)}>
             <img src={country.download_url} alt={country.country_nm} />
           </SmallBtnGroup>
           {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
