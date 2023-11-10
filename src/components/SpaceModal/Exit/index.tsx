@@ -10,6 +10,9 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { CommonUserInfo } from "@/@types/User";
 import { Spaceship } from "@/@types/Spaceship";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 
 interface Type extends Default {
   title: string | undefined;
@@ -22,28 +25,49 @@ interface Type extends Default {
 export default function Exit({ onClose, title, type, role, id, members }: Type) {
   const [selectMember, setSelectMember] = useState<number>();
   const hasMember = members && members.length > 0;
+  const [auth, setAuth] = useRecoilState(userAtom);
+  const router = useRouter();
 
-  async function handlePlanetExit() {
+  function deletedMemberships(id: string, type: ItemType) {
+    const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== parseInt(id));
+    const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== parseInt(id));
+    const updatedUser = {
+      ...auth,
+      memberships: {
+        planets: type === ItemType.Planet ? planets : auth?.memberships.planets || [],
+        spaceships: type === ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
+      },
+    } as UserType;
+    setAuth(updatedUser);
+    onClose();
+    type === ItemType.Planet && router.push("/");
+  }
+
+  async function handlePlanetDelete() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("post", `/planet/leave/${id}`);
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
-      response.status === 201 && alert("행성을 성공적으로 떠났습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("행성이 성공적으로 삭제되었습니다!");
+        deletedMemberships(id, ItemType.Planet);
+      }
     } catch (error) {
-      console.error("행성 탈출하기 에러", error);
+      console.error("행성 삭제하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
   }
 
-  async function handleSpaceshipExit() {
+  async function handlePlanetExit() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/leave/${id}`);
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("post", `/planet/leave/${id}`);
       console.log(response);
-      response.status === 200 && alert("우주선을 성공적으로 떠났습니다!");
-      onClose();
+      if (response.status === 201) {
+        alert("행성을 성공적으로 떠났습니다!");
+        deletedMemberships(id, ItemType.Planet);
+      }
     } catch (error) {
-      console.error("우주선 탈출하기 에러", error);
+      console.error("행성 탈출하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -55,10 +79,27 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         newOwnerId: selectMember,
       });
       console.log(response);
-      response.status === 200 && alert("행성을 성공적으로 위임했습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("행성을 성공적으로 위임했습니다!");
+        deletedMemberships(id, ItemType.Planet);
+      }
     } catch (error) {
       console.error("행성 위임하기 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  async function handleSpaceshipExit() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/leave/${id}`);
+      console.log(response);
+      if (response.status === 200) {
+        alert("우주선을 성공적으로 떠났습니다!");
+        deletedMemberships(id, ItemType.SpaceShip);
+      }
+    } catch (error) {
+      console.error("우주선 탈출하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -74,23 +115,12 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         },
       );
       console.log(response);
-      response.status === 200 && alert("우주선을 성공적으로 위임했습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("우주선을 성공적으로 위임했습니다!");
+        deletedMemberships(id, ItemType.SpaceShip);
+      }
     } catch (error) {
       console.error("우주선 위임하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
-    }
-  }
-
-  async function handlePlanetDelete() {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
-      console.log(response);
-      response.status === 200 && alert("행성이 성공적으로 삭제되었습니다!");
-      onClose();
-    } catch (error) {
-      console.error("행성 삭제하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -100,8 +130,10 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
-      response.status === 200 && alert("우주선이 성공적으로 삭제되었습니다!");
-      onClose();
+      if (response.status === 200) {
+        alert("우주선이 성공적으로 삭제되었습니다!");
+        deletedMemberships(id, ItemType.SpaceShip);
+      }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;

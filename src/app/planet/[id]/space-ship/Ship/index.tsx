@@ -26,16 +26,14 @@ export default function Ship({ ship }: ShipType) {
 
   return (
     <S.Wrap>
-      <S.Container>
-        {/* <S.Img onClick={() => openModal(shipManageModal)}> */}
+      <S.Container $newShip={isNewShip}>
         <S.Img onClick={() => (isNewShip ? openModal(shipManageModal) : openModal(shipInfoModal))}>
           <img
-            // src={isNewShip ? "/assets/img/icons/ship-profile-create.svg" : spaceShip?.image}
             src={isNewShip ? "/assets/img/icons/ship-profile-create.svg" : "/assets/img/icons/ship-profile-default.svg"}
             alt=""
           />
         </S.Img>
-        <S.Title>{isNewShip ? `우주선 ${ship}` : ship.id}</S.Title>
+        <S.Title>{isNewShip ? `우주선 ${ship}` : ship.name}</S.Title>
         <S.MemberCount>{isNewShip ? "" : `0 / ${ship.maxMembers}`}</S.MemberCount>
       </S.Container>
     </S.Wrap>

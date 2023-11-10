@@ -16,8 +16,9 @@ export interface CommonUserInfo {
   email: string;
   nickName: string;
   profileImage: string;
-  role: Role;
+  role?: Role;
   userId: number;
+  invited?: boolean;
 }
 
 export interface User {
@@ -51,6 +52,7 @@ export interface User {
   friends: UserFriend[];
   reportCount?: number | string;
   isFollowing: boolean;
+  invited: boolean;
 }
 
 enum SocialProvider {

@@ -17,6 +17,7 @@ export interface Spaceship {
   planet: Planet;
   members: SpaceshipMember[];
   applications: SpaceshipApplication[];
+  spaceship: String;
 }
 
 export interface SpaceshipMember {

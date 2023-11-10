@@ -33,8 +33,6 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   const { latitude, longitude } = markerLocation;
 
-  console.log(`위도: ${latitude}, 경도: ${longitude} 마커 클릭 시 좌표가 잘 넘어가는지 확인`);
-
   // 드롭 다운 메뉴
   const [spaceship, setSpaceship] = useState<string[]>([]);
   const [selectedMenu, setSelectedMenu] = useState("전체");
@@ -46,11 +44,9 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   // 페이지 정보 및 게시글 불러올 갯수
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [totalPage, setTotalPage] = useState(0);
 
   // 게시글 불러오기 스탑
-  const [notData, setNotData] = useState(false);
+  const [disableLoadData, setDisableLoadDate] = useState(false);
 
   // 무한 스크롤 옵저버 인식 부분
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -60,47 +56,48 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
   const getArticle = async () => {
     try {
       const dropdown = selectedMenu === "전체" ? "" : `&spaceshipName=${selectedMenu}`;
+      console.log(dropdown);
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
         clickMarker
-          ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=1&limit=100${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
-          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=${1000}${dropdown}`,
+          ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=${currentPage}&limit=10${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
+          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=10${dropdown}`,
       );
-      const data = response.data;
-      const totalPage = Math.ceil(data.total / 10);
+      const data = response.data.articles;
 
-      setTotalPage(totalPage);
-
+      console.log(data);
       console.log(article, `${currentPage}번째 페이지`);
 
-      if (!data.articles.length) {
-        setNotData(true);
+      if (!data.length && response.total === 0) {
+        setDisableLoadDate(true);
+        setArticle(data);
         return;
       }
 
-      setArticle(prev => [...prev, ...data.articles]);
+      if (currentPage === 1) setArticle(data);
+      else setArticle(prev => [...prev, ...data]);
     } catch (error) {
       console.error("에러 발생: ", error);
     }
   };
 
+  const loadData = async () => {
+    if (disableLoadData) return;
+    await getArticle();
+    setCurrentPage(prev => prev + 1);
+  };
+
+  const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
+
+  useEffect(() => {
+    if (observerRef.current) {
+      setTargetRef(observerRef);
+    }
+  }, [observerRef, setTargetRef]);
+
   useEffect(() => {
     getArticle();
-  }, [currentPage, selectedMenu]);
-
-  // const loadData = () => {
-  //   if (notData) return;
-  //   setCurrentPage(prev => prev + 1);
-  //   console.log(currentPage, "currentPage");
-  // };
-
-  // const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
-
-  // useEffect(() => {
-  //   if (observerRef.current) {
-  //     setTargetRef(observerRef);
-  //   }
-  // }, [observerRef, setTargetRef]);
+  }, [selectedMenu]);
 
   // ===================================== 드롭 다운 메뉴 가져오기 =====================================
 
@@ -252,7 +249,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
                   {Array.isArray(article) &&
                     article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)}
-                  {currentPage && <S.ObserverRef ref={observerRef} />}
+                  <S.ObserverRef ref={observerRef} />
                 </S.ScrollBox>
               </S.ScrollBox>
             </div>

@@ -65,7 +65,7 @@ export interface PlanetMembership {
 
 export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
 
-export type Role = "OWNER" | "ADMIN" | "MEMBER" | "GUEST";
+export type Role = keyof typeof RoleName;
 
 export enum RoleName {
   OWNER = "행성 관리자",

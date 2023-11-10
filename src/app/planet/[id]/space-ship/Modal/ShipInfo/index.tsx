@@ -9,8 +9,8 @@ import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
-import { userAtom } from "@/recoil/atoms/user.atom";
-import { useRecoilValue } from "recoil";
+import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Button from "@/components/common/Button";
 import Delete from "@/components/SpaceModal/Delete";
 import { useModal } from "@/hooks/useModal";
@@ -53,6 +53,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const [openExit, setOpenExit] = useState(false);
   const { openModal, closeModal } = useModal();
   const onlyMember = spaceshipInfo.members.filter(m => m.role !== "OWNER");
+  const [auth, setAuth] = useRecoilState(userAtom);
 
   const shipManageModal = {
     title: "우주선 관리",
@@ -79,8 +80,18 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
         {},
       );
       console.log(response);
-      response.status === 201 && alert("우주선에 성공적으로 탑승하였습니다!");
-      onClose();
+      if (response.status === 201) {
+        alert("우주선에 성공적으로 탑승하였습니다!");
+        const updatedUser = {
+          ...auth,
+          memberships: {
+            planets: auth?.memberships.planets || [],
+            spaceships: [...(auth?.memberships.spaceships || []), { planetId: response.data.id, role: "MEMBER" }],
+          },
+        } as UserType;
+        setAuth(updatedUser);
+        onClose();
+      }
     } catch (error) {
       console.error("우주선 탑승 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -101,7 +112,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     <BoxModal onClose={onClose} title="우주선 정보">
       <S.Content>
         <S.Title>
-          <h2>{spaceshipInfo.name}</h2>
+          <h2>
+            {spaceshipInfo.id}. {spaceshipInfo.name}
+          </h2>
           <span>{SpaceshipStatusName[spaceshipInfo.status]}</span>
         </S.Title>
         <Line color="gray" size="horizontal" />
