@@ -26,15 +26,17 @@ const Postings = ({ id }: { id: number }) => {
       );
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
+      setTotalCount(totalCount);
 
       if (!postings.length) {
         setDisableLoadDate(true);
         return;
       }
 
-      setPostings(prev => [...prev, ...postings]);
+      if (page === 1) setPostings(postings);
+      else setPostings(prev => [...prev, ...postings]);
+
       setPage(prev => prev + 1);
-      setTotalCount(totalCount);
 
       // console.log("Postings", postings);
       // console.log("page", page);
