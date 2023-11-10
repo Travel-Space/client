@@ -146,7 +146,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
                   <p>
                     {member.nickName}
                     {member.role === "OWNER" && <span>우주선 방장</span>}
-                    {member.userId === user?.id && <span>본인</span>}
+                    {member.userId === user?.id && <span>(본인)</span>}
                   </p>
                   <p>{member.email}</p>
                 </div>

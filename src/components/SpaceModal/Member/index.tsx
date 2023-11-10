@@ -4,7 +4,7 @@ import { RoleName } from "@/@types/Planet";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import { CommonUserInfo } from "@/@types/User";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Type {
   mode: "select" | "manage";
@@ -40,6 +40,10 @@ export default function Member({
     handleClick: setSelectedMenu,
   };
 
+  useEffect(() => {
+    setRoleEdit(false);
+  }, [onRoleMember]);
+
   return (
     <S.Wrap>
       {mode === "select" ? (
@@ -61,11 +65,7 @@ export default function Member({
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
               {(user.role === "MEMBER" || user.role === "ADMIN") && (
-                <S.Kick onClick={() => onKick && onKick(user.userId)}>
-                  <S.Group>
-                    <img src="/assets/img/icons/exit-white.svg" />
-                  </S.Group>
-                </S.Kick>
+                <S.Kick onClick={() => onKick && onKick(user.userId)}>강제퇴장</S.Kick>
               )}
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>

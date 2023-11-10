@@ -83,10 +83,10 @@ export const Group = styled.div`
 `;
 
 export const Kick = styled.button`
-  background: ${({ theme }) => theme.PALETTE.error};
-  padding: 8px;
-  border-radius: 10px;
+  padding: 2px 0;
+  background: none;
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+  color: ${({ theme }) => theme.PALETTE.error};
 `;
 
 export const MemberRole = styled.span`
