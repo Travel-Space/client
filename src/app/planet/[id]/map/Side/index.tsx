@@ -31,7 +31,7 @@ export interface ArticleProps {
 export default function Side({ onClose, clickMarker, params, markerLocation }: ArticleProps) {
   const user = useRecoilValue(userAtom);
 
-  const { latitude, longitude } = markerLocation;
+  const { latitude, longitude } = markerLocation || { latitude: 0, longitude: 0 };
 
   // 드롭 다운 메뉴
   const [spaceship, setSpaceship] = useState<string[]>([]);
@@ -44,6 +44,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   // 페이지 정보 및 게시글 불러올 갯수
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalData, setTotalData] = useState(0);
 
   // 게시글 불러오기 스탑
   const [disableLoadData, setDisableLoadDate] = useState(false);
@@ -64,11 +65,14 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
           : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=10${dropdown}`,
       );
       const data = response.data.articles;
+      const totalData = response.data.total;
 
-      console.log(data);
+      setTotalData(totalData);
+
+      console.log(currentPage, "currentpage");
       console.log(article, `${currentPage}번째 페이지`);
 
-      if (!data.length && response.total === 0) {
+      if (!data.length) {
         setDisableLoadDate(true);
         setArticle(data);
         return;
@@ -77,14 +81,16 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
       if (currentPage === 1) setArticle(data);
       else setArticle(prev => [...prev, ...data]);
     } catch (error) {
+      if (error.response.status === 404) return setTotalData(0);
       console.error("에러 발생: ", error);
     }
   };
 
   const loadData = async () => {
     if (disableLoadData) return;
-    await getArticle();
+    console.log(currentPage, "loadData");
     setCurrentPage(prev => prev + 1);
+    await getArticle();
   };
 
   const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
@@ -97,7 +103,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   useEffect(() => {
     getArticle();
-  }, [selectedMenu]);
+  }, [selectedMenu, latitude, longitude]);
 
   // ===================================== 드롭 다운 메뉴 가져오기 =====================================
 
@@ -235,7 +241,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
               <S.ScrollBox>
                 <S.ScrollBox>
-                  {!article?.length && (
+                  {totalData === 0 && (
                     <Nothing
                       src="/assets/img/icons/no-postings.svg"
                       alt="no-postings"
@@ -247,9 +253,9 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                     />
                   )}
 
-                  {Array.isArray(article) &&
+                  {totalData !== 0 &&
                     article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)}
-                  <S.ObserverRef ref={observerRef} />
+                  {Math.ceil(totalData / 10) >= currentPage && <S.ObserverRef ref={observerRef} />}
                 </S.ScrollBox>
               </S.ScrollBox>
             </div>
