@@ -24,7 +24,12 @@ export default function PostContent({ data }: PostContentProps) {
   const router = useRouter();
   const currentUser = useRecoilValue(userAtom);
   const isMyPost = currentUser?.id === data?.authorId;
+  const imageUrls = data?.images.map(image => image.url) || [];
 
+
+
+
+  
   //게시글 삭제 함수
   const handlePostDelete = async () => {
     if (!data?.id) return;
