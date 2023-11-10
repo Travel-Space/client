@@ -28,24 +28,10 @@ export default function Email({ onEmail }: PropsType) {
   let timer: NodeJS.Timeout;
 
   useEffect(() => {
-    // if (showCodeInput && minutes === 0 && seconds === 0) {
-    //   alert("인증 시간이 종료되었습니다. 다시 인증을 요청해주세요.");
-    //   setShowCodeInput(false);
-    // } else if (showCodeInput) {
-    //   timer = setInterval(() => {
-    //     if (seconds === 0) {
-    //       setMinutes(minutes - 1);
-    //       setSeconds(59);
-    //     } else {
-    //       setSeconds(seconds - 1);
-    //     }
-    //   }, 1000);
-    // }
-    // return () => clearInterval(timer);
-    if (minutes === 0 && seconds === 0) {
+    if (showCodeInput && minutes === 0 && seconds === 0) {
       alert("인증 시간이 종료되었습니다. 다시 인증을 요청해주세요.");
       setShowCodeInput(false);
-    } else {
+    } else if (showCodeInput) {
       timer = setInterval(() => {
         if (seconds === 0) {
           setMinutes(minutes - 1);
