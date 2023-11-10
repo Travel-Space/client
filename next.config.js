@@ -20,7 +20,12 @@ const nextConfig = {
   swcMinify: true,
   images: {
     //오류 생겨서 임시로 추가해둠 `example.com`,`item.kakaocdn.net`
-    domains: [`travelspace-bucket.s3.ap-northeast-2.amazonaws.com`, `example.com`, `item.kakaocdn.net`],
+    domains: [
+      `travelspace-bucket.s3.ap-northeast-2.amazonaws.com`,
+      `example.com`,
+      `item.kakaocdn.net`,
+      `opendata.mofa.go.kr`,
+    ],
   },
 };
 

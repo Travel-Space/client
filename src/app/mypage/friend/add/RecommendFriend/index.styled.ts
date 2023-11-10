@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { flexCenter } from "@/styles/common";
+import { flexCenter, flexColumnCenter } from "@/styles/common";
 
 export const Container = styled.div`
   width: 152px;
@@ -12,10 +12,14 @@ export const Container = styled.div`
   ${flexCenter}
   flex-direction: column;
 `;
+export const Profile = styled.div`
+  cursor: pointer;
+`;
 export const Nickname = styled.div`
   font-weight: 700;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   margin: 16px 0 8px;
+  text-align: center;
 `;
 export const FollowBtn = styled.div`
   & > button {

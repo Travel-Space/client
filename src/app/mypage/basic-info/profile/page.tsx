@@ -10,6 +10,7 @@ import { profileState } from "@/recoil/atoms/user.atom";
 import * as S from "./page.styled";
 
 import Link from "next/link";
+import Image from "next/image";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
@@ -38,7 +39,7 @@ export default function Profile() {
   const [country, setCountry] = useState<CountryInfo>({
     country_nm: profile?.nationality || "",
     country_eng_nm: "",
-    download_url: "",
+    download_url: profile?.nationImage || "",
   });
 
   const [notAllowSave, setNotAllowSave] = useState(true);
@@ -94,12 +95,13 @@ export default function Profile() {
       setProfile(profile);
       setChangedNickname(profile.nickName);
       setCountry({
-        country_nm: profile?.nationality,
+        country_nm: profile.nationality,
         country_eng_nm: "",
-        download_url: "",
+        download_url: profile.nationImage,
       });
+      setChangedProfileImg(profile.profileImage);
 
-      console.log("profile", profile);
+      // console.log("profile", profile);
     } catch (error) {
       alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching profile data: ", error);
@@ -158,6 +160,7 @@ export default function Profile() {
     const changedData = {
       nickName: changedNickname,
       nationality: country.country_nm,
+      nationImage: country.download_url,
       profileImage: changedProfileImg,
     };
     // console.log("changedData", changedData);
@@ -202,6 +205,7 @@ export default function Profile() {
         <Item name="국적">
           <S.Nationality>
             <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
+            <Image src={country.download_url} alt="nationImage" width={30} height={20} />
             {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
           </S.Nationality>
         </Item>
