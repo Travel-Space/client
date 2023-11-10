@@ -38,7 +38,7 @@ export default function Profile() {
   const [country, setCountry] = useState<CountryInfo>({
     country_nm: profile?.nationality || "",
     country_eng_nm: "",
-    download_url: "",
+    download_url: profile?.nationImage || "",
   });
 
   const [notAllowSave, setNotAllowSave] = useState(true);
@@ -158,6 +158,7 @@ export default function Profile() {
     const changedData = {
       nickName: changedNickname,
       nationality: country.country_nm,
+      nationImage: country.download_url,
       profileImage: changedProfileImg,
     };
     // console.log("changedData", changedData);
