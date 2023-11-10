@@ -12,6 +12,9 @@ export const Container = styled.div`
     ${flexCenter}
   }
 `;
+export const Profile = styled.div`
+  cursor: pointer;
+`;
 export const Info = styled.div`
   ${flexColumn}
   gap:8px;
