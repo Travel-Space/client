@@ -26,6 +26,7 @@ export interface User {
   name: string;
   nickName: string;
   nationality: string;
+  nationImage: string;
   email: string;
   code: string;
   createdAt: Date;

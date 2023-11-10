@@ -100,4 +100,10 @@ export const Save = styled.div`
 
 export const Nationality = styled.div`
   position: relative;
+  & > img {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(-50%, -50%);
+  }
 `;
