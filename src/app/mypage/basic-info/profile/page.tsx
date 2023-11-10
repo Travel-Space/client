@@ -10,6 +10,7 @@ import { profileState } from "@/recoil/atoms/user.atom";
 import * as S from "./page.styled";
 
 import Link from "next/link";
+import Image from "next/image";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
@@ -94,9 +95,9 @@ export default function Profile() {
       setProfile(profile);
       setChangedNickname(profile.nickName);
       setCountry({
-        country_nm: profile?.nationality,
+        country_nm: profile.nationality,
         country_eng_nm: "",
-        download_url: "",
+        download_url: profile.nationImage,
       });
 
       console.log("profile", profile);
@@ -203,6 +204,7 @@ export default function Profile() {
         <Item name="국적">
           <S.Nationality>
             <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
+            <Image src={country.download_url} alt="nationImage" width={30} height={20} />
             {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
           </S.Nationality>
         </Item>
