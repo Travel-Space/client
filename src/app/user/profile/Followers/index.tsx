@@ -90,6 +90,10 @@ export default function Followers({ id }: { id: number }) {
       console.error("Error fetching followers data: ", error);
     }
   }
+  useEffect(() => {
+    getFollowers(page, limit);
+    getFollowings();
+  }, []);
 
   //무한 스크롤
   const observerRef = useRef<HTMLDivElement | null>(null);
