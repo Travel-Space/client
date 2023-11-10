@@ -95,6 +95,7 @@ export const LocationImg = styled.img`
 export const Text = styled.div`
   line-height: 1.5;
   margin-bottom: 48px;
+  
 `;
 
 export const TextData = styled.div`

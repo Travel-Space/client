@@ -2,7 +2,7 @@
 
 import axiosRequest from "@/api";
 import { PostWrite } from "@/@types/PostWrite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
@@ -42,6 +42,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [spaceships, setSpaceships] = useState<Spaceship[]>([]);
   const [selectedSpaceshipId, setSelectedSpaceshipId] = useState<number | null>(null);
   const [isAddressChecked, setIsAddressChecked] = React.useState<boolean>(false);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const latitude = locations?.geometry?.location.lat;
   const longitude = locations?.geometry?.location.lng;
   const searchParams = useSearchParams();
@@ -50,7 +51,8 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const router = useRouter();
   const user = useRecoilValue(userAtom);
   const [hasError, setHasError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
+  const quillEditorRef = useRef();
 
   // 우주선 목록을 불러오는 함수
   const fetchSpaceships = async (planetId: number, currentSpaceshipId?: number) => {
@@ -86,10 +88,6 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           Number(membership?.planetId) === Number(params.id) &&
           (membership?.role === "OWNER" || membership?.role === "ADMIN" || membership?.role === "MEMBER"),
       );
-      console.log(isMemberOfPlanet);
-      console.log(planetId);
-      console.log(params.id);
-      console.log("User memberships:", user?.memberships?.planets);
       if (!isMemberOfPlanet) {
         setHasError(true);
         setTimeout(() => {
@@ -180,10 +178,11 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
             longitude,
           },
         ],
-        imageUrls: [],
+        imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId === -1 ? null : selectedSpaceshipId,
       };
+      console.log(imageUrls);
 
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>("post", "/articles", postData);
       if (response.data && response.data.id && planetId) {
@@ -263,9 +262,9 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
             longitude,
           },
         ],
-        imageUrls: [],
+        imageUrls: imageUrls.flat(),
         hashtags,
-        spaceshipId: selectedSpaceshipId,
+        spaceshipId: selectedSpaceshipId === -1 ? null : selectedSpaceshipId,
       };
       console.log("Selected spaceship ID:", selectedSpaceshipId);
       console.log("Post data for edit:", postData);
@@ -340,7 +339,13 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
               </PW.TagWrapper>
             ))}
           </PW.TagsDisplay>
-          <QuillEditor value={content} onChange={setContent} />
+          <QuillEditor
+            ref={quillEditorRef}
+            value={content}
+            onChange={setContent}
+            images={imageUrls}
+            setImages={setImageUrls}
+          />
           <PW.ButtonGroup>
             <PW.BackBtn>
               <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleBack}>
