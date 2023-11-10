@@ -156,7 +156,7 @@ export default function PlanetMember({ onClose }: Default) {
   }, [followingList, planetMember]);
 
   return (
-    <BoxModal onClose={onClose} title="행성 멤버 관리">
+    <BoxModal onClose={onClose} title="행성 멤버 관리" size="lg">
       <S.Notification>
         {/* <S.InputGroup>
           <S.Input placeholder="이메일 또는 닉네임을 검색해보세요." />
