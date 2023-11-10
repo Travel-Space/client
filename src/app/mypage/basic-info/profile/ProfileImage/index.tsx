@@ -13,7 +13,7 @@ import { dataURItoFile } from "@/utils/dataURItoFile";
 import Image from "next/image";
 
 interface ProfileImageProps {
-  imgSrc: string;
+  imgSrc?: string;
   onChange: (src: string) => void;
 }
 export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
@@ -51,13 +51,14 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
 
   const deleteImg = () => {
     setCompressedImage(defaultImage);
+    onChange(defaultImage);
   };
 
   //파일 -> url
   const getImgUrl = async (compressedFile: Blob) => {
     try {
       const formData = new FormData();
-      formData.append("files", compressedFile);
+      formData.append("files", compressedFile, `profile-image${Math.random()}.jpg`);
       const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
       const imageUrl = response.data[0];
 
@@ -78,7 +79,7 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
             {isCompressLoading ? (
               <S.Loading>이미지 압축 중..</S.Loading>
             ) : (
-              <Image src={imgSrc} alt="profile-image" width={120} height={120} />
+              <Image src={imgSrc || defaultImage} alt="profile-image" width={120} height={120} />
             )}
           </S.ProfileCover>
         )}

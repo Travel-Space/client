@@ -1,4 +1,6 @@
 import { User } from "@/@types";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
@@ -11,16 +13,19 @@ interface PersonProps {
   updateData: () => void;
 }
 export default function Person({ data, isMutual, updateData }: PersonProps) {
+  const defaultImage = "/assets/img/icons/default-user.svg";
+  const user = useRecoilValue(userAtom);
+
   return (
     <S.Container>
       <div>
-        <Image src="/assets/img/icons/default-user.svg" alt="planet" width={76} height={76} />
+        <Image src={data.profileImage || defaultImage} alt="profileImage" width={76} height={76} />
         <S.Info>
           <S.Name>{data.nickName}</S.Name>
           <S.Email>{data.email}</S.Email>
         </S.Info>
       </div>
-      <FollowBtn userId={data.id} isMutual={isMutual} updateData={updateData} />
+      {user?.id !== data.id && <FollowBtn userId={data.id} isMutual={isMutual} updateData={updateData} />}
     </S.Container>
   );
 }

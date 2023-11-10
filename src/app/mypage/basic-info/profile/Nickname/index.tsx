@@ -1,6 +1,9 @@
 import axiosRequest from "@/api/index";
 import { ResData, NicknameCheck } from "@/@types/index";
 
+import { useRecoilValue } from "recoil";
+import { profileState } from "@/recoil/atoms/user.atom";
+
 import * as S from "./index.styled";
 interface NicknameInputProps {
   nickname: string;
@@ -15,6 +18,8 @@ export default function NicknameInput({
   isAvailableNickname,
   setIsAvailableNickname,
 }: NicknameInputProps) {
+  const profile = useRecoilValue(profileState);
+
   //닉네임 중복확인
   async function checkNickname(nickname: string) {
     try {
@@ -35,7 +40,12 @@ export default function NicknameInput({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
-    setIsAvailableNickname(false);
+    if (e.target.value !== profile?.nickName) {
+      setIsAvailableNickname(false);
+    } else {
+      setIsAvailableNickname(true);
+    }
+    console.log(isAvailableNickname, "isAvailableNickname");
   };
   return (
     <>
