@@ -110,9 +110,9 @@ export default function Followers({ id }: { id: number }) {
               <Person key={`following${idx}`} data={el.user} isMutual={el.isFollowing} updateData={updateData} />
             ))}
           </S.MyFriends>
-          <S.InfiniteScrollTarget ref={observerRef} />
         </S.MyFriendsWrap>
       )}
+      <S.InfiniteScrollTarget ref={observerRef} />
     </>
   );
 }
