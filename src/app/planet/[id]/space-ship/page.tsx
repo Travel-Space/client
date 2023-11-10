@@ -77,12 +77,6 @@ export const SpaceshipContext = createContext<SpaceshipContextType>({
 });
 
 export default function SpaceShip() {
-  const isLoggedIn = useAuth();
-
-  if (!isLoggedIn) {
-    return null;
-  }
-
   const [spaceshipList, setSpaceshipList] = useState<SpaceShipType[]>([]);
   const [planetMember, setPlanetMember] = useState<CommonUserInfo[]>([]);
   const [planetData, setPlanetData] = useState<PlanetDataType>({
@@ -153,7 +147,6 @@ export default function SpaceShip() {
         }),
       );
       setPlanetMember(resultMember);
-      console.log("resultMember", resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -166,6 +159,12 @@ export default function SpaceShip() {
     fetchSpaceshipData();
     fetchMemberListData();
   }, []);
+
+  const isLoggedIn = useAuth(parseInt(planetId));
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return (
     <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, fetchMemberListData, fetchSpaceshipData }}>
