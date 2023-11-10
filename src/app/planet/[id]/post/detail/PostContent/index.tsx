@@ -26,6 +26,10 @@ export default function PostContent({ data }: PostContentProps) {
   const isMyPost = currentUser?.id === data?.authorId;
   const imageUrls = data?.images.map(image => image.url) || [];
 
+
+
+
+  
   //게시글 삭제 함수
   const handlePostDelete = async () => {
     if (!data?.id) return;
@@ -102,9 +106,6 @@ export default function PostContent({ data }: PostContentProps) {
           </PC.Location>
           <PC.Text>
             <PC.TextData dangerouslySetInnerHTML={{ __html: data?.content || "" }} />
-            {imageUrls.map((url, index) => (
-              <img key={index} src={url} alt={`게시글 이미지 ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
-            ))}
           </PC.Text>
           <PC.TextBottomDisplay>
             <PC.TagsDisplay>{data?.hashtags.map((tag, index) => <PC.Tags key={index}>{tag}</PC.Tags>)}</PC.TagsDisplay>

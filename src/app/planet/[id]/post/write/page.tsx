@@ -219,7 +219,6 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
             setContent(content);
             setHashtags(hashtags);
             fetchSpaceships(planetId, spaceshipId);
-
             if (address) {
               setAddress({
                 formatted_address: address,
@@ -237,9 +236,8 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         }
       }
     }
-
     fetchPostData();
-  }, [postId, isEditMode, planetId]);
+  }, [postId, isEditMode]);
 
   //게시글 수정하기
   const handlePostEdit = async () => {

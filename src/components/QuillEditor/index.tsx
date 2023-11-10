@@ -68,7 +68,6 @@ const compressImage = (file: File, maxWidth: number, maxHeight: number, quality:
 };
 
 const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
-
   const quillRef = useRef<any>(null);
 
   const imageHandler = useCallback(() => {
@@ -82,27 +81,31 @@ const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
         const compressedFile = await compressImage(file, 1024, 1024, 0.7);
         const formData = new FormData();
         formData.append("files", compressedFile, compressedFile.name);
+
         try {
           const res = await axiosRequest.requestAxios<ResData<string>>("post", "/upload", formData);
-          const uploadedImageUrl = res.data;
-          props.setImages(prevUrls => [...prevUrls, uploadedImageUrl]); // 수정된 부분
-          insertToEditor(uploadedImageUrl);
+          const uploadedImageUrl = res.data; // 서버로부터 받은 이미지 URL
+  
+          // 에디터에 이미지 삽입 (img 태그로 변환)
+          const imageHTML = `<img src="${uploadedImageUrl}" alt="Uploaded Image" style="max-width: 100%; display: block; margin: 10px 0;">`;
+          const quillEditor = quillRef.current?.getEditor();
+          if (quillEditor) {
+            const range = quillEditor.getSelection(true); // true를 전달하여 에디터에 포커스를 줍니다.
+            if (range) {
+              quillEditor.clipboard.dangerouslyPasteHTML(range.index, imageHTML); // pasteHTML 메서드를 사용하여 HTML 삽입
+            } else {
+              const length = quillEditor.getLength();
+              quillEditor.clipboard.dangerouslyPasteHTML(length, imageHTML);
+            }
+            props.onChange(quillEditor.root.innerHTML); // 변경된 에디터 내용으로 상태 업데이트
+          }
         } catch (error) {
           console.error("Image upload failed: ", error);
         }
       }
     };
-  }, [props.setImages]);
+  }, [props.setImages, quillRef, props.onChange]);
 
-  const insertToEditor = (imageUrl: string) => {
-    const range = quillRef.current?.getSelection(true);
-    if (range) {
-      quillRef.current.insertEmbed(range.index, 'image', imageUrl);
-      props.onChange(quillRef.current.getHTML());
-    }
-  };
-
-  // 'modules' 객체 정의
   const modules = {
     toolbar: {
       container: [
@@ -133,9 +136,12 @@ const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
     }
   }, [imageHandler]);
 
+
+
+
   return (
     <QuillWrapper
-      ref={quillRef}
+      ref={quillRef} // 여기에서 ref를 연결합니다.
       value={props.value}
       onChange={(content, delta, source, editor) => {
         props.onChange(editor.getHTML());
