@@ -146,6 +146,7 @@ export default function SpaceShip() {
         }),
       );
       setPlanetMember(resultMember);
+      console.log("resultMember", resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
