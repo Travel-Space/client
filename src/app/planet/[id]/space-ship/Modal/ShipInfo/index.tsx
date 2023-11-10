@@ -86,7 +86,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { spaceships: response.data.id, role: "MEMBER" }],
+            spaceships: [...(auth?.memberships.spaceships || []), { spaceshipId: response.data.id, role: "MEMBER" }],
           },
         } as UserType;
         setAuth(updatedUser);
