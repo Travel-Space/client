@@ -70,7 +70,7 @@ export type Role = keyof typeof RoleName;
 export enum RoleName {
   OWNER = "행성 관리자",
   ADMIN = "부관리자",
-  MEMBER = "일반 멤버",
+  MEMBER = "일반멤버",
   GUEST = "게스트",
 }
 

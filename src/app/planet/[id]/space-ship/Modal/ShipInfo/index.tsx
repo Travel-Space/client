@@ -86,7 +86,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { planetId: response.data.id, role: "MEMBER" }],
+            spaceships: [...(auth?.memberships.spaceships || []), { spaceships: response.data.id, role: "MEMBER" }],
           },
         } as UserType;
         setAuth(updatedUser);
@@ -146,6 +146,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
                   <p>
                     {member.nickName}
                     {member.role === "OWNER" && <span>우주선 방장</span>}
+                    {member.userId === user?.id && <span>본인</span>}
                   </p>
                   <p>{member.email}</p>
                 </div>

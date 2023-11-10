@@ -20,6 +20,7 @@ import { PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
 import { CommonUserInfo } from "@/@types/User";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface SpaceShipType {
   id: number;
@@ -76,6 +77,12 @@ export const SpaceshipContext = createContext<SpaceshipContextType>({
 });
 
 export default function SpaceShip() {
+  const isLoggedIn = useAuth();
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const [spaceshipList, setSpaceshipList] = useState<SpaceShipType[]>([]);
   const [planetMember, setPlanetMember] = useState<CommonUserInfo[]>([]);
   const [planetData, setPlanetData] = useState<PlanetDataType>({
@@ -146,6 +153,7 @@ export default function SpaceShip() {
         }),
       );
       setPlanetMember(resultMember);
+      console.log("resultMember", resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
