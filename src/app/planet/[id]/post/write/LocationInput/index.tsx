@@ -22,13 +22,13 @@ declare global {
 export default function LocationInput({
   placeholder,
   type,
-  onLocationSelect,
   setIsAddressChecked,
   initialValue,
+  onLocationSelect,
 }: LocationInputProps) {
   const [address, setAddress] = useState<string>(initialValue || "");
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isAddressActive, setIsAddressActive] = useState(false); // 주소 입력 시 아이콘 변경
 
   useEffect(() => {
     if (initialValue) {
@@ -50,18 +50,17 @@ export default function LocationInput({
         if (selectedPlace.formatted_address) {
           const fullAddress = selectedPlace.formatted_address;
           setAddress(fullAddress);
+          searchAddress(fullAddress);
         }
       });
     };
 
-    // 스크립트 태그를 동적으로 생성합니다.
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
-    script.defer = true; // 스크립트 실행을 HTML 문서 파싱이 끝난 뒤로 미룹니다.
+    script.defer = true;
     document.body.appendChild(script);
 
     return () => {
-      // 스크립트 태그를 제거합니다.
       document.body.removeChild(script);
     };
   }, []);
@@ -88,7 +87,7 @@ export default function LocationInput({
         setIsAddressChecked(true);
       } else {
         setIsAddressChecked(false);
-        console.error("위치 정보를 찾을 수 없습니다.");
+        setIsAddressActive(true);
       }
     } catch (error) {
       console.error(error);
@@ -98,6 +97,7 @@ export default function LocationInput({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setAddress(value);
+    setIsAddressActive(event.target.value !== "");
   };
 
   const handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -106,14 +106,9 @@ export default function LocationInput({
     }
   };
 
-  const handleSearchButtonClick = () => {
-    if (address) {
-      searchAddress(address);
-    }
-  };
-
   return (
     <LI.InputContainer>
+      <LI.LocationIcon isActive={isAddressActive} />
       <Input
         type={type || "text"}
         ref={inputRef}
@@ -122,7 +117,6 @@ export default function LocationInput({
         onChange={handleInputChange}
         onKeyPress={handleInputKeyPress}
       />
-      <LI.SearchButton onClick={handleSearchButtonClick}>선택 {isChecked && "✔"}</LI.SearchButton>
     </LI.InputContainer>
   );
 }
