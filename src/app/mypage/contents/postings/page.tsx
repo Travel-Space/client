@@ -41,7 +41,9 @@ export default function Postings() {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
-        `/articles/my/articles?page=${page}&limit=10`,
+        !searchItem?.content
+          ? `/articles/my/articles?page=${page}&limit=10`
+          : `/articles/my/articles?page=${page}&limit=10&${searchItem?.selectedMenu}=${searchItem?.content}`,
       );
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
@@ -59,6 +61,11 @@ export default function Postings() {
     getPostings();
     // console.log("postings", postings);
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+    getPostings();
+  }, [searchItem]);
 
   return (
     <S.Container>

@@ -8,12 +8,12 @@ import Line from "@/components/common/Line";
 
 interface Select {
   menuList?: string[];
-  selectedMenu?: string;
+  selectedMenu: string;
   handleClick?: (menu: string) => void;
   placeholder: string;
 }
 interface SearchItem {
-  selectedMenu?: string;
+  selectedMenu: string;
   content: string;
 }
 interface SearchFormProps {
@@ -39,11 +39,16 @@ export default function SearchForm({ select, onSearch }: SearchFormProps) {
     evt.preventDefault();
 
     const searchItem = {
-      selectedMenu: selectedMenu,
+      selectedMenu: SEARCHMENU[selectedMenu],
       content: content,
     };
     // console.log("searchItem", searchItem);
     onSearch(searchItem);
+  };
+
+  const SEARCHMENU: Record<string, string> = {
+    "글 제목": "title",
+    "행성 이름": "planetName",
   };
 
   return (
