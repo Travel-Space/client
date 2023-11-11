@@ -237,7 +237,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           if (response.data) {
             const { title, content, hashtags, address, locations, spaceshipId } = response.data;
             setTitle(title);
-            setContent(content);
+            setContent(response?.data?.content);
             setHashtags(hashtags);
             fetchSpaceships(planetId, spaceshipId);
             if (address) {
@@ -251,6 +251,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
                 },
               });
             }
+            console.log(response?.data?.content);
           }
         } catch (error) {
           console.error("Error fetching post data:", error);
@@ -284,7 +285,6 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId,
-
       };
       console.log("Selected spaceship ID:", selectedSpaceshipId);
       console.log("Post data for edit:", postData);
@@ -388,7 +388,10 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>
-      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: content }} aria-readonly />
+      <PW.PreviewSection
+        dangerouslySetInnerHTML={{ __html: content }}
+        aria-readonly
+      />
     </PW.Wrapper>
   );
 }
