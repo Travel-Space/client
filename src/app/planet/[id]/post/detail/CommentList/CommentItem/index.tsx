@@ -29,7 +29,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
   const [editedContent, setEditedContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const currentUser = useRecoilValue(userAtom);
-  const isComment = currentUser?.id === data?.authorId;
+
   //댓글 삭제 함수
   const handleCommentDelete = async (commentId: number) => {
     const isConfirmed = window.confirm(MESSAGE.POST.DELETE);
@@ -95,6 +95,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       {data?.comments
         ?.sort((a, b) => a.id - b.id)
         .map(comment => {
+          const isCommentAuthor = currentUser?.id === comment.authorId;
           const { dateString, time } = getDateInfo(comment.createdAt);
           {
             /* 수정모드일 때  작성 인풋*/
@@ -162,7 +163,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
                     )}
                   </CI.ReplyBtn>
                   <CI.CommentEdit>
-                    {isComment ? (
+                    {isCommentAuthor ? (
                       <>
                         <CI.EditBtn onClick={() => handleStartEditing(comment)}>수정</CI.EditBtn>
                         <CI.DeleteBtn onClick={() => handleCommentDelete(comment.id)}>삭제</CI.DeleteBtn>
