@@ -26,7 +26,6 @@ export default function Postings() {
   const [postings, setPostings] = useState<Posting[]>([]);
 
   const [searchItem, setSearchItem] = useState<SearchItem>();
-  // const [searchedPosts, setSearchedPosts] = useState<Posting[]>([]);
 
   const handleSearch = (item: SearchItem) => {
     setSearchItem(item);
