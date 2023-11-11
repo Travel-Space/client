@@ -49,6 +49,8 @@ export default function SearchForm({ select, onSearch }: SearchFormProps) {
   const SEARCHMENU: Record<string, string> = {
     "글 제목": "title",
     "행성 이름": "planetName",
+    닉네임: "nickname",
+    계정: "email",
   };
 
   return (
