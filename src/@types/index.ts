@@ -5,6 +5,7 @@ import { Posting, CancelLikePost, PostingsType } from "./Posting";
 import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow, FollowingsType, FollowersType } from "./Friend";
 import { DailyViewCount, WeeklyViewCount } from "./ViewCount";
+import { SearchItem } from "./Search";
 
 interface ResData<D> {
   status: number;
@@ -34,4 +35,5 @@ export type {
   FollowingsType,
   FollowersType,
   JoinedPlanets,
+  SearchItem,
 };

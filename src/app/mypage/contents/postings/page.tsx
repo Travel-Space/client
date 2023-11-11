@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting, PostingsType } from "@/@types";
+import { ResData, Posting, PostingsType, SearchItem } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -24,6 +24,14 @@ export default function Postings() {
   };
 
   const [postings, setPostings] = useState<Posting[]>([]);
+
+  const [searchItem, setSearchItem] = useState<SearchItem>();
+  // const [searchedPosts, setSearchedPosts] = useState<Posting[]>([]);
+
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    // console.log("searchItem", item);
+  };
 
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
@@ -69,7 +77,7 @@ export default function Postings() {
             <S.PostingsNumber>
               총 <span>{totalCount}</span>개의 게시글
             </S.PostingsNumber>
-            <SearchForm select={dropDownProps} />
+            <SearchForm select={dropDownProps} onSearch={handleSearch} />
           </S.Header>
           <S.MyPostingsWrap>
             {postings.map((el, idx) => (
