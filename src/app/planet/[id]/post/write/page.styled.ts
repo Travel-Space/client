@@ -3,6 +3,10 @@ import ReactQuill from "react-quill";
 import { flexColumnCenter, flexSpaceBetweenCenter, bodyContainer } from "@/styles/common";
 import "react-quill/dist/quill.snow.css";
 
+interface TagIconProps {
+  isActive: boolean;
+}
+
 export const Wrapper = styled.div`
   ${bodyContainer}
   display: flex;
@@ -131,14 +135,14 @@ export const TagsAndRocket = styled.div`
   }
 `;
 
-export const TagIcon = styled.div`
+export const TagIcon = styled.div<TagIconProps>`
   width: 24px;
   height: 24px;
   position: absolute;
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  background-image: url("/assets/img/icons/gray-tags.svg");
+  background-image: url(${props => props.isActive ? "/assets/img/icons/tags.svg" : "/assets/img/icons/gray-tags.svg"});
   background-size: cover;
   background-repeat: no-repeat;
 `;

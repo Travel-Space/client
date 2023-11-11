@@ -17,6 +17,7 @@ import { PlanetMembership } from "@/@types/Planet";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import Error from "@/app/error";
+import Image from "next/image";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
@@ -53,17 +54,19 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [hasError, setHasError] = useState(false);
   // const [errorMessage, setErrorMessage] = useState("");
   const quillEditorRef = useRef();
+  const [isDropdownSelected, setIsDropdownSelected] = useState(false); //드롭다운 선택 시 아이콘 변경
+  const [isTagInputFocused, setIsTagInputFocused] = useState(false); //태그 아이콘 변경
 
   // 우주선 목록을 불러오는 함수
   const fetchSpaceships = async (planetId: number, currentSpaceshipId?: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${planetId}`);
       if (Array.isArray(response.data)) {
-        setSpaceships([{ id: -1, name: "나 홀로 여행" }, ...response.data]);
+        setSpaceships([{ id: null, name: "나 홀로 여행" }, ...response.data]);
         // 현재 게시글의 spaceshipId와 일치하는 우주선이 있는지 확인
         const matchingSpaceship = response.data.find(spaceship => spaceship.id === currentSpaceshipId);
         // 일치하는 우주선이 있으면 해당 ID를 선택된 상태로 설정
-        setSelectedSpaceshipId(matchingSpaceship ? matchingSpaceship.id : -1);
+        setSelectedSpaceshipId(matchingSpaceship ? matchingSpaceship.id : null);
         console.log(matchingSpaceship);
       } else {
         console.error("받은 데이터가 배열이 아닙니다.");
@@ -110,18 +113,26 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   // 드롭다운에서 우주선을 선택할 때 호출되는 함수
   const handleDropDownSelect = (menu: string) => {
     if (menu === "나 홀로 여행") {
-      setSelectedSpaceshipId(null); // 나 홀로 여행  선택했을 때 null
+      setSelectedSpaceshipId(null);
+      setIsDropdownSelected(false);
     } else {
       const selectedSpaceship = spaceships.find(spaceship => spaceship.name === menu);
       if (selectedSpaceship) {
-        setSelectedSpaceshipId(selectedSpaceship.id); // 다른 우주선을 선택했을 때 해당 ID
+        setSelectedSpaceshipId(selectedSpaceship.id);
+        setIsDropdownSelected(true);
       } else {
-        setSelectedSpaceshipId(null); // 선택한 우주선이 목록에 없으면 null
+        setSelectedSpaceshipId(null);
+        setIsDropdownSelected(false);
       }
     }
   };
 
   const dropDownProps: Menu = {
+    logo: isDropdownSelected ? (
+      <Image src="/assets/img/icons/rocket.svg" alt="" width={24} height={24} />
+    ) : (
+      <Image src="/assets/img/icons/gray-rocket.svg" alt="" width={24} height={24} />
+    ),
     menuList: spaceships.map(spaceship => spaceship.name),
     selectedMenu:
       selectedSpaceshipId !== null
@@ -132,6 +143,16 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
 
   const handleTagInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(event.target.value);
+  };
+
+  const handleTagInputFocus = () => {
+    setIsTagInputFocused(true);
+  };
+
+  const handleTagInputBlur = () => {
+    if (hashtags.length === 0) {
+      setIsTagInputFocused(false);
+    }
   };
 
   const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -180,7 +201,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         ],
         imageUrls: imageUrls.flat(),
         hashtags,
-        spaceshipId: selectedSpaceshipId === -1 ? null : selectedSpaceshipId,
+        spaceshipId: selectedSpaceshipId,
       };
       console.log(imageUrls);
 
@@ -262,7 +283,8 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
         ],
         imageUrls: imageUrls.flat(),
         hashtags,
-        spaceshipId: selectedSpaceshipId === -1 ? null : selectedSpaceshipId,
+        spaceshipId: selectedSpaceshipId,
+
       };
       console.log("Selected spaceship ID:", selectedSpaceshipId);
       console.log("Post data for edit:", postData);
@@ -302,7 +324,6 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
               value={title}
             />
             <PW.LocationWrapper>
-              <PW.LocationIcon />
               <LocationInput
                 placeholder="위치"
                 type="text"
@@ -314,13 +335,15 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           </PW.TitleAndLocation>
           <PW.TagsAndRocket>
             <PW.TagsInputWrapper>
-              <PW.TagIcon />
+              <PW.TagIcon isActive={isTagInputFocused || hashtags.length > 0} />
               <input
                 type="text"
                 placeholder="태그"
                 value={tagInput}
                 onChange={handleTagInputChange}
                 onKeyPress={handleTagInputKeyPress}
+                onFocus={handleTagInputFocus}
+                onBlur={handleTagInputBlur}
               />
             </PW.TagsInputWrapper>
             <PW.RocketInputWrapper>
