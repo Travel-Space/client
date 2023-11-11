@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, FollowersType } from "@/@types";
+import { ResData, FollowersType, SearchItem, UsersType } from "@/@types";
 
 import { useRecoilState } from "recoil";
 import { notMutualState } from "@/recoil/atoms/friend.atom";
@@ -28,6 +28,13 @@ export default function Planet() {
 
   const [notMutualFriends, setNotMutualFriends] = useRecoilState(notMutualState);
 
+  const [searchItem, setSearchItem] = useState<SearchItem>();
+
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    console.log("searchItem", item);
+  };
+
   //추천친구 조회
   //무한스크롤 추후 적용 - 수정예정
   async function getNotMutualFriends() {
@@ -50,7 +57,7 @@ export default function Planet() {
     <S.Container>
       <S.Row>
         <S.Title>추천 친구</S.Title>
-        <SearchForm select={dropDownProps} />
+        <SearchForm select={dropDownProps} onSearch={handleSearch} />
       </S.Row>
       <S.SwiperWrap>
         <Swiper
