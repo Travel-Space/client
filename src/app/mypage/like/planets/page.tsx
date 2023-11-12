@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, PlanetBookmark, PlanetsType, LikedPlanets } from "@/@types";
+import { ResData, PlanetBookmark, PlanetsType, LikedPlanets, SearchItem } from "@/@types";
 
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -18,14 +18,22 @@ import Pagination from "@/components/common/Pagination";
 
 export default function Planets() {
   const dropDownProps = {
+    selectedMenu: "행성 이름",
     placeholder: "행성 이름으로 검색해보세요.",
   };
+
+  const [searchItem, setSearchItem] = useState<SearchItem>();
 
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
   let myPlanetsWithNull = new Array(5).fill(null);
   myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
   const [likedPlanets, setLikedPlanets] = useState<PlanetBookmark[]>([]);
+
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    // console.log("searchItem", item);
+  };
 
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
@@ -52,7 +60,9 @@ export default function Planets() {
     try {
       const response = await axiosRequest.requestAxios<ResData<LikedPlanets>>(
         "get",
-        `/planet/my/bookmarks?page=${page}&limit=10`,
+        !searchItem?.content
+          ? `/planet/my/bookmarks?page=${page}&limit=10`
+          : `/planet/my/bookmarks?page=${page}&limit=10&name=${searchItem?.content}`,
       );
       const planets = response.data.data;
       const totalCount = response.data.totalCount;
@@ -71,11 +81,16 @@ export default function Planets() {
     getLikedPlanets();
   }, []);
 
+  useEffect(() => {
+    setPage(1);
+    getLikedPlanets();
+  }, [searchItem]);
+
   return (
     <S.Container>
       <S.Row>
         <S.Title>내 행성 좋아요 수</S.Title>
-        <SearchForm select={dropDownProps} />
+        <SearchForm select={dropDownProps} onSearch={handleSearch} />
       </S.Row>
 
       <S.MyPlanets>
