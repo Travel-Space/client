@@ -1,4 +1,4 @@
-import { User, NicknameCheck } from "./User";
+import { User, NicknameCheck, UsersType } from "./User";
 import { Like } from "./Like";
 import { Planet, CancelLikePlanet, PlanetsType, LikedPlanets, JoinedPlanets } from "./Planet";
 import { Posting, CancelLikePost, PostingsType } from "./Posting";
@@ -36,4 +36,5 @@ export type {
   FollowersType,
   JoinedPlanets,
   SearchItem,
+  UsersType,
 };
