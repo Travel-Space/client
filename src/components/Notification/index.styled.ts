@@ -24,4 +24,36 @@ export const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-export const NotificationListContainer = styled.ul``;
+export const NotificationListContainer = styled.ul`
+  overflow-y: scroll;
+  height: 100%;
+`;
+
+export const NothingIcon = styled.div`
+  margin: 0 auto 8px;
+  background: none;
+  font-size: 0;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  background-image: url("/assets/img/icons/notification/noti-flag.svg");
+`;
+
+export const NothingText = styled.p`
+  font-size: ${({ theme }) => theme.FONT_SIZE.em};
+  font-weight: 700;
+  color: #6d7b92;
+`;
+
+export const NothingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
