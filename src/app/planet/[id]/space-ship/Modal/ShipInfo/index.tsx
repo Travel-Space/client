@@ -28,6 +28,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     image: "",
     description: "",
     maxMembers: 0,
+    memberCount: 0,
     ownerId: 0,
     status: "UPCOMING",
     startDate: "",
@@ -136,7 +137,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           <S.MemberTitle>
             <p>참여 멤버</p>
             <span>
-              {spaceshipInfo.members.length} / {spaceshipInfo.maxMembers}
+              {spaceshipInfo.memberCount} / {spaceshipInfo.maxMembers}
             </span>
           </S.MemberTitle>
           <S.MemberList>
