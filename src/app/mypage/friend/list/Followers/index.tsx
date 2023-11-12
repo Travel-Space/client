@@ -1,5 +1,5 @@
 import axiosRequest from "@/api";
-import { ResData, FollowingsType, FollowersType } from "@/@types";
+import { ResData, FollowingsType, FollowersType, SearchItem } from "@/@types";
 
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -10,7 +10,7 @@ import * as S from "./index.styled";
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
-export default function Followers() {
+export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
   const handleClick = () => {
     setPage(prev => prev + 1);
   };
@@ -21,7 +21,7 @@ export default function Followers() {
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
 
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 10;
 
   //팔로잉 조회
   async function getFollowings() {
@@ -44,7 +44,9 @@ export default function Followers() {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
-        `/user/followers?page=${page}&limit=${limit}`,
+        !searchItem?.content
+          ? `/user/followers?page=${page}&limit=${limit}`
+          : `/user/followers?page=${page}&limit=${limit}&${searchItem?.selectedMenu}=${searchItem?.content}`,
       );
       const followers = response.data.data;
       const total = response.data.total;
@@ -73,6 +75,12 @@ export default function Followers() {
     getFollowings();
     getFollowers(page, limit);
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+    getFollowers(page, limit);
+    // console.log("검색", searchItem);
+  }, [searchItem]);
 
   return (
     <>

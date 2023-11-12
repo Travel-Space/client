@@ -121,7 +121,6 @@ export default function Profile() {
       if (response.status === 200) {
         getProfile();
         alert("프로필이 변경되었습니다.");
-        setNotAllowSave(true);
         return;
       }
     } catch (error) {

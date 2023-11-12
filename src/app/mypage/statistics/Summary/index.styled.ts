@@ -21,6 +21,7 @@ export const Planet = styled.div`
     width: 135px;
     font-size: ${({ theme }) => theme.FONT_SIZE.big};
     font-weight: 500;
+    white-space: nowrap;
   }
 `;
 export const SelectedPlanet = styled.div`
