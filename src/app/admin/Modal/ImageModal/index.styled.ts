@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const ImageBox = styled.div`
   > img {
     max-width: 1000px;
-    height: 100%;
+    max-height: 100vh;
   }
 `;
 
