@@ -28,6 +28,11 @@ export const ImgBox = styled.div`
   text-align: center;
   ${flexSpaceBetweenCenter}
   margin-bottom: 24px;
+  cursor: pointer;
+  > img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const Button = styled.button`
