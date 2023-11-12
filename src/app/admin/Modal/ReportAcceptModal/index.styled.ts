@@ -2,7 +2,7 @@ import { flexSpaceBetweenCenter, flexAlignCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Content = styled.div`
-  width: 256px;
+  width: 270px;
 `;
 
 export const TitleList = styled.li`

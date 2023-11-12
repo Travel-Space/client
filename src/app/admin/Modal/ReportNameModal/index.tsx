@@ -1,11 +1,14 @@
 import AdminModalContainer from "../AdminModalContainer";
+import Link from "next/link";
 import * as S from "./index.styled";
-import { useState } from "react";
 
-import { Report, ResData } from "@/@types/Report";
+import { Report } from "@/@types/Report";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api/index";
+import { ResData } from "@/@types/index";
 import ReportAcceptModal from "../ReportAcceptModal";
+import ImageModal from "../ImageModal";
+import { useState } from "react";
 
 interface ReportNameModalProps {
   report: Report;
@@ -20,12 +23,15 @@ interface ReportNameModalProps {
 export default function ReportNameModal({ report, setIsOpen }: ReportNameModalProps) {
   console.log("REPORT", report);
 
+  const [openImageModal, setIsOpenImageModal] = useState(false);
+
   const {
-    createdAt,
-    reporter: { name, nickName, email },
-    reason,
-    imageUrl,
-    id,
+    reportDetails: { createdAt, reason, imageUrl, id: reportDetailId, reporterName, targetType },
+    targetDetails: {
+      author: { nickName, email },
+      planetId,
+      id: targetDetailsId,
+    },
   } = report;
 
   const { dateString, dayName, time } = getDateInfo(createdAt);
@@ -34,12 +40,18 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
     setIsOpen(() => ({ reportName: false, reportReason: true }));
   };
 
+  const openImage = () => {
+    setIsOpenImageModal(prev => !prev);
+  };
+
   const refuseReport = async (id: number) => {
+    console.log(id, "거절 ID");
     if (confirm("신고 요청을 거절할까요?")) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/reports/${id}/reject`);
         console.log("성공", response);
         alert("신고 요청을 거절했어요.");
+        setIsOpen(() => ({ reportName: false, reportReason: false }));
       } catch (error) {
         console.log(error);
       }
@@ -50,9 +62,10 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
     <AdminModalContainer
       title="신고 내용"
       closeModal={() => {
-        console.log("TEST");
+        setIsOpen(() => ({ reportName: false, reportReason: false }));
       }}
     >
+      {openImageModal && imageUrl && <ImageModal image={imageUrl} openImage={openImage} />}
       <S.Content>
         <ul>
           <li>
@@ -63,7 +76,7 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
           </li>
           <li>
             <span>신고자</span>
-            <p>{name}</p>
+            <p>{reporterName}</p>
           </li>
           <li>
             <span>신고 대상 닉네임</span>
@@ -79,18 +92,23 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
           </li>
         </ul>
 
-        <S.ImgBox>
-          <img src={imageUrl} />
-        </S.ImgBox>
+        {imageUrl && (
+          <S.ImgBox onClick={openImage}>
+            <img src={imageUrl} />
+          </S.ImgBox>
+        )}
 
-        <S.Button>신고 내용 상세 확인</S.Button>
+        {targetType !== "MESSAGE" && (
+          <Link href={`/planet/${planetId}/post?detail=${targetDetailsId}`}>
+            <S.Button>신고 내용 상세 확인</S.Button>
+          </Link>
+        )}
+
         <S.ButtonContainer>
           <S.ButtonAccept onClick={approveReport}>요청승낙</S.ButtonAccept>
-          <S.ButtonRefuse onClick={() => refuseReport(id)}>요청거절</S.ButtonRefuse>
+          <S.ButtonRefuse onClick={() => refuseReport(reportDetailId)}>요청거절</S.ButtonRefuse>
         </S.ButtonContainer>
       </S.Content>
-
-      {/* {isAcceptModalVisible && <ReportAcceptModal report={report} />} */}
     </AdminModalContainer>
   );
 }

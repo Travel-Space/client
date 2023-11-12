@@ -12,6 +12,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/admin",
+        destination: "/admin/users",
+        permanent: true,
+      },
+    ];
+  },
   trailingSlash: true,
   compiler: {
     styledComponents: true,

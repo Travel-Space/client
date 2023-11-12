@@ -2,7 +2,9 @@ import { flexSpaceBetweenCenter, flexAlignCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const Content = styled.div`
-  width: 256px;
+  width: 352px;
+
+  padding-top: 32px;
   ul > li {
     margin-bottom: 16px;
   }
@@ -42,7 +44,6 @@ export const Button = styled.button`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 700;
   color: ${({ theme }) => theme.PALETTE.white};
-  margin-bottom: 16px;
 `;
 
 export const ButtonContainer = styled.div`

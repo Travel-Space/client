@@ -2,11 +2,12 @@
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
 
-import { Posting } from "@/@types/Posting";
-import { Select, Button, Space, Pagination } from "antd";
+import { Postings, Posting } from "@/@types/Posting";
+import { Button, Space } from "antd";
 
 import * as S from "../admin.styled";
 import TotalText from "../TotalText";
+
 import SearchBar from "../SearchBar";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -15,17 +16,31 @@ import AdminTable from "../Table";
 export default function Posts() {
   const [postData, setPostData] = useState<Posting[]>([]);
 
+  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [filterPlanetName, setFilterPlanetName] = useState("");
+  const [filterAuthorNickname, setFilterAuthorNickname] = useState("");
+  const [filterTitle, setFilterTitle] = useState("");
+
   async function getPosts() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
-        "get",
-        `/articles?limit=${itemsPerPage}&page=${currentPage}`,
-      );
-      setPostData(response.data);
-      console.log(response.data);
+      let apiUrl = `/articles?limit=${itemsPerPage}&page=${currentPage}`;
+      if (filterPlanetName) {
+        apiUrl += `&planetName=${filterPlanetName}`;
+      }
+      if (filterAuthorNickname) {
+        apiUrl += `&authorNickname=${filterAuthorNickname}`;
+      }
+      if (filterTitle) {
+        apiUrl += `&title=${filterTitle}`;
+      }
+      const response = await axiosRequest.requestAxios<ResData<Postings>>("get", apiUrl);
+      setPostData(response.data.articles);
+      setTotal(response.data.total);
+      console.log(response, " 필터!!");
+      console.log(filterPlanetName, filterAuthorNickname, filterTitle, " 필터선택값");
     } catch (error) {
       alert("오류");
     }
@@ -33,12 +48,22 @@ export default function Posts() {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    getPosts();
+  }, [filterPlanetName, filterAuthorNickname, filterTitle]);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const onDeleteArticle = async (articleId: number) => {
+    console.log("ARTICLEID", articleId);
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${articleId}`);
-      setPostData(response.data);
+      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/admin/${articleId}`);
+      getPosts();
     } catch (error) {
       alert("오류");
     }
@@ -76,7 +101,7 @@ export default function Posts() {
       key: "view",
       render: (record: Posting) => (
         <Space size="middle">
-          <Link href={`/planet/${record.planet.id}/post?detail=${record.id}`}>자세히 보기</Link>
+          <Link href={`/planet/${record.planet?.id}/post?detail=${record.id}`}>자세히 보기</Link>
         </Space>
       ),
     },
@@ -98,10 +123,24 @@ export default function Posts() {
       <S.TableContainer>
         <S.AdminContent>
           <S.TopContent>
-            <TotalText titleText={"게시글"} totalNum={100} unit={"개"} />
-            <SearchBar />
+            <TotalText titleText={"게시글"} totalNum={total} unit={"개"} />
+            <SearchBar
+              searchType="posts"
+              onSearch={data => {
+                setFilterPlanetName(data.name);
+                setFilterAuthorNickname(data.authorNickname);
+                setFilterTitle(data.title);
+              }}
+            />
           </S.TopContent>
-          <AdminTable data={postData} columns={columns} />
+          <AdminTable
+            data={postData}
+            columns={columns}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            total={total}
+            onPageChange={onPageChange}
+          />
         </S.AdminContent>
       </S.TableContainer>
     </S.AdminLayout>
