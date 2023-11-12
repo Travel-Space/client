@@ -15,9 +15,6 @@ import CommentList from "./detail/CommentList";
 interface PostDetailProps {
   data?: Posting;
 }
-interface RepliesPageInfo {
-  [commentId: number]: number;
-}
 
 export default function PostDetail() {
   const params = useSearchParams();
@@ -25,25 +22,28 @@ export default function PostDetail() {
 
   const [data, setData] = useState<Posting>();
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const currentUser = useRecoilValue(userAtom);
+
   const [currentCommentsPage, setCurrentCommentsPage] = useState(1); //댓글 페이지
   const commentsPerPage = 10; //댓글페이지
-  const [replyPageSize] = useState(5);
   const [totalComments, setTotalComments] = useState(0); // 전체 댓글 수
   const hasMoreComments = totalComments > currentCommentsPage * commentsPerPage;
-  const [repliesPageInfo, setRepliesPageInfo] = useState<RepliesPageInfo>({});
-  const [currentRepliesPage, setCurrentRepliesPage] = useState(1);
+
+  const [currentRepliesPage, setCurrentRepliesPage] = useState(1); // 대 댓글 페이지
+  const [replyPagePage] = useState(5); // 대댓글 페이지
+  const [totalReplies, setTotalReplies] = useState(0); // 전체 대 댓글 수
+  const hasMoreReplies = totalReplies > currentRepliesPage * replyPagePage;
 
   // 게시글 본문 fetch get 함수
   async function fetchPostDetail() {
-    const commentPageQuery = `commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}`;
-    const endpoint = `/articles/${post}?commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}&replyPage=${currentRepliesPage}&replyPageSize=${replyPageSize}`;
-    const replyPageQuery = `replyPage=${currentRepliesPage}&replyPageSize=${replyPageSize}`;
+    const endpoint = `/articles/${post}?commentPage=${currentCommentsPage}&commentPageSize=${commentsPerPage}&replyPage=${currentRepliesPage}&replyPageSize=${replyPagePage}`;
 
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting>>("get", endpoint, {});
+      const totalRepliesCount = response.data.comments.reduce((acc, comment) => {
+        return acc + (comment.repliesCount || 0);
+      }, 0);
 
+      //댓글 페이지네이션
       if (currentCommentsPage === 1) {
         setData(response.data);
       } else if (data) {
@@ -58,6 +58,27 @@ export default function PostDetail() {
       }
 
       setTotalComments(response.data.totalTopLevelCommentsCount);
+
+      //대댓글 페이지네이션
+      if (currentRepliesPage === 1) {
+        setData(response.data);
+      } else if (data) {
+        const updatedComments = data.comments.map(comment => {
+          const newReplies = response.data.comments.find(c => c.id === comment.id)?.replies || [];
+          const existingReplies = comment.replies || [];
+          return {
+            ...comment,
+            replies: [...existingReplies, ...newReplies],
+          };
+        });
+
+        setData({
+          ...data,
+          comments: updatedComments,
+        });
+      }
+      console.log(response.data);
+      setTotalReplies(totalRepliesCount);
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
       const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
@@ -69,17 +90,26 @@ export default function PostDetail() {
 
   useEffect(() => {
     fetchPostDetail();
-  }, [post, currentCommentsPage]);
+  }, [post, currentCommentsPage, currentRepliesPage]);
 
   // 댓글 페이지네이션
   const handleLoadMoreComments = () => {
     setCurrentCommentsPage(prevPage => prevPage + 1);
   };
 
+  const handleLoadMoreReplies = () => {
+    setCurrentRepliesPage(prevPage => prevPage + 1);
+  };
+
   // 댓글의 변경사항이 있을 때 호출될 함수
   const handleCommentChange = () => {
     fetchPostDetail();
   };
+
+  console.log(hasMoreReplies);
+  console.log(totalReplies);
+  console.log(currentRepliesPage);
+  console.log(replyPagePage);
 
   // 게시글 좋아요, 좋아요 취소 함수
   async function handleLikeAction() {
@@ -113,6 +143,8 @@ export default function PostDetail() {
           onCommentChange={handleCommentChange}
           onLoadMoreComments={handleLoadMoreComments}
           hasMoreComments={hasMoreComments}
+          handleLoadMoreReplies={handleLoadMoreReplies}
+          hasMoreReplies={hasMoreReplies}
         />
       </PD.Content>
     </PD.Wrapper>

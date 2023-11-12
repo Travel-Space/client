@@ -47,7 +47,7 @@ export default function PostContent({ data }: PostContentProps) {
   const openDeclarationModal = () => {
     openModal({
       title: "게시글 신고",
-      content: <DeclarationModal title={"게시글"} onClick={closeModal} />,
+      content: <DeclarationModal title={"게시글"} onClick={closeModal} targetId={data?.id} />,
     });
   };
   // 게시글 날짜 변환
@@ -102,7 +102,6 @@ export default function PostContent({ data }: PostContentProps) {
           </PC.Location>
           <PC.Text>
             <PC.TextData dangerouslySetInnerHTML={{ __html: data?.content || "" }} />
-            
           </PC.Text>
           <PC.TextBottomDisplay>
             <PC.TagsDisplay>{data?.hashtags.map((tag, index) => <PC.Tags key={index}>{tag}</PC.Tags>)}</PC.TagsDisplay>

@@ -40,7 +40,7 @@ export default function SearchPlanet() {
     await fetchSearchResults(searchInput, 1);
   };
 
-  // 검색 결과를 가져오는 함수
+  // 행성 검색 결과를 가져오는 함수
   const fetchSearchResults = async (query: string, page: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>(

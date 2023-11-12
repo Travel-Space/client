@@ -9,7 +9,7 @@ import { SwiperContainer, StyledSwiperSlide, PlanetImageContainer, PlanetName, S
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
-import { Planet, Posting, ResData } from "@/@types";
+import { Planet, ResData } from "@/@types";
 
 interface PlanetListProps {
   data?: Planet;
@@ -27,11 +27,14 @@ export default function PlanetList() {
 
   const fetchPlanetList = async (page: number) => {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet?page=${page}&limit=10&published=true`, {});
+      const response = await axiosRequest.requestAxios<ResData<Planet>>(
+        "get",
+        `/planet?page=${page}&limit=10&published=true`,
+        {},
+      );
 
       setPlanetList(prevPlanets => [...prevPlanets, ...response.data.planets]);
       setTotalPages(response.data.totalPages);
-      console.log(response.data.totalCount);
     } catch (error) {
       console.error("행성 리스트 불러오는 중 오류가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
