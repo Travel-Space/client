@@ -1,3 +1,5 @@
+"use client";
+
 import axios, { AxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
@@ -13,15 +15,23 @@ import Email from "../CommonInput/Email";
 import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
+import { useSearchParams } from "next/navigation";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
 
+const PROFILE_IMAGE: string = "https://travelspace-bucket.s3.ap-northeast-2.amazonaws.com/undefined./default-user.svg";
+
 interface PropsType {
-  goToLogin: () => void;
+  goToLogin?: () => void;
+  socialType?: boolean;
 }
 
-export default function Signup({ goToLogin }: PropsType) {
+export default function Signup({ goToLogin, socialType }: PropsType) {
+  const params = useSearchParams();
+  const emailParams: string | null = params.get("email");
+  const nameParams: string | null = params.get("name");
+
   const [name, setName] = useState("");
   const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
@@ -83,7 +93,27 @@ export default function Signup({ goToLogin }: PropsType) {
     setCountry(country);
   }
 
-  async function submitSignin() {
+  async function socialSignup() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register/google", {
+        email,
+        name,
+        nickName,
+        nationality: country.country_nm,
+        nationImage: country.download_url,
+        profileImage: PROFILE_IMAGE,
+      });
+
+      response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
+      return goToLogin && goToLogin();
+    } catch (error) {
+      console.error("회원가입 에러", error);
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+      alert(errorResponse?.data.message);
+    }
+  }
+
+  async function submitSignup() {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register", {
         email,
@@ -92,11 +122,11 @@ export default function Signup({ goToLogin }: PropsType) {
         password,
         nationality: country.country_nm,
         nationImage: country.download_url,
-        profileImage: "/assets/img/icons/default-user.svg",
+        profileImage: PROFILE_IMAGE,
       });
 
       response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
-      return goToLogin();
+      return goToLogin && goToLogin();
     } catch (error) {
       console.error("회원가입 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -127,16 +157,29 @@ export default function Signup({ goToLogin }: PropsType) {
   }
 
   useEffect(() => {
-    if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm && nickNameCheck) {
-      setNotAllow(false);
-      return;
+    if (!socialType) {
+      if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm && nickNameCheck) {
+        setNotAllow(false);
+        return;
+      }
+    } else {
+      if (nameValid && nickNameValid && nickNameCheck) {
+        setNotAllow(false);
+        return;
+      }
     }
     setNotAllow(true);
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
   useEffect(() => {
     currentCountry();
+    nameParams && setName(nameParams);
+    emailParams && setEmail(emailParams);
   }, []);
+
+  useEffect(() => {
+    console.log(name);
+  }, [name]);
 
   return (
     <Container>
@@ -182,9 +225,13 @@ export default function Signup({ goToLogin }: PropsType) {
         </InputGroup>
       </InputGroup>
 
-      {/* 일반 회원가입 시 추가 입력 */}
-      <Email onEmail={handleEmail} />
-      <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+      {!socialType && (
+        <>
+          {/* 일반 회원가입 시 추가 입력 */}
+          <Email onEmail={handleEmail} />
+          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+        </>
+      )}
 
       {/* 필수 */}
       <InputGroup>
@@ -200,7 +247,13 @@ export default function Signup({ goToLogin }: PropsType) {
         </CountryGroup>
       </InputGroup>
 
-      <Button variant="confirm" shape="medium" size="big" onClick={submitSignin} disabled={notAllow}>
+      <Button
+        variant="confirm"
+        shape="medium"
+        size="big"
+        onClick={socialType ? socialSignup : submitSignup}
+        disabled={notAllow}
+      >
         Sign Up
       </Button>
     </Container>
