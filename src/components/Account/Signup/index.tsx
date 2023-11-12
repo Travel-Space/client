@@ -92,7 +92,7 @@ export default function Signup({ goToLogin }: PropsType) {
         password,
         nationality: country.country_nm,
         nationImage: country.download_url,
-        profileImage: "",
+        profileImage: "/assets/img/icons/default-user.svg",
       });
 
       response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");

@@ -14,6 +14,11 @@ export const getDateInfo = (createdAt: Date) => {
     day: "numeric",
   });
 
+  const dateNoYear = serverDate.toLocaleDateString("ko-KR", {
+    month: "long",
+    day: "numeric",
+  });
+
   const dayName = serverDate.toLocaleDateString("ko-KR", {
     weekday: "long",
   });
@@ -27,7 +32,7 @@ export const getDateInfo = (createdAt: Date) => {
 
   const time = serverDate.toLocaleTimeString("en-US", options);
 
-  return { dateString, dayName, time };
+  return { dateString, dateNoYear, dayName, time };
 };
 
 // 사용 예시
