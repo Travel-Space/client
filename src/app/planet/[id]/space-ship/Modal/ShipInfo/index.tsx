@@ -74,11 +74,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
 
   async function handleSpaceshipJoin() {
     try {
-      const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>(
-        "post",
-        `/spaceship/board/${shipId}`,
-        {},
-      );
+      const response = await axiosRequest.requestAxios<
+        ResData<{ id: number; joinedAt: string; role: Role; spaceshipId: number; userId: number }>
+      >("post", `/spaceship/board/${shipId}`, {});
       console.log(response);
       if (response.status === 201) {
         alert("우주선에 성공적으로 탑승하였습니다!");
@@ -86,7 +84,10 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { spaceshipId: response.data.id, role: "MEMBER" }],
+            spaceships: [
+              ...(auth?.memberships.spaceships || []),
+              { spaceshipId: response.data.spaceshipId, role: "MEMBER" },
+            ],
           },
         } as UserType;
         setAuth(updatedUser);
