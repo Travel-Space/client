@@ -39,7 +39,7 @@ export default function Planet() {
 
   const handleSearch = (item: SearchItem) => {
     setSearchItem(item);
-    console.log("searchItem", item);
+    // console.log("searchItem", item);
   };
 
   //모든유저 조회
@@ -62,6 +62,7 @@ export default function Planet() {
       console.error("Error fetching followers data: ", error);
     }
   }
+
   //추천친구 조회
   //무한스크롤 추후 적용 - 수정예정
   async function getNotMutualFriends() {
@@ -121,28 +122,28 @@ export default function Planet() {
         </Swiper>
       </S.SwiperWrap>
 
-      <S.SearchResults>
-        {searchItem?.content && totalUsers ? (
-          <>
+      {searchItem?.content && totalUsers ? (
+        <>
+          <S.SearchResults>
             {users.map((el, idx) => (
               <Person key={`user${idx}`} data={el} isMutual={el.isFollowing} updateData={updateData} />
             ))}
-            <S.ShowMoreBtn onClick={showMore} disabled={users.length === totalUsers}>
-              목록 더보기
-            </S.ShowMoreBtn>
-          </>
-        ) : (
-          <Nothing
-            src="/assets/img/icons/no-friends.svg"
-            alt="no-friends"
-            width={216}
-            height={216}
-            comment="검색결과가 없습니다."
-            suggest="닉네임 또는 계정을 검색해 보세요."
-            font="lg"
-          />
-        )}
-      </S.SearchResults>
+          </S.SearchResults>
+          <S.ShowMoreBtn onClick={showMore} disabled={users.length === totalUsers}>
+            목록 더보기
+          </S.ShowMoreBtn>
+        </>
+      ) : (
+        <Nothing
+          src="/assets/img/icons/no-friends.svg"
+          alt="no-friends"
+          width={216}
+          height={216}
+          comment="검색결과가 없습니다."
+          suggest="닉네임 또는 계정을 검색해 보세요."
+          font="lg"
+        />
+      )}
     </S.Container>
   );
 }
