@@ -56,7 +56,14 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
       const memberships = { planets, spaceships };
       if (response.status === 201) {
         alert("로그인이 성공적으로 완료되었습니다!");
-        setAuth(prev => ({ ...prev, isAuth: true, role: data.role, id: data.id, memberships }));
+        setAuth(prev => ({
+          ...prev,
+          isAuth: true,
+          nickName: data.nickName,
+          role: data.role,
+          id: data.id,
+          memberships,
+        }));
         return onClose();
       }
       // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기

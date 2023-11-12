@@ -9,6 +9,6 @@ export const SearchBarContainer = styled.div`
 `;
 
 export const SearchSelect = styled(Select)`
-  width: 80px;
+  width: 110px;
   margin-right: 8px;
 `;

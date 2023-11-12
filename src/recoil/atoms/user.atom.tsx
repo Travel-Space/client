@@ -11,6 +11,7 @@ const { persistAtom } = recoilPersist();
 export interface UserType {
   isAuth: boolean;
   id: number;
+  nickName: string;
   role: UserRole;
   memberships: {
     planets: { planetId: number; role: PlanetRole }[];
@@ -20,15 +21,7 @@ export interface UserType {
 
 export const userAtom = atom<UserType | null>({
   key: "user",
-  default: {
-    isAuth: false,
-    id: 0,
-    role: "MEMBER",
-    memberships: {
-      planets: [],
-      spaceships: [],
-    },
-  },
+  default: null,
   effects_UNSTABLE: [persistAtom],
 });
 
