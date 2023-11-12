@@ -1,6 +1,6 @@
 const MESSAGE = {
   JOIN: {
-    SYNTAX_NAME: "한글로 2글자 이상 8글자 이하 입력해 주세요.",
+    SYNTAX_NAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
     SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
     SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
     SYNTAX_CODE: "숫자만 입력해 주세요.",
