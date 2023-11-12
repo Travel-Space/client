@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting, PostingsType } from "@/@types";
+import { ResData, Posting, PostingsType, SearchItem } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -25,6 +25,13 @@ export default function Postings() {
 
   const [postings, setPostings] = useState<Posting[]>([]);
 
+  const [searchItem, setSearchItem] = useState<SearchItem>();
+
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    // console.log("searchItem", item);
+  };
+
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
 
@@ -33,7 +40,9 @@ export default function Postings() {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
-        `/articles/my/articles?page=${page}&limit=10`,
+        !searchItem?.content
+          ? `/articles/my/articles?page=${page}&limit=10`
+          : `/articles/my/articles?page=${page}&limit=10&${searchItem?.selectedMenu}=${searchItem?.content}`,
       );
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
@@ -52,6 +61,11 @@ export default function Postings() {
     // console.log("postings", postings);
   }, []);
 
+  useEffect(() => {
+    setPage(1);
+    getPostings();
+  }, [searchItem]);
+
   return (
     <S.Container>
       {totalCount === 0 ? (
@@ -69,7 +83,7 @@ export default function Postings() {
             <S.PostingsNumber>
               총 <span>{totalCount}</span>개의 게시글
             </S.PostingsNumber>
-            <SearchForm select={dropDownProps} />
+            <SearchForm select={dropDownProps} onSearch={handleSearch} />
           </S.Header>
           <S.MyPostingsWrap>
             {postings.map((el, idx) => (

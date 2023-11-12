@@ -67,6 +67,14 @@ enum UserStatus {
   "SUSPENDED",
 }
 export type UserRole = "MEMBER" | "ADMIN";
+
 export interface NicknameCheck {
   available: boolean;
+}
+
+export interface UsersType {
+  data: User[];
+  total: number;
+  page: number;
+  limit: number;
 }

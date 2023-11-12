@@ -8,8 +8,9 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   width: 100%;
   position: relative;
+  background-color: ${({ theme }) => theme.PALETTE.white};
   ${({ shape }) => shape && shapeCSS[shape]}
-  ${({ font }) => fontCSS[font]}
+  ${({ font }) => fontCSS[font]};
 `;
 
 interface DropButtonProps {
@@ -93,6 +94,7 @@ export const Menu = styled.div<{ color?: "black" | "gray" | "none" }>`
 
 const shapeCSS = {
   default: css`
+    border-radius: 4px;
     & > div {
       border-radius: 4px;
     }
@@ -108,6 +110,7 @@ const shapeCSS = {
     }
   `,
   medium: css`
+    border-radius: 8px;
     & > div {
       border-radius: 8px;
     }
@@ -123,6 +126,7 @@ const shapeCSS = {
     }
   `,
   round: css`
+    border-radius: 10px;
     & > div {
       border-radius: 10px;
     }

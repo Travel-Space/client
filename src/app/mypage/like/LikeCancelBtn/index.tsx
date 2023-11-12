@@ -1,6 +1,9 @@
 import axiosRequest from "@/api";
 import { ResData, Posting, PlanetsType, CancelLikePlanet } from "@/@types";
 
+import { useRecoilState } from "recoil";
+import { myPlanetsState } from "@/recoil/atoms/planets.atom";
+
 import { PostingsType } from "@/@types";
 
 import * as S from "./index.styled";
@@ -13,6 +16,8 @@ interface LikeCancelBtnProps {
   saveData: (totalCount: number, totalPage: number, data: any) => void;
 }
 export default function LikeCancelBtn({ item, id, saveData, page, setPage }: LikeCancelBtnProps) {
+  const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
+
   //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
@@ -34,7 +39,22 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       console.error("Error fetching posting data: ", error);
     }
   }
+  //소유한 행성 불러오기
+  async function getMyPlanets() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
+        "get",
+        "/planet/my-owned-planets?page=1&limit=5",
+      );
 
+      const planets = response.data.data;
+      setMyPlanets(planets);
+      // console.log("planets", response.data.data);
+    } catch (error) {
+      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching planet data: ", error);
+    }
+  }
   async function getPlanets() {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>("get", `/planet/my/bookmarks`);
@@ -73,6 +93,7 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
     if (item === "planet") {
       await cancelLikePlanet();
       getPlanets();
+      getMyPlanets();
     } else {
       await cancelLikePost();
       getPostings();

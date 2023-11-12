@@ -1,4 +1,6 @@
 "use client";
+import { SearchItem } from "@/@types";
+
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend.atom";
@@ -24,6 +26,13 @@ export default function FriendList() {
   const totalFollowers = useRecoilValue(totalFollowersState);
   const totalFollowings = useRecoilValue(totalFollowingsState);
 
+  const [searchItem, setSearchItem] = useState<SearchItem>();
+
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    // console.log("searchItem", item);
+  };
+
   return (
     <S.Container>
       <S.Header>
@@ -38,9 +47,11 @@ export default function FriendList() {
             <S.Number>{totalFollowings}</S.Number>
           </S.FollowingNumber>
         </div>
-        <SearchForm select={dropDownProps} />
+        <SearchForm select={dropDownProps} onSearch={handleSearch} />
       </S.Header>
-      <S.MainContainer>{tab === "followers" ? <Followers /> : <Followings />}</S.MainContainer>
+      <S.MainContainer>
+        {tab === "followers" ? <Followers searchItem={searchItem} /> : <Followings searchItem={searchItem} />}
+      </S.MainContainer>
     </S.Container>
   );
 }

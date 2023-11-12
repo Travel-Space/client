@@ -32,6 +32,7 @@ export const TdTitle = styled.th`
     padding-bottom: 8px;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
     font-weight: 600;
+    white-space: nowrap;
   }
 `;
 export const Title = styled.div`
