@@ -20,6 +20,7 @@ import { PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
 import { CommonUserInfo } from "@/@types/User";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface SpaceShipType {
   id: number;
@@ -107,7 +108,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("우주선 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -120,7 +121,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("행성 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -149,7 +150,7 @@ export default function SpaceShip() {
     } catch (error) {
       console.error("멤버 조회 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      // alert(errorResponse?.data.message);
     }
   }
 
@@ -158,6 +159,12 @@ export default function SpaceShip() {
     fetchSpaceshipData();
     fetchMemberListData();
   }, []);
+
+  const isLoggedIn = useAuth(parseInt(planetId), "MEMBER");
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return (
     <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, fetchMemberListData, fetchSpaceshipData }}>

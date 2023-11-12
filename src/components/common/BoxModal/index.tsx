@@ -6,12 +6,13 @@ interface BoxModalType extends Default {
   children: React.ReactNode;
   title: string;
   depth?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function BoxModal({ children, title, onClose, depth }: BoxModalType) {
+export default function BoxModal({ children, title, onClose, depth, size }: BoxModalType) {
   return createPortal(
     <S.Background $depth={depth}>
-      <S.Container>
+      <S.Container $size={size}>
         <S.Header>
           <S.Title>{title}</S.Title>
           <S.CloseBtn onClick={onClose}>닫기</S.CloseBtn>

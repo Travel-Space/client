@@ -10,7 +10,7 @@ export const Background = styled.div<{ $depth?: boolean }>`
     `}
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ $size?: "sm" | "md" | "lg" }>`
   position: fixed;
   left: 50%;
   top: 50%;
@@ -20,7 +20,20 @@ export const Container = styled.div`
   border-radius: 10px;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
   width: 560px;
+  ${({ $size }) => $size && sizeCSS[$size]}
 `;
+
+const sizeCSS = {
+  sm: css`
+    width: 400px;
+  `,
+  md: css`
+    width: 560px;
+  `,
+  lg: css`
+    width: 640px;
+  `,
+};
 
 export const Header = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};

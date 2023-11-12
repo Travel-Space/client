@@ -91,6 +91,8 @@ export default function Signup({ goToLogin }: PropsType) {
         nickName,
         password,
         nationality: country.country_nm,
+        nationImage: country.download_url,
+        profileImage: "",
       });
 
       response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
@@ -188,15 +190,10 @@ export default function Signup({ goToLogin }: PropsType) {
       <InputGroup>
         <Label id="nationality">국적</Label>
         <CountryGroup>
-          <Input
-            id="nationality"
-            type="text"
-            name="nationality"
-            readOnly
-            value={`${country.country_nm}, ${country.country_eng_nm}`}
-            onClick={() => setShowSearch(prev => !prev)}
-          />
-          <SmallBtnGroup $country>
+          <span onClick={() => setShowSearch(prev => !prev)}>
+            {country.country_nm}, {country.country_eng_nm}
+          </span>
+          <SmallBtnGroup $country onClick={() => setShowSearch(prev => !prev)}>
             <img src={country.download_url} alt={country.country_nm} />
           </SmallBtnGroup>
           {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}

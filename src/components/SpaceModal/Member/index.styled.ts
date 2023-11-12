@@ -81,3 +81,30 @@ export const Group = styled.div`
     padding: 8px 16px;
   }
 `;
+
+export const Kick = styled.button`
+  padding: 2px 0;
+  background: none;
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+  color: ${({ theme }) => theme.PALETTE.error};
+`;
+
+export const MemberRole = styled.span`
+  margin-right: 16px;
+  color: ${({ theme }) => theme.PALETTE.mainColor};
+`;
+
+export const MemberGroup = styled(Group)`
+  & > div:first-child {
+    flex: 1;
+    > div:first-child {
+      padding: 0 16px;
+    }
+    > div:last-child > * {
+      padding: 0 16px;
+    }
+  }
+  button {
+    flex: 1;
+  }
+`;

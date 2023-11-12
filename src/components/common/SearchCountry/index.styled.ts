@@ -7,6 +7,7 @@ export const SearchBox = styled.div`
   position: absolute;
   width: 100%;
   top: calc(100% - 1px);
+  left: 0;
   background: ${({ theme }) => theme.PALETTE.white};
   max-height: 204px;
   min-height: 80px;
