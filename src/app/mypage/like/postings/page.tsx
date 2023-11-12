@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Posting, PostingsType } from "@/@types";
+import { ResData, Posting, PostingsType, SearchItem } from "@/@types";
 
 import { useState, useEffect } from "react";
 
@@ -14,20 +14,30 @@ import usePagination from "@/hooks/usePagination";
 
 export default function FavoritePostings() {
   const dropDownProps = {
+    selectedMenu: "글 제목",
     placeholder: "글 제목으로 검색해보세요.",
   };
+
+  const [searchItem, setSearchItem] = useState<SearchItem>();
 
   const [postings, setPostings] = useState<Posting[]>([]);
 
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
 
+  const handleSearch = (item: SearchItem) => {
+    setSearchItem(item);
+    // console.log("searchItem", item);
+  };
+
   //좋아요한 게시글 불러오기
   async function getPostings() {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
-        `/articles/my/likes?page=${page}&limit=10`,
+        !searchItem?.content
+          ? `/articles/my/likes?page=${page}&limit=10`
+          : `/articles/my/likes?page=${page}&limit=10&${searchItem.selectedMenu}=${searchItem.content}`,
       );
       const postings = response.data.data;
       const totalCount = response.data.totalCount;
@@ -43,6 +53,11 @@ export default function FavoritePostings() {
   useEffect(() => {
     getPostings();
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+    getPostings();
+  }, [searchItem]);
 
   return (
     <S.Container>
@@ -61,7 +76,7 @@ export default function FavoritePostings() {
             <S.PostNumber>
               총 <span>{totalCount}</span>개의 게시글
             </S.PostNumber>
-            <SearchForm select={dropDownProps} />
+            <SearchForm select={dropDownProps} onSearch={handleSearch} />
           </S.Header>
 
           <S.Postings>
