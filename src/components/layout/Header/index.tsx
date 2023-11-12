@@ -3,18 +3,22 @@ import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 
 import Link from "next/link";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
 import Account from "@/components/Account";
 
 import * as S from "./index.styled";
 import Image from "next/image";
+import Notification from "@/components/Notification";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [user, setUser] = useRecoilState(userAtom);
+  const [newNotificationReceived, setNewNotificationReceived] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const user = useRecoilValue(userAtom);
 
   async function handleLogout() {
     try {
@@ -32,6 +36,10 @@ export default function Header() {
     }
   }
 
+  const openNotification = () => {
+    setIsOpen(prev => !prev);
+  };
+
   return (
     <S.Wrap>
       <S.Container>
@@ -42,10 +50,19 @@ export default function Header() {
           {user?.isAuth ? (
             <>
               <li>
-                <button type="button">
-                  <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
-                  {/* <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" /> */}
+                <button type="button" onClick={openNotification}>
+                  {newNotificationReceived ? (
+                    <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" />
+                  ) : (
+                    <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
+                  )}
                 </button>
+                {isOpen && (
+                  <Notification
+                    onClickNotification={openNotification}
+                    setNewNotificationReceived={setNewNotificationReceived}
+                  />
+                )}
               </li>
               <li>
                 <Link href="/mypage/statistics">MYPAGE</Link>
