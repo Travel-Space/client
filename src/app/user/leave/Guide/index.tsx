@@ -3,8 +3,8 @@ import axiosRequest from "@/api";
 import { ResData, DailyViewCount } from "@/@types";
 
 import { useRouter } from "next/navigation";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
+import { useRecoilState } from "recoil";
+import { userAtom, UserType } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
@@ -16,9 +16,10 @@ import LEAVEINFO from "@/constants/leave";
 const Guide = () => {
   const router = useRouter();
 
-  const user = useRecoilValue(userAtom);
-  const joinedPlanets = user?.memberships.planets.filter(el => el?.role === "MEMBER");
-  const adminPlanets = user?.memberships.planets.filter(el => el?.role === "ADMIN" || el?.role === "OWNER");
+  const [auth, setAuth] = useRecoilState(userAtom);
+
+  const joinedPlanets = auth?.memberships.planets.filter(el => el?.role === "MEMBER");
+  const adminPlanets = auth?.memberships.planets.filter(el => el?.role === "ADMIN" || el?.role === "OWNER");
 
   const goToPlanetList = () => {
     router.push("/mypage/basic-info/planet/");
@@ -28,9 +29,23 @@ const Guide = () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
         "post",
-        `/user/${user?.id}/leave-planets`,
+        `/user/${auth?.id}/leave-planets`,
       );
-      // console.log("viewcount", response.data);
+      if (response.status === 201) {
+        alert("여행중인 행성을 모두 탈퇴하였습니다.");
+
+        const leavePlanets = {
+          ...auth,
+          memberships: {
+            planets: [],
+            spaceships: auth?.memberships.spaceships,
+          },
+        } as UserType;
+        setAuth(leavePlanets);
+
+        return;
+      }
+      // console.log("일괄탈퇴", response);
     } catch (error) {
       const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
       alert(
