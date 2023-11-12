@@ -22,9 +22,29 @@ const menuList = [
   REPORT.ETC,
 ];
 
-export default function ReportAcceptModal({ report }: { report: Report }) {
-  const [approvalReason, setApprovalReason] = useState("");
+interface ReportAcceptModalProps {
+  report: Report;
+  setIsOpen: React.Dispatch<
+    React.SetStateAction<{
+      reportName: boolean;
+      reportReason: boolean;
+    }>
+  >;
+}
+
+export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptModalProps) {
+  console.log(report, "승인 report");
+
+  const {
+    targetDetails: {
+      author: { nickName, email, reportCount },
+    },
+    reportDetails: { id },
+  } = report;
+
   const [selectedReason, setSelectedReason] = useState("");
+  const [approvalReason, setApprovalReason] = useState("");
+  const [suspensionEndDate, setsSuspensionEndDate] = useState("");
 
   useEffect(() => {
     if (selectedReason !== REPORT.ETC) {
@@ -44,28 +64,46 @@ export default function ReportAcceptModal({ report }: { report: Report }) {
 
   const isEtcSelected = selectedReason === REPORT.ETC;
 
-  // 기타인 경우 상세 이유 데이터 저장 어떤 식으로?
   const patchReportReason = async (reportId: number) => {
     if (selectedReason === dropDownProps.comment) return alert("수락 사유를 선택해 주세요.");
     if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert("수락 사유를 입력해 주세요.");
+
+    const data = isEtcSelected ? { approvalReason: approvalReason } : { approvalReason: selectedReason };
+
+    if (reportCount > 1) {
+      const currentDate = new Date();
+      const nextWeekDate = new Date(currentDate);
+      nextWeekDate.setDate(currentDate.getDate() + 7);
+      data.suspensionEndDate = `${nextWeekDate.getFullYear()}-${(nextWeekDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${nextWeekDate.getDate().toString().padStart(2, "0")}`;
+    }
+
+    console.log("수락할 때 보내는 데이터 -------- ", data);
 
     if (confirm("요청을 수락할까요?")) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>(
           "patch",
           `/reports/${reportId}/approve`,
-          approvalReason,
+          data,
         );
-        console.log(response);
+        alert("신고 요청을 수락했어요.");
+        setIsOpen(() => ({ reportName: false, reportReason: false }));
+        console.log(response, "수락Response");
       } catch (error) {
-        console.error("에러 발생:", error);
+        alert("에러");
       }
     }
   };
 
   return (
-    // 모달 관리
-    <AdminModalContainer title="신고 요청 수락" closeModal={() => console.log("TEST")}>
+    <AdminModalContainer
+      title="신고 요청 수락"
+      closeModal={() => {
+        setIsOpen(() => ({ reportName: false, reportReason: false }));
+      }}
+    >
       <S.Content>
         <ul>
           {/* 컴포넌트 분리 */}
@@ -79,13 +117,15 @@ export default function ReportAcceptModal({ report }: { report: Report }) {
             <S.UserInfoBox>
               <div>
                 <p>
-                  <span>닉네임</span>현규현규
+                  <span>닉네임</span>
+                  {nickName}
                 </p>
                 <p>
-                  <span>이메일</span>test@naver.com
+                  <span>이메일</span>
+                  {email}
                 </p>
                 <p>
-                  <span>계정 상태</span>신고 2회
+                  <span>계정 상태</span>신고 {reportCount}회
                 </p>
               </div>
             </S.UserInfoBox>
@@ -116,8 +156,8 @@ export default function ReportAcceptModal({ report }: { report: Report }) {
           />
         </S.TextareaContainer>
 
-        <Button variant="basic" shape="small" size="smallWithXsFont" onClick={() => patchReportReason(report.id)}>
-          완료
+        <Button variant="basic" shape="small" size="smallWithXsFont" onClick={() => patchReportReason(id)}>
+          {reportCount !== 2 ? "완료" : "승낙 완료시 해당 유저는 활동 제한 상태로 전환됩니다."}
         </Button>
       </S.Content>
     </AdminModalContainer>
