@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -11,24 +10,21 @@ import DropDown from "../DropDown";
 interface ReportProps {
   title: string;
   onClick: () => void;
-  commentId?: Number;
+  targetId?: Number;
 }
 
-export default function DeclarationModal({ title, onClick, commentId }: ReportProps) {
+export default function DeclarationModal({ title, onClick, targetId }: ReportProps) {
   const targetType = title === "게시글" ? "ARTICLE" : title === "댓글" ? "COMMENT" : "MESSAGE";
-
-  const params = useSearchParams();
-  const targetId = Number(params.get("detail"));
 
   const [selectedMenu, setSelectedMenu] = useState("");
 
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const [report, setReport] = useState({
     reason: selectedMenu, // 신고 내용
     targetId, // 게시글 아이디, 댓글 아이디
     targetType, // article, comment, message
-    imageUrl: image, // 신고 사진
+    imageUrl, // 신고 사진
   });
 
   const dropDownProps = {
@@ -52,8 +48,9 @@ export default function DeclarationModal({ title, onClick, commentId }: ReportPr
       formData.append("files", e.target.files[0]);
 
       const response = await axiosRequest.requestAxios("post", "/upload", formData);
+      console.log(response.data[0], "image response");
 
-      setImage(response.data[0]);
+      setImageUrl(response.data[0]);
       setReport(prevState => ({
         ...prevState,
         reason: selectedMenu,
@@ -65,6 +62,10 @@ export default function DeclarationModal({ title, onClick, commentId }: ReportPr
     }
   };
 
+  useEffect(() => {
+    console.log(imageUrl, "imageimage", report.imageUrl, "report");
+  }, [imageUrl]);
+
   const handleComplete = async () => {
     try {
       // axios 보내기
@@ -72,8 +73,9 @@ export default function DeclarationModal({ title, onClick, commentId }: ReportPr
         reason: selectedMenu, // 신고 내용
         targetId, // 게시글 아이디, 댓글 아이디
         targetType, // article, comment, message
-        imageUrl: image,
+        imageUrl,
       });
+      console.log(selectedMenu, targetId, targetType, imageUrl, report.imageUrl);
 
       alert(MESSAGE.REPORTS.COMPLETE);
       onClick();
@@ -99,7 +101,7 @@ export default function DeclarationModal({ title, onClick, commentId }: ReportPr
           <S.Picture>
             <span>신고 사진</span>
             <S.File>
-              <input readOnly value={image || ""} placeholder="파일을 업로드해 주세요." />
+              <input readOnly value={imageUrl || ""} placeholder="파일을 업로드해 주세요." />
               <label htmlFor="file">사진 첨부</label>
               <input accept="image/*" type="file" id="file" name="imageUrl" onChange={handleImage} />
             </S.File>
