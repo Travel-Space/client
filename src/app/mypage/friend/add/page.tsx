@@ -27,6 +27,9 @@ export default function Planet() {
     placeholder: "친구 추가에서 검색합니다.",
   };
 
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
   const [users, setUsers] = useState<User[]>([]);
   const [totalUsers, setTotalUsers] = useState(0);
 
@@ -40,23 +43,22 @@ export default function Planet() {
   };
 
   //모든유저 조회
-  async function getUsers() {
+  async function getUsers(page: number, limit: number) {
     try {
       const response = await axiosRequest.requestAxios<ResData<UsersType>>(
         "get",
-        `/user?page=${1}&limit=${2}&${searchItem?.selectedMenu}=${searchItem?.content}`,
+        `/user?page=${page}&limit=${limit}&${searchItem?.selectedMenu}=${searchItem?.content}`,
       );
       const users = response.data.data;
       const total = response.data.total;
 
-      setUsers(users);
-      // if (page === 1)
-      // else setUsers(prev => [...prev, ...followers]);
+      if (page === 1) setUsers(users);
+      else setUsers(prev => [...prev, ...users]);
 
       setTotalUsers(total);
       // console.log("followings", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("유저 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
     }
   }
@@ -73,18 +75,28 @@ export default function Planet() {
     }
   }
 
-  // const updateData = () => {
-  //   console.log("dd");
-  // };
+  const updateData = () => {
+    getUsers(1, page * limit);
+  };
+  const showMore = () => {
+    setPage(prev => prev + 1);
+    // console.log("page", page);
+  };
+
   useEffect(() => {
     // console.log("notMutual", notMutual);
     getNotMutualFriends();
   }, []);
 
   useEffect(() => {
-    // setPage(1);
-    getUsers();
+    setPage(1);
+    getUsers(page, limit);
   }, [searchItem]);
+
+  useEffect(() => {
+    getUsers(page, limit);
+    // console.log("page", page, "searchItem", searchItem);
+  }, [page]);
 
   return (
     <S.Container>
@@ -111,9 +123,14 @@ export default function Planet() {
 
       <S.SearchResults>
         {searchItem?.content && totalUsers ? (
-          users.map((el, idx) => (
-            <Person key={`user${idx}`} data={el} isMutual={el.isFollowing} updateData={updateData} />
-          ))
+          <>
+            {users.map((el, idx) => (
+              <Person key={`user${idx}`} data={el} isMutual={el.isFollowing} updateData={updateData} />
+            ))}
+            <S.ShowMoreBtn onClick={showMore} disabled={users.length === totalUsers}>
+              목록 더보기
+            </S.ShowMoreBtn>
+          </>
         ) : (
           <Nothing
             src="/assets/img/icons/no-friends.svg"
