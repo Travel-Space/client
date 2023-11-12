@@ -137,7 +137,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           <S.MemberTitle>
             <p>참여 멤버</p>
             <span>
-              {spaceshipInfo.memberCount} / {spaceshipInfo.maxMembers}
+              {spaceshipInfo.members.length} / {spaceshipInfo.maxMembers}
             </span>
           </S.MemberTitle>
           <S.MemberList>
