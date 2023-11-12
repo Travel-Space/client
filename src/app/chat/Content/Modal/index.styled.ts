@@ -12,7 +12,7 @@ export const ModalBox = styled.div`
   align-items: flex-start;
 
   width: 172px;
-  height: 327px;
+  max-height: 327px;
   padding: 12px 0 24px 0;
 
   border-radius: 5px;
