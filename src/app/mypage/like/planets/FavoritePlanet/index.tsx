@@ -1,4 +1,4 @@
-import { Planet } from "@/@types";
+import { Planet, PlanetBookmark } from "@/@types";
 
 import { useRouter } from "next/navigation";
 
@@ -9,46 +9,48 @@ import Image from "next/image";
 import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 interface FavoritePlanetProps {
-  data: Planet;
+  data: PlanetBookmark;
   page: number;
   setPage: (page: number) => void;
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
 export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
+  const { planet, planetId } = data;
+
   const router = useRouter();
 
   const goToPlanet = () => {
-    router.push(`/planet/${data.id}/map/`);
+    router.push(`/planet/${planetId}/map/`);
   };
   const goToShip = () => {
-    router.push(`/planet/${data.id}/space-ship/`);
+    router.push(`/planet/${planetId}/space-ship/`);
   };
   return (
     <S.Container>
-      <Image src={PLANETSHAPE[data.shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
+      <Image src={PLANETSHAPE[planet.shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
       <S.Info>
         <S.InfoRow>
           <S.InfoRowCol>
-            <S.Name onClick={goToPlanet}>{data.name}</S.Name>
+            <S.Name onClick={goToPlanet}>{planet.name}</S.Name>
             <div>
-              {data.published ? (
+              {planet.published ? (
                 <Image src="/assets/img/icons/unlock.svg" alt="lock" width={20} height={20} />
               ) : (
                 <Image src="/assets/img/icons/lock.svg" alt="lock" width={20} height={20} />
               )}
             </div>
             <S.People onClick={goToShip}>
-              {data.memberCount}/{data.memberLimit}
+              {planet.memberCount}/{planet.memberLimit}
             </S.People>
           </S.InfoRowCol>
         </S.InfoRow>
         <S.TagList>
-          {data.hashtags.map((el: string, idx: number) => (
+          {planet.hashtags.map((el, idx) => (
             <S.Tag key={`hastag${idx}`}>#{el}</S.Tag>
           ))}
         </S.TagList>
       </S.Info>
-      <LikeCancelBtn item="planet" id={data.id} saveData={saveData} page={page} setPage={setPage} />
+      <LikeCancelBtn item="planet" id={planet.id} saveData={saveData} page={page} setPage={setPage} />
     </S.Container>
   );
 }

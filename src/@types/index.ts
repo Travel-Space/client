@@ -1,6 +1,6 @@
 import { User, NicknameCheck, UsersType } from "./User";
 import { Like } from "./Like";
-import { Planet, CancelLikePlanet, PlanetsType, LikedPlanets, JoinedPlanets } from "./Planet";
+import { Planet, CancelLikePlanet, PlanetsType, LikedPlanets, JoinedPlanets, PlanetBookmark } from "./Planet";
 import { Posting, CancelLikePost, PostingsType } from "./Posting";
 import { Comment, Comments } from "./Comment";
 import { Follower, Following, Follow, FollowingsType, FollowersType } from "./Friend";
@@ -37,4 +37,5 @@ export type {
   JoinedPlanets,
   SearchItem,
   UsersType,
+  PlanetBookmark,
 };

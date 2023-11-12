@@ -42,7 +42,7 @@ export interface JoinedPlanets {
   totalMemberships: number;
 }
 export interface LikedPlanets {
-  data: Planet[];
+  data: PlanetBookmark[];
   page: number;
   limit: number;
   totalCount: number;
@@ -52,7 +52,7 @@ export interface PlanetBookmark {
   userId: number;
   planetId: number;
   planet: Planet;
-  user: User;
+  createdAt: Date;
 }
 
 export interface PlanetMembership {

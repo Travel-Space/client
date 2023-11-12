@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, Planet, PlanetsType, LikedPlanets } from "@/@types";
+import { ResData, PlanetBookmark, PlanetsType, LikedPlanets } from "@/@types";
 
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -25,7 +25,7 @@ export default function Planets() {
   let myPlanetsWithNull = new Array(5).fill(null);
   myPlanets.map((el, idx) => (myPlanetsWithNull[idx] = el));
 
-  const [likedPlanets, setLikedPlanets] = useState<Planet[]>([]);
+  const [likedPlanets, setLikedPlanets] = useState<PlanetBookmark[]>([]);
 
   //pagination
   const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
