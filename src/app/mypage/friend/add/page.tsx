@@ -1,6 +1,6 @@
 "use client";
 import axiosRequest from "@/api";
-import { ResData, FollowersType, SearchItem, UsersType } from "@/@types";
+import { ResData, FollowersType, SearchItem, UsersType, User } from "@/@types";
 
 import { useRecoilState } from "recoil";
 import { notMutualState } from "@/recoil/atoms/friend.atom";
@@ -16,6 +16,7 @@ import * as S from "./page.styled";
 import RecommendFriend from "./RecommendFriend";
 import SearchForm from "@/app/mypage/SearchForm";
 import Nothing from "@/components/common/Nothing";
+import Person from "@/app/mypage/friend/Person";
 
 export default function Planet() {
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
@@ -26,6 +27,9 @@ export default function Planet() {
     placeholder: "친구 추가에서 검색합니다.",
   };
 
+  const [users, setUsers] = useState<User[]>([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+
   const [notMutualFriends, setNotMutualFriends] = useRecoilState(notMutualState);
 
   const [searchItem, setSearchItem] = useState<SearchItem>();
@@ -35,6 +39,27 @@ export default function Planet() {
     console.log("searchItem", item);
   };
 
+  //모든유저 조회
+  async function getUsers() {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<UsersType>>(
+        "get",
+        `/user?page=${1}&limit=${2}&${searchItem?.selectedMenu}=${searchItem?.content}`,
+      );
+      const users = response.data.data;
+      const total = response.data.total;
+
+      setUsers(users);
+      // if (page === 1)
+      // else setUsers(prev => [...prev, ...followers]);
+
+      setTotalUsers(total);
+      // console.log("followings", response.data);
+    } catch (error) {
+      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error fetching followers data: ", error);
+    }
+  }
   //추천친구 조회
   //무한스크롤 추후 적용 - 수정예정
   async function getNotMutualFriends() {
@@ -48,10 +73,18 @@ export default function Planet() {
     }
   }
 
+  // const updateData = () => {
+  //   console.log("dd");
+  // };
   useEffect(() => {
     // console.log("notMutual", notMutual);
     getNotMutualFriends();
   }, []);
+
+  useEffect(() => {
+    // setPage(1);
+    getUsers();
+  }, [searchItem]);
 
   return (
     <S.Container>
@@ -77,16 +110,21 @@ export default function Planet() {
       </S.SwiperWrap>
 
       <S.SearchResults>
-        <Nothing
-          src="/assets/img/icons/no-friends.svg"
-          alt="no-friends"
-          width={216}
-          height={216}
-          comment="검색결과가 없습니다."
-          suggest="닉네임 또는 계정을 검색해 보세요."
-          font="lg"
-        />
-        {/* 검색기능추가되면 수정예정 */}
+        {searchItem?.content && totalUsers ? (
+          users.map((el, idx) => (
+            <Person key={`user${idx}`} data={el} isMutual={el.isFollowing} updateData={updateData} />
+          ))
+        ) : (
+          <Nothing
+            src="/assets/img/icons/no-friends.svg"
+            alt="no-friends"
+            width={216}
+            height={216}
+            comment="검색결과가 없습니다."
+            suggest="닉네임 또는 계정을 검색해 보세요."
+            font="lg"
+          />
+        )}
       </S.SearchResults>
     </S.Container>
   );
