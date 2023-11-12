@@ -18,7 +18,7 @@ export default function authInterceptor(instance: AxiosInstance) {
         const res = await instance.post("/auth/refresh");
         console.log("res", res);
 
-        // return instance(config); // 기존 요청을 재요청
+        return instance(config); // 기존 요청을 재요청
       }
 
       return Promise.reject(axiosError);

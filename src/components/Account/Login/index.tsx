@@ -34,7 +34,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   async function googleLogin() {
     console.log("구글 로그인");
-    router.push("/auth/google/callback");
+    window.location.href = "http://localhost:8080/auth/google";
   }
 
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
@@ -66,7 +66,6 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
         }));
         return onClose();
       }
-      // 페이지 이동이 아닌 Side 모달 닫기 구현 -> 모달 recoil 사용하기
     } catch (error) {
       console.error("로그인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
