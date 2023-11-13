@@ -1,9 +1,7 @@
 import { styled } from "styled-components";
 import { flexSpaceBetweenCenter } from "@/styles/common";
 
-export const Container = styled.div`
-  border-radius: 10px;
-`;
+export const Container = styled.div``;
 
 export const MyPlanetWrap = styled.div`
   display: flex;
@@ -12,9 +10,11 @@ export const MyPlanetWrap = styled.div`
 export const NoMyPlanets = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   color: ${({ theme }) => theme.PALETTE.gray[100]};
-  margin-top: 30px;
+  margin-top: 54px;
   border-radius: 5px;
   padding: 8px 16px;
+  display: flex;
+  justify-content: center;
 `;
 export const MyPlanetInfo = styled.div`
   ${flexSpaceBetweenCenter}
@@ -59,6 +59,10 @@ export const TravelNumber = styled.div`
     font-weight: 700;
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
   }
+`;
+export const NothingWrap = styled.div`
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  border-radius: 10px;
 `;
 export const JoinedPlanetList = styled.div`
   width: 888px;
