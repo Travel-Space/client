@@ -22,6 +22,7 @@ const MainContainer = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.white};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+  position: relative;
 `;
 const Tab = styled.ul`
   display: flex;

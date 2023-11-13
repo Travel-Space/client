@@ -78,6 +78,7 @@ export default function Planet() {
 
   const updateData = () => {
     getUsers(1, page * limit);
+    getNotMutualFriends();
   };
   const showMore = () => {
     setPage(prev => prev + 1);
@@ -116,7 +117,7 @@ export default function Planet() {
         >
           {notMutualFriends.map((el, idx) => (
             <SwiperSlide>
-              <RecommendFriend key={`notMutualFriend${idx}`} data={el} updateData={getNotMutualFriends} />
+              <RecommendFriend key={`notMutualFriend${idx}`} data={el} updateData={updateData} />
             </SwiperSlide>
           ))}
         </Swiper>

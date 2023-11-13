@@ -88,7 +88,7 @@ export default function Planet() {
           </Link>
         </S.NewPlanet>
       </S.MyPlanetInfo>
-      {myPlanets.length === 0 ? (
+      {!myPlanets.length ? (
         <S.NoMyPlanets>생성한 행성이 없습니다.</S.NoMyPlanets>
       ) : (
         <S.MyPlanetWrap>
@@ -101,23 +101,25 @@ export default function Planet() {
           )}
         </S.MyPlanetWrap>
       )}
-      {totalCount === 0 ? (
-        <Nothing
-          src="/assets/img/icons/no-planets.svg"
-          alt="no-TravelingPlanets"
-          width={148}
-          height={148}
-          comment="여행 중인 행성이 없습니다."
-          font="lg"
-        />
+      <S.JoinedPlanetInfo>
+        <S.Title>여행 중인 행성</S.Title>
+        <S.TravelNumber>
+          총 <span>{totalCount}</span>개의 행성
+        </S.TravelNumber>
+      </S.JoinedPlanetInfo>
+      {!totalCount ? (
+        <S.NothingWrap>
+          <Nothing
+            src="/assets/img/icons/no-planets.svg"
+            alt="no-TravelingPlanets"
+            width={148}
+            height={148}
+            comment="여행 중인 행성이 없습니다."
+            font="lg"
+          />
+        </S.NothingWrap>
       ) : (
         <>
-          <S.JoinedPlanetInfo>
-            <S.Title>여행 중인 행성</S.Title>
-            <S.TravelNumber>
-              총 <span>{totalCount}</span>개의 행성
-            </S.TravelNumber>
-          </S.JoinedPlanetInfo>
           <S.JoinedPlanetList>
             {joinedPlanets.map((planet, idx) => (
               <PlanetItem key={idx} data={planet} userId={userId} />
