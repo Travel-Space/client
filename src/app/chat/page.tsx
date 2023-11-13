@@ -44,7 +44,7 @@ export default function Chat() {
   const [chatRoomList, setChatRoomList] = useState([]);
   const [clickedRoomInfo, setClickedRoomInfo] = useState({
     roomId: 0,
-    planetInfo: {},
+    roomInfo: {},
     members: [],
     maxMember: 0,
     totalMember: 0,
@@ -75,7 +75,7 @@ export default function Chat() {
 
   const handleClickChatRoom = useCallback(
     (roomId: number, type: string, planet: Planet, maxMember: number, totalMember: number, members: []) => {
-      setClickedRoomInfo({ roomId, planetInfo: planet, members, maxMember, totalMember });
+      setClickedRoomInfo({ roomId, roomInfo: planet, members, maxMember, totalMember });
       socket.emit("joinRoom", { roomId: `${roomId}`, type });
 
       // 'roomHistory' 이벤트, 데이터를 처리
@@ -168,13 +168,15 @@ export default function Chat() {
 
         <S.ListBox>
           {chatRoomList.map((el: any) => {
+            console.log(el.spaceship);
+
             return (
               <S.ChatList
                 onClick={() =>
                   handleClickChatRoom(
                     el.id,
                     el.planetId ? "planet" : "spaceship",
-                    el.planet,
+                    el.planetId ? el.planet : el.spaceship,
                     el.totalMembers,
                     el.maxMembers,
                     el.members,
@@ -187,7 +189,7 @@ export default function Chat() {
 
                 <S.ChatRoom>
                   <S.ChatRoomTitle>
-                    <span>{el.planetId ? `행성 : ${el.planet.name}` : `우주선 : ${el.spaceshipId}`}</span>
+                    <span>{el.planetId ? `행성 : ${el.planet.name}` : `우주선 : ${el.spaceship.name}`}</span>
                     {/* <img src="/assets/img/icons/new-chat.svg" /> */}
                   </S.ChatRoomTitle>
 
@@ -209,7 +211,7 @@ export default function Chat() {
           <S.Top>
             <div />
             <S.Title>
-              {clickedRoomInfo.planetInfo.name}{" "}
+              {clickedRoomInfo.roomInfo.name}{" "}
               <strong>{clickedRoomInfo.maxMember + `/` + clickedRoomInfo.totalMember}</strong>
             </S.Title>
             <S.ModalBox>
@@ -270,7 +272,7 @@ export default function Chat() {
 }
 
 // 내 메시지면 여기로 보내서 보여주고
-export const MyMessage: React.FC<{
+const MyMessage: React.FC<{
   senderName: string;
   content: string;
   date: Date;
@@ -296,7 +298,7 @@ export const MyMessage: React.FC<{
 };
 
 // 남 메시지면 여기로 보내서 보여줌
-export const SomeoneMessage: React.FC<{
+const SomeoneMessage: React.FC<{
   senderName: string;
   content: string;
   date: Date;
