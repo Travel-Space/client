@@ -20,16 +20,24 @@ interface CommentItemProps {
   author?: User;
   comment?: Comment;
   onCommentChange: () => void;
+  hasMoreReplies: boolean;
+  handleLoadMoreReplies: () => void;
 }
 
-export default function CommentItem({ onCommentChange, data, isReply = false }: CommentItemProps): React.JSX.Element {
+export default function CommentItem({
+  onCommentChange,
+  data,
+  hasMoreReplies,
+  handleLoadMoreReplies,
+  isReply = false,
+}: CommentItemProps): React.JSX.Element {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const { modalDataState, openModal, closeModal } = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const currentUser = useRecoilValue(userAtom);
-  const isComment = currentUser?.id === data?.authorId;
+
   //댓글 삭제 함수
   const handleCommentDelete = async (commentId: number) => {
     const isConfirmed = window.confirm(MESSAGE.POST.DELETE);
@@ -43,21 +51,24 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       console.error("Error deleting comment: ", error);
     }
   };
+
   const handleHideReply = () => {
     setOpenReply(null); // 답글 입력창을 닫음
   };
-  const openDeclarationModal = () => {
+  const openDeclarationModal = (commentId: number, isReply: boolean) => {
     openModal({
-      title: "댓글",
-      content: <DeclarationModal title={"댓글"} onClick={closeModal} />,
+      title: "댓글 신고",
+      content: <DeclarationModal title={"댓글"} onClick={closeModal} targetId={commentId} />,
     });
   };
+
   //수정 시작
   const handleStartEditing = (comment: Comment) => {
     setEditingCommentId(comment.id); // 편집 중인 댓글 ID를 설정
     setEditedContent(comment.content); // 현재 댓글 내용으로 상태 초기화
     setIsEditing(true); // 편집 모드 활성화
   };
+
   //수정 댓글 저장
   const handleUpdateComment = async () => {
     if (!editedContent.trim()) {
@@ -83,6 +94,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       alert("댓글을 저장하는 동안 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
+
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditingCommentId(null);
@@ -95,6 +107,7 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
       {data?.comments
         ?.sort((a, b) => a.id - b.id)
         .map(comment => {
+          const isCommentAuthor = currentUser?.id === comment.authorId;
           const { dateString, time } = getDateInfo(comment.createdAt);
           {
             /* 수정모드일 때  작성 인풋*/
@@ -162,13 +175,15 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
                     )}
                   </CI.ReplyBtn>
                   <CI.CommentEdit>
-                    {isComment ? (
+                    {isCommentAuthor ? (
                       <>
                         <CI.EditBtn onClick={() => handleStartEditing(comment)}>수정</CI.EditBtn>
                         <CI.DeleteBtn onClick={() => handleCommentDelete(comment.id)}>삭제</CI.DeleteBtn>
                       </>
                     ) : (
-                      <CI.DeclarationBtn onClick={openDeclarationModal}>신고</CI.DeclarationBtn>
+                      <CI.DeclarationBtn onClick={() => openDeclarationModal(comment.id, isReply)}>
+                        신고
+                      </CI.DeclarationBtn>
                     )}
                   </CI.CommentEdit>
                 </CI.CommentActionBtn>
@@ -191,8 +206,23 @@ export default function CommentItem({ onCommentChange, data, isReply = false }: 
                       data={{ ...data, comments: [reply] }}
                       isReply={true}
                       onCommentChange={onCommentChange || (() => {})}
+                      hasMoreReplies={hasMoreReplies}
+                      handleLoadMoreReplies={handleLoadMoreReplies}
                     />
                   ))}
+                  {hasMoreReplies && (
+                    <CI.MoreBtn>
+                      <Button
+                        variant="cancel"
+                        shape="large"
+                        fontWeight="bold"
+                        size="normal"
+                        onClick={() => handleLoadMoreReplies()}
+                      >
+                        더 보기
+                      </Button>
+                    </CI.MoreBtn>
+                  )}
                 </CI.ReplyWrapper>
               )}
             </React.Fragment>

@@ -246,6 +246,7 @@ export const PreviewSection = styled.div`
   border-radius: 10px;
   padding: 24px;
   line-height: 1.42;
+  
 
   & ol {
     padding-left: 24px;
@@ -280,13 +281,18 @@ export const PreviewSection = styled.div`
   }
 
   img {
-    text-align: center;
-    object-fit: cover;
-    max-width: 100%;
-    float: left;
-    margin-right: 8px;
-    vertical-align: top;
-  }
+  max-width: 100%;
+  height: auto; /* 이미지 원본 비율 유지 */
+}
+
+/* 에디터 내 이미지에 대한 특별한 스타일 */
+.QuillWrapper img {
+  text-align: center;
+  object-fit: cover;
+  float: left;
+  margin-right: 8px;
+  vertical-align: top;
+}
 
   em,
   i {
@@ -308,4 +314,5 @@ export const PreviewSection = styled.div`
   .ql-align-justify {
     text-align: justify;
   }
+  
 `;

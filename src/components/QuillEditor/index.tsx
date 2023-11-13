@@ -13,6 +13,7 @@ interface QuillEditorProps {
   onChange: (content: string) => void;
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  
 }
 
 const formats = [
@@ -85,7 +86,7 @@ const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
         try {
           const res = await axiosRequest.requestAxios<ResData<string>>("post", "/upload", formData);
           const uploadedImageUrl = res.data; // 서버로부터 받은 이미지 URL
-  
+
           // 에디터에 이미지 삽입 (img 태그로 변환)
           const imageHTML = `<img src="${uploadedImageUrl}" alt="Uploaded Image" style="max-width: 100%; display: block; margin: 10px 0;">`;
           const quillEditor = quillRef.current?.getEditor();
@@ -136,12 +137,9 @@ const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
     }
   }, [imageHandler]);
 
-
-
-
   return (
     <QuillWrapper
-      ref={quillRef} // 여기에서 ref를 연결합니다.
+      ref={quillRef}
       value={props.value}
       onChange={(content, delta, source, editor) => {
         props.onChange(editor.getHTML());

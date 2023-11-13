@@ -26,10 +26,6 @@ export default function PostContent({ data }: PostContentProps) {
   const isMyPost = currentUser?.id === data?.authorId;
   const imageUrls = data?.images.map(image => image.url) || [];
 
-
-
-
-  
   //게시글 삭제 함수
   const handlePostDelete = async () => {
     if (!data?.id) return;
@@ -51,7 +47,7 @@ export default function PostContent({ data }: PostContentProps) {
   const openDeclarationModal = () => {
     openModal({
       title: "게시글 신고",
-      content: <DeclarationModal title={"게시글"} onClick={closeModal} />,
+      content: <DeclarationModal title={"게시글"} onClick={closeModal} targetId={data?.id} />,
     });
   };
   // 게시글 날짜 변환
