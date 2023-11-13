@@ -9,7 +9,7 @@ import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import LocationInput from "./LocationInput";
 import { GeocoderResult } from "@/@types/GeocoderResult";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, useParams } from "next/navigation";
 import { Posting, ResData } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
 import { Menu } from "@/@types/DropDown";
@@ -22,7 +22,7 @@ import Image from "next/image";
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
-  data?: PostWrite;
+  data?: PostWrite; // PostWrite 타입을 그대로 유지
   params: {
     id: number;
   };
@@ -30,13 +30,22 @@ interface PostWriteProps {
   isEdit?: boolean;
   spaceship?: Spaceship;
   member?: PlanetMembership;
+  title?: string;
+  content?: string;
+  published?: boolean;
+  planetId?: number;
+  address?: string;
+  location?: [{ latitude: number; longitude: number }];
+  imageUrls?: [string];
+  tags?: string[];
+  spaceshipId?: number;
 }
-export default function PostWrite({ params, isEdit }: PostWriteProps) {
+
+export default function PostWrite() {
   const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
-  const [planetId, setPlanetId] = React.useState<number>(params.id);
   const [address, setAddress] = React.useState<GeocoderResult>();
   const [locations, setLocation] = React.useState<GeocoderResult>();
   const [published, setPublished] = React.useState<boolean>(true);
@@ -50,6 +59,9 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const postId = searchParams.get("id");
   const isEditMode = searchParams.get("isEdit") === "true";
   const router = useRouter();
+  const params = useParams();
+  const planetIdFromParams = Number(params.id);
+  const [planetId, setPlanetId] = React.useState<number>(planetIdFromParams);
   const user = useRecoilValue(userAtom);
   const [hasError, setHasError] = useState(false);
   // const [errorMessage, setErrorMessage] = useState("");
@@ -88,7 +100,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
     } else {
       const isMemberOfPlanet = user?.memberships?.planets?.some(
         membership =>
-          Number(membership?.planetId) === Number(params.id) &&
+          Number(membership?.planetId) === planetIdFromParams &&
           (membership?.role === "OWNER" || membership?.role === "ADMIN" || membership?.role === "MEMBER"),
       );
       if (!isMemberOfPlanet) {
@@ -388,10 +400,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>
-      <PW.PreviewSection
-        dangerouslySetInnerHTML={{ __html: content }}
-        aria-readonly
-      />
+      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: content }} aria-readonly />
     </PW.Wrapper>
   );
 }
