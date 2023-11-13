@@ -309,8 +309,10 @@ const SomeoneMessage: React.FC<{
   const images = content.includes("http");
 
   const { modalDataState, openModal, closeModal } = useModal();
+  const [selectedMessageId, setSelectedMessageId] = useState<Number | null>(null);
 
   const openModals = (messageId: Number) => {
+    setSelectedMessageId(messageId);
     openModal({
       title: "채팅 신고하기",
       content: <DeclarationModal title={"채팅"} targetId={messageId} onClick={closeModal} />,
@@ -319,19 +321,15 @@ const SomeoneMessage: React.FC<{
 
   return (
     <>
-      {modalDataState.isOpen && modalDataState.content}
-      <S.OtherMessage key={messageId}>
+      {modalDataState.isOpen && selectedMessageId === messageId && modalDataState.content}
+      <S.OtherMessage key={messageId} onClick={() => openModals(messageId)}>
         <div>
           <S.Image src={senderImage} />
         </div>
         <S.Info>
           <S.Nickname>{senderName}</S.Nickname>
           <S.Intro>
-            {images ? (
-              <img src={content} />
-            ) : (
-              <S.TextContent onClick={() => openModals(messageId)}>{content}</S.TextContent>
-            )}
+            {images ? <img src={content} /> : <S.TextContent>{content}</S.TextContent>}
             <div>
               {dateNoYear} {time}
             </div>
