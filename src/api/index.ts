@@ -5,7 +5,7 @@ const allowMethod: string[] = ["get", "post", "put", "patch", "delete"];
 
 // Axios 인스턴스 생성
 const instance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://localhost:8080/api",
   timeout: 10000,
   withCredentials: true,
 });
@@ -13,7 +13,7 @@ const instance = axios.create({
 // instance.defaults.headers.post["Content-Type"] = "application/json";
 // instance.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
-authInterceptor(instance);
+// authInterceptor(instance);
 
 // 정의된 함수 시그니처에 맞게 인터페이스 생성
 interface AxiosRequest {

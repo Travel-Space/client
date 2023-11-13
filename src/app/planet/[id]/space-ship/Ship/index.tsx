@@ -34,7 +34,7 @@ export default function Ship({ ship }: ShipType) {
           />
         </S.Img>
         <S.Title>{isNewShip ? `우주선 ${ship}` : ship.name}</S.Title>
-        <S.MemberCount>{isNewShip ? "" : `0 / ${ship.maxMembers}`}</S.MemberCount>
+        <S.MemberCount>{isNewShip ? "" : `${ship.memberCount} / ${ship.maxMembers}`}</S.MemberCount>
       </S.Container>
     </S.Wrap>
   );
