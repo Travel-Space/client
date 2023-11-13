@@ -20,7 +20,7 @@ import { useSearchParams } from "next/navigation";
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
 
-const PROFILE_IMAGE: string = "https://travelspace-bucket.s3.ap-northeast-2.amazonaws.com/undefined./default-user.svg";
+const PROFILE_IMAGE: string = "/assets/img/icons/default-user.svg";
 
 interface PropsType {
   goToLogin?: () => void;
