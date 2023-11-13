@@ -13,7 +13,7 @@ const instance = axios.create({
 // instance.defaults.headers.post["Content-Type"] = "application/json";
 // instance.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
-authInterceptor(instance);
+// authInterceptor(instance);
 
 // 정의된 함수 시그니처에 맞게 인터페이스 생성
 interface AxiosRequest {
