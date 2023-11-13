@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import axiosRequest from "@/api";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
@@ -16,7 +16,6 @@ interface ModalProps {
 }
 
 export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
-  const user = useRecoilValue(userAtom);
   const [auth, setAuth] = useRecoilState(userAtom);
 
   const handleJoinPlanet = async () => {
@@ -29,7 +28,7 @@ export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
         const planetJoin = {
           ...auth,
           memberships: {
-            planets: [...(auth?.memberships.planets || []), { planetId, role: "GUEST" }],
+            planets: [...(auth?.memberships.planets || []), { planetId: Number(planetId), role: "GUEST" }],
             spaceships: auth?.memberships.spaceships,
           },
         } as UserType;
