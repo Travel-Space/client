@@ -6,6 +6,7 @@ export const ListBox = styled.div`
   ${flexCenter}
   gap: 16px;
   border-bottom: 1px solid #d9d9d9;
+  width: 370px;
 
   > div {
     cursor: pointer;
