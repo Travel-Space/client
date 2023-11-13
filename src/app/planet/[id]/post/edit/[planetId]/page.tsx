@@ -7,5 +7,5 @@ export default function Edit() {
   const params = useParams();
   const id = Number(params.id);
 
-  return <PostWrite params={{ id }} isEdit={true}/>;
+  return <PostWrite />;
 }
