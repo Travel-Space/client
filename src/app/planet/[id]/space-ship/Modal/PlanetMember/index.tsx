@@ -2,7 +2,7 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Member from "@/components/SpaceModal/Member";
 import { Default } from "@/@types/Modal";
-import { CommonUserInfo } from "@/@types/User";
+import { CommonUserInfo, User, UsersType } from "@/@types/User";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -13,6 +13,10 @@ export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
   const [updatedPlanetMember, setUpdatedPlanetMember] = useState<CommonUserInfo[]>([]);
   const [followingList, setFollowingList] = useState<CommonUserInfo[]>([]);
+  const [searchUsers, setSearchUsers] = useState<CommonUserInfo[]>([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [searchEmail, setSearchEmail] = useState<string | null>(null);
 
   // 초대하기
   async function handleInvite(userId: number) {
@@ -22,7 +26,7 @@ export default function PlanetMember({ onClose }: Default) {
         `/planet/${planetId}/invite/${userId}`,
         {},
       );
-      console.log(response);
+      console.log("handleInvite", response);
       if (response.status === 201) {
         alert(response.data.message);
         fetchMemberListData();
@@ -41,7 +45,7 @@ export default function PlanetMember({ onClose }: Default) {
         `/planet/approve/${planetId}/${userId}`,
         {},
       );
-      console.log(response);
+      console.log("handleApprove", response);
       if (response.status === 201) {
         alert(response.data.message);
         fetchMemberListData();
@@ -60,7 +64,7 @@ export default function PlanetMember({ onClose }: Default) {
         `/planet/reject/${planetId}/${userId}`,
         {},
       );
-      console.log(response);
+      console.log("handleReject", response);
       if (response.status === 201) {
         alert(response.data.message);
         fetchMemberListData();
@@ -79,7 +83,7 @@ export default function PlanetMember({ onClose }: Default) {
         `/planet/kick/${planetId}/${userId}`,
         {},
       );
-      console.log(response);
+      console.log("handleKick", response);
       if (response.status === 200) {
         alert(response.data.message);
         fetchMemberListData();
@@ -102,7 +106,7 @@ export default function PlanetMember({ onClose }: Default) {
           role: role === isAdmin ? "ADMIN" : "MEMBER",
         },
       );
-      console.log(response);
+      console.log("handleRoleMember", response);
       if (response.status === 200) {
         alert(response.data.message);
         fetchMemberListData();
@@ -114,16 +118,13 @@ export default function PlanetMember({ onClose }: Default) {
     }
   }
 
-  useEffect(() => {
-    fetchMemberListData();
-  }, []);
-
+  // 팔로우 리스트 조회
   async function fetchFollowingData() {
     try {
       const response = await axiosRequest.requestAxios<
         ResData<{ data: { friend: { id: number; profileImage: string; nickName: string; email: string } }[] }>
       >("get", "/user/following", {});
-      console.log(response);
+      console.log("fetchFollowingData", response);
       const data = response.data;
       const resultMember = data.data.map(
         (member: { friend: { id: number; profileImage: string; nickName: string; email: string } }) => ({
@@ -142,22 +143,75 @@ export default function PlanetMember({ onClose }: Default) {
       alert(errorResponse?.data.message);
     }
   }
+  // 모든 유저 조회
+  async function getSearchUsers(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.nativeEvent.isComposing) return;
+
+    if (e.key === "Enter" && searchEmail) {
+      try {
+        const response = await axiosRequest.requestAxios<ResData<UsersType>>(
+          "get",
+          `/user?page=${page}&limit=${limit}&email=${searchEmail}`,
+        );
+        console.log("getSearchUsers", response.data.data);
+        const resultUser = response.data.data.map((user: User) => ({
+          userId: user.id,
+          nickName: user.nickName,
+          email: user.email,
+          profileImage: user.profileImage,
+          role: undefined,
+          invited: false,
+        }));
+        console.log(resultUser);
+        setSearchUsers(resultUser);
+      } catch (error) {
+        console.error("유저 조회 에러", error);
+        const errorResponse = (error as AxiosError<{ message: string }>).response;
+        alert(errorResponse?.data.message);
+      }
+    }
+  }
 
   useEffect(() => {
     fetchFollowingData();
+    fetchMemberListData();
   }, []);
 
   useEffect(() => {
     const updatedPlanetMember = [...planetMember, ...followingList].filter(
       (value, index, self) => self.findIndex(el => el.userId === value.userId) === index,
     );
-
     setUpdatedPlanetMember(updatedPlanetMember);
-  }, [followingList, planetMember]);
+
+    if (searchUsers.length !== 0) {
+      const updated = [...planetMember, ...searchUsers]
+        .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
+        .filter(
+          updatedUser =>
+            planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
+            searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
+        );
+      if (updated.length !== 0) {
+        setUpdatedPlanetMember(updated);
+      } else setUpdatedPlanetMember(searchUsers);
+    }
+  }, [followingList, planetMember, searchUsers]);
+
+  useEffect(() => {
+    if (!searchEmail) {
+      setSearchUsers([]);
+    }
+  }, [searchEmail]);
 
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리" size="lg">
       <S.Notification>
+        <input
+          placeholder="이메일을 검색해보세요."
+          value={searchEmail || ""}
+          onChange={e => setSearchEmail(e.target.value)}
+          onKeyDown={getSearchUsers}
+        />
         {/* <S.InputGroup>
           <S.Input placeholder="이메일 또는 닉네임을 검색해보세요." />
           <S.SearchButton>
@@ -167,7 +221,7 @@ export default function PlanetMember({ onClose }: Default) {
         </S.InputGroup> */}
 
         {/* 친구 없고 멤버 없을 때 */}
-        {/* {followingList.length === 0 && planetMember.length === 0 && (
+        {followingList.length === 0 && planetMember.length === 0 && (
           <S.NoList>
             <img src="/assets/img/icons/user-profile-default.svg" height={100} />
             <p>
@@ -177,7 +231,7 @@ export default function PlanetMember({ onClose }: Default) {
             </p>
             친구관리 링크
           </S.NoList>
-        )} */}
+        )}
 
         {/* 친구나 멤버 있을 때 */}
         <S.MemberList>
