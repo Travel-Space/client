@@ -22,7 +22,7 @@ import Image from "next/image";
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
-  data?: PostWrite;
+  data?: PostWrite; // PostWrite 타입을 그대로 유지
   params: {
     id: number;
   };
@@ -30,7 +30,17 @@ interface PostWriteProps {
   isEdit?: boolean;
   spaceship?: Spaceship;
   member?: PlanetMembership;
+  title?: string;
+  content?: string;
+  published?: boolean;
+  planetId?: number;
+  address?: string;
+  location?: [{ latitude: number; longitude: number }];
+  imageUrls?: [string];
+  tags?: string[];
+  spaceshipId?: number;
 }
+
 export default function PostWrite({ params, isEdit }: PostWriteProps) {
   const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState<string>("");
@@ -388,10 +398,7 @@ export default function PostWrite({ params, isEdit }: PostWriteProps) {
           </PW.ButtonGroup>
         </PW.WriteSection>
       </PW.LeftDisplay>
-      <PW.PreviewSection
-        dangerouslySetInnerHTML={{ __html: content }}
-        aria-readonly
-      />
+      <PW.PreviewSection dangerouslySetInnerHTML={{ __html: content }} aria-readonly />
     </PW.Wrapper>
   );
 }
