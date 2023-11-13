@@ -28,6 +28,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     image: "",
     description: "",
     maxMembers: 0,
+    memberCount: 0,
     ownerId: 0,
     status: "UPCOMING",
     startDate: "",

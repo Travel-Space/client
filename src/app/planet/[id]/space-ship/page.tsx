@@ -28,6 +28,7 @@ export interface SpaceShipType {
   image: string;
   description: string;
   maxMembers: number;
+  memberCount: number;
   ownerId: number;
   status: SpaceshipStatus;
   startDate: string;

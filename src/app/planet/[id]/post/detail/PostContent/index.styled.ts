@@ -139,12 +139,8 @@ export const TextData = styled.div`
   }
 
   img {
-    text-align: center;
     object-fit: cover;
-    max-width: 100%;
-    float: left;
-    margin-right: 8px;
-    vertical-align: top;
+    margin: 8px;
   }
 
   em,

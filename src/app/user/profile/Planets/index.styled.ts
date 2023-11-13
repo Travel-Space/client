@@ -27,6 +27,15 @@ export const Planets = styled.div`
   display: flex;
   gap: 16px;
 `;
+export const NoMyPlanets = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  color: ${({ theme }) => theme.PALETTE.gray[100]};
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+`;
 export const Number = styled.div`
   & > span {
     color: ${({ theme }) => theme.PALETTE.gray[200]};

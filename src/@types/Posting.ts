@@ -26,6 +26,7 @@ export interface Posting {
   monthlyViews: number;
   spaceshipId: number;
   spaceship: { name: String };
+  repliesCount: number;
 }
 
 interface Images {

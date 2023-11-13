@@ -4,6 +4,11 @@ import styled from "styled-components";
 export const PaginationWrapper = styled.div`
   display: flex;
   ${flexCenter};
+
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 export const FaAngleDoubleLeft = styled.button``;
 export const FaAngleLeft = styled.button`

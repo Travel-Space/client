@@ -11,15 +11,29 @@ interface PostContentProps {
   onCommentChange: () => void;
   onLoadMoreComments: () => void;
   hasMoreComments: boolean;
+  hasMoreReplies: boolean;
+  handleLoadMoreReplies: () => void;
 }
 
-export default function CommentList({ data, onCommentChange, onLoadMoreComments, hasMoreComments }: PostContentProps) {
+export default function CommentList({
+  data,
+  onCommentChange,
+  onLoadMoreComments,
+  hasMoreReplies,
+  hasMoreComments,
+  handleLoadMoreReplies,
+}: PostContentProps) {
   return (
     <CL.Wrapper>
       <CL.CommentCount>{data?.totalTopLevelCommentsCount}개의 댓글</CL.CommentCount>
       <CommentWrite post={String(data?.id || "")} onCommentChange={onCommentChange} />
       {data?.comments && data.comments.length > 0 ? (
-        <CommentItem data={data} onCommentChange={onCommentChange} />
+        <CommentItem
+          data={data}
+          onCommentChange={onCommentChange}
+          handleLoadMoreReplies={handleLoadMoreReplies}
+          hasMoreReplies={hasMoreReplies}
+        />
       ) : (
         <CL.NoComments></CL.NoComments>
       )}

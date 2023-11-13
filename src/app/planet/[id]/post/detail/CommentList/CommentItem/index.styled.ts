@@ -121,3 +121,14 @@ export const ActionButtons = styled.div`
     width: 140px;
   }
 `;
+
+export const MoreBtn = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 1100px;
+  margin-top: 30px;
+
+  & button {
+    width: 200px;
+  }
+`;

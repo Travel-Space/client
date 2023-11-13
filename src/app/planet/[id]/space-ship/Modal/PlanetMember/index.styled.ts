@@ -24,3 +24,24 @@ export const MemberList = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
 `;
+
+export const SearchGroup = styled.div`
+  ${flexCenter}
+  margin-bottom: 24px;
+  > input {
+    flex: 5;
+    border-radius: 10px 0 0 10px;
+    border-right: none;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    padding: 0 16px;
+    height: 40px;
+  }
+  > button {
+    flex: 1;
+    height: 40px;
+    border-radius: 0 10px 10px 0;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    ${flexCenter}
+    gap: 8px;
+  }
+`;

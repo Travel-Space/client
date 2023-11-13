@@ -86,11 +86,15 @@ const Planets = ({ id }: { id: number }) => {
     <S.Container>
       <S.UserPlanets>
         <S.Title>소유 행성</S.Title>
-        <S.Planets>
-          {userPlanets.map((planet, idx) => (
-            <MyPlanetItem key={idx} data={planet} />
-          ))}
-        </S.Planets>
+        {!!userPlanets.length ? (
+          <S.Planets>
+            {userPlanets.map((planet, idx) => (
+              <MyPlanetItem key={idx} data={planet} />
+            ))}
+          </S.Planets>
+        ) : (
+          <S.NoMyPlanets>소유하는 행성이 없습니다.</S.NoMyPlanets>
+        )}
       </S.UserPlanets>
       <S.Header>
         <S.Title>여행 중인 행성</S.Title>
