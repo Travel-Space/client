@@ -106,30 +106,40 @@ export default function PostContent({ data }: PostContentProps) {
           <PC.TextBottomDisplay>
             <PC.TagsDisplay>{data?.hashtags.map((tag, index) => <PC.Tags key={index}>{tag}</PC.Tags>)}</PC.TagsDisplay>
             <PC.PostActionBtn>
-              {isMyPost ? (
-                <>
-                  <Link
-                    href={{ pathname: `/planet/${data?.planetId}/post/write`, query: { id: data?.id, isEdit: true } }}
-                  >
-                    <PC.EditBtn>
+              <PC.PostActionBtn>
+                {isMyPost ? (
+                  <>
+                    <Link
+                      href={{ pathname: `/planet/${data?.planetId}/post/write`, query: { id: data?.id, isEdit: true } }}
+                    >
+                      <PC.EditBtn>
+                        <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
+                          수정
+                        </Button>
+                      </PC.EditBtn>
+                    </Link>
+                    <PC.DeleteBtn onClick={handlePostDelete}>
                       <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
-                        수정
+                        삭제
                       </Button>
-                    </PC.EditBtn>
-                  </Link>
-                  <PC.DeleteBtn onClick={handlePostDelete}>
-                    <Button variant="reverse" size="big" shape="medium" fontWeight="bold">
-                      삭제
-                    </Button>
-                  </PC.DeleteBtn>
-                </>
-              ) : (
-                <PC.DeclarationBtn>
-                  <Button variant="error" size="big" shape="medium" fontWeight="bold" onClick={openDeclarationModal}>
-                    신고
-                  </Button>
-                </PC.DeclarationBtn>
-              )}
+                    </PC.DeleteBtn>
+                  </>
+                ) : (
+                  currentUser && (
+                    <PC.DeclarationBtn>
+                      <Button
+                        variant="error"
+                        size="big"
+                        shape="medium"
+                        fontWeight="bold"
+                        onClick={openDeclarationModal}
+                      >
+                        신고
+                      </Button>
+                    </PC.DeclarationBtn>
+                  )
+                )}
+              </PC.PostActionBtn>
             </PC.PostActionBtn>
           </PC.TextBottomDisplay>
         </PC.Content>
