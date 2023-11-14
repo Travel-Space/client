@@ -181,9 +181,11 @@ export default function CommentItem({
                         <CI.DeleteBtn onClick={() => handleCommentDelete(comment.id)}>삭제</CI.DeleteBtn>
                       </>
                     ) : (
-                      <CI.DeclarationBtn onClick={() => openDeclarationModal(comment.id, isReply)}>
-                        신고
-                      </CI.DeclarationBtn>
+                      currentUser && (
+                        <CI.DeclarationBtn onClick={() => openDeclarationModal(comment.id, isReply)}>
+                          신고
+                        </CI.DeclarationBtn>
+                      )
                     )}
                   </CI.CommentEdit>
                 </CI.CommentActionBtn>
