@@ -10,6 +10,8 @@ import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
 import { Planet, ResData } from "@/@types";
+import { useRecoilValue } from "recoil";
+import { planetListState } from "@/recoil/atoms/searchPlanet.atom";
 
 interface PlanetListProps {
   data?: Planet;
@@ -17,22 +19,31 @@ interface PlanetListProps {
 
 export default function PlanetList() {
   const [planetList, setPlanetList] = useState<Planet[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const planetListFromRecoil = useRecoilValue(planetListState);
   const [hoveredPlanet, setHoveredPlanet] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    fetchPlanetList(currentPage);
-  }, [currentPage]);
+    fetchPlanetList(1, 10);
+  }, []);
 
-  const fetchPlanetList = async (page: number) => {
+  useEffect(() => {
+    if (planetListFromRecoil.planets.length > 0) {
+      setPlanetList(planetListFromRecoil.planets);
+    }
+  }, [planetListFromRecoil]);
+
+  //행성 리스트 불러오기
+  const fetchPlanetList = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>(
         "get",
-        `/planet?page=${page}&limit=10&published=true`,
+        `/planet?page=${page}&limit=${limit}&published=true`,
         {},
       );
 
+      // 기존의 행성 리스트에 새로운 행성들을 추가합니다.
       setPlanetList(prevPlanets => [...prevPlanets, ...response.data.planets]);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -41,11 +52,14 @@ export default function PlanetList() {
     }
   };
 
-  const onSlideChange = async (swiper: any) => {
-    if (swiper.activeIndex === swiper.slides.length - 5 && currentPage < totalPages) {
-      setCurrentPage(prevPage => prevPage + 1);
-    }
-  };
+const onSlideChange = async (swiper: any) => {
+  const nextPage = Math.floor(swiper.activeIndex / 5) + 2; 
+  if (nextPage > currentPage && nextPage <= totalPages) {
+    setCurrentPage(nextPage);
+
+    await fetchPlanetList(nextPage, 5);
+  }
+};
 
   const getShapeNumber = (shape: string) => {
     return shape.replace(/\D/g, "");
@@ -53,16 +67,19 @@ export default function PlanetList() {
 
   return (
     <SwiperContainer className="swiper">
-      <Swiper
-        spaceBetween={40}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-        onSlideChange={onSlideChange}
-        slidesPerView={5}
-        slidesPerGroup={5}
-      >
+<Swiper
+  key={'planet-swiper'}
+  spaceBetween={40}
+  pagination={{
+    clickable: true,
+    dynamicBullets: true,
+    dynamicMainBullets: Math.ceil(totalPages / 5),
+  }}
+  modules={[Pagination]}
+  onSlideNextTransitionEnd={onSlideChange}
+  slidesPerView={5}
+  slidesPerGroup={5}
+>
         {planetList.map(planet => (
           <SwiperSlide key={planet.id}>
             <StyledSwiperSlide>
