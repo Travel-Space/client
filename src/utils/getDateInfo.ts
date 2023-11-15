@@ -34,7 +34,3 @@ export const getDateInfo = (createdAt: Date) => {
 
   return { dateString, dateNoYear, dayName, time };
 };
-
-// 사용 예시
-// const { dateString, dayName, time } = getDateInfo(createdAt);
-// console.log(dateString, dayName, time); // 각 변수에 해당하는 값 출력
