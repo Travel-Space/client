@@ -11,10 +11,10 @@ import Image from "next/image";
 import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 interface PostingItemProps {
-  page: number;
-  setPage: (page: number) => void;
+  page?: number;
+  setPage?: (page: number) => void;
   data: Posting;
-  saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
+  saveData?: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
 export default function PostingItem({ page, setPage, data, saveData }: PostingItemProps) {
   //local날짜로 변환
@@ -49,7 +49,7 @@ export default function PostingItem({ page, setPage, data, saveData }: PostingIt
       </S.InfoRow>
       <S.InfoRow>
         <S.Title onClick={goToPost}>{data.title}</S.Title>
-        {parentPath === "like" && (
+        {parentPath === "like" && saveData && page && setPage && (
           <LikeCancelBtn item="posting" saveData={saveData} id={data.id} page={page} setPage={setPage} />
         )}
       </S.InfoRow>
