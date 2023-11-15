@@ -1,4 +1,3 @@
-import AdminModalContainer from "../Modal/AdminModalContainer";
 import * as S from "./index.styled";
 
 interface TabProps {

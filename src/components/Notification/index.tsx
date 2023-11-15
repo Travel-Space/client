@@ -6,6 +6,7 @@ import * as S from "./index.styled";
 import Side from "../../components/common/Side";
 import NotificationList from "./NotificationList";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import { Notification } from "@/@types/Notification";
 
 type ClickNotificationFunction = () => void;
 
@@ -22,7 +23,7 @@ export default function Notification({ onClickNotification, setNewNotificationRe
 
   useEffect(() => {
     if (socket) {
-      const handleNotifications = data => {
+      const handleNotifications = (data: Notification[]) => {
         setNotifications(prev => [...prev, ...data]);
       };
 
@@ -34,8 +35,6 @@ export default function Notification({ onClickNotification, setNewNotificationRe
       };
     }
   }, []);
-
-  console.log(notifications);
 
   return (
     <Side>

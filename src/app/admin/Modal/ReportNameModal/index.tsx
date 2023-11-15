@@ -13,15 +13,12 @@ import { useState } from "react";
 interface ReportNameModalProps {
   report: Report;
   setIsOpen: React.Dispatch<
-    React.SetStateAction<{
-      reportName: boolean;
-      reportReason: boolean;
-    }>
+    React.SetStateAction<{ reportName: boolean; reportReason: boolean; reportDetail: boolean }>
   >;
 }
 
 export default function ReportNameModal({ report, setIsOpen }: ReportNameModalProps) {
-  console.log("REPORT", report);
+  // console.log("REPORT", report);
 
   const [openImageModal, setIsOpenImageModal] = useState(false);
 
@@ -37,23 +34,23 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
   const { dateString, dayName, time } = getDateInfo(createdAt);
 
   const approveReport = () => {
-    setIsOpen(() => ({ reportName: false, reportReason: true }));
+    setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: true }));
   };
-
   const openImage = () => {
     setIsOpenImageModal(prev => !prev);
   };
 
   const refuseReport = async (id: number) => {
-    console.log(id, "거절 ID");
+    // console.log(id, "거절 ID");
     if (confirm("신고 요청을 거절할까요?")) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/reports/${id}/reject`);
-        console.log("성공", response);
+        // console.log("성공", response);
         alert("신고 요청을 거절했어요.");
-        setIsOpen(() => ({ reportName: false, reportReason: false }));
+        setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
       } catch (error) {
-        console.log(error);
+        alert("에러");
+        // console.log(error);
       }
     }
   };
@@ -62,7 +59,7 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
     <AdminModalContainer
       title="신고 내용"
       closeModal={() => {
-        setIsOpen(() => ({ reportName: false, reportReason: false }));
+        setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false, reportDetail: false }));
       }}
     >
       {openImageModal && imageUrl && <ImageModal image={imageUrl} openImage={openImage} />}
