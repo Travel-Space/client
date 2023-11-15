@@ -12,6 +12,25 @@ export interface Report {
   targetId: number;
   targetType: "ARTICLE" | "COMMENT" | "MESSAGE";
   reports: Report[];
-  totalCount: number;
   isSuspended: boolean;
+  // 리팩토링 해야함
+  suspensionEndDate: Date;
+  targetDetails: {
+    author: { nickName: String; email: String; reportCount: number };
+    planetId: number;
+    id: number;
+  };
+  reportDetails: {
+    id: number;
+    targetType: string;
+    reporterName: string;
+    createdAt: Date;
+    planetId: number;
+    reason: string;
+    status: string;
+    approvalReason: string;
+    processingDate: Date;
+    imageUrl: string;
+  };
+  totalCount: number;
 }
