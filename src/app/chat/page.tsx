@@ -1,14 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useModal } from "@/hooks/useModal";
 import useSocket from "@/hooks/useSocket";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { getDateInfo } from "@/utils/getDateInfo";
 import { Message } from "@/@types/Chat";
-import { Planet } from "@/@types";
+import { Planet, ResData } from "@/@types";
+import axiosRequest from "@/api";
 
 import Modal from "./Content/Modal";
 
@@ -16,7 +17,6 @@ import * as S from "./page.styled";
 import Line from "@/components/common/Line";
 import DeclarationModal from "@/components/common/DeclarationModal";
 import Input from "@/components/common/Input";
-import axiosRequest from "@/api";
 
 export default function Chat() {
   const user = useRecoilValue(userAtom);
@@ -51,7 +51,7 @@ export default function Chat() {
   });
 
   // 과거 채팅 내역 및 현재 채팅 내역
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState<Message[]>([]);
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -108,7 +108,7 @@ export default function Chat() {
     }
   }, [socket]);
 
-  const fileInputRef = useRef<HTMLImageElement | undefined>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const fileUploadHandler = () => {
     if (fileInputRef.current) {
@@ -121,7 +121,7 @@ export default function Chat() {
       const formData = new FormData();
       formData.append("files", e.target.files[0]);
 
-      const response = await axiosRequest.requestAxios("post", "/upload", formData);
+      const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
 
       if (response.data[0]) {
         const message = {
@@ -322,7 +322,7 @@ const SomeoneMessage: React.FC<{
   return (
     <>
       {modalDataState.isOpen && selectedMessageId === messageId && modalDataState.content}
-      <S.OtherMessage key={messageId} onClick={() => openModals(messageId)}>
+      <S.OtherMessage onClick={() => openModals(messageId)}>
         <div>
           <S.Image src={senderImage} />
         </div>
