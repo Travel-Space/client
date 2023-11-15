@@ -6,7 +6,7 @@ import { Notification } from "@/@types/Notification";
 import { getDateInfo } from "@/utils/getDateInfo";
 
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userAtom } from "@/recoil/atoms/user.atom";
+import { userAtom, UserType } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
 
 interface NotificationListProps {
@@ -15,7 +15,7 @@ interface NotificationListProps {
 }
 
 export default function NotificationList({ notifications, setNotifications }: NotificationListProps) {
-  const setAuth = useSetRecoilState(userAtom);
+  const setAuth = useSetRecoilState<UserType | null>(userAtom);
   const user = useRecoilValue(userAtom);
   const router = useRouter();
 
@@ -31,7 +31,12 @@ export default function NotificationList({ notifications, setNotifications }: No
     }
   };
 
-  const sendInvitationResponse = async (id: number, planetId: number, invitationId: number, status: string) => {
+  const sendInvitationResponse = async (
+    id: number,
+    planetId: number | undefined,
+    invitationId: number | undefined,
+    status: string,
+  ) => {
     const confirmationText = status === "ACCEPTED" ? "수락" : "거절";
     if (confirm(`초대에 ${confirmationText}하면 해당 알림 리스트는 자동으로 삭제됩니다.\n${confirmationText}할까요?`)) {
       try {
@@ -43,13 +48,15 @@ export default function NotificationList({ notifications, setNotifications }: No
         deleteNotificationList(id);
 
         if (status == "ACCEPTED") {
-          const updatedMemberships = user?.memberships?.planets ? [...user?.memberships.planets] : [];
-          updatedMemberships.push({ planetId, role: "MEMBER" });
+          const updatedMemberships = user?.memberships?.planets ? [...user.memberships.planets] : [];
+          updatedMemberships.push({ planetId: planetId!, role: "MEMBER" });
           setAuth(prev => ({
-            ...prev,
+            ...prev!,
             memberships: {
+              ...prev!.memberships,
               planets: updatedMemberships,
             },
+            isAuth: true,
           }));
           router.replace(`/planet/${planetId}/map/`);
         }
@@ -59,7 +66,7 @@ export default function NotificationList({ notifications, setNotifications }: No
     }
   };
 
-  const handleNotificationClick = (type: string, articleId: number, planetId: number) => {
+  const handleNotificationClick = (type: string, articleId: number | undefined, planetId: number | undefined) => {
     if (type === "LIKE" || type === "ARTICLE" || type === "COMMENT" || type === "SUB_COMMENT") {
       router.replace(`/planet/${planetId}/post/?detail=${articleId}`);
     } else {

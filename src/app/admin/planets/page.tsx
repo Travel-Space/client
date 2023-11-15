@@ -41,11 +41,11 @@ export default function Planets() {
       if (filterStatus !== "") {
         apiUrl += `&published=${filterStatus}`;
       }
-      const response = await axiosRequest.requestAxios<ResData<Report>>("get", apiUrl);
+      const response = await axiosRequest.requestAxios<ResData<Planet>>("get", apiUrl);
 
       setPlanetData(response.data.planets);
       setTotal(response.data.totalCount);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       alert("정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
     }
@@ -64,8 +64,8 @@ export default function Planets() {
     getPlanet();
   }, [filterName, filterHashtag, filterownerNickname, filterStatus]);
 
-  console.log("planet", planetData);
-  console.log(filterName, "행성명");
+  // console.log("planet", planetData);
+  // console.log(filterName, "행성명");
 
   const onDeletePlanet = async (planetId: number) => {
     if (confirm("행성을 삭제할까요?")) {

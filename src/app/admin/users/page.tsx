@@ -1,7 +1,7 @@
 "use client";
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
-import { User } from "@/@types/User";
+import { User, UsersType } from "@/@types/User";
 
 import { Select, Button, Space } from "antd";
 import * as S from "../admin.styled";
@@ -13,13 +13,19 @@ import AdminTable from "../Table";
 import ReasonsRestrictionActivityModal from "../Modal/ReasonsRestrictionActivityModal";
 
 export default function Users() {
-  const [userData, setUserData] = useState<User>([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [userData, setUserData] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | undefined>();
+
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState({
+    reportName: false,
+    reportReason: false,
+    reportDetail: false,
+  });
+
   const [filterName, setFilterName] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
   const [filterNickName, setFilterNickName] = useState<string>("");
@@ -41,15 +47,15 @@ export default function Users() {
         apiUrl += `&isSuspended=${filterStatus}`;
       }
 
-      const response = await axiosRequest.requestAxios<ResData<Report>>("get", apiUrl);
+      const response = await axiosRequest.requestAxios<ResData<UsersType>>("get", apiUrl);
       setUserData(response.data.data);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setTotal(response.data.total);
     } catch (error) {
       alert("정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
     }
   };
-  console.log(filterStatus);
+  // console.log(filterStatus);
 
   useEffect(() => {
     getUsers();
@@ -60,11 +66,11 @@ export default function Users() {
     getUsers();
   }, [filterName, filterEmail, filterNickName, filterStatus]);
 
-  console.log(userData, "유저데이터");
+  // console.log(userData, "유저데이터");
 
-  const formatSuspensionDate = (suspensionDate: string) => {
-    if (suspensionDate) {
-      const date = new Date(suspensionDate);
+  const formatSuspensionDate = (suspensionDate: Date | undefined) => {
+    if (suspensionDate instanceof Date) {
+      const date = suspensionDate;
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
       const day = date.getDate().toString().padStart(2, "0");
@@ -89,7 +95,12 @@ export default function Users() {
 
   const onSuspendUser = (user: User) => {
     setSelectedUser(user);
-    setIsOpen(true);
+    // setIsOpen((prev) => {
+    //   ... prev,
+    //   reportReason : true
+    // });
+
+    setIsOpen(prevState => ({ ...prevState, reportReason: true }));
   };
 
   const columns = [
@@ -178,7 +189,9 @@ export default function Users() {
             total={total}
             onPageChange={onPageChange}
           />
-          {isOpen && <ReasonsRestrictionActivityModal user={selectedUser} setIsOpen={setIsOpen} />}
+          {isOpen.reportReason && selectedUser && (
+            <ReasonsRestrictionActivityModal user={selectedUser} setIsOpen={setIsOpen} />
+          )}
         </S.AdminContent>
       </S.TableContainer>
     </S.AdminLayout>

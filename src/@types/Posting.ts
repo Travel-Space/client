@@ -40,5 +40,6 @@ export interface PostingsType {
   data: Posting[];
   page: number;
   limit: number;
+  total: number;
   totalCount: number;
 }

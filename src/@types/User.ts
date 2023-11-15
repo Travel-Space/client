@@ -48,9 +48,11 @@ export interface User {
   planetsMembership: PlanetMembership[];
   reportsMade: Report[];
   spaceshipMemberships: SpaceshipMember[];
-  reportCount?: number | string;
+  reportCount?: number;
   isFollowing: boolean;
   invited: boolean;
+  isSuspended?: boolean;
+  userSuspensionDate?: Date;
 }
 
 enum SocialProvider {

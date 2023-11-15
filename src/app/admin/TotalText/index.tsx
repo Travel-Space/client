@@ -1,10 +1,10 @@
 import * as S from "./index.styled";
 
-type TotalTextProps = {
+interface TotalTextProps {
   titleText: string;
   totalNum: number;
   unit: string;
-};
+}
 
 export default function TotalText({ titleText, totalNum, unit }: TotalTextProps) {
   return (

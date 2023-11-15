@@ -15,15 +15,12 @@ import Tab from "../../Tab";
 interface ReportDetailModalProps {
   report: Report;
   setIsOpen: React.Dispatch<
-    React.SetStateAction<{
-      reportName: boolean;
-      reportReason: boolean;
-    }>
+    React.SetStateAction<{ reportName: boolean; reportReason: boolean; reportDetail: boolean }>
   >;
 }
 
 export default function ReportDetailModal({ report, setIsOpen }: ReportDetailModalProps) {
-  console.log(report, " ~~~~~~~~~~~~~~~~~~~~ report");
+  // console.log(report, " ~~~~~~~~~~~~~~~~~~~~ report");
   const [isSelected, setIsSelected] = useState({
     name: true,
     processingDetails: false,
@@ -40,7 +37,7 @@ export default function ReportDetailModal({ report, setIsOpen }: ReportDetailMod
     reportDetails: { id, reporterName, createdAt, planetId, reason, status, approvalReason, processingDate, imageUrl },
   } = report;
 
-  console.log(imageUrl);
+  // console.log(imageUrl);
   const { dateString, dayName, time } = getDateInfo(createdAt);
   const { dateString: processDate, dayName: processDay, time: processTime } = getDateInfo(processingDate);
 
