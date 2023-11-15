@@ -11,6 +11,9 @@ export interface ChatMembership {
   userId: number;
   chat: Chat;
   user: User;
+  profileImage: string;
+  nickname: string;
+  role: string;
 }
 
 export interface Message {
