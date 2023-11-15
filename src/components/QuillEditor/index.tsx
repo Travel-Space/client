@@ -13,7 +13,6 @@ interface QuillEditorProps {
   onChange: (content: string) => void;
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
-  
 }
 
 const formats = [
@@ -100,6 +99,9 @@ const QuillEditor = forwardRef((props: QuillEditorProps, ref) => {
             }
             props.onChange(quillEditor.root.innerHTML); // 변경된 에디터 내용으로 상태 업데이트
           }
+
+          // 이미지 URL을 images 배열에 추가
+          props.setImages(prevImages => [...prevImages, uploadedImageUrl]);
         } catch (error) {
           console.error("Image upload failed: ", error);
         }

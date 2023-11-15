@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   ${flexCenter}
   ${bodyContainer}
+  overflow: auto;
 `;
 
 export const Content = styled.div`

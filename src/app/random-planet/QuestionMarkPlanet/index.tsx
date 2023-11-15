@@ -67,13 +67,13 @@ export default function QuestionMarkPlanet() {
           <QMP.PlanetImg
             data-src={
               randomPlanet
-                ? `/assets/img/icons/planet-${getShapeNumber(randomPlanet.shape)}.svg`
-                : "/assets/img/icons/random-planet.svg"
+                ? `/assets/img/planet/planet-${getShapeNumber(randomPlanet.shape)}.svg`
+                : "/assets/img/planet/random-planet.svg"
             }
             src={
               randomPlanet
-                ? `/assets/img/icons/planet-${getShapeNumber(randomPlanet.shape)}.svg`
-                : "/assets/img/icons/random-planet.svg"
+                ? `/assets/img/planet/planet-${getShapeNumber(randomPlanet.shape)}.svg`
+                : "/assets/img/planet/random-planet.svg"
             }
             animate={animatePlanet}
           />

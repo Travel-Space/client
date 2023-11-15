@@ -2,7 +2,6 @@ import { flexCenter } from "@/styles/common";
 import styled from "styled-components";
 
 export const PaginationWrapper = styled.div`
-  display: flex;
   ${flexCenter};
 
   position: absolute;
