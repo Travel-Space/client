@@ -1,5 +1,4 @@
 import axios from "axios";
-import authInterceptor from "./authInterceptor";
 
 const allowMethod: string[] = ["get", "post", "put", "patch", "delete"];
 
