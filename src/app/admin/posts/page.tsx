@@ -38,7 +38,7 @@ export default function Posts() {
       }
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>("get", apiUrl);
       // 아래 data.articles아닌지 확인
-      setPostData(response.data.data);
+      setPostData(response.data.articles);
       setTotal(response.data.total);
       // console.log(response, " 필터!!");
       // console.log(filterPlanetName, filterAuthorNickname, filterTitle, " 필터선택값");
