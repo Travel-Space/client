@@ -18,7 +18,7 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
 
   const [selectedMenu, setSelectedMenu] = useState("");
 
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const [report, setReport] = useState({
     reason: selectedMenu, // 신고 내용
@@ -42,20 +42,19 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
   };
 
-  const handleImage = async (e: any) => {
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const formData = new FormData();
-      formData.append("files", e.target.files[0]);
+      if (e.target.files && e.target.files.length > 0) {
+        formData.append("files", e.target.files[0]);
 
-      const response = await axiosRequest.requestAxios("post", "/upload", formData);
-      console.log(response.data[0], "image response");
+        const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
 
-      setImageUrl(response.data[0]);
-      setReport(prevState => ({
-        ...prevState,
-        reason: selectedMenu,
-        imageUrl: response.data[0],
-      }));
+        setImageUrl(response.data[0]);
+      } else {
+        // 파일이 선택되지 않았을 때의 처리
+        alert(MESSAGE.FILE.NOT_FILE);
+      }
     } catch (error) {
       alert("이미지 업로드 안 됨");
       console.error(error);
@@ -63,19 +62,18 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
   };
 
   useEffect(() => {
-    console.log(imageUrl, "imageimage", report.imageUrl, "report");
+    console.log(typeof imageUrl, "useEffect 안에서 값이 변경될 때마다 1");
   }, [imageUrl]);
 
   const handleComplete = async () => {
     try {
-      // axios 보내기
-      const response = await axiosRequest.requestAxios<ResData<Report>>("post", "/reports", {
-        reason: selectedMenu, // 신고 내용
-        targetId, // 게시글 아이디, 댓글 아이디
-        targetType, // article, comment, message
+      const updatedReport = {
+        ...report,
+        reason: selectedMenu,
         imageUrl,
-      });
-      console.log(selectedMenu, targetId, targetType, imageUrl, report.imageUrl);
+      };
+
+      const response = await axiosRequest.requestAxios<ResData<Report>>("post", "/reports", updatedReport);
 
       alert(MESSAGE.REPORTS.COMPLETE);
       onClick();
@@ -101,9 +99,9 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
           <S.Picture>
             <span>신고 사진</span>
             <S.File>
-              <input readOnly value={imageUrl || ""} placeholder="파일을 업로드해 주세요." />
+              <input readOnly value={report.imageUrl || ""} placeholder="파일을 업로드해 주세요." />
               <label htmlFor="file">사진 첨부</label>
-              <input accept="image/*" type="file" id="file" name="imageUrl" onChange={handleImage} />
+              <input accept="image/*" id="file" type="file" name="imageUrl" onChange={handleImage} />
             </S.File>
           </S.Picture>
         </S.Middle>

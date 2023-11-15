@@ -9,10 +9,11 @@ export interface TextareaProp extends sizeProp {
   placeholder: string;
   maxLength: number;
   value?: string;
+  disabled: boolean;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function Textarea({ size, placeholder, name, maxLength, value, onChange }: TextareaProp) {
+export default function Textarea({ size, placeholder, name, maxLength, value, disabled, onChange }: TextareaProp) {
   return (
     <S.Textarea
       size={size}
@@ -20,6 +21,7 @@ export default function Textarea({ size, placeholder, name, maxLength, value, on
       maxLength={maxLength}
       value={value}
       name={name}
+      disabled={disabled}
       onChange={onChange}
     />
   );
