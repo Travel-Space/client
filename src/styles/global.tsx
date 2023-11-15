@@ -77,7 +77,6 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: 'Pretendard', sans-serif;
         color: ${({ theme }) => theme.PALETTE.black};
-       
     }
 
     button {

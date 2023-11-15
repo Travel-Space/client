@@ -27,7 +27,7 @@ export default function Error() {
   );
 }
 
-export const Container = styled.div`
+const Container = styled.div`
   ${bodyContainer}
   ${flexCenter}
   flex-direction: column;
@@ -41,7 +41,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Comment = styled.div`
+const Comment = styled.div`
   line-height: 1.5;
   ${flexColumnCenter}
 
@@ -49,7 +49,7 @@ export const Comment = styled.div`
   font-weight: 600;
 `;
 
-export const Button = styled.div`
+const Button = styled.div`
   padding: 8px 10px 8px 20px;
   border-radius: 50px;
   background: none;

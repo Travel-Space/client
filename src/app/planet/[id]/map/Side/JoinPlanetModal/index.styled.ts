@@ -1,5 +1,5 @@
-import { flexAlignCenter, flexColumnCenter } from "@/styles/common";
 import styled from "styled-components";
+import { flexAlignCenter, flexColumnCenter } from "@/styles/common";
 
 export const Container = styled.div`
   ${flexColumnCenter}
