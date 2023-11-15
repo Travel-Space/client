@@ -89,7 +89,7 @@ const onSlideChange = async (swiper: any) => {
                   onMouseLeave={() => setHoveredPlanet(null)}
                 >
                   <SlideImage
-                    src={`/assets/img/icons/planet-${getShapeNumber(planet.shape)}.svg`}
+                    src={`/assets/img/planet/planet-${getShapeNumber(planet.shape)}.svg`}
                     alt={`Planet ${planet.name}`}
                   />
                   {hoveredPlanet === planet.id && (
