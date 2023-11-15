@@ -42,4 +42,5 @@ export interface PostingsType {
   limit: number;
   total: number;
   totalCount: number;
+  articles: Posting[];
 }
