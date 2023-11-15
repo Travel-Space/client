@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 
 import axiosRequest from "@/api";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { ResData } from "@/@types";
 import MESSAGE from "@/constants/message";
 
 import * as S from "./index.styled";
@@ -20,7 +21,7 @@ export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
 
   const handleJoinPlanet = async () => {
     try {
-      const response = await axiosRequest.requestAxios("post", `/planet/join/${planetId}`);
+      const response = await axiosRequest.requestAxios<ResData<{}>>("post", `/planet/join/${planetId}`);
 
       if (response.status === 201) {
         alert(MESSAGE.PLANET.JOIN);
@@ -41,19 +42,21 @@ export default function JoinPlanetModal({ onClose, planetId }: ModalProps) {
   };
 
   return (
-    <BoxModal onClose={onClose} title="행성 탑승하기">
-      <S.Container>
-        <span>행성에 탑승하시겠습니까?</span>
+    <>
+      <BoxModal onClose={() => onClose} title="행성 탑승하기">
+        <S.Container>
+          <span>행성에 탑승하시겠습니까?</span>
 
-        <S.ButtonBox>
-          <Button onClick={handleJoinPlanet} variant="confirm" shape="medium" size="normal" fontWeight="bold">
-            확인
-          </Button>
-          <Button variant="reverse" shape="medium" size="normal" fontWeight="bold" onClick={onClose}>
-            취소
-          </Button>
-        </S.ButtonBox>
-      </S.Container>
-    </BoxModal>
+          <S.ButtonBox>
+            <Button onClick={handleJoinPlanet} variant="confirm" shape="medium" size="normal" fontWeight="bold">
+              확인
+            </Button>
+            <Button variant="reverse" shape="medium" size="normal" fontWeight="bold" onClick={() => onClose}>
+              취소
+            </Button>
+          </S.ButtonBox>
+        </S.Container>
+      </BoxModal>
+    </>
   );
 }

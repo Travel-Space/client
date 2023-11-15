@@ -9,6 +9,8 @@ import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { MembershipStatus } from "@/@types/Member";
+import { Locations } from "@/@types/Locations";
 
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
@@ -17,8 +19,6 @@ import * as S from "./index.styled";
 import DropDown from "@/components/common/DropDown";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
-import { MembershipStatus } from "@/@types/Member";
-import { Locations } from "@/@types/Locations";
 
 export interface ArticleProps {
   params: Number;
