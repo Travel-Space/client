@@ -2,7 +2,7 @@
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
 
-import { Postings, Posting } from "@/@types/Posting";
+import { PostingsType, Posting } from "@/@types/Posting";
 import { Button, Space } from "antd";
 
 import * as S from "../admin.styled";
@@ -36,11 +36,12 @@ export default function Posts() {
       if (filterTitle) {
         apiUrl += `&title=${filterTitle}`;
       }
-      const response = await axiosRequest.requestAxios<ResData<Postings>>("get", apiUrl);
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>("get", apiUrl);
+      // 아래 data.articles아닌지 확인
       setPostData(response.data.articles);
       setTotal(response.data.total);
-      console.log(response, " 필터!!");
-      console.log(filterPlanetName, filterAuthorNickname, filterTitle, " 필터선택값");
+      // console.log(response, " 필터!!");
+      // console.log(filterPlanetName, filterAuthorNickname, filterTitle, " 필터선택값");
     } catch (error) {
       alert("오류");
     }
@@ -60,7 +61,7 @@ export default function Posts() {
   };
 
   const onDeleteArticle = async (articleId: number) => {
-    console.log("ARTICLEID", articleId);
+    // console.log("ARTICLEID", articleId);
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/admin/${articleId}`);
       getPosts();

@@ -25,15 +25,12 @@ const menuList = [
 interface ReportAcceptModalProps {
   report: Report;
   setIsOpen: React.Dispatch<
-    React.SetStateAction<{
-      reportName: boolean;
-      reportReason: boolean;
-    }>
+    React.SetStateAction<{ reportName: boolean; reportReason: boolean; reportDetail: boolean }>
   >;
 }
 
 export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptModalProps) {
-  console.log(report, "승인 report");
+  // console.log(report, "승인 report");
 
   const {
     targetDetails: {
@@ -52,8 +49,8 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     }
   }, [selectedReason]);
 
-  console.log(approvalReason, "이유 상세");
-  console.log(selectedReason, "선택이유");
+  // console.log(approvalReason, "이유 상세");
+  // console.log(selectedReason, "선택이유");
 
   const dropDownProps = {
     comment: "사유 선택",
@@ -68,7 +65,9 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     if (selectedReason === dropDownProps.comment) return alert("수락 사유를 선택해 주세요.");
     if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert("수락 사유를 입력해 주세요.");
 
-    const data = isEtcSelected ? { approvalReason: approvalReason } : { approvalReason: selectedReason };
+    const data: { approvalReason: string; suspensionEndDate?: string } = isEtcSelected
+      ? { approvalReason }
+      : { approvalReason };
 
     if (reportCount > 1) {
       const currentDate = new Date();
@@ -79,7 +78,7 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
         .padStart(2, "0")}-${nextWeekDate.getDate().toString().padStart(2, "0")}`;
     }
 
-    console.log("수락할 때 보내는 데이터 -------- ", data);
+    // console.log("수락할 때 보내는 데이터 -------- ", data);
 
     if (confirm("요청을 수락할까요?")) {
       try {
@@ -89,8 +88,8 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
           data,
         );
         alert("신고 요청을 수락했어요.");
-        setIsOpen(() => ({ reportName: false, reportReason: false }));
-        console.log(response, "수락Response");
+        setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
+        // console.log(response, "수락Response");
       } catch (error) {
         alert("에러");
       }
@@ -101,7 +100,7 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     <AdminModalContainer
       title="신고 요청 수락"
       closeModal={() => {
-        setIsOpen(() => ({ reportName: false, reportReason: false }));
+        setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
       }}
     >
       <S.Content>

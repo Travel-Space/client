@@ -16,7 +16,8 @@ import AdminTable from "../Table";
 
 export default function Reports() {
   const [reportsData, setReportsData] = useState<Report[]>([]);
-  const [selectedReport, setSelectedReport] = useState<Report[]>([]);
+  // 임시
+  const [selectedReport, setSelectedReport] = useState<Report | undefined>();
   const [isOpen, setIsOpen] = useState({
     reportName: false,
     reportReason: false,
@@ -46,7 +47,7 @@ export default function Reports() {
 
       const response = await axiosRequest.requestAxios<ResData<Report>>("get", apiUrl);
       setReportsData(response.data.reports);
-      console.log("신고", response.data);
+      // console.log("신고", response.data);
       setTotal(response.data.totalCount);
     } catch (error) {
       alert("오류");
@@ -66,7 +67,7 @@ export default function Reports() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Report>>("get", `/reports/${id}`);
       openReportModal(response.data);
-      console.log(response, "GetReportDetail");
+      // console.log(response, "GetReportDetail");
     } catch (error) {
       console.error("특정 신고 내용을 불러오는 중 에러 발생:", error);
     }
@@ -76,7 +77,7 @@ export default function Reports() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Report>>("get", `/reports/${id}`);
       setSelectedReport(response.data);
-      setIsOpen(() => ({ reportReason: false, reportName: false, reportDetail: true }));
+      setIsOpen(prevState => ({ ...prevState, reportDetail: true }));
     } catch (error) {
       console.error("특정 신고 내용을 불러오는 중 에러 발생:", error);
     }
@@ -84,7 +85,7 @@ export default function Reports() {
 
   const openReportModal = (report: Report) => {
     setSelectedReport(report);
-    setIsOpen(() => ({ reportReason: false, reportName: true, reportDetail: false }));
+    setIsOpen(prevState => ({ ...prevState, reportName: true }));
   };
 
   const onPageChange = (page: number) => {
@@ -192,9 +193,9 @@ export default function Reports() {
             onPageChange={onPageChange}
           />
 
-          {isOpen.reportName && <ReportNameModal report={selectedReport} setIsOpen={setIsOpen} />}
-          {isOpen.reportReason && <ReportAcceptModal report={selectedReport} setIsOpen={setIsOpen} />}
-          {isOpen.reportDetail && <ReportDetailModal report={selectedReport} setIsOpen={setIsOpen} />}
+          {isOpen.reportName && selectedReport && <ReportNameModal report={selectedReport} setIsOpen={setIsOpen} />}
+          {isOpen.reportReason && selectedReport && <ReportAcceptModal report={selectedReport} setIsOpen={setIsOpen} />}
+          {isOpen.reportDetail && selectedReport && <ReportDetailModal report={selectedReport} setIsOpen={setIsOpen} />}
         </S.AdminContent>
       </S.TableContainer>
     </S.AdminLayout>

@@ -9,12 +9,9 @@ import { useEffect } from "react";
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";
 interface ReasonsRestrictionActivityModalProps {
-  user: User[];
+  user: User;
   setIsOpen: React.Dispatch<
-    React.SetStateAction<{
-      reportName: boolean;
-      reportReason: boolean;
-    }>
+    React.SetStateAction<{ reportName: boolean; reportReason: boolean; reportDetail: boolean }>
   >;
 }
 
@@ -35,7 +32,6 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
 
   const { reportCount, id } = user;
 
-  console.log({ user });
   const dropDownProps = {
     comment: "사유 선택",
     menuList,
@@ -72,7 +68,7 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/user/${id}/suspend`, data);
         alert("유저 활동을 제한 했어요.");
-        console.log(response, "제한");
+        // console.log(response, "제한");
       } catch (error) {
         alert("에러");
       }
@@ -83,7 +79,7 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
     <AdminModalContainer
       title="활동 제한 사유"
       closeModal={() => {
-        setIsOpen(false);
+        setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
       }}
     >
       <S.Content>
