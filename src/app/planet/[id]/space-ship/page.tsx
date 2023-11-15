@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { AxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { Role, SpaceshipStatus } from "@/@types/Spaceship";
+import { PlanetDataType, Role, SpaceshipContext, SpaceshipStatus } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -48,34 +48,6 @@ export interface SpaceShipMembers {
   userId: number;
   role: Role;
 }
-
-export interface PlanetDataType {
-  name: string;
-  memberLimit: number;
-  spaceshipLimit: number;
-  ownerId: number;
-}
-
-export interface SpaceshipContextType {
-  planetData: PlanetDataType;
-  planetId: string;
-  planetMember: CommonUserInfo[];
-  fetchMemberListData: () => void;
-  fetchSpaceshipData: () => void;
-}
-
-export const SpaceshipContext = createContext<SpaceshipContextType>({
-  planetData: {
-    name: "",
-    memberLimit: 0,
-    spaceshipLimit: 0,
-    ownerId: 0,
-  },
-  planetId: "",
-  planetMember: [],
-  fetchMemberListData: () => {},
-  fetchSpaceshipData: () => {},
-});
 
 export default function SpaceShip() {
   const [spaceshipList, setSpaceshipList] = useState<SpaceShipType[]>([]);
