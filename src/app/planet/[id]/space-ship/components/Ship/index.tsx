@@ -1,7 +1,7 @@
 import * as S from "./index.styled";
 import { useModal } from "@/hooks/useModal";
 import ShipManage from "../Modal/ShipManage";
-import { SpaceShipType } from "../page";
+import { SpaceShipType } from "..";
 import ShipInfo from "../Modal/ShipInfo";
 
 interface ShipType {

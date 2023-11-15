@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import * as S from "../page.styled";
+import * as S from "../index.styled";
 import Exit from "@/components/SpaceModal/Exit";
 import PlanetMember from "../Modal/PlanetMember";
 import { ItemType } from "@/@types/Modal";
@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import { useContext } from "react";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
-import { SpaceshipContext, SpaceshipContextType } from "@/@types/Spaceship";
+import { SpaceshipContext, SpaceshipContextType } from "..";
 
 export default function SpaceshipBottom() {
   const { openModal, closeModal } = useModal();

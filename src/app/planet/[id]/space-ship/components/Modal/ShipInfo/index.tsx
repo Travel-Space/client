@@ -2,7 +2,7 @@ import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 import { Default, ItemType } from "@/@types/Modal";
-import { Role, SpaceshipContext, SpaceshipContextType, SpaceshipStatusName } from "@/@types/Spaceship";
+import { Role, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -15,7 +15,7 @@ import Delete from "@/components/SpaceModal/Delete";
 import { useModal } from "@/hooks/useModal";
 import ShipManage from "../ShipManage";
 import Exit from "@/components/SpaceModal/Exit";
-import { SpaceShipType } from "../../page";
+import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
 
 interface ShipInfoType extends Default {
   shipId: number;
