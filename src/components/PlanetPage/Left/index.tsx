@@ -17,14 +17,10 @@ import { ItemType } from "@/@types/Modal";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
-const planetImg: {
+const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name, src })) as {
   name: PlanetShape;
   src: string;
-}[] = [
-  { name: "SHAPE1", src: PLANETSHAPE.SHAPE1 },
-  { name: "SHAPE2", src: PLANETSHAPE.SHAPE2 },
-  { name: "SHAPE3", src: PLANETSHAPE.SHAPE3 },
-];
+}[];
 
 export default function Left() {
   const router = useRouter();
