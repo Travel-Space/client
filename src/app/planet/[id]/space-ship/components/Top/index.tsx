@@ -1,8 +1,8 @@
 import Button from "@/components/common/Button";
-import * as S from "../page.styled";
+import * as S from "../index.styled";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { SpaceshipContext, SpaceshipContextType } from "@/@types/Spaceship";
+import { SpaceshipContext, SpaceshipContextType } from "..";
 
 export default function SpaceshipTop() {
   const { planetData } = useContext<SpaceshipContextType>(SpaceshipContext);

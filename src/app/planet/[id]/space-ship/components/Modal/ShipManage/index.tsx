@@ -10,13 +10,13 @@ import SelectBtn, { ListType } from "@/components/common/SelectBtn";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Spaceship, SpaceshipContext, SpaceshipContextType, SpaceshipStatusName } from "@/@types/Spaceship";
+import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
 import { AxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
-import { SpaceShipType } from "../../page";
+import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -159,6 +159,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
         <S.Group>
           <Label id="spaceship-description">우주선 설명</Label>
           <Textarea
+            disabled={false}
             size="spaceShip"
             placeholder="우주선 설명"
             name="spaceship-description"
