@@ -57,7 +57,6 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
   const getArticle = async () => {
     try {
       const dropdown = selectedMenu === "전체" ? "" : `&spaceshipName=${selectedMenu}`;
-      console.log(dropdown);
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
         clickMarker
@@ -73,13 +72,15 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
       console.log(article, `${currentPage}번째 페이지`);
 
       if (!data.length) {
+        !totalData && setArticle(data);
         setDisableLoadDate(true);
-        setArticle(data);
         return;
       }
 
       if (currentPage === 1) setArticle(data);
       else setArticle(prev => [...prev, ...data]);
+
+      setCurrentPage(prev => prev + 1);
     } catch (error) {
       if (error.response.status === 404) return setTotalData(0);
       console.error("에러 발생: ", error);
@@ -88,8 +89,6 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   const loadData = async () => {
     if (disableLoadData) return;
-    console.log(currentPage, "loadData");
-    setCurrentPage(prev => prev + 1);
     await getArticle();
   };
 
@@ -241,7 +240,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
               <S.ScrollBox>
                 <S.ScrollBox>
-                  {totalData === 0 && (
+                  {!totalData ? (
                     <Nothing
                       src="/assets/img/icons/no-postings.svg"
                       alt="no-postings"
@@ -251,11 +250,11 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                       suggest={checkJoin() ? MESSAGE.PLANET.FIRST_POST : MESSAGE.PLANET.JOIN_POST}
                       font="sm"
                     />
+                  ) : (
+                    article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)
                   )}
 
-                  {totalData !== 0 &&
-                    article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)}
-                  {Math.ceil(totalData / 10) >= currentPage && <S.ObserverRef ref={observerRef} />}
+                  <S.ObserverRef ref={observerRef} />
                 </S.ScrollBox>
               </S.ScrollBox>
             </div>
