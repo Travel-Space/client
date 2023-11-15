@@ -45,11 +45,16 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const formData = new FormData();
-      formData.append("files", e.target.files[0]);
+      if (e.target.files && e.target.files.length > 0) {
+        formData.append("files", e.target.files[0]);
 
-      const response = await axiosRequest.requestAxios("post", "/upload", formData);
+        const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
 
-      setImageUrl(response.data[0]);
+        setImageUrl(response.data[0]);
+      } else {
+        // 파일이 선택되지 않았을 때의 처리
+        alert(MESSAGE.FILE.NOT_FILE);
+      }
     } catch (error) {
       alert("이미지 업로드 안 됨");
       console.error(error);
