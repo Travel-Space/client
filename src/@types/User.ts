@@ -3,7 +3,6 @@ import { Like } from "./Like";
 import { ChatMembership, Message } from "./Chat";
 import { Planet, PlanetBookmark, PlanetMembership, Role } from "./Planet";
 import { SpaceshipMember, SpaceshipApplication } from "./Spaceship";
-import { UserFriend } from "./Friend";
 import { Comment } from "./Comment";
 
 export interface CountryInfo {
@@ -49,8 +48,6 @@ export interface User {
   planetsMembership: PlanetMembership[];
   reportsMade: Report[];
   spaceshipMemberships: SpaceshipMember[];
-  friendedBy: UserFriend[];
-  friends: UserFriend[];
   reportCount?: number | string;
   isFollowing: boolean;
   invited: boolean;
