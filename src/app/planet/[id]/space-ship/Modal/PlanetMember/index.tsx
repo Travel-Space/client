@@ -7,9 +7,9 @@ import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { AxiosError } from "axios";
-import { SpaceshipContext, SpaceshipContextType } from "../../page";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
+import { SpaceshipContext, SpaceshipContextType } from "@/@types/Spaceship";
 
 export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
