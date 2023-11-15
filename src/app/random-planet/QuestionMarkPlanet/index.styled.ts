@@ -63,10 +63,11 @@ export const RightArrow = styled.img`
 `;
 
 export const PlanetName = styled.div<PlanetNameProps>`
-  width: 65%;
+  text-align: center;
+  width: 70%;
   position: absolute;
-  top: ${({ offset }) => (offset ? "43%" : "50%")};
-  left: ${({ offset }) => (offset ? "60%" : "50%")};
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: ${({ theme }) => theme.PALETTE.white};
   padding: 5px;

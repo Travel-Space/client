@@ -1,4 +1,4 @@
-import { bodyContainer, flexAlignCenter, flexCenter } from "@/styles/common";
+import { bodyContainer, flexAlignCenter, flexCenter, flexSpaceBetweenCenter } from "@/styles/common";
 import styled, { keyframes } from "styled-components";
 
 const rotation = keyframes`
@@ -52,7 +52,8 @@ export const StyledSwiperSlide = styled.div`
 `;
 
 export const SlideImage = styled.img`
-  min-width: 160px;
+  ${flexSpaceBetweenCenter}
+  min-width: 180px;
   max-width: 200px;
   background-repeat: no-repeat;
   object-fit: cover;
@@ -61,10 +62,13 @@ export const SlideImage = styled.img`
 `;
 
 export const PlanetName = styled.div<PlanetNameProps>`
+  text-align: center;
   width: 70%;
   position: absolute;
-  top: ${({ offset }) => (offset ? "35%" : "39%")};
-  left: ${({ offset }) => (offset ? "60%" : "50%")};
+  /* top: ${({ offset }) => (offset ? "35%" : "39%")};
+  left: ${({ offset }) => (offset ? "60%" : "50%")}; */
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: ${({ theme }) => theme.PALETTE.white};
   padding: 5px;
