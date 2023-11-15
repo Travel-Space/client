@@ -1,5 +1,6 @@
-import { User } from "./User";
+import { CommonUserInfo, User } from "./User";
 import { Planet } from "./Planet";
+import { createContext } from "react";
 
 export interface Spaceship {
   id: number;
@@ -52,3 +53,31 @@ export enum SpaceshipStatusName {
 export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export type Role = "OWNER" | "MEMBER";
+
+export interface PlanetDataType {
+  name: string;
+  memberLimit: number;
+  spaceshipLimit: number;
+  ownerId: number;
+}
+
+export interface SpaceshipContextType {
+  planetData: PlanetDataType;
+  planetId: string;
+  planetMember: CommonUserInfo[];
+  fetchMemberListData: () => void;
+  fetchSpaceshipData: () => void;
+}
+
+export const SpaceshipContext = createContext<SpaceshipContextType>({
+  planetData: {
+    name: "",
+    memberLimit: 0,
+    spaceshipLimit: 0,
+    ownerId: 0,
+  },
+  planetId: "",
+  planetMember: [],
+  fetchMemberListData: () => {},
+  fetchSpaceshipData: () => {},
+});

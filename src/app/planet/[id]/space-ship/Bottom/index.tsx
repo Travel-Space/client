@@ -5,9 +5,9 @@ import PlanetMember from "../Modal/PlanetMember";
 import { ItemType } from "@/@types/Modal";
 import { useModal } from "@/hooks/useModal";
 import { useContext } from "react";
-import { SpaceshipContext, SpaceshipContextType } from "../page";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilValue } from "recoil";
+import { SpaceshipContext, SpaceshipContextType } from "@/@types/Spaceship";
 
 export default function SpaceshipBottom() {
   const { openModal, closeModal } = useModal();

@@ -63,7 +63,25 @@ export interface PlanetMembership {
   status: MembershipStatus;
 }
 
-export type PlanetShape = "SHAPE1" | "SHAPE2" | "SHAPE3";
+export type PlanetShape =
+  | "SHAPE1"
+  | "SHAPE2"
+  | "SHAPE3"
+  | "SHAPE4"
+  | "SHAPE5"
+  | "SHAPE6"
+  | "SHAPE7"
+  | "SHAPE8"
+  | "SHAPE9"
+  | "SHAPE10"
+  | "SHAPE11"
+  | "SHAPE12"
+  | "SHAPE13"
+  | "SHAPE14"
+  | "SHAPE15"
+  | "SHAPE16"
+  | "SHAPE17"
+  | "SHAPE18";
 
 export type Role = keyof typeof RoleName;
 
