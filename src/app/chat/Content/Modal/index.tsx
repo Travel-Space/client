@@ -1,11 +1,14 @@
 import { useRecoilValue } from "recoil";
+
+import { userAtom } from "@/recoil/atoms/user.atom";
+import { ChatMembership } from "@/@types/Chat";
+
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
-import { userAtom } from "@/recoil/atoms/user.atom";
 
-export default function Modal(members: []) {
+export default function Modal(members: ChatMembership[]) {
   const user = useRecoilValue(userAtom);
-  const me = members.members.filter(el => el.nickname === user?.nickName);
+  const me = members.members.filter((el: ChatMembership) => el.nickname === user?.nickName);
 
   return (
     <S.ModalBox>
@@ -22,7 +25,7 @@ export default function Modal(members: []) {
 
         <Line size="horizontal" color="gray" />
 
-        {members.members.map(el => (
+        {members.members.map((el: ChatMembership) => (
           <S.Profile>
             <img src={el.profileImage} />
             <span>
