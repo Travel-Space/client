@@ -19,9 +19,9 @@ import HeartAnimation from "@/components/common/HeartAnimation";
 import Account from "@/components/Account";
 
 interface PlanetProps {
-  role: string | {};
-  planetInfo: Planet | undefined;
-  membership: MembershipStatus;
+  role: { link: string[] | string; roles: string; tag: string[] | string };
+  planetInfo: Partial<{ shape: string; name: string; description: string; hashtags: string[] }>;
+  membership?: MembershipStatus;
   liked: boolean;
   setLiked: any;
 }
@@ -37,7 +37,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
   const [isModal, setIsModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
-  const { name, description, hashtags, shape } = planetInfo;
+  // const { name, description, hashtags, shape } = planetInfo;
 
   const handleOpen = () => {
     if (user?.isAuth) {
@@ -49,7 +49,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
   };
 
   const img = () => {
-    switch (shape) {
+    switch (planetInfo?.shape) {
       case "SHAPE1":
         return PLANETSHAPE.SHAPE1;
       case "SHAPE2":
@@ -115,7 +115,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
           <img src={img()} />
           <S.PlanetInfo>
             <div>
-              <strong>{name}</strong>
+              <strong>{planetInfo?.name}</strong>
 
               <div onClick={handleLiked}>
                 {liked ? <HeartAnimation color={heartColor} /> : <S.HeartImg src="/assets/img/icons/gray-heart.svg" />}
@@ -124,13 +124,13 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
 
             <Line size="horizontal" color="gray" />
 
-            <span>{description}</span>
+            <span>{planetInfo?.description}</span>
           </S.PlanetInfo>
         </S.Middle>
 
         <S.Bottom>
           {/* planet hash tag */}
-          {hashtags && hashtags.map((tag: string) => <S.HashTag>#{tag}</S.HashTag>)}
+          {planetInfo?.hashtags && planetInfo?.hashtags.map((tag: string) => <S.HashTag>#{tag}</S.HashTag>)}
         </S.Bottom>
       </S.Container>{" "}
     </>

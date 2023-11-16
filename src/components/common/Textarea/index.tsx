@@ -9,7 +9,7 @@ export interface TextareaProp extends sizeProp {
   placeholder: string;
   maxLength: number;
   value?: string;
-  disabled: boolean;
+  disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 

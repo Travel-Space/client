@@ -5,7 +5,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Posting } from "@/@types/Posting";
+import { Posting, PostingsType } from "@/@types/Posting";
 
 import * as S from "./page.styled";
 import Side from "./Side";
@@ -25,11 +25,11 @@ export default function Map({ params }: { params: { id: number } }) {
   const [center, setCenter] = useState({ lat: 0, lng: 0 }); // 초기 값은 임의로 설정
 
   // 마커 정보
-  const [marker, setMarker] = useState<Partial<Locations>>();
+  const [marker, setMarker] = useState<Locations[]>([]);
 
   // 마커 버튼 선택 유무
   const [clickedMarker, setClickedMarker] = useState(false);
-  const [clickedMarkerLocation, setClickedMarkerLocation] = useState<Partial<Locations>>({
+  const [clickedMarkerLocation, setClickedMarkerLocation] = useState<Locations>({
     latitude: 0,
     longitude: 0,
   });
@@ -45,15 +45,23 @@ export default function Map({ params }: { params: { id: number } }) {
   // 지도 페이지 들어갔을 때 게시글 전체 조회하는 api (우주선 상관 x) = 마커 찍어주는 용도
   const getMarker = async () => {
     try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         `/articles/byPlanet?planetId=${params.id}`,
       );
       const data = response.data;
       const locations = data.articles.flatMap((article: Posting) => article.locations); // [{}, {}, {}, {} ... {}]
-      const uniqueLocations = Array.from(new Set(locations.map(item => `${item.latitude}-${item.longitude}`))).map(
-        key => locations.find(obj => `${obj.latitude}-${obj.longitude}` === key),
-      );
+      // const uniqueLocations = Array.from(
+      //   new Set(locations.map((item: Locations) => `${item.latitude}-${item.longitude}`)),
+      // ).map(key => locations.find((obj: Locations) => `${obj.latitude}-${obj.longitude}` === key));
+
+      const uniqueLocations = Array.from(
+        new Set(locations.map((item: Locations) => `${item.latitude}-${item.longitude}`)),
+      )
+        .map(key => locations.find((obj: Locations) => `${obj.latitude}-${obj.longitude}` === key))
+        .filter((location): location is Locations => location !== undefined);
+
+      console.log(uniqueLocations);
 
       setMarker(uniqueLocations);
     } catch (error) {
@@ -114,10 +122,10 @@ export default function Map({ params }: { params: { id: number } }) {
       {isLoaded && (
         <GoogleMap mapContainerStyle={containerStyle} zoom={3} onUnmount={() => setMap(null)} center={center}>
           {marker &&
-            marker.map((location: Locations, index: Number) => (
+            marker.map(location => (
               <Marker
                 position={{
-                  lat: location.latitude,
+                  lat: location?.latitude,
                   lng: location.longitude,
                 }}
                 icon={{
