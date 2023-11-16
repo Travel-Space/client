@@ -225,7 +225,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
               disabled={!nickNameValid || !nickName}
               onClick={checkNickName}
             >
-              중복확인
+              중복 확인
             </Button>
           </SmallBtnGroup>
         </InputGroup>

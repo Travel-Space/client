@@ -129,7 +129,7 @@ export default function Email({ onEmail }: PropsType) {
               disabled={!emailValid || !email}
               onClick={sendCode}
             >
-              인증요청
+              인증 요청
             </Button>
           </SmallBtnGroup>
         </InputGroup>
