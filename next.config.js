@@ -19,6 +19,11 @@ const nextConfig = {
         destination: "/admin/users",
         permanent: true,
       },
+      {
+        source: "/mypage",
+        destination: "/mypage/statistics",
+        permanent: true,
+      },
     ];
   },
   trailingSlash: true,
