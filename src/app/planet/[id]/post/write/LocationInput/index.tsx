@@ -31,14 +31,10 @@ export default function LocationInput({
   const [isAddressActive, setIsAddressActive] = useState(false); // 주소 입력 시 아이콘 변경
 
   useEffect(() => {
-    if (initialValue) {
-      setAddress(initialValue);
-      searchAddress(initialValue);
-    }
-  }, [initialValue]);
+    // 클라이언트 사이드에서만 실행되도록 검사
+    if (typeof window === "undefined") return;
 
-  useEffect(() => {
-    window.initializeAutocomplete = function () {
+    const initializeAutocomplete = () => {
       if (!inputRef.current) return;
 
       const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
@@ -59,6 +55,9 @@ export default function LocationInput({
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
     script.defer = true;
     document.body.appendChild(script);
+
+    // 스크립트 로드 완료 후 자동 완성 초기화
+    script.onload = initializeAutocomplete;
 
     return () => {
       document.body.removeChild(script);

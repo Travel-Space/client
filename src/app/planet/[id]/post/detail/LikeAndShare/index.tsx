@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as LS from "./index.styled";
 import Line from "@/components/common/Line";
 import HeartAnimation from "@/components/common/HeartAnimation";
@@ -11,10 +11,18 @@ interface LikeAndShareProps {
 }
 
 export default function LikeAndShare({ likedStatus, onLikeToggle }: LikeAndShareProps) {
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
+
   const handleShareClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard
-        .writeText(window && window.location.href)
+        .writeText(currentUrl)
         .then(() => {
           alert("링크가 복사되었습니다.");
         })
