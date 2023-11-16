@@ -12,7 +12,7 @@ import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 
 interface PostingItemProps {
   page?: number;
-  setPage?: (page: number) => void;
+  setPage?: React.Dispatch<React.SetStateAction<number>>;
   data: Posting;
   saveData?: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }

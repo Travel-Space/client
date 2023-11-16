@@ -11,7 +11,7 @@ import LikeCancelBtn from "@/app/mypage/like/LikeCancelBtn";
 interface FavoritePlanetProps {
   data: PlanetBookmark;
   page: number;
-  setPage: (page: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
 export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {

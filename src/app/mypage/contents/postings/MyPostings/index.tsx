@@ -12,7 +12,7 @@ import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyPostingsProps {
   page: number;
-  setPage: (page: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   data: Posting;
   saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
