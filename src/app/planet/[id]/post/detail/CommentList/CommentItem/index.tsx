@@ -55,6 +55,7 @@ export default function CommentItem({
   const handleHideReply = () => {
     setOpenReply(null); // 답글 입력창을 닫음
   };
+  
   const openDeclarationModal = (commentId: number, isReply: boolean) => {
     openModal({
       title: "댓글 신고",

@@ -53,6 +53,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
   const handleCommentWrite = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
+  
   return (
     <CW.Wrapper>
       <Textarea

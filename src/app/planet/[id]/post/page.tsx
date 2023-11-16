@@ -44,43 +44,36 @@ export default function PostDetail() {
         return acc + (comment.repliesCount || 0);
       }, 0);
 
-      //댓글 페이지네이션
-      if (currentCommentsPage === 1) {
-        setData(response.data);
-      } else if (data) {
-        // 새로운 댓글 데이터를 기존 데이터에 추가합니다.
-        const newComments = response.data.comments.filter(
-          newComment => !data.comments.some(comment => comment.id === newComment.id),
-        );
-        setData({
-          ...data,
-          comments: [...data.comments, ...newComments],
-        });
-      }
+      let updatedData = response.data;
 
+      // 첫 번째 페이지가 아닐 경우, 기존 댓글과 새 댓글을 병합
+      if (currentCommentsPage > 1 && data) {
+        updatedData = {
+          ...response.data,
+          comments: [...data.comments, ...response.data.comments],
+        };
+      }
+      
+      if (currentRepliesPage > 1 && data) {
+        updatedData = {
+          ...updatedData,
+          comments: data.comments.map(comment => {
+            const existingReplies = comment.replies || [];
+            const newReplies = response.data.comments.find(c => c.id === comment.id)?.replies || [];
+  
+            return {
+              ...comment,
+              replies: [...existingReplies, ...newReplies],
+            };
+          }),
+        };
+      }
+  
+      setData(updatedData);
+      setData(updatedData);
       setTotalComments(response.data.totalTopLevelCommentsCount);
-
-      //대댓글 페이지네이션
-      if (currentRepliesPage === 1) {
-        setData(response.data);
-      } else if (data) {
-        const updatedComments = data.comments.map(comment => {
-          const newReplies = response.data.comments.find(c => c.id === comment.id)?.replies || [];
-          const existingReplies = comment.replies || [];
-          return {
-            ...comment,
-            replies: [...existingReplies, ...newReplies],
-          };
-        });
-
-        setData({
-          ...data,
-          comments: updatedComments,
-        });
-      }
-      console.log(response.data);
       setTotalReplies(totalRepliesCount);
-      // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
+      // 좋아요 상태 설정
       const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
     } catch (error: any) {
