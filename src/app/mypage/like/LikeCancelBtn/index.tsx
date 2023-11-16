@@ -10,7 +10,7 @@ import * as S from "./index.styled";
 
 interface LikeCancelBtnProps {
   page: number;
-  setPage: (page: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   item: string;
   id: number;
   saveData: (totalCount: number, totalPage: number, data: any) => void;
