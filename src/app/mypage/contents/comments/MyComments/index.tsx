@@ -11,7 +11,7 @@ import { getDateInfo } from "@/utils/getDateInfo";
 
 interface MyCommentsProps {
   page: number;
-  setPage: (page: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   data: Comment;
   saveData: (totalCount: number, totalPage: number, comments: Comment[]) => void;
 }
