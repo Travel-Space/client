@@ -44,33 +44,33 @@ export default function PostDetail() {
         return acc + (comment.repliesCount || 0);
       }, 0);
 
-      let updatedData = response.data;
-
-      // 첫 번째 페이지가 아닐 경우, 기존 댓글과 새 댓글을 병합
+      // 댓글 데이터 병합
+      let updatedComments;
       if (currentCommentsPage > 1 && data) {
-        updatedData = {
-          ...response.data,
-          comments: [...data.comments, ...response.data.comments],
-        };
+        updatedComments = [...data.comments, ...response.data.comments].filter(
+          (comment, index, self) => index === self.findIndex(c => c.id === comment.id),
+        );
+      } else {
+        updatedComments = response.data.comments;
       }
-      
-      if (currentRepliesPage > 1 && data) {
-        updatedData = {
-          ...updatedData,
-          comments: data.comments.map(comment => {
-            const existingReplies = comment.replies || [];
-            const newReplies = response.data.comments.find(c => c.id === comment.id)?.replies || [];
-  
-            return {
-              ...comment,
-              replies: [...existingReplies, ...newReplies],
-            };
-          }),
+
+      // 대댓글 데이터 병합
+      const updatedReplies = updatedComments.map(comment => {
+        const existingReplies = (data && data.comments.find(c => c.id === comment.id)?.replies) || [];
+        const newReplies = comment.replies || [];
+
+        return {
+          ...comment,
+          replies: [...existingReplies, ...newReplies].filter(
+            (reply, index, self) => index === self.findIndex(r => r.id === reply.id),
+          ),
         };
-      }
-  
-      setData(updatedData);
-      setData(updatedData);
+      });
+
+      setData({
+        ...response.data,
+        comments: updatedReplies,
+      });
       setTotalComments(response.data.totalTopLevelCommentsCount);
       setTotalReplies(totalRepliesCount);
       // 좋아요 상태 설정

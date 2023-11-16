@@ -47,7 +47,7 @@ export const StyledLink = styled.a`
 export const PostInfo = styled.div`
   ${flexCenter}
   gap: 16px;
-
+  cursor: pointer;
   & a {
     ${flexAlignCenter}
     text-decoration: none;
@@ -95,7 +95,6 @@ export const LocationImg = styled.img`
 export const Text = styled.div`
   line-height: 1.5;
   margin-bottom: 48px;
-  
 `;
 
 export const TextData = styled.div`
@@ -139,18 +138,18 @@ export const TextData = styled.div`
   }
 
   img {
-  max-width: 100%;
-  height: auto; /* 이미지 원본 비율 유지 */
-}
+    max-width: 100%;
+    height: auto; /* 이미지 원본 비율 유지 */
+  }
 
-/* 에디터 내 이미지에 대한 특별한 스타일 */
-.QuillWrapper img {
-  text-align: center;
-  object-fit: cover;
-  float: left;
-  margin-right: 8px;
-  vertical-align: top;
-}
+  /* 에디터 내 이미지에 대한 특별한 스타일 */
+  .QuillWrapper img {
+    text-align: center;
+    object-fit: cover;
+    float: left;
+    margin-right: 8px;
+    vertical-align: top;
+  }
 
   em,
   i {

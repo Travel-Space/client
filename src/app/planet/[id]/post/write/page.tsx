@@ -246,6 +246,7 @@ export default function PostWrite() {
             "get",
             `/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`,
           );
+          
           if (response.data) {
             const { title, content, hashtags, address, locations, spaceshipId } = response.data;
             setTitle(title);
@@ -253,6 +254,7 @@ export default function PostWrite() {
             setHashtags(hashtags);
             fetchSpaceships(planetId, spaceshipId);
             if (address) {
+              setIsAddressChecked(true);
               setAddress({
                 formatted_address: address,
                 geometry: {
