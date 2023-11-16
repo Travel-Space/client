@@ -30,7 +30,7 @@ const Confirm = () => {
   };
 
   const handleClickLeaveBtn = () => {
-    !checked ? alert("내용에 동의해주세요.") : leaveService();
+    !checked ? alert("내용에 동의해 주세요.") : leaveService();
   };
 
   //회원 탈퇴

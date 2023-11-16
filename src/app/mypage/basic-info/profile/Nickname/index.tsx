@@ -20,7 +20,7 @@ export default function NicknameInput({
 }: NicknameInputProps) {
   const profile = useRecoilValue(profileState);
 
-  //닉네임 중복확인
+  //닉네임 중복 확인
   async function checkNickname(nickname: string) {
     try {
       const response = await axiosRequest.requestAxios<ResData<NicknameCheck>>(
@@ -51,7 +51,7 @@ export default function NicknameInput({
     <>
       <S.NicknameInput type="text" value={nickname} onChange={handleChange} />
       <S.DoubleCheck onClick={() => checkNickname(nickname)} disabled={isAvailableNickname}>
-        중복확인
+        중복 확인
       </S.DoubleCheck>
     </>
   );
