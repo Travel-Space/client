@@ -44,7 +44,7 @@ export default function Chat() {
   const [chatRoomList, setChatRoomList] = useState([]);
   const [clickedRoomInfo, setClickedRoomInfo] = useState({
     roomId: 0,
-    roomInfo: {},
+    roomInfo: { name: "" },
     members: [],
     maxMember: 0,
     totalMember: 0,
@@ -96,7 +96,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (socket) {
-      const getMessage = (message: {}) => {
+      const getMessage = (message: Message) => {
         setChat(prev => [...prev, message]);
       };
 
@@ -224,7 +224,7 @@ export default function Chat() {
 
         <S.Body>
           <S.MessageBox ref={scrollContainerRef}>
-            {chat.map((el: Message) => {
+            {chat?.map((el: Message) => {
               const data = el.senderId === user?.id;
 
               return data ? (

@@ -7,27 +7,25 @@ import * as S from "./index.styled";
 import UserProfile from "@/components/common/UserProfile";
 
 export default function PostPreview({ article, params }: ArticleProps) {
-  const { id, title, content, createdAt, author, images } = article;
-
   // 날짜와 프로필 이미지
-  const { dateString } = getDateInfo(createdAt);
+  const { dateString } = getDateInfo(article!.createdAt);
 
   return (
     <S.Container>
-      <Link href={{ pathname: `/planet/${params}/post`, query: { detail: `${id}` } }}>
-        <S.Post key={id}>
+      <Link href={{ pathname: `/planet/${params}/post`, query: { detail: `${article?.id}` } }}>
+        <S.Post key={article?.id}>
           <S.MainBox>
-            <UserProfile size="map" author={author} />
+            <UserProfile size="map" author={article?.author} />
 
             <S.Description>
-              <span>{title}</span>
-              <div dangerouslySetInnerHTML={{ __html: content || "" }} />
+              <span>{article?.title}</span>
+              <div dangerouslySetInnerHTML={{ __html: article?.content || "" }} />
             </S.Description>
 
             <S.Date>{dateString}</S.Date>
           </S.MainBox>
 
-          {!!images.length && <S.PreviewImg src={images[0].url} alt="프리뷰 이미지" />}
+          {!!article?.images.length && <S.PreviewImg src={article?.images[0].url} alt="프리뷰 이미지" />}
         </S.Post>
       </Link>
     </S.Container>

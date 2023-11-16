@@ -6,7 +6,7 @@ import { ChatMembership } from "@/@types/Chat";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
 
-export default function Modal(members: ChatMembership[]) {
+export default function Modal(members: { members: ChatMembership[] }) {
   const user = useRecoilValue(userAtom);
   const me = members.members.filter((el: ChatMembership) => el.nickname === user?.nickName);
 

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { useEffect, useRef, useState } from "react";
 
-import { Posting } from "@/@types/Posting";
+import { Posting, PostingsType } from "@/@types/Posting";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import axiosRequest from "@/api";
-import { Planet, ResData } from "@/@types";
+import { Planet, ResData, User } from "@/@types";
 import { Spaceship } from "@/@types/Spaceship";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { MembershipStatus } from "@/@types/Member";
@@ -24,8 +24,16 @@ export interface ArticleProps {
   params: Number;
   clickMarker?: boolean;
   onClose?: () => void;
+  // article: {
+  //   id: number;
+  //   title: string;
+  //   content: string;
+  //   images: { url: string }[];
+  //   createdAt: Date;
+  //   author: User;
+  // };
   article?: Posting;
-  markerLocation?: Locations | undefined;
+  markerLocation?: Locations;
 }
 
 export default function Side({ onClose, clickMarker, params, markerLocation }: ArticleProps) {
@@ -57,7 +65,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
   const getArticle = async () => {
     try {
       const dropdown = selectedMenu === "전체" ? "" : `&spaceshipName=${selectedMenu}`;
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
+      const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         clickMarker
           ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=${currentPage}&limit=10${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
@@ -82,7 +90,6 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
       setCurrentPage(prev => prev + 1);
     } catch (error) {
-      if (error.response.status === 404) return setTotalData(0);
       console.error("에러 발생: ", error);
     }
   };
@@ -110,7 +117,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
   const getSpaceshipInfo = async () => {
     try {
       if (user?.isAuth) {
-        const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${params}`);
+        const response = await axiosRequest.requestAxios<ResData<Spaceship[]>>("get", `/spaceship/by-planet/${params}`);
         const spaceshipName = response.data.map((el: Spaceship) => el.name);
 
         setSpaceship(["전체", ...spaceshipName]);
@@ -183,6 +190,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
     GUEST: {
       roles: "게스트",
       tag: "행성 탑승",
+      link: "",
     },
   };
 
@@ -251,7 +259,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                       font="sm"
                     />
                   ) : (
-                    article.map((article: Posting | undefined) => <PostPreview article={article} params={params} />)
+                    article.map(article => <PostPreview article={article} params={params} />)
                   )}
 
                   <S.ObserverRef ref={observerRef} />
