@@ -56,6 +56,36 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
         return PLANETSHAPE.SHAPE2;
       case "SHAPE3":
         return PLANETSHAPE.SHAPE3;
+      case "SHAPE4":
+        return PLANETSHAPE.SHAPE4;
+      case "SHAPE5":
+        return PLANETSHAPE.SHAPE5;
+      case "SHAPE6":
+        return PLANETSHAPE.SHAPE6;
+      case "SHAPE7":
+        return PLANETSHAPE.SHAPE7;
+      case "SHAPE8":
+        return PLANETSHAPE.SHAPE8;
+      case "SHAPE9":
+        return PLANETSHAPE.SHAPE9;
+      case "SHAPE10":
+        return PLANETSHAPE.SHAPE10;
+      case "SHAPE11":
+        return PLANETSHAPE.SHAPE11;
+      case "SHAPE12":
+        return PLANETSHAPE.SHAPE12;
+      case "SHAPE13":
+        return PLANETSHAPE.SHAPE13;
+      case "SHAPE14":
+        return PLANETSHAPE.SHAPE14;
+      case "SHAPE15":
+        return PLANETSHAPE.SHAPE15;
+      case "SHAPE16":
+        return PLANETSHAPE.SHAPE16;
+      case "SHAPE17":
+        return PLANETSHAPE.SHAPE17;
+      case "SHAPE18":
+        return PLANETSHAPE.SHAPE18;
     }
   };
 
