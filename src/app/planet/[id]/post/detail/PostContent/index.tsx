@@ -35,11 +35,11 @@ export default function PostContent({ data }: PostContentProps) {
 
     try {
       await axiosRequest.requestAxios("delete", `/articles/${data.id}`);
-      router.back();
       alert("게시글이 성공적으로 삭제되었습니다.");
-    } catch (error) {
-      alert("게시글 삭제 중 에러가 발생했습니다. 다시 시도해 주세요.");
-      console.error("Error deleting post: ", error);
+      router.push(`/planet/${data.planetId}/map`);
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      alert(`${errorMessage}`);
     }
   };
 
