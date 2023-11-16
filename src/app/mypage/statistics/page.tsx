@@ -12,9 +12,12 @@ import * as S from "./page.styled";
 import PopularPost from "./PopularPost";
 import Button from "@/components/common/Button";
 import Summary from "./Summary";
-import DailyViewChart from "./DailyViewChart";
-import WeeklyViewChart from "./WeeklyViewChart";
 import Nothing from "@/components/common/Nothing";
+
+import dynamic from "next/dynamic";
+
+const DailyViewChart = dynamic(() => import("./DailyViewChart"), { ssr: false });
+const WeeklyViewChart = dynamic(() => import("./WeeklyViewChart"), { ssr: false });
 
 export default function Statistics() {
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
