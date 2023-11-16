@@ -59,15 +59,17 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     handleClick: setSelectedReason,
   };
 
+  // console.log(approvalReason, "approvalReason");
+  // console.log(selectedReason, "selectedReason");
   const isEtcSelected = selectedReason === REPORT.ETC;
 
   const patchReportReason = async (reportId: number) => {
     if (selectedReason === dropDownProps.comment) return alert("수락 사유를 선택해 주세요.");
     if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert("수락 사유를 입력해 주세요.");
 
-    const data: { approvalReason: string; suspensionEndDate?: string } = isEtcSelected
+    const data: { approvalReason?: string; suspensionEndDate?: string; selectedReason?: string } = isEtcSelected
       ? { approvalReason }
-      : { approvalReason };
+      : { approvalReason: selectedReason };
 
     if (reportCount > 1) {
       const currentDate = new Date();
@@ -146,7 +148,7 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
         <S.TextareaContainer>
           <Textarea
             size="admin"
-            placeholder="사유를 작성해 주세요. 작성한 사유는 유저에게 알림으로 전송됩니다."
+            placeholder="사유를 작성해 주세요."
             name="adminComments"
             maxLength={200}
             value={approvalReason}
