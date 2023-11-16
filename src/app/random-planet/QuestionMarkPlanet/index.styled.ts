@@ -52,6 +52,7 @@ export const RamdomBtn = styled.div`
   color: ${({ theme }) => theme.PALETTE.white};
   gap: 16px;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 export const RightArrow = styled.img`

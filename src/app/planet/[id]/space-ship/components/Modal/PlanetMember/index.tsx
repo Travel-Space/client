@@ -247,7 +247,7 @@ export default function PlanetMember({ onClose }: Default) {
             <p>
               <b>해당 사용자가 없습니다.</b>
               <br />
-              <span>이메일을 검색해보세요.</span>
+              <span>이메일을 검색해 보세요.</span>
             </p>
           </S.NoList>
         ) : (

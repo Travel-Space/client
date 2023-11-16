@@ -143,12 +143,17 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           <S.MemberList>
             {spaceshipInfo.members.map(member => (
               <S.Member key={member.userId}>
-                <img src={member.profileImage} width={32} height={32} alt="" />
+                <img
+                  className={member.userId === user?.id ? "isSelf" : ""}
+                  src={member.profileImage}
+                  width={32}
+                  height={32}
+                  alt=""
+                />
                 <div>
                   <p>
                     {member.nickName}
                     {member.role === "OWNER" && <span>우주선 방장</span>}
-                    {member.userId === user?.id && <span>(본인)</span>}
                   </p>
                   <p>{member.email}</p>
                 </div>
