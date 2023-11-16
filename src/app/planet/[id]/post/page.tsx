@@ -7,7 +7,7 @@ import { ResData, Posting, Comment } from "@/@types/index";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { AxiosResponse } from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import PostContent from "./detail/PostContent";
 import LikeAndShare from "./detail/LikeAndShare";
 import CommentList from "./detail/CommentList";
@@ -19,6 +19,7 @@ interface PostDetailProps {
 export default function PostDetail() {
   const params = useSearchParams();
   const post = params.get("detail");
+  const router = useRouter();
 
   const [data, setData] = useState<Posting>();
   const [likedStatus, setLikedStatus] = useState<boolean | null>(null);
@@ -82,8 +83,10 @@ export default function PostDetail() {
       // 현재 로그인한 사용자가 좋아요를 눌렀는지 확인
       const isLikedByCurrentUser = response.data.isLiked;
       setLikedStatus(isLikedByCurrentUser);
-    } catch (error) {
-      alert("게시글 정보를 가져오는 중 에러가 발생했습니다. 다시 시도해 주세요.");
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      alert(`${errorMessage}`);
+      router.push(`/planet/${data?.planetId}/map`);
       console.error("Error fetching profile data: ", error);
     }
   }
