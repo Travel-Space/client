@@ -10,17 +10,21 @@ const useDetectClose = (initialState: boolean): [boolean, RefObject<HTMLDivEleme
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (ref.current !== null && !ref.current.contains(e.target as Node)) {
-        setIsOpen(!isOpen);
+      if (typeof window !== "undefined" && isOpen) {
+        if (ref.current !== null && !ref.current.contains(e.target as Node)) {
+          setIsOpen(!isOpen);
+        }
       }
     };
 
-    if (isOpen) {
+    if (typeof window !== "undefined" && isOpen) {
       window.addEventListener("click", onClick);
     }
 
     return () => {
-      window.removeEventListener("click", onClick);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("click", onClick);
+      }
     };
   }, [isOpen]);
 
