@@ -13,7 +13,7 @@ export default function Title() {
         <Line size="horizontal" color="white" />
       </T.TitleSection>
       <T.InfoText>
-        랜덤으로 다양한 행성 지도를 방문해볼 수 있습니다.
+        랜덤으로 다양한 행성 지도를 방문해 볼 수 있습니다.
         <br />
         지구 아이콘을 클릭해 보세요!
       </T.InfoText>
