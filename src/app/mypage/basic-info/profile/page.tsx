@@ -203,7 +203,7 @@ export default function Profile() {
         <Line color="gray" size="horizontal" />
         <Item name="국적">
           <S.Nationality>
-            <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
+            <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(prev => !prev)} />
             <Image src={country.download_url} alt="nationImage" width={30} height={20} />
             {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
           </S.Nationality>
