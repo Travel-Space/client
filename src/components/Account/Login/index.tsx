@@ -90,7 +90,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
         </S.CenterGroup>
       </Button>
 
-      <S.LineWithText>or log in with email</S.LineWithText>
+      <S.LineWithText>or Log in with email</S.LineWithText>
 
       <FormGroup
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {

@@ -78,6 +78,10 @@ export const Member = styled.li`
     border-radius: 100px;
     object-fit: cover;
     border: 1px solid #d9d9d9;
+    &.isSelf {
+      border-color: ${({ theme }) => theme.PALETTE.mainColor};
+      border-width: 2px;
+    }
   }
   div {
     ${flexColumn}
