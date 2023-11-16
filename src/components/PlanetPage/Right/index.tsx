@@ -143,7 +143,7 @@ export default function Right() {
         <S.MarginGroup>
           <Line color="gray" size="horizontal" />
         </S.MarginGroup>
-        <S.Description>소중한 추억으로 기록될 우리만의 여행 블로그를 시작해보세요!</S.Description>
+        <S.Description>소중한 추억으로 기록될 우리만의 여행 블로그를 시작해 보세요!</S.Description>
       </div>
 
       <S.InputGroup>
