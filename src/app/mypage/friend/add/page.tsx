@@ -77,7 +77,7 @@ export default function Planet() {
   }
 
   const updateData = () => {
-    getUsers(1, page * limit);
+    searchItem && getUsers(1, page * limit);
     getNotMutualFriends();
   };
   const showMore = () => {
@@ -91,12 +91,15 @@ export default function Planet() {
   }, []);
 
   useEffect(() => {
-    setPage(1);
-    getUsers(page, limit);
+    if (searchItem) {
+      setPage(1);
+      getUsers(page, limit);
+      // console.log("searchItem", searchItem);
+    }
   }, [searchItem]);
 
   useEffect(() => {
-    getUsers(page, limit);
+    searchItem && getUsers(page, limit);
     // console.log("page", page, "searchItem", searchItem);
   }, [page]);
 

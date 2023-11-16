@@ -156,7 +156,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         setNickName("");
       }
     } catch (error) {
-      console.error("닉네임 중복확인 에러", error);
+      console.error("닉네임 중복 확인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }

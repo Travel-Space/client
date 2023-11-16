@@ -64,7 +64,7 @@ export default function Profile() {
     setCountry(country);
   }
 
-  //중복확인 체크
+  //중복 확인 체크
   useEffect(() => {
     if (!!isAvailableNickname) {
       setNotAllowSave(false);
@@ -203,7 +203,7 @@ export default function Profile() {
         <Line color="gray" size="horizontal" />
         <Item name="국적">
           <S.Nationality>
-            <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(true)} />
+            <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(prev => !prev)} />
             <Image src={country.download_url} alt="nationImage" width={30} height={20} />
             {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
           </S.Nationality>
@@ -221,7 +221,7 @@ export default function Profile() {
       <S.Footer>
         <S.Leave>
           <div>* 더 이상 Travel Space 이용을 원하지 않는다면 </div>
-          <Link href="/user/leave">회원탈퇴</Link>
+          <Link href="/user/leave">회원 탈퇴</Link>
         </S.Leave>
         <S.Save>
           <Button variant="confirm" shape="medium" size="big" onClick={savePassword} disabled={notAllowChange}>
