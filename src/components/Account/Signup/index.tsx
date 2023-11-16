@@ -55,29 +55,19 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
 
-  const domainsToTry = ["https://travelspace.world", "http://travelspace.world", "http://localhost:3000"];
-
   async function currentCountry() {
-    let country = null;
-
-    for (const domain of domainsToTry) {
-      try {
+    try {
+      if (typeof window !== "undefined") {
         // 현재 ip 기준 국적 코드
-        const countryCode = await axios.get(`${domain}/country`);
+        const countryCode = await axios.get(`${window.location.origin}/country`);
         // 국적 정보
-        country = await axios.get(
-          `${domain}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
+        const country = await axios.get(
+          `${window.location.origin}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
         );
-        break; // 에러 없이 성공했다면 반복문 종료
-      } catch (error) {
-        console.error(error);
+        setCountry(country.data.data[0]);
       }
-    }
-
-    if (country) {
-      setCountry(country.data.data[0]);
-    } else {
-      console.error("모든 도메인 시도가 실패했습니다.");
+    } catch (error) {
+      console.error(error);
     }
   }
 
