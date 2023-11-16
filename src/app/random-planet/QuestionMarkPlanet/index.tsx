@@ -22,8 +22,11 @@ export default function QuestionMarkPlanet() {
   const fetchRandomPlanet = async () => {
     setTimeout(async () => {
       try {
-        const response = await axiosRequest.requestAxios<ResData<PagedPlanetResponse>>("get", "/planet?page=1&limit=50");
-        
+        const response = await axiosRequest.requestAxios<ResData<PagedPlanetResponse>>(
+          "get",
+          "/planet?page=1&limit=50",
+        );
+
         const planetsList = response.data.planets;
 
         if (planetsList && planetsList.length > 0) {
@@ -56,6 +59,12 @@ export default function QuestionMarkPlanet() {
     return shape.replace(/\D/g, "");
   };
 
+  const handlePlanetEntryClick = () => {
+    if (!randomPlanet) {
+      alert("행성을 클릭 후 행성 입장하기를 클릭해 주세요.");
+    }
+  };
+
   return (
     <>
       <QMP.Wrapper>
@@ -81,11 +90,17 @@ export default function QuestionMarkPlanet() {
             <QMP.PlanetName offset={randomPlanet.shape === "SHAPE3"}>{randomPlanet.name}</QMP.PlanetName>
           )}
         </QMP.PlanetImageContainer>
-        <Link href={`/planet/${randomPlanet?.id}/map`}>
-          <QMP.RamdomBtn>
+        {randomPlanet ? (
+          <Link href={`/planet/${randomPlanet.id}/map`}>
+            <QMP.RamdomBtn>
+              행성 입장하기 <QMP.RightArrow src="/assets/img/icons/right-arrow.svg" />
+            </QMP.RamdomBtn>
+          </Link>
+        ) : (
+          <QMP.RamdomBtn onClick={handlePlanetEntryClick}>
             행성 입장하기 <QMP.RightArrow src="/assets/img/icons/right-arrow.svg" />
           </QMP.RamdomBtn>
-        </Link>
+        )}
       </QMP.Wrapper>
     </>
   );
