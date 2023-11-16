@@ -31,6 +31,10 @@ export default function LocationInput({
   const [isAddressActive, setIsAddressActive] = useState(false); // 주소 입력 시 아이콘 변경
 
   useEffect(() => {
+    setAddress(initialValue || "");
+  }, [initialValue]);
+
+  useEffect(() => {
     // 클라이언트 사이드에서만 실행되도록 검사
     if (typeof window === "undefined") return;
 

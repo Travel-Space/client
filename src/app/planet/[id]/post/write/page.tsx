@@ -263,6 +263,7 @@ export default function PostWrite() {
                 },
               });
             }
+            console.log(address);
             console.log(response?.data?.content);
           }
         } catch (error) {
