@@ -29,7 +29,7 @@ export default function Email({ onEmail }: PropsType) {
 
   useEffect(() => {
     if (showCodeInput && minutes === 0 && seconds === 0) {
-      alert("인증 시간이 종료되었습니다. 다시 인증을 요청해주세요.");
+      alert("인증 시간이 종료되었습니다. 다시 인증을 요청해 주세요.");
       setShowCodeInput(false);
     } else if (showCodeInput) {
       timer = setInterval(() => {
@@ -129,7 +129,7 @@ export default function Email({ onEmail }: PropsType) {
               disabled={!emailValid || !email}
               onClick={sendCode}
             >
-              인증요청
+              인증 요청
             </Button>
           </SmallBtnGroup>
         </InputGroup>

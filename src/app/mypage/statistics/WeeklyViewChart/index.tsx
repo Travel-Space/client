@@ -24,7 +24,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
   const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState); //bar 클릭 시 선택된 주
 
   const [viewCount, setViewCount] = useState<number[]>([]);
-  const [viewData, setViewData] = useState<WeeklyViewCount[]>([]); //조회된 방문수 데이터
+  const [viewData, setViewData] = useState<WeeklyViewCount[]>([]); //조회된 방문 수 데이터
 
   const formatPeriod = (start: string, end: string) => {
     return `${start} ~ ${end}`;
@@ -32,7 +32,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
 
   //Chart props
   const series = {
-    name: "주간 방문수",
+    name: "주간 방문 수",
     data: viewCount,
   };
 
@@ -86,7 +86,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
     // console.log("count", count);
   }, [viewData]);
 
-  //방문수 조회
+  //방문 수 조회
   async function getViewData() {
     try {
       const response = await axiosRequest.requestAxios<ResData<WeeklyViewCount[]>>(
@@ -96,7 +96,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
       setViewData(response.data);
       // console.log("viewcount", response.data);
     } catch (error) {
-      alert("행성 방문수 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("행성 방문 수 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet visitation data: ", error);
     }
   }

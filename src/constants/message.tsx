@@ -8,7 +8,7 @@ const MESSAGE = {
   },
   LOGIN: {
     SYNTAX_EMAIL: "올바른 이메일을 입력해 주세요.",
-    SYNTAX_PASSWORD: "영문, 숫자, 특수문자 조합으로 8글자 이상 입력해 주세요.",
+    SYNTAX_PASSWORD: "영문, 숫자, 특수 문자 조합으로 8글자 이상 입력해 주세요.",
     FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
     REQUIRED: "로그인이 필요해요. 로그인을 해 주세요!",

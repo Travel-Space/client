@@ -152,11 +152,11 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       if (response.data.available) {
         alert("사용가능한 닉네임입니다.");
       } else {
-        alert("중복된 닉네임입니다. 다시 작성해주세요.");
+        alert("중복된 닉네임입니다. 다시 작성해 주세요.");
         setNickName("");
       }
     } catch (error) {
-      console.error("닉네임 중복확인 에러", error);
+      console.error("닉네임 중복 확인 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
@@ -225,7 +225,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
               disabled={!nickNameValid || !nickName}
               onClick={checkNickName}
             >
-              중복확인
+              중복 확인
             </Button>
           </SmallBtnGroup>
         </InputGroup>

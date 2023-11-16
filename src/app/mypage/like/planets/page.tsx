@@ -19,7 +19,7 @@ import Pagination from "@/components/common/Pagination";
 export default function Planets() {
   const dropDownProps = {
     selectedMenu: "행성 이름",
-    placeholder: "행성 이름으로 검색해보세요.",
+    placeholder: "행성 이름으로 검색해 보세요.",
   };
 
   const [searchItem, setSearchItem] = useState<SearchItem>();

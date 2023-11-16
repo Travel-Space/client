@@ -16,7 +16,7 @@ export default function SpaceshipTop() {
       <S.Title>{planetData.name}</S.Title>
       <Button variant="basic" size="normal" shape="large">
         <S.CenterGroup>
-          <span>탑승링크</span>
+          <span>탑승 링크</span>
           <img src="/assets/img/icons/share-white.svg" height={16} />
         </S.CenterGroup>
       </Button>
