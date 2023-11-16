@@ -15,7 +15,7 @@ export default function RecommendFriend({ data, updateData }: RecommendFriendPro
   const router = useRouter();
 
   const goToProfile = () => {
-    router.push(`/user/profile/${data.userId}`);
+    router.push(`/user/profile/${data.friendId}`);
   };
 
   return (
