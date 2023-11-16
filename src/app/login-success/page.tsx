@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { UserRole } from "@/@types/User";
 
 export default function LoginSuccess() {
-  const setAuth = useSetRecoilState(userAtom);
+  const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
   const urlParams = useSearchParams();
   const idString = urlParams.get("id");
@@ -28,10 +28,20 @@ export default function LoginSuccess() {
         nickName,
         memberships,
       });
-
-      router.push("/");
     }
-  }, []);
+  }, [idString, roleString, nickName, membershipsString, setAuth]);
+
+  useEffect(() => {
+    if (auth && auth.isAuth) {
+      const redirectToHome = async () => {
+        console.log(auth);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        router.push("/");
+      };
+
+      redirectToHome();
+    }
+  }, [auth, router]);
 
   return <></>;
 }

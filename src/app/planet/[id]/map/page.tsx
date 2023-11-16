@@ -116,7 +116,6 @@ export default function Map({ params }: { params: { id: number } }) {
           {marker &&
             marker.map((location: Locations, index: Number) => (
               <Marker
-                key={index}
                 position={{
                   lat: location.latitude,
                   lng: location.longitude,

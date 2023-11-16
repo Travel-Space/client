@@ -53,7 +53,7 @@ export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
 
   return (
     <S.SearchBarContainer>
-      <S.SearchSelect placeholder="선택" value={selectedOption} onChange={value => setSelectedOption(value)}>
+      <S.SearchSelect placeholder="선택" value={selectedOption} onChange={(value: string) => setSelectedOption(value)}>
         {searchOptions[searchType].map(option => (
           <Option key={option.value} value={option.value}>
             {option.label}

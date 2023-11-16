@@ -11,7 +11,7 @@ const MESSAGE = {
     SYNTAX_PASSWORD: "영문, 숫자, 특수문자 조합으로 8글자 이상 입력해 주세요.",
     FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
-    REQUIRED: "로그인이 필요해요.",
+    REQUIRED: "로그인이 필요해요. 로그인을 해 주세요!",
   },
   ERROR: {
     DEFAULT: "에러가 발생했습니다. 다시 시도해 주세요",
@@ -29,7 +29,7 @@ const MESSAGE = {
     DELETE: "댓글을 삭제하시겠습니까?",
   },
   PLANET: {
-    JOIN: "행성 탑승 신청이 완료되었습니다.",
+    JOIN: "행성 탑승 신청이 완료되었습니다. 승인을 기다려 주세요!",
     JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
   },
@@ -41,7 +41,7 @@ const MESSAGE = {
   },
   FILE: {
     UPLOAD: "JPEG, JPG, PNG 파일만 업로드 가능합니다.",
-    NOFILE: "이미지를 첨부해 주세요.",
+    NOT_FILE: "첨부된 이미지가 없습니다. 이미지를 첨부해 주세요.",
   },
   DELETE: {
     COMPLETE: "삭제가 완료되었습니다.",

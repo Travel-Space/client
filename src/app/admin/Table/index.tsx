@@ -1,8 +1,5 @@
 import * as S from "./index.styled";
 import { Pagination } from "antd";
-import { Planet } from "@/@types/Planet";
-import { Posting } from "@/@types/Posting";
-import { User } from "@/@types/User";
 
 interface AdminTableProps<T> {
   data: T[];

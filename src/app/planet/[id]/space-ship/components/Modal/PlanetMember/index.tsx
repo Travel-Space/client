@@ -9,7 +9,7 @@ import { ResData } from "@/@types";
 import { AxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
-import { SpaceshipContext, SpaceshipContextType } from "@/@types/Spaceship";
+import { SpaceshipContext, SpaceshipContextType } from "../..";
 
 export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
