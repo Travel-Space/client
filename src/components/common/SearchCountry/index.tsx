@@ -13,13 +13,17 @@ let initCountryList: CountryInfo[];
 
 async function fetchCountryList() {
   try {
-    const response = await axios.get("http://localhost:3000/data/getCountryFlagList.json");
-    initCountryList = response.data;
+    if (typeof window !== "undefined") {
+      const response = await axios.get(`${window.location.origin}/data/getCountryFlagList.json`);
+      initCountryList = response.data;
+    }
   } catch (error) {
     console.error(error);
   }
 }
-fetchCountryList();
+if (typeof window !== "undefined") {
+  fetchCountryList();
+}
 
 export default function SearchCountry({ onCountry, onClose }: PropsType) {
   const [searchInput, setSearchInput] = useState("");
