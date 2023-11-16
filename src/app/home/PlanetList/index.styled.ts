@@ -13,9 +13,7 @@ const rotation = keyframes`
   }
 `;
 
-type PlanetNameProps = {
-  offset?: boolean;
-};
+
 
 export const SwiperContainer = styled.div`
   ${bodyContainer}
@@ -61,12 +59,10 @@ export const SlideImage = styled.img`
   animation: ${rotation} 2s ease-out 1;
 `;
 
-export const PlanetName = styled.div<PlanetNameProps>`
+export const PlanetName = styled.div`
   text-align: center;
   width: 70%;
   position: absolute;
-  /* top: ${({ offset }) => (offset ? "35%" : "39%")};
-  left: ${({ offset }) => (offset ? "60%" : "50%")}; */
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
