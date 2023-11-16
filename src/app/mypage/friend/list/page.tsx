@@ -13,15 +13,15 @@ import Followers from "./Followers";
 import Followings from "./Followings";
 
 export default function FriendList() {
+  const [tab, setTab] = useState("followers");
+
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
   const dropDownProps = {
     menuList: ["닉네임", "계정"],
     selectedMenu: selectedMenu, //선택한 메뉴
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
-    placeholder: "친구 목록에서 검색합니다.",
+    placeholder: "친구를 검색해 보세요.",
   };
-
-  const [tab, setTab] = useState("followers");
 
   const totalFollowers = useRecoilValue(totalFollowersState);
   const totalFollowings = useRecoilValue(totalFollowingsState);

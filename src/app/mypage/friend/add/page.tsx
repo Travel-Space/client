@@ -24,7 +24,7 @@ export default function Planet() {
     menuList: ["닉네임", "계정"],
     selectedMenu: selectedMenu, //선택한 메뉴
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
-    placeholder: "친구 추가에서 검색합니다.",
+    placeholder: "팔로우 할 친구를 검색해 보세요.",
   };
 
   const [page, setPage] = useState(1);
@@ -143,7 +143,7 @@ export default function Planet() {
           alt="no-friends"
           width={216}
           height={216}
-          comment="검색결과가 없습니다."
+          comment="검색 결과가 없습니다."
           suggest="닉네임 또는 계정을 검색해 보세요."
           font="lg"
         />

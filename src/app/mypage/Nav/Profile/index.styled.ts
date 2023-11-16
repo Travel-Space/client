@@ -13,6 +13,7 @@ export const UserImg = styled.img`
   height: 120px;
   border-radius: 60px;
   margin-bottom: 16px;
+  cursor: pointer;
 `;
 export const Nickname = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
