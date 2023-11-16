@@ -38,10 +38,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
       }
       setContent("");
 
-      
       if (onClose) onClose();
-
-
     } catch (error) {
       console.error("Error submitting the comment:", error);
       alert("로그인 하신 후 댓글을 작성할 수 있습니다.");
@@ -55,7 +52,6 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
 
   const handleCommentWrite = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
-    
   };
   return (
     <CW.Wrapper>
@@ -66,6 +62,7 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
         onChange={handleCommentWrite}
         name={""}
         value={content}
+        disabled={false}
       />
       <CW.BtnDisplay>
         <CW.CommentButton>

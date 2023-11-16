@@ -121,6 +121,7 @@ export default function CommentItem({
                 onChange={e => setEditedContent(e.target.value)}
                 name={""}
                 value={editedContent}
+                disabled={false}
               />
               <CI.ActionButtons>
                 <Button variant="cancel" size="big" shape="medium" fontWeight="bold" onClick={handleCancelEdit}>
