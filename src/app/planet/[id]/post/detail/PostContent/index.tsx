@@ -30,7 +30,7 @@ export default function PostContent({ data }: PostContentProps) {
   const handlePostDelete = async () => {
     if (!data?.id) return;
 
-    const isConfirmed = window.confirm(MESSAGE.POST.DELETE);
+    const isConfirmed = confirm(MESSAGE.POST.DELETE);
     if (!isConfirmed) return;
 
     try {

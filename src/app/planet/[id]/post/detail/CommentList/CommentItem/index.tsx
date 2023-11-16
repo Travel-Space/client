@@ -40,7 +40,7 @@ export default function CommentItem({
 
   //댓글 삭제 함수
   const handleCommentDelete = async (commentId: number) => {
-    const isConfirmed = window.confirm(MESSAGE.POST.DELETE);
+    const isConfirmed = confirm(MESSAGE.POST.DELETE);
     if (!isConfirmed) return;
     try {
       await axiosRequest.requestAxios("delete", `/comments/${commentId}`);

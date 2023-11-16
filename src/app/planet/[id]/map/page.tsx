@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import dynamic from "next/dynamic";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -10,6 +11,8 @@ import { Posting, PostingsType } from "@/@types/Posting";
 import * as S from "./page.styled";
 import Side from "./Side";
 import { Locations } from "@/@types/Locations";
+
+const Marker = dynamic(() => import("@react-google-maps/api").then(module => module.Marker), { ssr: false });
 
 const containerStyle = {
   width: "100%",
@@ -140,26 +143,3 @@ export default function Map({ params }: { params: { id: number } }) {
     </S.Container>
   );
 }
-
-// 해당하는 위도 경도를 찾아서 마커 찍기
-// const handleMarkerLoad = useCallback(
-//   (map: any) => {
-//     if (article.length > 0) {
-//       const bounds = new window.google.maps.LatLngBounds();
-
-//       article.forEach(el => {
-//         if (el?.locations?.[0]?.latitude && el?.locations?.[0]?.longitude) {
-//           bounds.extend(new window.google.maps.LatLng(el.locations[0].latitude, el.locations[0].longitude));
-//         }
-//       });
-
-//       if (!bounds.isEmpty()) {
-//         map.fitBounds(bounds);
-//       }
-//     }
-//     setMap(map);
-//   },
-//   [article],
-// );
-
-// onLoad={handleMarkerLoad}
