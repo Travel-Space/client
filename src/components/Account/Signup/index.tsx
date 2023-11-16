@@ -15,7 +15,7 @@ import Email from "../CommonInput/Email";
 import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -31,6 +31,8 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   const params = useSearchParams();
   const emailParams: string | null = params.get("email");
   const nameParams: string | null = params.get("name");
+
+  const router = useRouter();
 
   const [name, setName] = useState("");
   const [nickName, setNickName] = useState("");
@@ -53,17 +55,29 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
 
+  const domainsToTry = ["https://travelspace.world", "http://travelspace.world", "http://localhost:3000"];
+
   async function currentCountry() {
-    try {
-      // 현재 ip 기준 국적 코드
-      const countryCode = await axios.get(`${window.location.origin}/country`);
-      // 국적 정보
-      const country = await axios.get(
-        `${window.location.origin}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
-      );
+    let country = null;
+
+    for (const domain of domainsToTry) {
+      try {
+        // 현재 ip 기준 국적 코드
+        const countryCode = await axios.get(`${domain}/country`);
+        // 국적 정보
+        country = await axios.get(
+          `${domain}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
+        );
+        break; // 에러 없이 성공했다면 반복문 종료
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (country) {
       setCountry(country.data.data[0]);
-    } catch (error) {
-      console.error(error);
+    } else {
+      console.error("모든 도메인 시도가 실패했습니다.");
     }
   }
 
@@ -104,8 +118,10 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         profileImage: PROFILE_IMAGE,
       });
 
-      response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
-      return goToLogin && goToLogin();
+      if (response.status === 201) {
+        alert("회원가입이 성공적으로 완료되었습니다!");
+        router.push("/");
+      }
     } catch (error) {
       console.error("회원가입 에러", error);
       const errorResponse = (error as AxiosError<{ message: string }>).response;
