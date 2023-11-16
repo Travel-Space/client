@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import dynamic from "next/dynamic";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -10,7 +11,6 @@ import { Posting, PostingsType } from "@/@types/Posting";
 import * as S from "./page.styled";
 import Side from "./Side";
 import { Locations } from "@/@types/Locations";
-import dynamic from "next/dynamic";
 
 const Marker = dynamic(() => import("@react-google-maps/api").then(module => module.Marker), { ssr: false });
 
