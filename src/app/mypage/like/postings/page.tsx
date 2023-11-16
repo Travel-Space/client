@@ -15,7 +15,7 @@ import usePagination from "@/hooks/usePagination";
 export default function FavoritePostings() {
   const dropDownProps = {
     selectedMenu: "글 제목",
-    placeholder: "글 제목으로 검색해보세요.",
+    placeholder: "글 제목으로 검색해 보세요.",
   };
 
   const [searchItem, setSearchItem] = useState<SearchItem>();
