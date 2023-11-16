@@ -53,7 +53,7 @@ export default function SearchCountry({ onCountry, onClose }: PropsType) {
   return (
     <S.SearchBox>
       <S.Search>
-        <input type="text" onChange={onSearchInput} placeholder="나라이름을 검색해 보세요." />
+        <input type="text" onChange={onSearchInput} placeholder="나라 이름을 검색해 보세요." />
       </S.Search>
       <S.SearchList>
         {countryList.map((country: CountryInfo) => (
