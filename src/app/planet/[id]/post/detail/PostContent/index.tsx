@@ -13,6 +13,7 @@ import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
+import ShipInfo from "../../../space-ship/components/Modal/ShipInfo";
 
 interface PostContentProps {
   data?: Posting;
@@ -53,6 +54,13 @@ export default function PostContent({ data }: PostContentProps) {
   // 게시글 날짜 변환
   const { dateString, time } = data?.createdAt ? getDateInfo(data.createdAt) : { dateString: "", time: "" };
 
+  const openShipInfoModal = (shipId: number) => {
+    openModal({
+      title: "우주선 정보",
+      content: <ShipInfo onClose={closeModal} shipId={shipId} />,
+    });
+  };
+
   return (
     <>
       <PC.Wrapper>
@@ -75,15 +83,14 @@ export default function PostContent({ data }: PostContentProps) {
             </Link>
           </PC.StyledLink>
           <PC.PostInfo>
-            <Link
-              href={{
-                pathname: `/planet/${data?.planetId}/space-ship`,
-                query: { spaceshipId: data?.spaceshipId },
-              }}
-            >
+            <a onClick={() => data?.spaceshipId && openShipInfoModal(data.spaceshipId)}>
               <PC.RocketImg src="/assets/img/icons/rocket.svg" />
-              {data?.spaceshipId != null ? data?.spaceship?.name : "나 홀로 여행"}
-            </Link>
+              {data?.spaceshipId != null ? (
+                <span onClick={() => openShipInfoModal(data?.spaceshipId)}>{data?.spaceship?.name}</span>
+              ) : (
+                "나 홀로 여행"
+              )}
+            </a>
             <Link
               href={{
                 pathname: `/planet/${data?.planetId}/map`,

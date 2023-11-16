@@ -93,7 +93,7 @@ const onSlideChange = async (swiper: any) => {
                     alt={`Planet ${planet.name}`}
                   />
                   {hoveredPlanet === planet.id && (
-                    <PlanetName offset={planet.shape === "SHAPE3"}>{planet.name}</PlanetName>
+                    <PlanetName>{planet.name}</PlanetName>
                   )}
                 </PlanetImageContainer>
               </Link>
