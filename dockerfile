@@ -14,8 +14,7 @@ FROM nginx:stable-alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app/.next/static /usr/share/nginx/html/_next/static
-COPY --from=build /app/public /usr/share/nginx/html
+COPY --from=build /app/.next /usr/share/nginx/html
 
 EXPOSE 80 443
 
