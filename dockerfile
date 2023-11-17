@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build && npm run export
 
 FROM nginx:stable-alpine
 
