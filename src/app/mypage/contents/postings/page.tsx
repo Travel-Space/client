@@ -20,7 +20,7 @@ export default function Postings() {
     menuList: ["글 제목", "행성 이름"],
     selectedMenu: selectedMenu, //선택한 메뉴
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드
-    placeholder: "글 관리에서 검색합니다.",
+    placeholder: "작성한 게시글을 검색해 보세요.",
   };
 
   const [postings, setPostings] = useState<Posting[]>([]);
