@@ -13,7 +13,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 import MESSAGE from "@/constants/message";
 
-export default function Followings({ id }: { id: number }) {
+const Followings = ({ id }: { id: number }) => {
   const [followings, setFollowings] = useRecoilState(followingState);
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
@@ -27,8 +27,9 @@ export default function Followings({ id }: { id: number }) {
     await updateFollowings(1, (page - 1) * limit);
     getFollowers();
   };
+
   //팔로잉 업데이트(팔로우 또는 언팔로우 후)
-  async function updateFollowings(page: number, limit: number) {
+  const updateFollowings = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
@@ -41,12 +42,13 @@ export default function Followings({ id }: { id: number }) {
       setFollowings(followings);
       // console.log("updateFollowings", page, followings);
     } catch (error) {
-      console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("팔로잉 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
   //팔로잉 조회
-  async function getFollowings(page: number, limit: number) {
+  const getFollowings = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
@@ -69,13 +71,13 @@ export default function Followings({ id }: { id: number }) {
       setPage(prev => prev + 1);
       // console.log("getFollowings", page, followings);
     } catch (error) {
-      console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("팔로잉 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   //팔로워 조회
-  async function getFollowers() {
+  const getFollowers = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
@@ -85,10 +87,10 @@ export default function Followings({ id }: { id: number }) {
 
       setTotalFollowers(total);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   //무한 스크롤
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -131,4 +133,6 @@ export default function Followings({ id }: { id: number }) {
       <S.InfiniteScrollTarget ref={observerRef} />
     </>
   );
-}
+};
+
+export default Followings;

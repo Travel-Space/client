@@ -18,7 +18,7 @@ const Postings = ({ id }: { id: number }) => {
   const [disableLoadData, setDisableLoadDate] = useState(false);
 
   //게시글 불러오기
-  async function getPostings() {
+  const getPostings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
@@ -41,10 +41,10 @@ const Postings = ({ id }: { id: number }) => {
       // console.log("Postings", postings);
       // console.log("page", page);
     } catch (error) {
-      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("게시글 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   const loadData = () => {
     if (disableLoadData) return;
@@ -65,6 +65,7 @@ const Postings = ({ id }: { id: number }) => {
   useEffect(() => {
     getPostings();
   }, []);
+
   return (
     <S.Container>
       {!!totalCount ? (

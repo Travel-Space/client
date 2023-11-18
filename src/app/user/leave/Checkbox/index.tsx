@@ -1,4 +1,4 @@
-export default function Checkbox({ color }: { color: string }) {
+const Checkbox = ({ color }: { color: string }) => {
   return (
     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -10,4 +10,6 @@ export default function Checkbox({ color }: { color: string }) {
       />
     </svg>
   );
-}
+};
+
+export default Checkbox;

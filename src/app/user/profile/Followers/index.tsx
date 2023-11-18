@@ -13,7 +13,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 import MESSAGE from "@/constants/message";
 
-export default function Followers({ id }: { id: number }) {
+const Followers = ({ id }: { id: number }) => {
   const [followers, setFollowers] = useRecoilState(followerState);
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
@@ -26,27 +26,9 @@ export default function Followers({ id }: { id: number }) {
     getFollowers(1, (page - 1) * limit);
     getFollowings();
   };
-  //팔로워 업데이트(팔로우 또는 언팔로우 후)
-  async function updateFollowers(page: number, limit: number) {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
-        "get",
-        `/user/other/${id}/followers?page=${page}&limit=${limit}`,
-      );
-      const followers = response.data.data;
-      const total = response.data.total;
 
-      setTotalFollowers(total);
-      setFollowers(followers);
-
-      // console.log("page", page);
-    } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
-    }
-  }
   //팔로잉 조회
-  async function getFollowings() {
+  const getFollowings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
@@ -58,12 +40,12 @@ export default function Followers({ id }: { id: number }) {
       // console.log("followings", followings);
       // console.log("page", page);
     } catch (error) {
-      console.error("팔로잉 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("팔로잉 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
   //팔로워 조회
-  async function getFollowers(page: number, limit: number) {
+  const getFollowers = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
@@ -86,10 +68,11 @@ export default function Followers({ id }: { id: number }) {
       setPage(prev => prev + 1);
       // console.log("page", page);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
   useEffect(() => {
     getFollowers(page, limit);
     getFollowings();
@@ -135,4 +118,6 @@ export default function Followers({ id }: { id: number }) {
       <S.InfiniteScrollTarget ref={observerRef} />
     </>
   );
-}
+};
+
+export default Followers;

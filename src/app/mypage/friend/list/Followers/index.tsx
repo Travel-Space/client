@@ -10,7 +10,9 @@ import * as S from "./index.styled";
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
-export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
+import MESSAGE from "@/constants/message";
+
+const Followers = ({ searchItem }: { searchItem?: SearchItem }) => {
   const handleClick = () => {
     setPage(prev => prev + 1);
   };
@@ -18,13 +20,13 @@ export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
   const [followers, setFollowers] = useRecoilState(followerState);
 
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
-  const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
+  const [_, setTotalFollowings] = useRecoilState(totalFollowingsState);
 
   const [page, setPage] = useState(1);
   const limit = 10;
 
   //팔로잉 조회
-  async function getFollowings() {
+  const getFollowings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
@@ -35,12 +37,12 @@ export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
       setTotalFollowings(total);
       // console.log("followings", followings);
     } catch (error) {
-      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followings data: ", error);
+      console.error("팔로잉 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
   //팔로워 조회
-  async function getFollowers(page: number, limit: number) {
+  const getFollowers = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
@@ -57,15 +59,16 @@ export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
       setTotalFollowers(total);
       // console.log("followings", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   const updateData = () => {
     getFollowings();
     getFollowers(1, page * limit);
   };
+
   useEffect(() => {
     // console.log("page", page);
     getFollowers(page, limit);
@@ -110,4 +113,6 @@ export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
       )}
     </>
   );
-}
+};
+
+export default Followers;

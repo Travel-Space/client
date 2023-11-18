@@ -18,6 +18,8 @@ import SearchForm from "@/app/mypage/SearchForm";
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
+import MESSAGE from "@/constants/message";
+
 export default function Planet() {
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
   const dropDownProps = {
@@ -43,7 +45,7 @@ export default function Planet() {
   };
 
   //모든유저 조회
-  async function getUsers(page: number, limit: number) {
+  const getUsers = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<UsersType>>(
         "get",
@@ -58,23 +60,23 @@ export default function Planet() {
       setTotalUsers(total);
       // console.log("followings", response.data);
     } catch (error) {
-      alert("유저 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("유저 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   //추천친구 조회
   //무한스크롤 추후 적용 - 수정예정
-  async function getNotMutualFriends() {
+  const getNotMutualFriends = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>("get", `/user/followers/not-mutual`);
       setNotMutualFriends(response.data.data);
       // console.log("notMutualFriends", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   const updateData = () => {
     searchItem && getUsers(1, page * limit);

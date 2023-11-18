@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { myPlanetsState } from "@/recoil/atoms/planets.atom";
 import { selectedDateState, selectedWeekState } from "@/recoil/atoms/chart.atom";
+import dynamic from "next/dynamic";
 
 import * as S from "./page.styled";
 
@@ -14,7 +15,7 @@ import Button from "@/components/common/Button";
 import Summary from "./Summary";
 import Nothing from "@/components/common/Nothing";
 
-import dynamic from "next/dynamic";
+import MESSAGE from "@/constants/message";
 
 const DailyViewChart = dynamic(() => import("./DailyViewChart"), { ssr: false });
 const WeeklyViewChart = dynamic(() => import("./WeeklyViewChart"), { ssr: false });
@@ -45,7 +46,7 @@ export default function Statistics() {
   };
 
   //내 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -54,10 +55,10 @@ export default function Statistics() {
       setMyPlanets(response.data.data);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   useEffect(() => {
     getMyPlanets();

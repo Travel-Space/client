@@ -11,7 +11,7 @@ interface PropsType {
   onPasswordCompare: (result: boolean, value: string) => void;
   valid: boolean;
 }
-export default function Password({ onPasswordCompare, valid }: PropsType) {
+const Password = ({ onPasswordCompare, valid }: PropsType) => {
   const [input, setInput] = useState({ password: "", passwordCheck: "" });
   const { password, passwordCheck } = input;
 
@@ -62,4 +62,6 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
       </Item>
     </S.Container>
   );
-}
+};
+
+export default Password;

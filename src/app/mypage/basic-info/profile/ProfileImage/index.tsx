@@ -8,15 +8,16 @@ import useImageCompress from "@/hooks/useImageCompess";
 
 import * as S from "./index.styled";
 
-import { dataURItoFile } from "@/utils/dataURItoFile";
-
 import Image from "next/image";
+
+import { dataURItoFile } from "@/utils/dataURItoFile";
+import MESSAGE from "@/constants/message";
 
 interface ProfileImageProps {
   imgSrc?: string;
   onChange: (src: string) => void;
 }
-export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
+const ProfileImage = ({ imgSrc, onChange }: ProfileImageProps) => {
   const defaultImage = "/assets/img/icons/default-user.svg";
 
   const [uploadImage, setUploadImage] = useState<string | null>(null);
@@ -66,6 +67,7 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
       // console.log(imageUrl, "imageUrl");
     } catch (error) {
       console.error("프로필 이미지를 저장하는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
   return (
@@ -89,4 +91,6 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
       </S.ProfileImage>
     </>
   );
-}
+};
+
+export default ProfileImage;

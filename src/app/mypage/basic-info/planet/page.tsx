@@ -18,6 +18,8 @@ import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
 
+import MESSAGE from "@/constants/message";
+
 export default function Planet() {
   const userId = useRecoilState(userAtom)[0]?.id;
 
@@ -29,11 +31,8 @@ export default function Planet() {
 
   const [joinedPlanets, setJoinedPlanets] = useRecoilState(joinedPlanetsState);
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
-
   //소유한 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -44,12 +43,13 @@ export default function Planet() {
       setMyPlanets(planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
   //가입한 행성 불러오기
-  async function getJoinedPlanets() {
+  const getJoinedPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<JoinedPlanets>>(
         "get",
@@ -62,10 +62,13 @@ export default function Planet() {
       saveData(totalCount, totalPage, planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
 
   useEffect(() => {
     getMyPlanets();
@@ -73,6 +76,7 @@ export default function Planet() {
 
     if (myPlanets.length >= 5) setOverLimit(true);
   }, []);
+
   return (
     <S.Container>
       <S.MyPlanetInfo>

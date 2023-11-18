@@ -8,7 +8,9 @@ import { profileState } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
-export default function Profile() {
+import MESSAGE from "@/constants/message";
+
+const Profile = () => {
   const [profile, setProfile] = useRecoilState(profileState);
 
   const router = useRouter();
@@ -16,19 +18,22 @@ export default function Profile() {
   const goToProfile = () => {
     router.push(`/user/profile/${profile?.id}`);
   };
-  async function getProfile() {
+
+  const getProfile = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/profile`);
       setProfile(response.data);
       // console.log("profile", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
   useEffect(() => {
     getProfile();
   }, []);
+
   return (
     <S.Container>
       <S.UserImg src={profile?.profileImage} alt="profile-image" onClick={goToProfile} />
@@ -36,4 +41,6 @@ export default function Profile() {
       <S.Email>{profile?.email}</S.Email>
     </S.Container>
   );
-}
+};
+
+export default Profile;
