@@ -21,4 +21,5 @@ const PrivacyNotice = () => {
     </S.Notice>
   );
 };
+
 export default PrivacyNotice;

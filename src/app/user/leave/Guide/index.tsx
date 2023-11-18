@@ -25,7 +25,7 @@ const Guide = () => {
     router.push("/mypage/basic-info/planet/");
   };
 
-  async function leaveAllPlanets() {
+  const leaveAllPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
         "post",
@@ -54,7 +54,8 @@ const Guide = () => {
       );
       console.error("행성을 탈출하는 중 오류가 발생했습니다.", error);
     }
-  }
+  };
+
   return (
     <>
       <S.CannotLeaveReason>
@@ -102,4 +103,5 @@ const Guide = () => {
     </>
   );
 };
+
 export default Guide;
