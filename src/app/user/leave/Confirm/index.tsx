@@ -34,7 +34,7 @@ const Confirm = () => {
   };
 
   //회원 탈퇴
-  async function leaveService() {
+  const leaveService = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>("delete", `/user/${auth?.id}`);
       // console.log("회원탈퇴", response);
@@ -49,7 +49,8 @@ const Confirm = () => {
       console.error("회원을 탈퇴하는 중 오류가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
   return (
     <S.Confirm>
       <S.Check>

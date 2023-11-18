@@ -20,7 +20,7 @@ const Planets = ({ id }: { id: number }) => {
   const [disableLoadData, setDisableLoadDate] = useState(false);
 
   //소유 행성 조회
-  async function getUserPlanets() {
+  const getUserPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -33,9 +33,9 @@ const Planets = ({ id }: { id: number }) => {
       console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
   //여행중인 행성 조회
-  async function getPlanets() {
+  const getPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<JoinedPlanets>>(
         "get",
@@ -58,7 +58,7 @@ const Planets = ({ id }: { id: number }) => {
       console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   useEffect(() => {
     getPlanets();
