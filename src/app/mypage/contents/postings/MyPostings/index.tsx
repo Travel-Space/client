@@ -9,6 +9,7 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 
 import { getDateInfo } from "@/utils/getDateInfo";
+import MESSAGE from "@/constants/message";
 
 interface MyPostingsProps {
   page: number;
@@ -47,8 +48,8 @@ const MyPostings = ({ page, data, setPage, saveData }: MyPostingsProps) => {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}`);
       // console.log("deletePost", response);
     } catch (error) {
-      alert("게시글 정보를 삭제 하는 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("게시글 정보를 삭제 하는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -68,8 +69,8 @@ const MyPostings = ({ page, data, setPage, saveData }: MyPostingsProps) => {
       postings.length === 0 && page !== 1 && setPage(prev => prev - 1);
       // console.log("postings", postings);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

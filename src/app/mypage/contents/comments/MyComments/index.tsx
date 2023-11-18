@@ -8,6 +8,7 @@ import * as S from "./index.styled";
 import Button from "@/components/common/Button";
 
 import { getDateInfo } from "@/utils/getDateInfo";
+import MESSAGE from "@/constants/message";
 
 interface MyCommentsProps {
   page: number;
@@ -47,8 +48,8 @@ const MyComments = ({ page, data, setPage, saveData }: MyCommentsProps) => {
       //데이터가 1개 남았을 때 삭제시 이전 페이지로 전환
       comments.length === 0 && page !== 1 && setPage(prev => prev - 1);
     } catch (error) {
-      alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching comment data: ", error);
+      console.error("댓글 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -58,8 +59,8 @@ const MyComments = ({ page, data, setPage, saveData }: MyCommentsProps) => {
       const response = await axiosRequest.requestAxios<ResData<Comment>>("delete", `/comments/${id}`);
       // console.log("postings", postings);
     } catch (error) {
-      alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("좋아요 취소 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

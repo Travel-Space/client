@@ -1,12 +1,12 @@
 import axiosRequest from "@/api";
-import { ResData, Posting, PlanetsType, CancelLikePlanet } from "@/@types";
+import { ResData, Posting, PlanetsType, CancelLikePlanet, PostingsType } from "@/@types";
 
 import { useRecoilState } from "recoil";
 import { myPlanetsState } from "@/recoil/atoms/planets.atom";
 
-import { PostingsType } from "@/@types";
-
 import * as S from "./index.styled";
+
+import MESSAGE from "@/constants/message";
 
 interface LikeCancelBtnProps {
   page: number;
@@ -35,8 +35,8 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       // console.log("totalPage", totalPage);
       // console.log("postings", postings);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("게시글 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -52,8 +52,8 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       setMyPlanets(planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 목록을 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -69,8 +69,8 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       planets.length === 0 && page !== 1 && setPage(prev => prev - 1);
       // console.log("likedplanets", planets);
     } catch (error) {
-      alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("행성 목록을 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -79,8 +79,8 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}/like`);
       // console.log("cancelLikePost", response.data);
     } catch (error) {
-      alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("좋아요 취소 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -89,8 +89,8 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       const response = await axiosRequest.requestAxios<ResData<CancelLikePlanet>>("delete", `/planet/${id}/bookmark`);
       // console.log("cancelLikePlanets", response.data);
     } catch (error) {
-      alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching posting data: ", error);
+      console.error("좋아요 취소 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

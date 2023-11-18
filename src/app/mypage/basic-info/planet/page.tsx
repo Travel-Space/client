@@ -18,6 +18,8 @@ import PlanetItem from "@/components/User/PlanetItem";
 import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
 
+import MESSAGE from "@/constants/message";
+
 export default function Planet() {
   const userId = useRecoilState(userAtom)[0]?.id;
 
@@ -41,8 +43,8 @@ export default function Planet() {
       setMyPlanets(planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -60,8 +62,8 @@ export default function Planet() {
       saveData(totalCount, totalPage, planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -74,6 +76,7 @@ export default function Planet() {
 
     if (myPlanets.length >= 5) setOverLimit(true);
   }, []);
+
   return (
     <S.Container>
       <S.MyPlanetInfo>

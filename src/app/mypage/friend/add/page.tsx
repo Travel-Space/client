@@ -18,6 +18,8 @@ import SearchForm from "@/app/mypage/SearchForm";
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
+import MESSAGE from "@/constants/message";
+
 export default function Planet() {
   const [selectedMenu, setSelectedMenu] = useState("닉네임");
   const dropDownProps = {
@@ -58,8 +60,8 @@ export default function Planet() {
       setTotalUsers(total);
       // console.log("followings", response.data);
     } catch (error) {
-      alert("유저 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("유저 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -71,8 +73,8 @@ export default function Planet() {
       setNotMutualFriends(response.data.data);
       // console.log("notMutualFriends", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

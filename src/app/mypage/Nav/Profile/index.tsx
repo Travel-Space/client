@@ -8,6 +8,8 @@ import { profileState } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
 
+import MESSAGE from "@/constants/message";
+
 const Profile = () => {
   const [profile, setProfile] = useRecoilState(profileState);
 
@@ -23,8 +25,8 @@ const Profile = () => {
       setProfile(response.data);
       // console.log("profile", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

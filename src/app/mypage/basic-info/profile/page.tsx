@@ -106,8 +106,8 @@ export default function Profile() {
 
       // console.log("profile", profile);
     } catch (error) {
-      alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching profile data: ", error);
+      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
@@ -127,8 +127,8 @@ export default function Profile() {
         return;
       }
     } catch (error) {
-      alert("프로필 정보를 수정하는 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error updating profile data: ", error);
+      console.error("프로필 정보를 수정하는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

@@ -5,6 +5,9 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "@/recoil/atoms/user.atom";
 
 import * as S from "./index.styled";
+
+import MESSAGE from "@/constants/message";
+
 interface NicknameInputProps {
   nickname: string;
   onChange: (nickname: string) => void;
@@ -25,11 +28,11 @@ const NicknameInput = ({ nickname, onChange, isAvailableNickname, setIsAvailable
       //   console.log("checkNickname", response.data);
       const isAvailable = response.data.available;
       setIsAvailableNickname(isAvailable);
-      if (isAvailable) alert("사용가능한 닉네임입니다.");
+      if (isAvailable) alert("사용 가능한 닉네임입니다.");
       else alert("이미 존재하는 닉네임입니다.");
     } catch (error) {
-      alert("닉네임 중복 확인 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error checking nickname data: ", error);
+      console.error("닉네임 중복 확인 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

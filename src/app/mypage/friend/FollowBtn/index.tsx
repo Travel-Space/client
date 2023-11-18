@@ -5,6 +5,8 @@ import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 
+import MESSAGE from "@/constants/message";
+
 interface FollowBtnProps {
   userId: number;
   isMutual?: boolean;
@@ -18,8 +20,8 @@ const FollowBtn = ({ userId, isMutual, updateData }: FollowBtnProps) => {
 
       // console.log("follow", response.data);
     } catch (error) {
-      alert("팔로우 요청 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error posting follow: ", error);
+      console.error("팔로우 요청 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
   //언팔로우 하기
@@ -28,8 +30,8 @@ const FollowBtn = ({ userId, isMutual, updateData }: FollowBtnProps) => {
       const response = await axiosRequest.requestAxios<ResData<Follow>>("delete", `/user/unfollow/${userId}`);
       // console.log("unfollow", response.data);
     } catch (error) {
-      alert("팔로우 취소 요청 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error posting unfollow: ", error);
+      console.error("팔로우 취소 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   }
 

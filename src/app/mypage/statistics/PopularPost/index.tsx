@@ -8,6 +8,8 @@ import * as S from "./index.styled";
 import PostItem from "./PostItem";
 import Nothing from "@/components/common/Nothing";
 
+import MESSAGE from "@/constants/message";
+
 const PopularPost = ({ planetId }: { planetId: number }) => {
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -26,8 +28,8 @@ const PopularPost = ({ planetId }: { planetId: number }) => {
       setPosts(response.data);
       // console.log("viewcount", response.data);
     } catch (error) {
-      alert("인기글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet popular post data: ", error);
+      console.error("인기글 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

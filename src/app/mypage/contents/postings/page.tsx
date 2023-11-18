@@ -48,7 +48,7 @@ export default function Postings() {
 
       // console.log("postings", postings);
     } catch (error) {
-      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("게시글 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   };

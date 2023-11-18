@@ -9,6 +9,7 @@ import * as S from "./index.styled";
 
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
+import MESSAGE from "@/constants/message";
 
 const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
   //useMoreButton
@@ -42,8 +43,8 @@ const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
       setTotalFollowings(total);
       // console.log("followings", followings);
     } catch (error) {
-      alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followings data: ", error);
+      console.error("팔로잉 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
   //팔로워 조회
@@ -59,8 +60,8 @@ const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
       setTotalFollowers(total);
       // console.log("followings", response.data);
     } catch (error) {
-      alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching followers data: ", error);
+      console.error("팔로워 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 
