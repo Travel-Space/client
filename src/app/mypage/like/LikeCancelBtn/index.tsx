@@ -15,11 +15,11 @@ interface LikeCancelBtnProps {
   id: number;
   saveData: (totalCount: number, totalPage: number, data: any) => void;
 }
-export default function LikeCancelBtn({ item, id, saveData, page, setPage }: LikeCancelBtnProps) {
-  const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
+const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps) => {
+  const [_, setMyPlanets] = useRecoilState(myPlanetsState);
 
   //좋아요한 게시글 불러오기
-  async function getPostings() {
+  const getPostings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
@@ -38,9 +38,10 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
+  };
+
   //소유한 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -54,8 +55,9 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
-  async function getPlanets() {
+  };
+
+  const getPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>("get", `/planet/my/bookmarks`);
       const planets = response.data.data;
@@ -70,8 +72,9 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
-  async function cancelLikePost() {
+  };
+
+  const cancelLikePost = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/${id}/like`);
       // console.log("cancelLikePost", response.data);
@@ -79,8 +82,9 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
-  async function cancelLikePlanet() {
+  };
+
+  const cancelLikePlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<CancelLikePlanet>>("delete", `/planet/${id}/bookmark`);
       // console.log("cancelLikePlanets", response.data);
@@ -88,7 +92,8 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
+  };
+
   const handleClick = async () => {
     if (item === "planet") {
       await cancelLikePlanet();
@@ -99,6 +104,7 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       getPostings();
     }
   };
+
   return (
     <S.Button onClick={handleClick}>
       <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,4 +115,6 @@ export default function LikeCancelBtn({ item, id, saveData, page, setPage }: Lik
       </svg>
     </S.Button>
   );
-}
+};
+
+export default LikeCancelBtn;

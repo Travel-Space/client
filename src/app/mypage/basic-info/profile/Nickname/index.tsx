@@ -12,16 +12,11 @@ interface NicknameInputProps {
   setIsAvailableNickname: (value: boolean) => void;
 }
 //닉네임 변경
-export default function NicknameInput({
-  nickname,
-  onChange,
-  isAvailableNickname,
-  setIsAvailableNickname,
-}: NicknameInputProps) {
+const NicknameInput = ({ nickname, onChange, isAvailableNickname, setIsAvailableNickname }: NicknameInputProps) => {
   const profile = useRecoilValue(profileState);
 
   //닉네임 중복 확인
-  async function checkNickname(nickname: string) {
+  const checkNickname = async (nickname: string) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<NicknameCheck>>(
         "get",
@@ -36,7 +31,7 @@ export default function NicknameInput({
       alert("닉네임 중복 확인 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error checking nickname data: ", error);
     }
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -45,8 +40,9 @@ export default function NicknameInput({
     } else {
       setIsAvailableNickname(true);
     }
-    console.log(isAvailableNickname, "isAvailableNickname");
+    // console.log(isAvailableNickname, "isAvailableNickname");
   };
+
   return (
     <>
       <S.NicknameInput type="text" value={nickname} onChange={handleChange} />
@@ -55,4 +51,6 @@ export default function NicknameInput({
       </S.DoubleCheck>
     </>
   );
-}
+};
+
+export default NicknameInput;

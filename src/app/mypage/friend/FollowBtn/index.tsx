@@ -10,7 +10,7 @@ interface FollowBtnProps {
   isMutual?: boolean;
   updateData: () => void;
 }
-export default function FollowBtn({ userId, isMutual, updateData }: FollowBtnProps) {
+const FollowBtn = ({ userId, isMutual, updateData }: FollowBtnProps) => {
   //팔로우 하기
   async function follow(userId: number) {
     try {
@@ -37,10 +37,12 @@ export default function FollowBtn({ userId, isMutual, updateData }: FollowBtnPro
     await follow(userId);
     updateData();
   };
+
   const handleClickUnfollow = async () => {
     await unfollow(userId);
     updateData();
   };
+
   return (
     <S.Container>
       {isMutual === false ? (
@@ -54,4 +56,6 @@ export default function FollowBtn({ userId, isMutual, updateData }: FollowBtnPro
       )}
     </S.Container>
   );
-}
+};
+
+export default FollowBtn;

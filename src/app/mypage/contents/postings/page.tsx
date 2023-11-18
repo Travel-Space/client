@@ -32,11 +32,8 @@ export default function Postings() {
     // console.log("searchItem", item);
   };
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
-
   //게시글 불러오기
-  async function getPostings() {
+  const getPostings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
@@ -54,7 +51,10 @@ export default function Postings() {
       console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
 
   useEffect(() => {
     getPostings();

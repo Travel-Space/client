@@ -10,7 +10,7 @@ import * as S from "./index.styled";
 import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 
-export default function Followings({ searchItem }: { searchItem?: SearchItem }) {
+const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
   //useMoreButton
   const handleClick = () => {
     setPage(prev => prev + 1);
@@ -18,14 +18,14 @@ export default function Followings({ searchItem }: { searchItem?: SearchItem }) 
 
   const [followings, setFollowings] = useRecoilState(followingState);
 
-  const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
+  const [_, setTotalFollowers] = useRecoilState(totalFollowersState);
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
 
   const [page, setPage] = useState(1);
   const limit = 10;
 
   //팔로잉 조회
-  async function getFollowings(page: number, limit: number) {
+  const getFollowings = async (page: number, limit: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowingsType>>(
         "get",
@@ -45,9 +45,9 @@ export default function Followings({ searchItem }: { searchItem?: SearchItem }) 
       alert("팔로잉 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followings data: ", error);
     }
-  }
+  };
   //팔로워 조회
-  async function getFollowers() {
+  const getFollowers = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<FollowersType>>(
         "get",
@@ -62,7 +62,7 @@ export default function Followings({ searchItem }: { searchItem?: SearchItem }) 
       alert("팔로워 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching followers data: ", error);
     }
-  }
+  };
 
   const updateData = () => {
     getFollowings(1, page * limit);
@@ -79,11 +79,13 @@ export default function Followings({ searchItem }: { searchItem?: SearchItem }) 
     getFollowings(page, limit);
     getFollowers();
   }, []);
+
   useEffect(() => {
     setPage(1);
     getFollowings(page, limit);
     // console.log("검색", searchItem);
   }, [searchItem]);
+
   return (
     <>
       {followings.length === 0 ? (
@@ -112,4 +114,6 @@ export default function Followings({ searchItem }: { searchItem?: SearchItem }) 
       )}
     </>
   );
-}
+};
+
+export default Followings;

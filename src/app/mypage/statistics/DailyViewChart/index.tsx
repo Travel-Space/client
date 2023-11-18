@@ -96,8 +96,9 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
   useEffect(() => {
     getViewData();
   }, [planetId]);
+
   //방문 수 조회
-  async function getViewData() {
+  const getViewData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<DailyViewCount[]>>(
         "get",
@@ -109,7 +110,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
       alert("행성 방문 수 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet visitation data: ", error);
     }
-  }
+  };
 
   return (
     <S.Container>
@@ -119,4 +120,5 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
     </S.Container>
   );
 };
+
 export default DailyViewChart;

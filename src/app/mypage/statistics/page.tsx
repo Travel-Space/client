@@ -45,7 +45,7 @@ export default function Statistics() {
   };
 
   //내 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -57,7 +57,7 @@ export default function Statistics() {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
+  };
 
   useEffect(() => {
     getMyPlanets();

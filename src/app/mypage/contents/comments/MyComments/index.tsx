@@ -16,7 +16,7 @@ interface MyCommentsProps {
   saveData: (totalCount: number, totalPage: number, comments: Comment[]) => void;
 }
 
-export default function MyComments({ page, data, setPage, saveData }: MyCommentsProps) {
+const MyComments = ({ page, data, setPage, saveData }: MyCommentsProps) => {
   const { article, articleId, content, id } = data;
 
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
   const { dateString, dayName } = getDateInfo(article.createdAt);
 
   //댓글 불러오기
-  async function getComments() {
+  const getComments = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Comments>>(
         "get",
@@ -50,10 +50,10 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
       alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching comment data: ", error);
     }
-  }
+  };
 
   //댓글 삭제
-  async function deleteComment() {
+  const deleteComment = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Comment>>("delete", `/comments/${id}`);
       // console.log("postings", postings);
@@ -61,7 +61,7 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
       alert("좋아요 취소 중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
+  };
 
   const handleDelete = async () => {
     await deleteComment();
@@ -91,4 +91,6 @@ export default function MyComments({ page, data, setPage, saveData }: MyComments
       </S.InfoRow>
     </S.Container>
   );
-}
+};
+
+export default MyComments;

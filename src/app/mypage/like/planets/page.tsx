@@ -35,11 +35,8 @@ export default function Planets() {
     // console.log("searchItem", item);
   };
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
-
   //소유한 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -53,10 +50,10 @@ export default function Planets() {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
+  };
 
   //좋아요한 행성 불러오기
-  async function getLikedPlanets() {
+  const getLikedPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<LikedPlanets>>(
         "get",
@@ -74,7 +71,10 @@ export default function Planets() {
       alert("좋아요한 행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
 
   useEffect(() => {
     if (myPlanets.length === 0) getMyPlanets();

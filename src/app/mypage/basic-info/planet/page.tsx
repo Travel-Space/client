@@ -29,11 +29,8 @@ export default function Planet() {
 
   const [joinedPlanets, setJoinedPlanets] = useRecoilState(joinedPlanetsState);
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
-
   //소유한 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -47,9 +44,10 @@ export default function Planet() {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
+  };
+
   //가입한 행성 불러오기
-  async function getJoinedPlanets() {
+  const getJoinedPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<JoinedPlanets>>(
         "get",
@@ -65,7 +63,10 @@ export default function Planet() {
       alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching planet data: ", error);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getJoinedPlanets, setJoinedPlanets);
 
   useEffect(() => {
     getMyPlanets();

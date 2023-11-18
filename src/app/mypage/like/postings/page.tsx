@@ -22,16 +22,13 @@ export default function FavoritePostings() {
 
   const [postings, setPostings] = useState<Posting[]>([]);
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
-
   const handleSearch = (item: SearchItem) => {
     setSearchItem(item);
     // console.log("searchItem", item);
   };
 
   //좋아요한 게시글 불러오기
-  async function getPostings() {
+  const getPostings = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
@@ -48,7 +45,10 @@ export default function FavoritePostings() {
       alert("게시글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
       console.error("Error fetching posting data: ", error);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getPostings, setPostings);
 
   useEffect(() => {
     getPostings();
