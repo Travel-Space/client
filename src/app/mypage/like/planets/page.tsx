@@ -16,6 +16,8 @@ import FavoritePlanet from "./FavoritePlanet";
 import Nothing from "@/components/common/Nothing";
 import Pagination from "@/components/common/Pagination";
 
+import MESSAGE from "@/constants/message";
+
 export default function Planets() {
   const dropDownProps = {
     selectedMenu: "행성 이름",
@@ -35,11 +37,8 @@ export default function Planets() {
     // console.log("searchItem", item);
   };
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
-
   //소유한 행성 불러오기
-  async function getMyPlanets() {
+  const getMyPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetsType>>(
         "get",
@@ -50,13 +49,13 @@ export default function Planets() {
       setMyPlanets(planets);
       // console.log("planets", response.data.data);
     } catch (error) {
-      alert("행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("행성 목록을 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   //좋아요한 행성 불러오기
-  async function getLikedPlanets() {
+  const getLikedPlanets = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<LikedPlanets>>(
         "get",
@@ -71,10 +70,13 @@ export default function Planets() {
       saveData(totalCount, totalPage, planets);
       // console.log("getLikedPlanets", response.data);
     } catch (error) {
-      alert("좋아요한 행성 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet data: ", error);
+      console.error("좋아요한 행성 목록을 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getLikedPlanets, setLikedPlanets);
 
   useEffect(() => {
     if (myPlanets.length === 0) getMyPlanets();

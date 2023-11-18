@@ -10,7 +10,7 @@ interface PostItemProps {
   ranking: number;
   data: Posting;
 }
-export default function PostItem({ ranking, data }: PostItemProps) {
+const PostItem = ({ ranking, data }: PostItemProps) => {
   const formattedDate = getDateFormatWithDay(data.createdAt).slice(0, 10);
 
   const router = useRouter();
@@ -18,6 +18,7 @@ export default function PostItem({ ranking, data }: PostItemProps) {
   const goToPost = () => {
     router.push(`/planet/${data.planetId}/post/?detail=${data.id}`);
   };
+
   return (
     <S.TableRow>
       <S.Ranking>{ranking}</S.Ranking>
@@ -28,4 +29,6 @@ export default function PostItem({ ranking, data }: PostItemProps) {
       <S.TdCenter>{formattedDate}</S.TdCenter>
     </S.TableRow>
   );
-}
+};
+
+export default PostItem;

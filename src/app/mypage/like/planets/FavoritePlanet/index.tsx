@@ -14,7 +14,7 @@ interface FavoritePlanetProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
-export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
+const FavoritePlanet = ({ data, page, setPage, saveData }: FavoritePlanetProps) => {
   const { planet, planetId } = data;
 
   const router = useRouter();
@@ -25,6 +25,7 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
   const goToShip = () => {
     router.push(`/planet/${planetId}/space-ship/`);
   };
+
   return (
     <S.Container>
       <Image src={PLANETSHAPE[planet.shape]} alt="planet" width={60} height={60} onClick={goToPlanet} />
@@ -53,4 +54,6 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
       <LikeCancelBtn item="planet" id={planet.id} saveData={saveData} page={page} setPage={setPage} />
     </S.Container>
   );
-}
+};
+
+export default FavoritePlanet;

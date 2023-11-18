@@ -49,16 +49,19 @@ export default function Profile() {
   const handleChangeImg = (src: string) => {
     setChangedProfileImg(src);
   };
+
   //닉네임 변경
   const handleChangeNickname = (nickname: string) => {
     setChangedNickname(nickname);
   };
+
   //비밀번호 일치 여부 확인
   function handlePasswordCompare(result: boolean, value: string) {
     setIsPasswordMatching(result);
     setPassword(value);
     VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   }
+
   //국적 변경
   function handleCountry(country: CountryInfo) {
     setCountry(country);
@@ -87,7 +90,7 @@ export default function Profile() {
   }, []);
 
   //프로필 조회 api
-  async function getProfile() {
+  const getProfile = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", "/user/profile");
       const profile = response.data;
@@ -103,10 +106,10 @@ export default function Profile() {
 
       // console.log("profile", profile);
     } catch (error) {
-      alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching profile data: ", error);
+      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   //프로필 변경사항 저장
   interface UpdateProfile {
@@ -124,8 +127,8 @@ export default function Profile() {
         return;
       }
     } catch (error) {
-      alert("프로필 정보를 수정하는 중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error updating profile data: ", error);
+      console.error("프로필 정보를 수정하는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

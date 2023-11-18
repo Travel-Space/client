@@ -8,7 +8,9 @@ import * as S from "./index.styled";
 import PostItem from "./PostItem";
 import Nothing from "@/components/common/Nothing";
 
-export default function PopularPost({ planetId }: { planetId: number }) {
+import MESSAGE from "@/constants/message";
+
+const PopularPost = ({ planetId }: { planetId: number }) => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
@@ -17,7 +19,7 @@ export default function PopularPost({ planetId }: { planetId: number }) {
   posts.sort((a, b) => b.monthlyViews - a.monthlyViews);
 
   //월간 게시글 랭킹 조회
-  async function getPopularPost() {
+  const getPopularPost = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Posting[]>>(
         "get",
@@ -26,10 +28,10 @@ export default function PopularPost({ planetId }: { planetId: number }) {
       setPosts(response.data);
       // console.log("viewcount", response.data);
     } catch (error) {
-      alert("인기글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet popular post data: ", error);
+      console.error("인기글 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   useEffect(() => {
     getPopularPost();
@@ -71,4 +73,6 @@ export default function PopularPost({ planetId }: { planetId: number }) {
       )}
     </>
   );
-}
+};
+
+export default PopularPost;

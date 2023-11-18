@@ -12,15 +12,18 @@ interface Select {
   handleClick?: (menu: string) => void;
   placeholder: string;
 }
+
 interface SearchItem {
   selectedMenu: string;
   content: string;
 }
+
 interface SearchFormProps {
   select: Select;
   onSearch: (item: SearchItem) => void;
 }
-export default function SearchForm({ select, onSearch }: SearchFormProps) {
+
+const SearchForm = ({ select, onSearch }: SearchFormProps) => {
   const { menuList, selectedMenu, handleClick, placeholder } = select;
   const [isOpen, dropDownRef, handler] = useDetectClose(false);
 
@@ -78,4 +81,6 @@ export default function SearchForm({ select, onSearch }: SearchFormProps) {
       </S.SearchBtn>
     </S.Search>
   );
-}
+};
+
+export default SearchForm;

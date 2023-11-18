@@ -11,14 +11,13 @@ import MyComments from "./MyComments";
 import Pagination from "@/components/common/Pagination";
 import usePagination from "@/hooks/usePagination";
 
+import MESSAGE from "@/constants/message";
+
 export default function Comments() {
   const [comments, setComments] = useState<Comment[]>();
 
-  //pagination
-  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getComments, setComments);
-
   //댓글 불러오기
-  async function getComments() {
+  const getComments = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Comments>>(
         "get",
@@ -30,14 +29,18 @@ export default function Comments() {
       saveData(totalCount, totalPage, comments);
       console.log("comments", response.data);
     } catch (error) {
-      alert("댓글 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching comment data: ", error);
+      console.error("댓글 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
+
+  //pagination
+  const { saveData, totalCount, totalPage, page, setPage } = usePagination(getComments, setComments);
 
   useEffect(() => {
     getComments();
   }, []);
+
   return (
     <S.Container>
       {totalCount === 0 ? (

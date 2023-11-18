@@ -12,7 +12,9 @@ import Image from "next/image";
 import Line from "@/components/common/Line";
 import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
-export default function ProfileSummary({ id }: { id: number }) {
+import MESSAGE from "@/constants/message";
+
+const ProfileSummary = ({ id }: { id: number }) => {
   const [userProfile, setUserProfile] = useState<User>();
   const user = useRecoilValue(userAtom);
 
@@ -20,7 +22,7 @@ export default function ProfileSummary({ id }: { id: number }) {
   const totalFollowers = useRecoilValue(totalFollowersState);
 
   //프로필 조회
-  async function getUserProfile() {
+  const getUserProfile = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/other/${id}`);
       const profile = response.data;
@@ -28,10 +30,10 @@ export default function ProfileSummary({ id }: { id: number }) {
       setUserProfile(profile);
       // console.log("profile", profile);
     } catch (error) {
-      alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching profile data: ", error);
+      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   useEffect(() => {
     getUserProfile();
@@ -65,4 +67,6 @@ export default function ProfileSummary({ id }: { id: number }) {
       </S.Friends>
     </S.Container>
   );
-}
+};
+
+export default ProfileSummary;

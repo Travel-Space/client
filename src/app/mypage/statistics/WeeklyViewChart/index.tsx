@@ -10,6 +10,7 @@ import * as S from "./index.styled";
 import Chart from "../Chart";
 
 import { getDateFormatWithDay } from "@/utils/getDateFormat";
+import MESSAGE from "@/constants/message";
 
 const DailyViewChart = ({ planetId }: { planetId: number }) => {
   const [page, setPage] = useState(1);
@@ -87,7 +88,7 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
   }, [viewData]);
 
   //방문 수 조회
-  async function getViewData() {
+  const getViewData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<WeeklyViewCount[]>>(
         "get",
@@ -96,10 +97,10 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
       setViewData(response.data);
       // console.log("viewcount", response.data);
     } catch (error) {
-      alert("행성 방문 수 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching planet visitation data: ", error);
+      console.error("행성 방문 수 정보를 불러오는 중 오류가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
-  }
+  };
 
   return (
     <S.Container>

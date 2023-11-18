@@ -14,7 +14,7 @@ interface PersonProps {
   isMutual?: boolean;
   updateData: () => void;
 }
-export default function Person({ data, isMutual, updateData }: PersonProps) {
+const Person = ({ data, isMutual, updateData }: PersonProps) => {
   const defaultImage = "/assets/img/icons/default-user.svg";
   const user = useRecoilValue(userAtom);
 
@@ -23,6 +23,7 @@ export default function Person({ data, isMutual, updateData }: PersonProps) {
   const goToProfile = () => {
     router.push(`/user/profile/${data.id}`);
   };
+
   return (
     <S.Container>
       <S.Profile onClick={goToProfile}>
@@ -35,4 +36,6 @@ export default function Person({ data, isMutual, updateData }: PersonProps) {
       {user?.id !== data.id && <FollowBtn userId={data.id} isMutual={isMutual} updateData={updateData} />}
     </S.Container>
   );
-}
+};
+
+export default Person;
