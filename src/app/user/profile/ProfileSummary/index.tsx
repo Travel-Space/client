@@ -12,6 +12,8 @@ import Image from "next/image";
 import Line from "@/components/common/Line";
 import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
+import MESSAGE from "@/constants/message";
+
 const ProfileSummary = ({ id }: { id: number }) => {
   const [userProfile, setUserProfile] = useState<User>();
   const user = useRecoilValue(userAtom);
@@ -28,8 +30,8 @@ const ProfileSummary = ({ id }: { id: number }) => {
       setUserProfile(profile);
       // console.log("profile", profile);
     } catch (error) {
-      alert("프로필 정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
-      console.error("Error fetching profile data: ", error);
+      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
     }
   };
 

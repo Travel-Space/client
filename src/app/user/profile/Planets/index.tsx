@@ -30,7 +30,7 @@ const Planets = ({ id }: { id: number }) => {
 
       setUserPlanets(planets);
     } catch (error) {
-      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("행성 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   };
@@ -55,7 +55,7 @@ const Planets = ({ id }: { id: number }) => {
 
       setPage(prev => prev + 1);
     } catch (error) {
-      console.error("행성 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("행성 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   };

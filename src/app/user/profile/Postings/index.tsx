@@ -41,7 +41,7 @@ const Postings = ({ id }: { id: number }) => {
       // console.log("Postings", postings);
       // console.log("page", page);
     } catch (error) {
-      console.error("게시글 정보를 가져오는중 에러가 발생했습니다.", error);
+      console.error("게시글 정보를 가져오는 중 에러가 발생했습니다.", error);
       alert(MESSAGE.ERROR.DEFAULT);
     }
   };
