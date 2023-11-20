@@ -16,4 +16,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-CMD ["sh", "-c", "nginx && npm start"]
+CMD ["sh", "-c", "nginx && npm run dev"]
