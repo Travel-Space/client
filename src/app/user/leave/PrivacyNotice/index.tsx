@@ -2,7 +2,7 @@ import * as S from "./index.styled";
 
 import LEAVEINFO from "@/constants/leave";
 
-const PrivacyNotice = () => {
+export default function PrivacyNotice() {
   return (
     <S.Notice>
       <S.Title>회원 정보 보존 안내 사항</S.Title>
@@ -20,6 +20,4 @@ const PrivacyNotice = () => {
       </S.NoticeContent>
     </S.Notice>
   );
-};
-
-export default PrivacyNotice;
+}

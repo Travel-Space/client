@@ -13,7 +13,7 @@ import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import LEAVEINFO from "@/constants/leave";
 
-const Guide = () => {
+export default function Guide() {
   const router = useRouter();
 
   const [auth, setAuth] = useRecoilState(userAtom);
@@ -102,6 +102,4 @@ const Guide = () => {
       </S.MainContent>
     </>
   );
-};
-
-export default Guide;
+}
