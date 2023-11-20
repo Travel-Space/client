@@ -10,6 +10,15 @@ COPY . .
 
 RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/public ./public
+COPY --from=build /app/pages ./pages
+
 RUN apk add --no-cache nginx
 
 COPY nginx.conf /etc/nginx/nginx.conf
