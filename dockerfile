@@ -1,8 +1,8 @@
-FROM node:18-alpine
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-COPY package.json .
+COPY package.json ./
 
 RUN npm install
 
@@ -10,6 +10,11 @@ COPY . .
 
 RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
-EXPOSE 3000
+RUN apk add --no-cache nginx
 
-CMD ["npm", "start"]
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["sh", "-c", "nginx && npm run dev"]
