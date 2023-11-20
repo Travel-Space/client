@@ -10,7 +10,7 @@ import * as S from "./index.styled";
 
 import MESSAGE from "@/constants/message";
 
-const Profile = () => {
+export default function Profile() {
   const [profile, setProfile] = useRecoilState(profileState);
 
   const router = useRouter();
@@ -41,6 +41,4 @@ const Profile = () => {
       <S.Email>{profile?.email}</S.Email>
     </S.Container>
   );
-};
-
-export default Profile;
+}

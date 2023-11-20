@@ -17,7 +17,7 @@ interface ProfileImageProps {
   imgSrc?: string;
   onChange: (src: string) => void;
 }
-const ProfileImage = ({ imgSrc, onChange }: ProfileImageProps) => {
+export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
   const defaultImage = "/assets/img/icons/default-user.svg";
 
   const [uploadImage, setUploadImage] = useState<string | null>(null);
@@ -91,6 +91,4 @@ const ProfileImage = ({ imgSrc, onChange }: ProfileImageProps) => {
       </S.ProfileImage>
     </>
   );
-};
-
-export default ProfileImage;
+}

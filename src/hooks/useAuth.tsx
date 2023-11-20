@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import MESSAGE from "@/constants/message";
 
 export function useAuth(planetId?: number, guardType?: "ADMIN" | "MEMBER") {
   const user = useRecoilValue(userAtom);
@@ -10,7 +11,8 @@ export function useAuth(planetId?: number, guardType?: "ADMIN" | "MEMBER") {
 
   useEffect(() => {
     if (!user) {
-      router.push("/");
+      alert(MESSAGE.LOGIN.REQUIRED);
+      router.back();
       return;
     }
 
@@ -30,13 +32,15 @@ export function useAuth(planetId?: number, guardType?: "ADMIN" | "MEMBER") {
       if (asAdmin) {
         setIsLoggedIn(true);
       } else {
-        router.push("/");
+        alert(MESSAGE.ERROR.ONLY_ADMIN);
+        router.back();
       }
     } else if (guardType === "MEMBER") {
       if (asMember) {
         setIsLoggedIn(true);
       } else {
-        router.push("/");
+        alert(MESSAGE.ERROR.ONLY_MEMBER);
+        router.back();
       }
     }
   }, [user, router, planetId]);

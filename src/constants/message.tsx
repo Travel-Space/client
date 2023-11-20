@@ -16,6 +16,8 @@ const MESSAGE = {
   ERROR: {
     DEFAULT: "에러가 발생했습니다. 다시 시도해 주세요",
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
+    ONLY_ADMIN: "관리자 및 부관리자만 접근이 가능합니다.",
+    ONLY_MEMBER: "행성 멤버만 접근이 가능합니다.",
   },
   POST: {
     COMPLETE: "게시글 작성이 완료되었습니다.",

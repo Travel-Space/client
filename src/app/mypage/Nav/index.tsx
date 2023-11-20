@@ -18,7 +18,7 @@ interface NavProps {
   navData: NavData[];
 }
 
-const Nav = ({ navData }: NavProps) => {
+export default function Nav({ navData }: NavProps) {
   return (
     <S.Container>
       <Profile />
@@ -27,6 +27,4 @@ const Nav = ({ navData }: NavProps) => {
       ))}
     </S.Container>
   );
-};
-
-export default Nav;
+}

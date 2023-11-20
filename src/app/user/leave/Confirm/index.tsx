@@ -12,7 +12,7 @@ import Button from "@/components/common/Button";
 import Checkbox from "../Checkbox";
 import MESSAGE from "@/constants/message";
 
-const Confirm = () => {
+export default function Confirm() {
   const router = useRouter();
 
   const [checked, setChecked] = useState(false);
@@ -73,5 +73,4 @@ const Confirm = () => {
       </S.Buttons>
     </S.Confirm>
   );
-};
-export default Confirm;
+}

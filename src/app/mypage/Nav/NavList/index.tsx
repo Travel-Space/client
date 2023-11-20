@@ -10,7 +10,7 @@ interface NavListProps {
   sub: { name: string; href: string }[];
 }
 
-const NavList = ({ logo, parent, sub }: NavListProps) => {
+export default function NavList({ logo, parent, sub }: NavListProps) {
   const pathname = usePathname();
 
   return (
@@ -30,6 +30,4 @@ const NavList = ({ logo, parent, sub }: NavListProps) => {
       </S.List>
     </S.Container>
   );
-};
-
-export default NavList;
+}

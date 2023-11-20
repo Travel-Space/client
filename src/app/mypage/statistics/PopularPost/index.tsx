@@ -10,7 +10,7 @@ import Nothing from "@/components/common/Nothing";
 
 import MESSAGE from "@/constants/message";
 
-const PopularPost = ({ planetId }: { planetId: number }) => {
+export default function PopularPost({ planetId }: { planetId: number }) {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
@@ -73,6 +73,4 @@ const PopularPost = ({ planetId }: { planetId: number }) => {
       )}
     </>
   );
-};
-
-export default PopularPost;
+}

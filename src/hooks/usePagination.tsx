@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function usePagination(loadData: () => void, setData: (data: any) => void) {
+const usePagination = (loadData: () => void, setData: (data: any) => void) => {
   //pagination
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -17,4 +17,6 @@ export default function usePagination(loadData: () => void, setData: (data: any)
   }, [page]);
 
   return { saveData, totalCount, totalPage, page, setPage };
-}
+};
+
+export default usePagination;

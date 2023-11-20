@@ -13,7 +13,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 import MESSAGE from "@/constants/message";
 
-const Followers = ({ id }: { id: number }) => {
+export default function Followers({ id }: { id: number }) {
   const [followers, setFollowers] = useRecoilState(followerState);
   const [totalFollowers, setTotalFollowers] = useRecoilState(totalFollowersState);
   const [totalFollowings, setTotalFollowings] = useRecoilState(totalFollowingsState);
@@ -118,6 +118,4 @@ const Followers = ({ id }: { id: number }) => {
       <S.InfiniteScrollTarget ref={observerRef} />
     </>
   );
-};
-
-export default Followers;
+}

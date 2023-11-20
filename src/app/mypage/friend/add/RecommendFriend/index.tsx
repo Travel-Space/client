@@ -11,7 +11,7 @@ interface RecommendFriendProps {
   data: Follower;
   updateData: () => void;
 }
-const RecommendFriend = ({ data, updateData }: RecommendFriendProps) => {
+export default function RecommendFriend({ data, updateData }: RecommendFriendProps) {
   const router = useRouter();
 
   const goToProfile = () => {
@@ -27,6 +27,4 @@ const RecommendFriend = ({ data, updateData }: RecommendFriendProps) => {
       <FollowBtn userId={data.friendId} isMutual={data.isMutual} updateData={updateData} />
     </S.Container>
   );
-};
-
-export default RecommendFriend;
+}
