@@ -12,7 +12,7 @@ interface PropsType {
   children: React.ReactNode;
 }
 
-const ImageCropper = ({ children, aspectRatio, onCrop }: PropsType) => {
+export default function ImageCropper({ children, aspectRatio, onCrop }: PropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
   const [image, setImage] = useState<null | string>(null);
@@ -80,6 +80,4 @@ const ImageCropper = ({ children, aspectRatio, onCrop }: PropsType) => {
       )}
     </>
   );
-};
-
-export default ImageCropper;
+}

@@ -14,7 +14,7 @@ interface FavoritePlanetProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
-const FavoritePlanet = ({ data, page, setPage, saveData }: FavoritePlanetProps) => {
+export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
   const { planet, planetId } = data;
 
   const router = useRouter();
@@ -54,6 +54,4 @@ const FavoritePlanet = ({ data, page, setPage, saveData }: FavoritePlanetProps) 
       <LikeCancelBtn item="planet" id={planet.id} saveData={saveData} page={page} setPage={setPage} />
     </S.Container>
   );
-};
-
-export default FavoritePlanet;
+}

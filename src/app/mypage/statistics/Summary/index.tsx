@@ -17,7 +17,7 @@ interface SummaryProps {
   selectedMenu: string;
   dropDownProps: Menu;
 }
-const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) => {
+export default function Summary({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) {
   const { shape, articles, viewCountTotal } = selectedPlanet as Planet;
 
   const todayViewCount = useRecoilValue(todayViewCountState);
@@ -51,5 +51,4 @@ const Summary = ({ selectedPlanet, selectedMenu, dropDownProps }: SummaryProps) 
       </S.Summary>
     </S.SummaryWrap>
   );
-};
-export default Summary;
+}

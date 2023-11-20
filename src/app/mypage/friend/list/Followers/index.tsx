@@ -12,7 +12,7 @@ import Person from "@/app/mypage/friend/Person";
 
 import MESSAGE from "@/constants/message";
 
-const Followers = ({ searchItem }: { searchItem?: SearchItem }) => {
+export default function Followers({ searchItem }: { searchItem?: SearchItem }) {
   const handleClick = () => {
     setPage(prev => prev + 1);
   };
@@ -113,6 +113,4 @@ const Followers = ({ searchItem }: { searchItem?: SearchItem }) => {
       )}
     </>
   );
-};
-
-export default Followers;
+}

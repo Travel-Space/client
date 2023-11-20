@@ -15,7 +15,12 @@ interface NicknameInputProps {
   setIsAvailableNickname: (value: boolean) => void;
 }
 //닉네임 변경
-const NicknameInput = ({ nickname, onChange, isAvailableNickname, setIsAvailableNickname }: NicknameInputProps) => {
+export default function NicknameInput({
+  nickname,
+  onChange,
+  isAvailableNickname,
+  setIsAvailableNickname,
+}: NicknameInputProps) {
   const profile = useRecoilValue(profileState);
 
   //닉네임 중복 확인
@@ -54,6 +59,4 @@ const NicknameInput = ({ nickname, onChange, isAvailableNickname, setIsAvailable
       </S.DoubleCheck>
     </>
   );
-};
-
-export default NicknameInput;
+}

@@ -11,7 +11,7 @@ import Nothing from "@/components/common/Nothing";
 import Person from "@/app/mypage/friend/Person";
 import MESSAGE from "@/constants/message";
 
-const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
+export default function Followings({ searchItem }: { searchItem?: SearchItem }) {
   //useMoreButton
   const handleClick = () => {
     setPage(prev => prev + 1);
@@ -115,6 +115,4 @@ const Followings = ({ searchItem }: { searchItem?: SearchItem }) => {
       )}
     </>
   );
-};
-
-export default Followings;
+}

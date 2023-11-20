@@ -17,7 +17,7 @@ interface MyPostingsProps {
   data: Posting;
   saveData: (totalCount: number, totalPage: number, post: Posting[]) => void;
 }
-const MyPostings = ({ page, data, setPage, saveData }: MyPostingsProps) => {
+export default function MyPostings({ page, data, setPage, saveData }: MyPostingsProps) {
   const { id, title, planet, createdAt, likes } = data;
 
   //UTC->LOCAL 날짜 변환
@@ -102,6 +102,4 @@ const MyPostings = ({ page, data, setPage, saveData }: MyPostingsProps) => {
       </S.InfoRow>
     </S.Container>
   );
-};
-
-export default MyPostings;
+}

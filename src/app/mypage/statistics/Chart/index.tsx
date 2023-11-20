@@ -7,7 +7,7 @@ interface ChartProps {
   handleBarClick: (event: MouseEvent, chartContext: any, config: { dataPointIndex: number }) => void;
 }
 
-const Chart = ({ series, period, handleBarClick }: ChartProps) => {
+export default function Chart({ series, period, handleBarClick }: ChartProps) {
   const options: ApexOptions = {
     series: [
       {
@@ -87,5 +87,4 @@ const Chart = ({ series, period, handleBarClick }: ChartProps) => {
   };
 
   return <ApexChart options={options} series={options.series} type="bar" width="100%" height="310" />;
-};
-export default Chart;
+}
