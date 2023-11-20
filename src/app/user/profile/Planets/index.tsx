@@ -11,7 +11,7 @@ import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
 import MyPlanetItem from "@/components/User/MyPlanetItem";
 
-const Planets = ({ id }: { id: number }) => {
+export default function Planets({ id }: { id: number }) {
   const [userPlanets, setUserPlanets] = useState<Planet[]>([]);
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -123,6 +123,4 @@ const Planets = ({ id }: { id: number }) => {
       <S.InfiniteScrollTarget ref={observerRef} />
     </S.Container>
   );
-};
-
-export default Planets;
+}

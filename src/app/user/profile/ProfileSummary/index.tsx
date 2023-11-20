@@ -14,7 +14,7 @@ import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
 import MESSAGE from "@/constants/message";
 
-const ProfileSummary = ({ id }: { id: number }) => {
+export default function ProfileSummary =({ id }: { id: number })  {
   const [userProfile, setUserProfile] = useState<User>();
   const user = useRecoilValue(userAtom);
 
@@ -69,4 +69,3 @@ const ProfileSummary = ({ id }: { id: number }) => {
   );
 };
 
-export default ProfileSummary;
