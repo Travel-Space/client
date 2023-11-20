@@ -44,7 +44,7 @@ export default function PostDetail() {
         return acc + (comment.repliesCount || 0);
       }, 0);
 
-      // 댓글 데이터 병합
+      // 더보기 시 다음 댓글 기존 댓글에 더하기
       let updatedComments;
       if (currentCommentsPage > 1 && data) {
         updatedComments = [...data.comments, ...response.data.comments].filter(
@@ -54,7 +54,7 @@ export default function PostDetail() {
         updatedComments = response.data.comments;
       }
 
-      // 대댓글 데이터 병합
+      // 더보시 시 다음 대댓글 기존 대댓글에 더하기
       const updatedReplies = updatedComments.map(comment => {
         const existingReplies = (data && data.comments.find(c => c.id === comment.id)?.replies) || [];
         const newReplies = comment.replies || [];
