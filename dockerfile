@@ -12,9 +12,8 @@ RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 RUN apk add --no-cache nginx
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-RUN cat /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
