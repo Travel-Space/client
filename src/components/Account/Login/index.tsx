@@ -34,7 +34,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   async function googleLogin() {
     console.log("구글 로그인");
-    window.location.href = "http://localhost:8080/api/auth/google";
+    window.location.href = "http://travelspace.world/api/auth/google";
   }
 
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
