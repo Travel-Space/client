@@ -14,6 +14,8 @@ RUN apk add --no-cache nginx
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+RUN cat /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
 CMD ["sh", "-c", "nginx && npm run dev"]
