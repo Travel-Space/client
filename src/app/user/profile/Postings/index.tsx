@@ -10,7 +10,7 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
 
-const Postings = ({ id }: { id: number }) => {
+export default function Postings({ id }: { id: number }) {
   const [postings, setPostings] = useState<Posting[]>([]);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -92,6 +92,4 @@ const Postings = ({ id }: { id: number }) => {
       <S.InfiniteScrollTarget ref={observerRef} />
     </S.Container>
   );
-};
-
-export default Postings;
+}

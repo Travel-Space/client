@@ -17,7 +17,7 @@ interface MyCommentsProps {
   saveData: (totalCount: number, totalPage: number, comments: Comment[]) => void;
 }
 
-const MyComments = ({ page, data, setPage, saveData }: MyCommentsProps) => {
+export default function MyComments({ page, data, setPage, saveData }: MyCommentsProps) {
   const { article, articleId, content, id } = data;
 
   const router = useRouter();
@@ -92,6 +92,4 @@ const MyComments = ({ page, data, setPage, saveData }: MyCommentsProps) => {
       </S.InfoRow>
     </S.Container>
   );
-};
-
-export default MyComments;
+}

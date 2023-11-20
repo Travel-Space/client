@@ -15,7 +15,7 @@ interface LikeCancelBtnProps {
   id: number;
   saveData: (totalCount: number, totalPage: number, data: any) => void;
 }
-const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps) => {
+export default function LikeCancelBtn({ item, id, saveData, page, setPage }: LikeCancelBtnProps) {
   const [_, setMyPlanets] = useRecoilState(myPlanetsState);
 
   //좋아요한 게시글 불러오기
@@ -115,6 +115,4 @@ const LikeCancelBtn = ({ item, id, saveData, page, setPage }: LikeCancelBtnProps
       </svg>
     </S.Button>
   );
-};
-
-export default LikeCancelBtn;
+}

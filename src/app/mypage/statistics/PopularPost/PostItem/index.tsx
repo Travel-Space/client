@@ -10,7 +10,7 @@ interface PostItemProps {
   ranking: number;
   data: Posting;
 }
-const PostItem = ({ ranking, data }: PostItemProps) => {
+export default function PostItem({ ranking, data }: PostItemProps) {
   const formattedDate = getDateFormatWithDay(data.createdAt).slice(0, 10);
 
   const router = useRouter();
@@ -29,6 +29,4 @@ const PostItem = ({ ranking, data }: PostItemProps) => {
       <S.TdCenter>{formattedDate}</S.TdCenter>
     </S.TableRow>
   );
-};
-
-export default PostItem;
+}

@@ -13,7 +13,7 @@ import Chart from "../Chart";
 import { getDateFormatWithDay } from "@/utils/getDateFormat";
 import MESSAGE from "@/constants/message";
 
-const DailyViewChart = ({ planetId }: { planetId: number }) => {
+export default function DailyViewChart({ planetId }: { planetId: number }) {
   const [page, setPage] = useState(1);
   const [isClicked, setIsClicked] = useState("");
 
@@ -120,6 +120,4 @@ const DailyViewChart = ({ planetId }: { planetId: number }) => {
       <S.NextPageBtn onClick={goNextPage} disabled={page === 1} />
     </S.Container>
   );
-};
-
-export default DailyViewChart;
+}
