@@ -179,13 +179,12 @@ export default function PlanetMember({ onClose }: Default) {
           invited: false,
         }));
         console.log("resultUser", resultUser);
-        if (resultUser.length !== 0) {
-          setSearchUsers(resultUser);
-        } else {
-          // console.log("검색 결과 없음");
+        if (!resultUser.length) {
           setTotalCount(0);
           setUpdatedPlanetMember([]);
+          return;
         }
+        setSearchUsers(resultUser);
       } catch (error) {
         console.error("유저 조회 에러", error);
         if (isAxiosError(error)) {
@@ -205,21 +204,20 @@ export default function PlanetMember({ onClose }: Default) {
       (value, index, self) => self.findIndex(el => el.userId === value.userId) === index,
     );
     setUpdatedPlanetMember(planetFollowingMember);
+    if (!searchUsers.length) return;
 
-    if (searchUsers.length !== 0) {
-      const searchUsersMember = [...planetMember, ...searchUsers]
-        .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
-        .filter(
-          updatedUser =>
-            planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
-            searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
-        );
-      if (searchUsersMember.length !== 0) {
-        setUpdatedPlanetMember(searchUsersMember);
-      } else {
-        setUpdatedPlanetMember(searchUsers);
-      }
+    const searchUsersMember = [...planetMember, ...searchUsers]
+      .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
+      .filter(
+        updatedUser =>
+          planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
+          searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
+      );
+    if (!searchUsersMember.length) {
+      setUpdatedPlanetMember(searchUsers);
+      return;
     }
+    setUpdatedPlanetMember(searchUsersMember);
   }, [followingList, planetMember, searchUsers]);
 
   useEffect(() => {
