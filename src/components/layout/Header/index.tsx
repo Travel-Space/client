@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
-import * as S from "./index.styled";
+import * as HEADER from "./index.styled";
 import Account from "@/components/Account";
 import Notification from "@/components/Notification";
 import STATUS_CODE from "@/constants/statusCode";
@@ -29,7 +29,7 @@ export default function Header() {
       if (response.status === STATUS_CODE.OK) {
         alert("로그아웃이 성공적으로 완료되었습니다!");
         setUser(null);
-        router.push("/");
+        return router.push("/");
       }
     } catch (error) {
       console.error("로그아웃 에러", error);
@@ -37,7 +37,7 @@ export default function Header() {
         alert(error.response?.data.message);
         if (error.response?.data.statusCode === STATUS_CODE.UNAUTHORIZED) {
           setUser(null);
-          router.push("/");
+          return router.push("/");
         }
       }
     }
@@ -48,21 +48,22 @@ export default function Header() {
   };
 
   return (
-    <S.Wrap>
-      <S.Container>
+    <HEADER.Wrap>
+      <HEADER.Container>
         <Link href="/">
           <Image width={259} height={35} alt="트래블스페이스 로고" src="/assets/img/icons/logo.svg" />
         </Link>
-        <S.List>
+        <HEADER.List>
           {user?.isAuth ? (
             <>
               <li>
                 <button type="button" onClick={openNotification}>
-                  {newNotificationReceived ? (
-                    <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" />
-                  ) : (
-                    <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
-                  )}
+                  <Image
+                    width={36}
+                    height={36}
+                    alt="알림 아이콘"
+                    src={`/assets/img/icons/${newNotificationReceived ? "notifications" : "notification"}.svg`}
+                  />
                 </button>
                 {isOpen && (
                   <Notification
@@ -92,9 +93,9 @@ export default function Header() {
               </button>
             </li>
           )}
-        </S.List>
-      </S.Container>
-      {showLogin ? <Account onClose={() => setShowLogin(false)} /> : null}
-    </S.Wrap>
+        </HEADER.List>
+      </HEADER.Container>
+      {showLogin && <Account onClose={() => setShowLogin(false)} />}
+    </HEADER.Wrap>
   );
 }
