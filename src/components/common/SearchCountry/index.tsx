@@ -11,7 +11,7 @@ interface PropsType extends Default {
 
 let initCountryList: CountryInfo[];
 
-async function fetchCountryList() {
+const fetchCountryList = async () => {
   try {
     if (typeof window !== "undefined") {
       const response = await axios.get(`${window.location.origin}/data/getCountryFlagList.json`);
@@ -20,7 +20,7 @@ async function fetchCountryList() {
   } catch (error) {
     console.error(error);
   }
-}
+};
 if (typeof window !== "undefined") {
   fetchCountryList();
 }
@@ -29,14 +29,14 @@ export default function SearchCountry({ onCountry, onClose }: PropsType) {
   const [searchInput, setSearchInput] = useState("");
   const [countryList, setCountryList] = useState<CountryInfo[]>(initCountryList);
 
-  function onSearchInput(e: React.ChangeEvent<HTMLInputElement>) {
+  const onSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-  }
+  };
 
-  function onChangeCountry(value: CountryInfo) {
+  const onChangeCountry = (value: CountryInfo) => {
     onCountry(value);
     onClose();
-  }
+  };
 
   useEffect(() => {
     fetchCountryList();

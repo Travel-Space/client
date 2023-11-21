@@ -17,18 +17,18 @@ export default function Calendar({ thisDate, onThisDate }: CalendarType) {
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-  function handleDateClick(day: number) {
+  const handleDateClick = (day: number) => {
     const selectedDay = new Date(year, month, day);
     setSelectedDate(selectedDay);
     onThisDate(selectedDay);
-  }
+  };
 
-  function goToNextMonth() {
+  const goToNextMonth = () => {
     const nextMonth = new Date(year, month + 1, 1);
     setSelectedDate(nextMonth);
-  }
+  };
 
-  function goToPrevMonth() {
+  const goToPrevMonth = () => {
     if (month === today.getMonth() && year === today.getFullYear()) {
       return;
     }
@@ -39,7 +39,7 @@ export default function Calendar({ thisDate, onThisDate }: CalendarType) {
       const prevMonth = new Date(year, month - 1, 1);
       setSelectedDate(prevMonth);
     }
-  }
+  };
 
   return (
     <S.CalendarWrap>

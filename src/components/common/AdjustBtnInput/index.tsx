@@ -13,7 +13,7 @@ interface InputType {
 export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: InputType) {
   const [number, setNumber] = useState<number | undefined>(value);
 
-  function calcNumber(newNumber: number) {
+  const calcNumber = (newNumber: number) => {
     if (max && newNumber > max) {
       newNumber = max;
     }
@@ -21,22 +21,22 @@ export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: 
       newNumber = min;
     }
     return newNumber;
-  }
+  };
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newNumber = parseFloat(e.target.value);
 
     setNumber(calcNumber(newNumber));
-  }
+  };
 
-  function handleDirection(value: number) {
+  const handleDirection = (value: number) => {
     setNumber(prev => {
       if (!prev) return;
       let newNumber = prev + value;
 
       return calcNumber(newNumber);
     });
-  }
+  };
 
   useEffect(() => {
     onNumber(number);
