@@ -15,12 +15,17 @@ import Notification from "@/components/Notification";
 import STATUS_CODE from "@/constants/statusCode";
 
 export default function Header() {
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [loginVisible, setLoginVisible] = useState<boolean>(false);
   const [user, setUser] = useRecoilState(userAtom);
   const [newNotificationReceived, setNewNotificationReceived] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const setLogout = () => {
+    setUser(null);
+    return router.push("/");
+  };
 
   const handleLogout = async () => {
     try {
@@ -28,16 +33,14 @@ export default function Header() {
 
       if (response.status === STATUS_CODE.OK) {
         alert("로그아웃이 성공적으로 완료되었습니다!");
-        setUser(null);
-        return router.push("/");
+        setLogout();
       }
     } catch (error) {
       console.error("로그아웃 에러", error);
       if (isAxiosError(error)) {
         alert(error.response?.data.message);
         if (error.response?.data.statusCode === STATUS_CODE.UNAUTHORIZED) {
-          setUser(null);
-          return router.push("/");
+          setLogout();
         }
       }
     }
@@ -86,7 +89,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => {
-                  setShowLogin(true);
+                  setLoginVisible(true);
                 }}
               >
                 LOGIN
@@ -95,7 +98,7 @@ export default function Header() {
           )}
         </HEADER.List>
       </HEADER.Container>
-      {showLogin && <Account onClose={() => setShowLogin(false)} />}
+      {loginVisible && <Account onClose={() => setLoginVisible(false)} />}
     </HEADER.Wrap>
   );
 }
