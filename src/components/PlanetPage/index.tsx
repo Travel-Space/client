@@ -9,8 +9,7 @@ import { createContext, useEffect, useState } from "react";
 import { Planet, PlanetShape } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { isAxiosError } from "axios";
 
 export interface PlanetType {
   id?: number;
@@ -41,7 +40,6 @@ export default function PlanetPage({ planetId }: { planetId?: string[] | string 
     memberLimit: 10,
     spaceshipLimit: 10,
   });
-  const router = useRouter();
 
   const fetchPlanetData = async () => {
     try {
@@ -51,10 +49,9 @@ export default function PlanetPage({ planetId }: { planetId?: string[] | string 
       setPlanetInfo({ id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId });
     } catch (error) {
       console.error("특정 행성 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
-      // alert("잘못된 경로입니다.");
-      // return router.back();
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

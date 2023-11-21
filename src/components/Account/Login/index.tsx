@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { useEffect, useState } from "react";
@@ -68,8 +68,9 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
       }
     } catch (error) {
       console.error("로그인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

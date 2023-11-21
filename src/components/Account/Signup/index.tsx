@@ -1,6 +1,6 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
@@ -114,8 +114,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       }
     } catch (error) {
       console.error("회원가입 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -135,8 +136,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       return goToLogin && goToLogin();
     } catch (error) {
       console.error("회원가입 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -157,8 +159,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       }
     } catch (error) {
       console.error("닉네임 중복 확인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

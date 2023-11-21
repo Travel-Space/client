@@ -6,7 +6,7 @@ import { Role, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -68,8 +68,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
       setSpaceshipInfo(response.data);
     } catch (error) {
       console.error("우주선 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -96,8 +97,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
       }
     } catch (error) {
       console.error("우주선 탑승 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

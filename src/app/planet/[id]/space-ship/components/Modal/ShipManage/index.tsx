@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
@@ -107,8 +107,9 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       }
     } catch (error) {
       console.error("새 우주선 생성하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -127,8 +128,9 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       }
     } catch (error) {
       console.error("우주선 수정하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

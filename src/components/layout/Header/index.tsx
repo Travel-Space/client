@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 
@@ -32,11 +32,12 @@ export default function Header() {
       }
     } catch (error) {
       console.error("로그아웃 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
-      alert(errorResponse?.data.message);
-      if (errorResponse?.data.statusCode == 401) {
-        setUser(null);
-        router.push("/");
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+        if (error.response?.data.statusCode === 401) {
+          setUser(null);
+          router.push("/");
+        }
       }
     }
   };

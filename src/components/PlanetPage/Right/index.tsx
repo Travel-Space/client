@@ -12,7 +12,7 @@ import { PlanetContext, PlanetContextType } from "..";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
@@ -83,8 +83,9 @@ export default function Right() {
       }
     } catch (error) {
       console.error("새 행성 생성하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -101,8 +102,9 @@ export default function Right() {
       }
     } catch (error) {
       console.error("행성 수정하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

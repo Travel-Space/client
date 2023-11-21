@@ -6,7 +6,7 @@ import * as S from "../index.styled";
 import { Planet, Role } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { CommonUserInfo } from "@/@types/User";
 import { Spaceship } from "@/@types/Spaceship";
@@ -53,8 +53,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("행성 삭제하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -68,8 +69,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("행성 탈출하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -85,8 +87,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("행성 위임하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -100,8 +103,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("우주선 탈출하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -121,8 +125,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("우주선 위임하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -136,8 +141,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

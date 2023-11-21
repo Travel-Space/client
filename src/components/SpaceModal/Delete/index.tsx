@@ -4,7 +4,7 @@ import { Default, ItemType } from "@/@types/Modal";
 import * as S from "../index.styled";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { Spaceship } from "@/@types/Spaceship";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
@@ -46,8 +46,9 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
       }
     } catch (error) {
       console.error("행성 삭제하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -61,8 +62,9 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
       }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 

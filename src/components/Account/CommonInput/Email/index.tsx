@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { ResData } from "@/@types";
 import { User } from "@/@types/User";
 import axiosRequest from "@/api";
@@ -76,8 +76,9 @@ export default function Email({ onEmail }: PropsType) {
       }
     } catch (error) {
       console.error("인증코드 전송 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
       setEmail("");
     }
   };
@@ -96,8 +97,9 @@ export default function Email({ onEmail }: PropsType) {
       }
     } catch (error) {
       console.error("인증코드 확인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
       setCode("");
     }
   };

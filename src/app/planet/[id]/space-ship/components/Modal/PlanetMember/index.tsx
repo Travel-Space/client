@@ -6,7 +6,7 @@ import { CommonUserInfo, User, UsersType } from "@/@types/User";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { SpaceshipContext, SpaceshipContextType } from "../..";
@@ -36,8 +36,9 @@ export default function PlanetMember({ onClose }: Default) {
       }
     } catch (error) {
       console.error("초대하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
   // 가입 승인
@@ -55,8 +56,9 @@ export default function PlanetMember({ onClose }: Default) {
       }
     } catch (error) {
       console.error("가입 승인하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
   // 가입 거절
@@ -74,8 +76,9 @@ export default function PlanetMember({ onClose }: Default) {
       }
     } catch (error) {
       console.error("가입 거절하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
   // 멤버 추방
@@ -93,8 +96,9 @@ export default function PlanetMember({ onClose }: Default) {
       }
     } catch (error) {
       console.error("멤버 추방하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
   // 멤버 권한 수정
@@ -116,8 +120,9 @@ export default function PlanetMember({ onClose }: Default) {
       }
     } catch (error) {
       console.error("멤버 권한 수정 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
@@ -142,8 +147,9 @@ export default function PlanetMember({ onClose }: Default) {
       setFollowingList(resultMember);
     } catch (error) {
       console.error("내가 팔로우하는 친구 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
   // 모든 유저 조회
@@ -182,8 +188,9 @@ export default function PlanetMember({ onClose }: Default) {
         }
       } catch (error) {
         console.error("유저 조회 에러", error);
-        const errorResponse = (error as AxiosError<{ message: string }>).response;
-        alert(errorResponse?.data.message);
+        if (isAxiosError(error)) {
+          alert(error.response?.data.message);
+        }
       }
     }
   };

@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";
 import { useEffect, useState } from "react";
@@ -47,8 +47,9 @@ export default function ResetPassword({ goToLogin }: PropsType) {
       return goToLogin();
     } catch (error) {
       console.error("비밀번호 재설정 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
   };
 
