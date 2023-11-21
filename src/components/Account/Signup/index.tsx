@@ -16,6 +16,7 @@ import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../in
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
 import { useRouter, useSearchParams } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -108,7 +109,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         profileImage: PROFILE_IMAGE,
       });
 
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("회원가입이 성공적으로 완료되었습니다!");
         router.push("/");
       }
@@ -132,7 +133,8 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         profileImage: PROFILE_IMAGE,
       });
 
-      response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
+      if (response.status === STATUS_CODE.CREATED) alert("회원가입이 성공적으로 완료되었습니다!");
+
       return goToLogin && goToLogin();
     } catch (error) {
       console.error("회원가입 에러", error);

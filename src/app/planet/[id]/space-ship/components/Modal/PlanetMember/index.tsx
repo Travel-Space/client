@@ -10,6 +10,7 @@ import { isAxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
@@ -30,7 +31,7 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleInvite", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
@@ -50,7 +51,7 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleApprove", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
@@ -70,7 +71,7 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleReject", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
@@ -90,7 +91,7 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleKick", response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
         fetchMemberListData();
       }
@@ -114,7 +115,7 @@ export default function PlanetMember({ onClose }: Default) {
         },
       );
       console.log("handleRoleMember", response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
         fetchMemberListData();
       }

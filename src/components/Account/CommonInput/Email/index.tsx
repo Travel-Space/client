@@ -10,6 +10,7 @@ import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
 import { Error, InputGroup, SmallBtnGroup, Timer } from "../../index.styled";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType {
   onEmail: (result: boolean, value: string) => void;
@@ -66,7 +67,7 @@ export default function Email({ onEmail }: PropsType) {
         email,
       });
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         setCodeValid(true);
         setConfirm(false);
         setCode("");
@@ -90,7 +91,7 @@ export default function Email({ onEmail }: PropsType) {
         code,
       });
 
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("인증되었습니다!");
         clearInterval(timer);
         setConfirm(true);

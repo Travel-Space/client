@@ -3,29 +3,30 @@ import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
-import Account from "@/components/Account";
-
 import * as S from "./index.styled";
-import Image from "next/image";
+import Account from "@/components/Account";
 import Notification from "@/components/Notification";
-import { useRouter } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [user, setUser] = useRecoilState(userAtom);
   const [newNotificationReceived, setNewNotificationReceived] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("delete", "/auth/logout", {});
 
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("로그아웃이 성공적으로 완료되었습니다!");
         setUser(null);
         router.push("/");
@@ -34,7 +35,7 @@ export default function Header() {
       console.error("로그아웃 에러", error);
       if (isAxiosError(error)) {
         alert(error.response?.data.message);
-        if (error.response?.data.statusCode === 401) {
+        if (error.response?.data.statusCode === STATUS_CODE.UNAUTHORIZED) {
           setUser(null);
           router.push("/");
         }

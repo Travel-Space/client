@@ -16,6 +16,7 @@ import Line from "@/components/common/Line";
 import * as S from "./index.styled";
 import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
 import { Default } from "@/@types/Modal";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType extends Default {
   goToSignup: () => void;
@@ -54,7 +55,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
       const data = response.data;
       const { planets, spaceships } = data.memberships;
       const memberships = { planets, spaceships };
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("로그인이 성공적으로 완료되었습니다!");
         setAuth(prev => ({
           ...prev,

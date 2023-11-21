@@ -16,6 +16,7 @@ import { isAxiosError } from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function Right() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
@@ -69,7 +70,7 @@ export default function Right() {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
       console.log(response);
       const data = response.data;
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("새로운 행성이 생성되었습니다!");
         const updatedUser = {
           ...auth,
@@ -96,7 +97,7 @@ export default function Right() {
         ownerId: user?.id,
       });
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("행성이 수정되었습니다!");
         router.push(`/planet/${planetInfo.id}/map/`);
       }

@@ -13,6 +13,7 @@ import { Spaceship } from "@/@types/Spaceship";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface Type extends Default {
   title: string | undefined;
@@ -47,7 +48,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("행성이 성공적으로 삭제되었습니다!");
         deletedMemberships(id, ItemType.Planet);
       }
@@ -63,7 +64,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", `/planet/leave/${id}`);
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("행성을 성공적으로 떠났습니다!");
         deletedMemberships(id, ItemType.Planet);
       }
@@ -81,7 +82,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         newOwnerId: selectMember,
       });
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("행성을 성공적으로 위임했습니다!");
         deletedMemberships(id, ItemType.Planet);
       }
@@ -97,7 +98,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/leave/${id}`);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선을 성공적으로 떠났습니다!");
         deletedMemberships(id, ItemType.SpaceShip);
       }
@@ -119,7 +120,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
         },
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선을 성공적으로 위임했습니다!");
         deletedMemberships(id, ItemType.SpaceShip);
       }
@@ -135,7 +136,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선이 성공적으로 삭제되었습니다!");
         deletedMemberships(id, ItemType.SpaceShip);
       }

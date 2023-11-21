@@ -16,6 +16,7 @@ import { useModal } from "@/hooks/useModal";
 import ShipManage from "../ShipManage";
 import Exit from "@/components/SpaceModal/Exit";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -80,7 +81,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
         ResData<{ id: number; joinedAt: string; role: Role; spaceshipId: number; userId: number }>
       >("post", `/spaceship/board/${shipId}`, {});
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("우주선에 성공적으로 탑승하였습니다!");
         const updatedUser = {
           ...auth,

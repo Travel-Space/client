@@ -11,6 +11,7 @@ import Password from "../CommonInput/Password";
 import VALIDATE from "@/constants/regex";
 
 import { Container, MarginGroup } from "../index.styled";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType {
   goToLogin: () => void;
@@ -43,7 +44,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
         email,
         password,
       });
-      response.status === 201 && alert("비밀번호가 성공적으로 변경되었습니다.");
+      if (response.status === STATUS_CODE.CREATED) alert("비밀번호가 성공적으로 변경되었습니다.");
       return goToLogin();
     } catch (error) {
       console.error("비밀번호 재설정 에러", error);

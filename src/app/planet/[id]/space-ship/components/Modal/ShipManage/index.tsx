@@ -17,6 +17,7 @@ import getDateFormat from "@/utils/getDateFormat";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -92,7 +93,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", shipInfo);
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("새로운 우주선이 생성되었습니다!");
         const updatedUser = {
           ...auth,
@@ -121,7 +122,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
         { ...shipInfo, spaceshipStatus: shipInfo.status },
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선 정보가 업데이트 되었습니다!");
         onClose();
         fetchSpaceshipData();

@@ -9,6 +9,7 @@ import { Spaceship } from "@/@types/Spaceship";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface Type extends Default {
   title?: string;
@@ -40,7 +41,7 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("행성이 성공적으로 삭제되었습니다!");
         id && deletedMemberships(id, ItemType.Planet);
       }
@@ -56,7 +57,7 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선이 성공적으로 삭제되었습니다!");
         id && deletedMemberships(id, ItemType.SpaceShip);
       }
