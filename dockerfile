@@ -12,7 +12,7 @@ RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 FROM nginx:alpine
 
-COPY --from=build /app/out /usr/share/nginx/html
+COPY --from=build /app/.next /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf
