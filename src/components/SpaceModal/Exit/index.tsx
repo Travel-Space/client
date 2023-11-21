@@ -28,7 +28,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
   const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
 
-  function deletedMemberships(id: string, type: ItemType) {
+  const deletedMemberships = (id: string, type: ItemType) => {
     const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== parseInt(id));
     const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== parseInt(id));
     const updatedUser = {
@@ -41,9 +41,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
     setAuth(updatedUser);
     onClose();
     type === ItemType.Planet && router.push("/");
-  }
+  };
 
-  async function handlePlanetDelete() {
+  const handlePlanetDelete = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
@@ -56,9 +56,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handlePlanetExit() {
+  const handlePlanetExit = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", `/planet/leave/${id}`);
       console.log(response);
@@ -71,9 +71,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handlePlanetTransferOwnership() {
+  const handlePlanetTransferOwnership = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/transfer-ownership/${id}`, {
         newOwnerId: selectMember,
@@ -88,9 +88,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handleSpaceshipExit() {
+  const handleSpaceshipExit = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/leave/${id}`);
       console.log(response);
@@ -103,9 +103,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handleSpaceshipTransferOwnership() {
+  const handleSpaceshipTransferOwnership = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
         "put",
@@ -124,9 +124,9 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handleSpaceshipDelete() {
+  const handleSpaceshipDelete = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
@@ -139,7 +139,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   return (
     <BoxModal onClose={onClose} title={`${type} 탈출`}>

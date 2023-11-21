@@ -55,7 +55,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
 
-  async function currentCountry() {
+  const currentCountry = async () => {
     try {
       if (typeof window !== "undefined") {
         // 현재 ip 기준 국적 코드
@@ -69,35 +69,35 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     VALIDATE.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
-  }
+  };
 
-  function handleNickName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
     VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
     setNickNameCheck(false);
-  }
+  };
 
-  function handlePasswordCompare(result: boolean, value: string) {
+  const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
     VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  function handleEmail(result: boolean, value: string) {
+  const handleEmail = (result: boolean, value: string) => {
     setIsEmailConfirm(result);
     setEmail(value);
-  }
+  };
 
-  function handleCountry(country: CountryInfo) {
+  const handleCountry = (country: CountryInfo) => {
     setCountry(country);
-  }
+  };
 
-  async function socialSignup() {
+  const socialSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register/google", {
         email,
@@ -117,9 +117,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function submitSignup() {
+  const submitSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register", {
         email,
@@ -138,9 +138,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function checkNickName() {
+  const checkNickName = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ available: boolean }>>(
         "get",
@@ -160,7 +160,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (!socialType) {

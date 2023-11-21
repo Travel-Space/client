@@ -32,22 +32,22 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const setAuth = useSetRecoilState(userAtom);
   const router = useRouter();
 
-  async function googleLogin() {
+  const googleLogin = async () => {
     console.log("구글 로그인");
     window.location.href = "http://travelspace.world/api/auth/google";
-  }
+  };
 
-  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
-  }
+  };
 
-  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     VALIDATE.password.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  async function submitLogin() {
+  const submitLogin = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<UserType>>("post", "/auth/login", { email, password });
       console.log(response);
@@ -71,7 +71,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (emailValid && passwordValid) {

@@ -43,7 +43,7 @@ export default function PlanetPage({ planetId }: { planetId?: string[] | string 
   });
   const router = useRouter();
 
-  async function fetchPlanetData() {
+  const fetchPlanetData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       const { id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId } = response.data;
@@ -56,7 +56,7 @@ export default function PlanetPage({ planetId }: { planetId?: string[] | string 
       // alert("잘못된 경로입니다.");
       // return router.back();
     }
-  }
+  };
 
   useEffect(() => {
     planetId && fetchPlanetData();

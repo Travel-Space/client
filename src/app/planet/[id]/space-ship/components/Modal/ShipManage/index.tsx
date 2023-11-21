@@ -60,35 +60,35 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     image: "",
   });
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShipInfo(info => ({
       ...info,
       name: e.target.value,
     }));
-  }
+  };
 
-  function handleMaxMembers(value: number | undefined) {
+  const handleMaxMembers = (value: number | undefined) => {
     setShipInfo(info => ({
       ...info,
       maxMembers: value,
     }));
-  }
+  };
 
-  function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setShipInfo(info => ({
       ...info,
       description: e.target.value,
     }));
-  }
+  };
 
-  function handleStatus(status: ListType) {
+  const handleStatus = (status: ListType) => {
     setShipInfo(info => ({
       ...info,
       status: status.value,
     }));
-  }
+  };
 
-  async function submitCreateSpaceship() {
+  const submitCreateSpaceship = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", shipInfo);
       console.log(response);
@@ -110,9 +110,9 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function submitModifySpaceship() {
+  const submitModifySpaceship = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
         "put",
@@ -130,7 +130,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (isSpaceShip) {

@@ -26,18 +26,18 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
 
-  function handlePasswordCompare(result: boolean, value: string) {
+  const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
     VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  function handleEmail(result: boolean, value: string) {
+  const handleEmail = (result: boolean, value: string) => {
     setIsEmailConfirm(result);
     setEmail(value);
-  }
+  };
 
-  async function submitSignin() {
+  const submitSignin = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/passwordChange", {
         email,
@@ -50,7 +50,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (passwordValid && isPasswordMatching && isEmailConfirm) {

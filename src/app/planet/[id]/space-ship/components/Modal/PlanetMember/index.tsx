@@ -22,7 +22,7 @@ export default function PlanetMember({ onClose }: Default) {
   const [totalCount, setTotalCount] = useState(0);
 
   // 초대하기
-  async function handleInvite(userId: number) {
+  const handleInvite = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -39,9 +39,9 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
   // 가입 승인
-  async function handleApprove(userId: number) {
+  const handleApprove = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -58,9 +58,9 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
   // 가입 거절
-  async function handleReject(userId: number) {
+  const handleReject = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -77,9 +77,9 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
   // 멤버 추방
-  async function handleKick(userId: number) {
+  const handleKick = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "delete",
@@ -96,9 +96,9 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
   // 멤버 권한 수정
-  async function handleRoleMember(userId: number, role: string) {
+  const handleRoleMember = async (userId: number, role: string) => {
     console.log(userId, role);
     const isAdmin = "부관리자";
     try {
@@ -119,10 +119,10 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   // 팔로우 리스트 조회
-  async function fetchFollowingData() {
+  const fetchFollowingData = async () => {
     try {
       const response = await axiosRequest.requestAxios<
         ResData<{ data: { friend: { id: number; profileImage: string; nickName: string; email: string } }[] }>
@@ -145,16 +145,16 @@ export default function PlanetMember({ onClose }: Default) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
   // 모든 유저 조회
-  function handleSearchButtonClick() {
+  const handleSearchButtonClick = () => {
     getSearchUsers({
       key: "Enter",
       nativeEvent: { isComposing: false },
     } as React.KeyboardEvent<HTMLInputElement>);
-  }
+  };
 
-  async function getSearchUsers(e: React.KeyboardEvent<HTMLInputElement>) {
+  const getSearchUsers = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
 
     if (e.key === "Enter" && searchEmail) {
@@ -186,7 +186,7 @@ export default function PlanetMember({ onClose }: Default) {
         alert(errorResponse?.data.message);
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchFollowingData();

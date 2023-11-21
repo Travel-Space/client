@@ -21,7 +21,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("delete", "/auth/logout", {});
 
@@ -39,7 +39,7 @@ export default function Header() {
         router.push("/");
       }
     }
-  }
+  };
 
   const openNotification = () => {
     setIsOpen(prev => !prev);

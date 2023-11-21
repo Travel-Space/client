@@ -61,7 +61,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     content: <ShipManage onClose={closeModal} ship={spaceshipInfo} />,
   };
 
-  async function fetchSpaceshipData() {
+  const fetchSpaceshipData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>("get", `/spaceship/${shipId}`, {});
       console.log(response);
@@ -71,9 +71,9 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handleSpaceshipJoin() {
+  const handleSpaceshipJoin = async () => {
     try {
       const response = await axiosRequest.requestAxios<
         ResData<{ id: number; joinedAt: string; role: Role; spaceshipId: number; userId: number }>
@@ -99,7 +99,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchSpaceshipData();

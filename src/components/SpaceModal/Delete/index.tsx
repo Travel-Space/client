@@ -21,7 +21,7 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
   const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
 
-  function deletedMemberships(id: number, type: ItemType) {
+  const deletedMemberships = (id: number, type: ItemType) => {
     const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== id);
     const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== id);
     const updatedUser = {
@@ -34,9 +34,9 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
     setAuth(updatedUser);
     onClose();
     type === ItemType.Planet && router.push("/");
-  }
+  };
 
-  async function handlePlanetDelete() {
+  const handlePlanetDelete = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("delete", `/planet/delete/${id}`);
       console.log(response);
@@ -49,9 +49,9 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function handleSpaceshipDelete() {
+  const handleSpaceshipDelete = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("delete", `/spaceship/${id}`);
       console.log(response);
@@ -64,7 +64,7 @@ export default function Delete({ onClose, title, type, id, depth }: Type) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   return (
     <BoxModal onClose={onClose} title={`${type} 삭제`} depth={depth}>

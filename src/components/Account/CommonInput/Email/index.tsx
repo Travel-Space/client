@@ -50,17 +50,17 @@ export default function Email({ onEmail }: PropsType) {
     setSeconds(0);
   };
 
-  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
-  }
+  };
 
-  function handleCode(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
     VALIDATE.onlyNumber.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
-  }
+  };
 
-  async function sendCode() {
+  const sendCode = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/send-verification-code", {
         email,
@@ -80,9 +80,9 @@ export default function Email({ onEmail }: PropsType) {
       alert(errorResponse?.data.message);
       setEmail("");
     }
-  }
+  };
 
-  async function verifyCode() {
+  const verifyCode = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/verify-code", {
         email,
@@ -100,7 +100,7 @@ export default function Email({ onEmail }: PropsType) {
       alert(errorResponse?.data.message);
       setCode("");
     }
-  }
+  };
 
   useEffect(() => {
     onEmail(confirm, email);

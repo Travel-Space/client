@@ -41,11 +41,11 @@ export default function Left() {
     content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} id={planetInfo.id} />,
   };
 
-  function handleTagInput(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
-  }
+  };
 
-  function handleTags(e: React.KeyboardEvent<HTMLInputElement>) {
+  const handleTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
     if (!tagInput) return;
 
@@ -62,17 +62,17 @@ export default function Left() {
       }
       setTagInput("");
     }
-  }
+  };
 
-  function deleteTag(index: number) {
+  const deleteTag = (index: number) => {
     const filterTag = planetInfo.hashtags?.filter((_, idx) => idx !== index);
     setPlanetInfo({
       ...planetInfo,
       hashtags: filterTag,
     });
-  }
+  };
 
-  function calcArrow(value: number) {
+  const calcArrow = (value: number) => {
     const currentIndex = planetImg.findIndex(img => img.name === planetInfo.shape);
     const arrowIndex = (currentIndex + value + planetImg.length) % planetImg.length;
     const arrowShape = planetImg[arrowIndex].name;
@@ -83,14 +83,14 @@ export default function Left() {
       shape: arrowShape,
     };
     setPlanetInfo(newPlanetInfo);
-  }
+  };
 
-  function prevPlanetImg() {
+  const prevPlanetImg = () => {
     calcArrow(-1);
-  }
-  function nextPlanetImg() {
+  };
+  const nextPlanetImg = () => {
     calcArrow(1);
-  }
+  };
 
   useEffect(() => {
     setImgPosition(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);

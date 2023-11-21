@@ -89,7 +89,7 @@ export default function SpaceshipPage() {
   const limitNumber = Array.from({ length: planetData.spaceshipLimit }, (_, index) => index + 1);
   const remainingSpaceships = [...spaceshipList, ...limitNumber?.slice(spaceshipList.length)];
 
-  async function fetchSpaceshipData() {
+  const fetchSpaceshipData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<SpaceShipType[]>>(
         "get",
@@ -104,9 +104,9 @@ export default function SpaceshipPage() {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       // alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function fetchPlanetData() {
+  const fetchPlanetData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       console.log(response);
@@ -117,9 +117,9 @@ export default function SpaceshipPage() {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       // alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function fetchMemberListData() {
+  const fetchMemberListData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>(
         "get",
@@ -146,7 +146,7 @@ export default function SpaceshipPage() {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       // alert(errorResponse?.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchPlanetData();

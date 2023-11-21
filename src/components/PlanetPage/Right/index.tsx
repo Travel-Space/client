@@ -29,42 +29,42 @@ export default function Right() {
 
   const { planetInfo, setPlanetInfo } = planetContext;
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlanetInfo({
       ...planetInfo,
       name: e.target.value,
     });
-  }
+  };
 
-  function handlePublished(isPublic: boolean) {
+  const handlePublished = (isPublic: boolean) => {
     setPlanetInfo({
       ...planetInfo,
       published: isPublic,
     });
-  }
+  };
 
-  function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPlanetInfo({
       ...planetInfo,
       description: e.target.value,
     });
-  }
+  };
 
-  function handleMemberLimit(number: number | undefined) {
+  const handleMemberLimit = (number: number | undefined) => {
     setPlanetInfo({
       ...planetInfo,
       memberLimit: number,
     });
-  }
+  };
 
-  function handleSpaceshipLimit(number: number | undefined) {
+  const handleSpaceshipLimit = (number: number | undefined) => {
     setPlanetInfo({
       ...planetInfo,
       spaceshipLimit: number,
     });
-  }
+  };
 
-  async function submitCreatePlanet() {
+  const submitCreatePlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
       console.log(response);
@@ -86,9 +86,9 @@ export default function Right() {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
-  async function submitModifyPlanet() {
+  const submitModifyPlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, {
         ...planetInfo,
@@ -104,7 +104,7 @@ export default function Right() {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
       alert(errorResponse?.data.message);
     }
-  }
+  };
 
   return (
     <S.Wrap>

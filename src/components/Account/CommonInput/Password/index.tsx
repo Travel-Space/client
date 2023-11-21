@@ -14,13 +14,13 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
   const [input, setInput] = useState({ password: "", passwordCheck: "" });
   const { password, passwordCheck } = input;
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setInput(prev => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
   useEffect(() => {
     onPasswordCompare(password === passwordCheck, password);
