@@ -14,7 +14,7 @@ import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
 import MESSAGE from "@/constants/message";
 
-export default function ProfileSummary =({ id }: { id: number })  {
+export default function ProfileSummary({ id }: { id: number }) {
   const [userProfile, setUserProfile] = useState<User>();
   const user = useRecoilValue(userAtom);
 
@@ -67,5 +67,4 @@ export default function ProfileSummary =({ id }: { id: number })  {
       </S.Friends>
     </S.Container>
   );
-};
-
+}
