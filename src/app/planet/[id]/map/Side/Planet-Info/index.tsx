@@ -112,7 +112,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
         <S.Top>
           {/* role 에 따라 달라지는 부분 */}
           <S.Setting>
-            {roles === "관리자" && (
+            {(roles === "관리자" || roles === "부관리자") && (
               <>
                 <span>
                   <Link href={`${link[0]}`}>{tag[0]}</Link>
@@ -124,7 +124,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
               </>
             )}
 
-            {(roles === "부관리자" || roles === "일반") && (
+            {roles === "일반" && (
               <span>
                 <Link href={`${link}`}>{tag}</Link>
               </span>
