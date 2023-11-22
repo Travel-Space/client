@@ -189,7 +189,7 @@ export default function Chat() {
 
                 <S.ChatRoom>
                   <S.ChatRoomTitle>
-                    <span>{el.planetId ? `행성 : ${el.planet.name}` : `우주선 : ${el.spaceship.name}`}</span>
+                    <span>{el.planetId ? `행성 : ${el.planet?.name}` : `우주선 : ${el.spaceship?.name}`}</span>
                     {/* <img src="/assets/img/icons/new-chat.svg" /> */}
                   </S.ChatRoomTitle>
 
@@ -211,7 +211,7 @@ export default function Chat() {
           <S.Top>
             <div />
             <S.Title>
-              {clickedRoomInfo.roomInfo.name}{" "}
+              {clickedRoomInfo.roomInfo?.name}{" "}
               <strong>{clickedRoomInfo.maxMember + `/` + clickedRoomInfo.totalMember}</strong>
             </S.Title>
             <S.ModalBox>
