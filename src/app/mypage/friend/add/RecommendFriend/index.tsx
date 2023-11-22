@@ -21,10 +21,10 @@ export default function RecommendFriend({ data, updateData }: RecommendFriendPro
   return (
     <S.Container>
       <S.Profile onClick={goToProfile}>
-        <Image src="/assets/img/icons/default-user.svg" alt="default-user" width={76} height={76} />
+        <Image src={data.user.profileImage} alt="default-user" width={76} height={76} />
         <S.Nickname>{data.user.nickName}</S.Nickname>
       </S.Profile>
-      <FollowBtn userId={data.friendId} isMutual={data.isMutual} updateData={updateData} />
+      <FollowBtn userId={data.user.id} isMutual={data.isMutual} updateData={updateData} />
     </S.Container>
   );
 }

@@ -10,5 +10,5 @@ const WEEKDAY: ObjType = {
   4: "목",
   5: "금",
   6: "토",
-};
+} as const;
 export default WEEKDAY;

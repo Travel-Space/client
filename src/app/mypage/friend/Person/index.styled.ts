@@ -14,6 +14,10 @@ export const Container = styled.div`
 `;
 export const Profile = styled.div`
   cursor: pointer;
+
+  & > img {
+    border-radius: 38px;
+  }
 `;
 export const Info = styled.div`
   ${flexColumn}
