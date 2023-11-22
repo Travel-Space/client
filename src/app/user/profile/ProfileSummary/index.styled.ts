@@ -13,6 +13,10 @@ export const UserInfo = styled.div`
   display: flex;
   gap: 24px;
   ${flexAlignCenter}
+
+  &>img {
+    border-radius: 60px;
+  }
 `;
 export const Profile = styled.div`
   & > div:last-child {
