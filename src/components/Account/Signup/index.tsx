@@ -9,8 +9,8 @@ import MESSAGE from "@/constants/message";
 
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
-import Password from "../CommonInput/Password";
-import Email from "../CommonInput/Email";
+import Password from "../AuthInputs/Password";
+import Email from "../AuthInputs/Email";
 
 import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
 import { CountryInfo } from "@/@types/User";

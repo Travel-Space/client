@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
-import Email from "../CommonInput/Email";
-import Password from "../CommonInput/Password";
+import Email from "../AuthInputs/Email";
+import Password from "../AuthInputs/Password";
 
 import VALIDATE from "@/constants/regex";
 
