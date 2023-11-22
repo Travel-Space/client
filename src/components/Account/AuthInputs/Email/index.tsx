@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { ResData } from "@/@types";
 import { User } from "@/@types/User";
 import axiosRequest from "@/api";
@@ -10,6 +10,7 @@ import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
 import { Error, InputGroup, SmallBtnGroup, Timer } from "../../index.styled";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType {
   onEmail: (result: boolean, value: string) => void;
@@ -50,23 +51,23 @@ export default function Email({ onEmail }: PropsType) {
     setSeconds(0);
   };
 
-  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
-  }
+  };
 
-  function handleCode(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
     VALIDATE.onlyNumber.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
-  }
+  };
 
-  async function sendCode() {
+  const sendCode = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/send-verification-code", {
         email,
       });
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         setCodeValid(true);
         setConfirm(false);
         setCode("");
@@ -76,31 +77,33 @@ export default function Email({ onEmail }: PropsType) {
       }
     } catch (error) {
       console.error("인증코드 전송 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
       setEmail("");
     }
-  }
+  };
 
-  async function verifyCode() {
+  const verifyCode = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/verify-code", {
         email,
         code,
       });
 
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("인증되었습니다!");
         clearInterval(timer);
         setConfirm(true);
       }
     } catch (error) {
       console.error("인증코드 확인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
       setCode("");
     }
-  }
+  };
 
   useEffect(() => {
     onEmail(confirm, email);

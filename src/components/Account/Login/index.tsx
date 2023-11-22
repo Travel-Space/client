@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ import Line from "@/components/common/Line";
 import * as S from "./index.styled";
 import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
 import { Default } from "@/@types/Modal";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType extends Default {
   goToSignup: () => void;
@@ -32,29 +33,29 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const setAuth = useSetRecoilState(userAtom);
   const router = useRouter();
 
-  async function googleLogin() {
+  const googleLogin = async () => {
     console.log("구글 로그인");
     window.location.href = "http://travelspace.world/api/auth/google";
-  }
+  };
 
-  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
-  }
+  };
 
-  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     VALIDATE.password.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  async function submitLogin() {
+  const submitLogin = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<UserType>>("post", "/auth/login", { email, password });
       console.log(response);
       const data = response.data;
       const { planets, spaceships } = data.memberships;
       const memberships = { planets, spaceships };
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("로그인이 성공적으로 완료되었습니다!");
         setAuth(prev => ({
           ...prev,
@@ -68,10 +69,11 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
       }
     } catch (error) {
       console.error("로그인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (emailValid && passwordValid) {

@@ -2,7 +2,7 @@
 
 import { createContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
 import { PlanetDataType, Role, SpaceshipStatus } from "@/@types/Spaceship";
@@ -89,7 +89,7 @@ export default function SpaceshipPage() {
   const limitNumber = Array.from({ length: planetData.spaceshipLimit }, (_, index) => index + 1);
   const remainingSpaceships = [...spaceshipList, ...limitNumber?.slice(spaceshipList.length)];
 
-  async function fetchSpaceshipData() {
+  const fetchSpaceshipData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<SpaceShipType[]>>(
         "get",
@@ -101,12 +101,13 @@ export default function SpaceshipPage() {
       setSpaceshipList(response.data);
     } catch (error) {
       console.error("우주선 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      // alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function fetchPlanetData() {
+  const fetchPlanetData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       console.log(response);
@@ -114,12 +115,13 @@ export default function SpaceshipPage() {
       setPlanetData({ spaceshipLimit, name, memberLimit, ownerId });
     } catch (error) {
       console.error("행성 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      // alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function fetchMemberListData() {
+  const fetchMemberListData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>(
         "get",
@@ -143,10 +145,11 @@ export default function SpaceshipPage() {
       setPlanetMember(resultMember);
     } catch (error) {
       console.error("멤버 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      // alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     fetchPlanetData();

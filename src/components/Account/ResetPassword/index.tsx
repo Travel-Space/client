@@ -1,16 +1,17 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";
 import { useEffect, useState } from "react";
 
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
-import Email from "../CommonInput/Email";
-import Password from "../CommonInput/Password";
+import Email from "../AuthInputs/Email";
+import Password from "../AuthInputs/Password";
 
 import VALIDATE from "@/constants/regex";
 
 import { Container, MarginGroup } from "../index.styled";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType {
   goToLogin: () => void;
@@ -26,31 +27,32 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   const [isPasswordMatching, setIsPasswordMatching] = useState(false);
   const [isEmailConfirm, setIsEmailConfirm] = useState(false);
 
-  function handlePasswordCompare(result: boolean, value: string) {
+  const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
     VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  function handleEmail(result: boolean, value: string) {
+  const handleEmail = (result: boolean, value: string) => {
     setIsEmailConfirm(result);
     setEmail(value);
-  }
+  };
 
-  async function submitSignin() {
+  const submitSignin = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/passwordChange", {
         email,
         password,
       });
-      response.status === 201 && alert("비밀번호가 성공적으로 변경되었습니다.");
+      if (response.status === STATUS_CODE.CREATED) alert("비밀번호가 성공적으로 변경되었습니다.");
       return goToLogin();
     } catch (error) {
       console.error("비밀번호 재설정 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (passwordValid && isPasswordMatching && isEmailConfirm) {

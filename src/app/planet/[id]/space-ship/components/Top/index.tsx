@@ -9,7 +9,7 @@ export default function SpaceshipTop() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  async function handleShare() {
+  const handleShare = async () => {
     // if (typeof navigator.share !== "undefined") {
     //   try {
     //     await navigator.share({
@@ -45,7 +45,7 @@ export default function SpaceshipTop() {
         console.log(error);
       }
     }
-  }
+  };
 
   return (
     <S.Header>

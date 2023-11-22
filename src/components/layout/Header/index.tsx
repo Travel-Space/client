@@ -1,66 +1,72 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
+import * as HEADER from "./index.styled";
 import Account from "@/components/Account";
-
-import * as S from "./index.styled";
-import Image from "next/image";
 import Notification from "@/components/Notification";
-import { useRouter } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function Header() {
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [loginVisible, setLoginVisible] = useState<boolean>(false);
   const [user, setUser] = useRecoilState(userAtom);
   const [newNotificationReceived, setNewNotificationReceived] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const router = useRouter();
 
-  async function handleLogout() {
+  const setLogout = () => {
+    setUser(null);
+    return router.push("/");
+  };
+
+  const handleLogout = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("delete", "/auth/logout", {});
 
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("로그아웃이 성공적으로 완료되었습니다!");
-        setUser(null);
-        router.push("/");
+        setLogout();
       }
     } catch (error) {
       console.error("로그아웃 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string; statusCode: number }>).response;
-      alert(errorResponse?.data.message);
-      if (errorResponse?.data.statusCode == 401) {
-        setUser(null);
-        router.push("/");
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+        if (error.response?.data.statusCode === STATUS_CODE.UNAUTHORIZED) {
+          setLogout();
+        }
       }
     }
-  }
+  };
 
   const openNotification = () => {
     setIsOpen(prev => !prev);
   };
 
   return (
-    <S.Wrap>
-      <S.Container>
+    <HEADER.Wrap>
+      <HEADER.Container>
         <Link href="/">
           <Image width={259} height={35} alt="트래블스페이스 로고" src="/assets/img/icons/logo.svg" />
         </Link>
-        <S.List>
+        <HEADER.List>
           {user?.isAuth ? (
             <>
               <li>
                 <button type="button" onClick={openNotification}>
-                  {newNotificationReceived ? (
-                    <Image width={36} height={36} alt="" src="/assets/img/icons/notifications.svg" />
-                  ) : (
-                    <Image width={36} height={36} alt="알림 아이콘" src="/assets/img/icons/notification.svg" />
-                  )}
+                  <Image
+                    width={36}
+                    height={36}
+                    alt="알림 아이콘"
+                    src={`/assets/img/icons/${newNotificationReceived ? "notifications" : "notification"}.svg`}
+                  />
                 </button>
                 {isOpen && (
                   <Notification
@@ -83,16 +89,16 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => {
-                  setShowLogin(true);
+                  setLoginVisible(true);
                 }}
               >
                 LOGIN
               </button>
             </li>
           )}
-        </S.List>
-      </S.Container>
-      {showLogin ? <Account onClose={() => setShowLogin(false)} /> : null}
-    </S.Wrap>
+        </HEADER.List>
+      </HEADER.Container>
+      {loginVisible && <Account onClose={() => setLoginVisible(false)} />}
+    </HEADER.Wrap>
   );
 }

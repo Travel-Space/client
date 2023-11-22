@@ -12,10 +12,10 @@ export type ListType = { value: string; text: string };
 export default function SelectBtn({ selectList, selected, onSelected }: SelectBtnType) {
   const [showList, setShowList] = useState<boolean>(false);
 
-  function handleSelect(li: ListType) {
+  const handleSelect = (li: ListType) => {
     onSelected({ value: li.value, text: li.text });
     setShowList(false);
-  }
+  };
 
   return (
     <S.SelectBox>

@@ -6,7 +6,7 @@ import { Role, SpaceshipStatusName } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -16,6 +16,7 @@ import { useModal } from "@/hooks/useModal";
 import ShipManage from "../ShipManage";
 import Exit from "@/components/SpaceModal/Exit";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -61,25 +62,26 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
     content: <ShipManage onClose={closeModal} ship={spaceshipInfo} />,
   };
 
-  async function fetchSpaceshipData() {
+  const fetchSpaceshipData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<SpaceShipType>>("get", `/spaceship/${shipId}`, {});
       console.log(response);
       setSpaceshipInfo(response.data);
     } catch (error) {
       console.error("우주선 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function handleSpaceshipJoin() {
+  const handleSpaceshipJoin = async () => {
     try {
       const response = await axiosRequest.requestAxios<
         ResData<{ id: number; joinedAt: string; role: Role; spaceshipId: number; userId: number }>
       >("post", `/spaceship/board/${shipId}`, {});
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("우주선에 성공적으로 탑승하였습니다!");
         const updatedUser = {
           ...auth,
@@ -96,10 +98,11 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
       }
     } catch (error) {
       console.error("우주선 탑승 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     fetchSpaceshipData();

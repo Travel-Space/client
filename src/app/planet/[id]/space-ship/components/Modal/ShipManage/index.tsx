@@ -11,12 +11,13 @@ import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 const today = new Date();
 const todayString = getDateFormat(today);
@@ -60,39 +61,39 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     image: "",
   });
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShipInfo(info => ({
       ...info,
       name: e.target.value,
     }));
-  }
+  };
 
-  function handleMaxMembers(value: number | undefined) {
+  const handleMaxMembers = (value: number | undefined) => {
     setShipInfo(info => ({
       ...info,
       maxMembers: value,
     }));
-  }
+  };
 
-  function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setShipInfo(info => ({
       ...info,
       description: e.target.value,
     }));
-  }
+  };
 
-  function handleStatus(status: ListType) {
+  const handleStatus = (status: ListType) => {
     setShipInfo(info => ({
       ...info,
       status: status.value,
     }));
-  }
+  };
 
-  async function submitCreateSpaceship() {
+  const submitCreateSpaceship = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("post", "/spaceship", shipInfo);
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("새로운 우주선이 생성되었습니다!");
         const updatedUser = {
           ...auth,
@@ -107,12 +108,13 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       }
     } catch (error) {
       console.error("새 우주선 생성하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function submitModifySpaceship() {
+  const submitModifySpaceship = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>(
         "put",
@@ -120,17 +122,18 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
         { ...shipInfo, spaceshipStatus: shipInfo.status },
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("우주선 정보가 업데이트 되었습니다!");
         onClose();
         fetchSpaceshipData();
       }
     } catch (error) {
       console.error("우주선 수정하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (isSpaceShip) {

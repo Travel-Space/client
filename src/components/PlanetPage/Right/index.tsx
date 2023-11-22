@@ -12,10 +12,11 @@ import { PlanetContext, PlanetContextType } from "..";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { Planet } from "@/@types/Planet";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function Right() {
   const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
@@ -29,47 +30,47 @@ export default function Right() {
 
   const { planetInfo, setPlanetInfo } = planetContext;
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlanetInfo({
       ...planetInfo,
       name: e.target.value,
     });
-  }
+  };
 
-  function handlePublished(isPublic: boolean) {
+  const handlePublished = (isPublic: boolean) => {
     setPlanetInfo({
       ...planetInfo,
       published: isPublic,
     });
-  }
+  };
 
-  function handleDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPlanetInfo({
       ...planetInfo,
       description: e.target.value,
     });
-  }
+  };
 
-  function handleMemberLimit(number: number | undefined) {
+  const handleMemberLimit = (number: number | undefined) => {
     setPlanetInfo({
       ...planetInfo,
       memberLimit: number,
     });
-  }
+  };
 
-  function handleSpaceshipLimit(number: number | undefined) {
+  const handleSpaceshipLimit = (number: number | undefined) => {
     setPlanetInfo({
       ...planetInfo,
       spaceshipLimit: number,
     });
-  }
+  };
 
-  async function submitCreatePlanet() {
+  const submitCreatePlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("post", "/planet", planetInfo);
       console.log(response);
       const data = response.data;
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("새로운 행성이 생성되었습니다!");
         const updatedUser = {
           ...auth,
@@ -83,28 +84,30 @@ export default function Right() {
       }
     } catch (error) {
       console.error("새 행성 생성하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function submitModifyPlanet() {
+  const submitModifyPlanet = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("put", `/planet/${planetInfo.id}`, {
         ...planetInfo,
         ownerId: user?.id,
       });
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert("행성이 수정되었습니다!");
         router.push(`/planet/${planetInfo.id}/map/`);
       }
     } catch (error) {
       console.error("행성 수정하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   return (
     <S.Wrap>

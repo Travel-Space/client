@@ -1,6 +1,6 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { ResData, User } from "@/@types";
 import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
@@ -9,13 +9,14 @@ import MESSAGE from "@/constants/message";
 
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
-import Password from "../CommonInput/Password";
-import Email from "../CommonInput/Email";
+import Password from "../AuthInputs/Password";
+import Email from "../AuthInputs/Email";
 
 import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
 import { useRouter, useSearchParams } from "next/navigation";
+import STATUS_CODE from "@/constants/statusCode";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -55,7 +56,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
 
-  async function currentCountry() {
+  const currentCountry = async () => {
     try {
       if (typeof window !== "undefined") {
         // 현재 ip 기준 국적 코드
@@ -69,35 +70,35 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  function handleName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     VALIDATE.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
-  }
+  };
 
-  function handleNickName(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
     VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
     setNickNameCheck(false);
-  }
+  };
 
-  function handlePasswordCompare(result: boolean, value: string) {
+  const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
     VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
-  }
+  };
 
-  function handleEmail(result: boolean, value: string) {
+  const handleEmail = (result: boolean, value: string) => {
     setIsEmailConfirm(result);
     setEmail(value);
-  }
+  };
 
-  function handleCountry(country: CountryInfo) {
+  const handleCountry = (country: CountryInfo) => {
     setCountry(country);
-  }
+  };
 
-  async function socialSignup() {
+  const socialSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register/google", {
         email,
@@ -108,18 +109,19 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         profileImage: PROFILE_IMAGE,
       });
 
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert("회원가입이 성공적으로 완료되었습니다!");
         router.push("/");
       }
     } catch (error) {
       console.error("회원가입 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function submitSignup() {
+  const submitSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register", {
         email,
@@ -131,16 +133,18 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         profileImage: PROFILE_IMAGE,
       });
 
-      response.status === 201 && alert("회원가입이 성공적으로 완료되었습니다!");
+      if (response.status === STATUS_CODE.CREATED) alert("회원가입이 성공적으로 완료되었습니다!");
+
       return goToLogin && goToLogin();
     } catch (error) {
       console.error("회원가입 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
-  async function checkNickName() {
+  const checkNickName = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ available: boolean }>>(
         "get",
@@ -157,10 +161,11 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
       }
     } catch (error) {
       console.error("닉네임 중복 확인 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (!socialType) {

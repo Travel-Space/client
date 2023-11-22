@@ -6,10 +6,11 @@ import { CommonUserInfo, User, UsersType } from "@/@types/User";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { SpaceshipContext, SpaceshipContextType } from "../..";
+import STATUS_CODE from "@/constants/statusCode";
 
 export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
@@ -22,7 +23,7 @@ export default function PlanetMember({ onClose }: Default) {
   const [totalCount, setTotalCount] = useState(0);
 
   // 초대하기
-  async function handleInvite(userId: number) {
+  const handleInvite = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -30,18 +31,19 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleInvite", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
     } catch (error) {
       console.error("초대하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
   // 가입 승인
-  async function handleApprove(userId: number) {
+  const handleApprove = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -49,18 +51,19 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleApprove", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
     } catch (error) {
       console.error("가입 승인하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
   // 가입 거절
-  async function handleReject(userId: number) {
+  const handleReject = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
@@ -68,18 +71,19 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleReject", response);
-      if (response.status === 201) {
+      if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
         fetchMemberListData();
       }
     } catch (error) {
       console.error("가입 거절하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
   // 멤버 추방
-  async function handleKick(userId: number) {
+  const handleKick = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "delete",
@@ -87,18 +91,19 @@ export default function PlanetMember({ onClose }: Default) {
         {},
       );
       console.log("handleKick", response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
         fetchMemberListData();
       }
     } catch (error) {
       console.error("멤버 추방하기 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
   // 멤버 권한 수정
-  async function handleRoleMember(userId: number, role: string) {
+  const handleRoleMember = async (userId: number, role: string) => {
     console.log(userId, role);
     const isAdmin = "부관리자";
     try {
@@ -110,19 +115,20 @@ export default function PlanetMember({ onClose }: Default) {
         },
       );
       console.log("handleRoleMember", response);
-      if (response.status === 200) {
+      if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
         fetchMemberListData();
       }
     } catch (error) {
       console.error("멤버 권한 수정 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
 
   // 팔로우 리스트 조회
-  async function fetchFollowingData() {
+  const fetchFollowingData = async () => {
     try {
       const response = await axiosRequest.requestAxios<
         ResData<{ data: { friend: { id: number; profileImage: string; nickName: string; email: string } }[] }>
@@ -142,19 +148,20 @@ export default function PlanetMember({ onClose }: Default) {
       setFollowingList(resultMember);
     } catch (error) {
       console.error("내가 팔로우하는 친구 조회 에러", error);
-      const errorResponse = (error as AxiosError<{ message: string }>).response;
-      alert(errorResponse?.data.message);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
     }
-  }
+  };
   // 모든 유저 조회
-  function handleSearchButtonClick() {
+  const handleSearchButtonClick = () => {
     getSearchUsers({
       key: "Enter",
       nativeEvent: { isComposing: false },
     } as React.KeyboardEvent<HTMLInputElement>);
-  }
+  };
 
-  async function getSearchUsers(e: React.KeyboardEvent<HTMLInputElement>) {
+  const getSearchUsers = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
 
     if (e.key === "Enter" && searchEmail) {
@@ -173,20 +180,20 @@ export default function PlanetMember({ onClose }: Default) {
           invited: false,
         }));
         console.log("resultUser", resultUser);
-        if (resultUser.length !== 0) {
-          setSearchUsers(resultUser);
-        } else {
-          // console.log("검색 결과 없음");
+        if (!resultUser.length) {
           setTotalCount(0);
           setUpdatedPlanetMember([]);
+          return;
         }
+        setSearchUsers(resultUser);
       } catch (error) {
         console.error("유저 조회 에러", error);
-        const errorResponse = (error as AxiosError<{ message: string }>).response;
-        alert(errorResponse?.data.message);
+        if (isAxiosError(error)) {
+          alert(error.response?.data.message);
+        }
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchFollowingData();
@@ -198,21 +205,20 @@ export default function PlanetMember({ onClose }: Default) {
       (value, index, self) => self.findIndex(el => el.userId === value.userId) === index,
     );
     setUpdatedPlanetMember(planetFollowingMember);
+    if (!searchUsers.length) return;
 
-    if (searchUsers.length !== 0) {
-      const searchUsersMember = [...planetMember, ...searchUsers]
-        .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
-        .filter(
-          updatedUser =>
-            planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
-            searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
-        );
-      if (searchUsersMember.length !== 0) {
-        setUpdatedPlanetMember(searchUsersMember);
-      } else {
-        setUpdatedPlanetMember(searchUsers);
-      }
+    const searchUsersMember = [...planetMember, ...searchUsers]
+      .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
+      .filter(
+        updatedUser =>
+          planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
+          searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
+      );
+    if (!searchUsersMember.length) {
+      setUpdatedPlanetMember(searchUsers);
+      return;
     }
+    setUpdatedPlanetMember(searchUsersMember);
   }, [followingList, planetMember, searchUsers]);
 
   useEffect(() => {

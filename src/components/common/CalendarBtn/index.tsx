@@ -12,11 +12,11 @@ interface CalendarBtnType {
 export default function CalendarBtn({ onSelected, selected }: CalendarBtnType) {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
 
-  function handleSelect(date: Date) {
+  const handleSelect = (date: Date) => {
     console.log(getDateFormat(date));
     onSelected(getDateFormat(date));
     setShowCalendar(false);
-  }
+  };
 
   return (
     <S.SelectBox>
