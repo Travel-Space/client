@@ -21,6 +21,6 @@ const PLANETSHAPE: ObjType = {
   SHAPE16: "/assets/img/planet/planet-16.svg",
   SHAPE17: "/assets/img/planet/planet-17.svg",
   SHAPE18: "/assets/img/planet/planet-18.svg",
-};
+} as const;
 
 export default PLANETSHAPE;
