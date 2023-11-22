@@ -1,4 +1,4 @@
-export const REPORT = {
+const REPORT = {
   SELECT: "신고 사유를 선택해 주세요.",
   SPAM: "스팸 홍보/도배글 입니다.",
   PORNOGRAPHY: "음란물입니다.",
@@ -8,4 +8,6 @@ export const REPORT = {
   PERSONAL_INFORMATION_EXPOSURE: "개인 정보 노출 게시물입니다.",
   UNPLEASANT_CONTENT: "불쾌한 표현이 있습니다.",
   ETC: "기타",
-};
+} as const;
+
+export default REPORT;
