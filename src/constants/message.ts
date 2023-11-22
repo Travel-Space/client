@@ -4,17 +4,17 @@ const MESSAGE = {
     SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
     SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
     SYNTAX_CODE: "숫자만 입력해 주세요.",
-    FAILURE: "회원가입에 실패했습니다.",
+    FAILURE: "회원 가입에 실패했습니다.",
   },
   LOGIN: {
     SYNTAX_EMAIL: "올바른 이메일을 입력해 주세요.",
     SYNTAX_PASSWORD: "영문, 숫자, 특수 문자 조합으로 8글자 이상 입력해 주세요.",
     FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
-    REQUIRED: "로그인이 필요해요. 로그인을 해 주세요!",
+    REQUIRED: "로그인이 필요한 서비스입니다. 로그인 후에 이용해 주세요!",
   },
   ERROR: {
-    DEFAULT: "에러가 발생했습니다. 다시 시도해 주세요",
+    DEFAULT: "에러가 발생했습니다. 다시 시도해 주세요.",
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
     ONLY_ADMIN: "관리자 및 부관리자만 접근이 가능합니다.",
     ONLY_MEMBER: "행성 멤버만 접근이 가능합니다.",
@@ -48,6 +48,6 @@ const MESSAGE = {
   DELETE: {
     COMPLETE: "삭제가 완료되었습니다.",
   },
-};
+} as const;
 
 export default MESSAGE;
