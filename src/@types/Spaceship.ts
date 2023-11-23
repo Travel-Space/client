@@ -63,6 +63,11 @@ export const SPACESHIP_ROLE = {
   MEMBER: "일반",
 } as const;
 
+export const SPACESHIP_ROLE_NAME = {
+  OWNER: "OWNER",
+  MEMBER: "MEMBER",
+} as const;
+
 export type SPACESHIP_ROLE = keyof typeof SPACESHIP_ROLE;
 
 export interface PlanetDataType {

@@ -10,7 +10,7 @@ import SelectBtn, { SelectItem } from "@/components/common/SelectBtn";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Spaceship, SPACESHIP_STATUS, SPACESHIP_STATUS_NAME } from "@/@types/Spaceship";
+import { Spaceship, SPACESHIP_ROLE_NAME, SPACESHIP_STATUS, SPACESHIP_STATUS_NAME } from "@/@types/Spaceship";
 import { isAxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
@@ -99,7 +99,10 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { spaceshipId: response.data.id, role: "OWNER" }],
+            spaceships: [
+              ...(auth?.memberships.spaceships || []),
+              { spaceshipId: response.data.id, role: SPACESHIP_ROLE_NAME.OWNER },
+            ],
           },
         } as UserType;
         setAuth(updatedUser);

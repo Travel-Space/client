@@ -16,7 +16,7 @@ import "swiper/css/pagination";
 import * as S from "./index.styled";
 
 import Ship from "./Ship";
-import { PlanetMembership } from "@/@types/Planet";
+import { PLANET_ROLE_NAME, PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
 import { CommonUserInfo } from "@/@types/User";
@@ -130,7 +130,7 @@ export default function SpaceshipPage() {
       console.log(response);
       // 행성 관리자 제외한 멤버
       const member = response.data;
-      const filteredMember = member.filter(m => m.role !== "OWNER");
+      const filteredMember = member.filter(m => m.role !== PLANET_ROLE_NAME.OWNER);
       const resultMember = filteredMember.map(
         (member: PlanetMembership): CommonUserInfo => ({
           email: member.user.email,

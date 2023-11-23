@@ -3,13 +3,13 @@ import Member from "@/components/SpaceModal/Member";
 import { Default, ITEM_TYPE } from "@/@types/Modal";
 import Button from "@/components/common/Button";
 import * as S from "../index.styled";
-import { Planet, PLANET_ROLE } from "@/@types/Planet";
+import { Planet, PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { isAxiosError } from "axios";
 import { useState } from "react";
 import { CommonUserInfo } from "@/@types/User";
-import { Spaceship } from "@/@types/Spaceship";
+import { SPACESHIP_ROLE, SPACESHIP_ROLE_NAME, Spaceship } from "@/@types/Spaceship";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ import STATUS_CODE from "@/constants/statusCode";
 interface Type extends Default {
   title: string | undefined;
   type: ITEM_TYPE;
-  role?: PLANET_ROLE;
+  role?: PLANET_ROLE | SPACESHIP_ROLE;
   id: string;
   members?: CommonUserInfo[];
 }
@@ -151,7 +151,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
 
   return (
     <BoxModal onClose={onClose} title={`${type} 탈출`}>
-      {role !== "OWNER" ? (
+      {role !== (SPACESHIP_ROLE_NAME.OWNER || PLANET_ROLE_NAME.OWNER) ? (
         <S.Notification>
           <b>{title}</b>
           <br />
@@ -198,10 +198,10 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
             size="big"
             onClick={
               type === ITEM_TYPE.PLANET
-                ? role === "OWNER"
+                ? role === PLANET_ROLE_NAME.OWNER
                   ? handlePlanetTransferOwnership
                   : handlePlanetExit
-                : role === "OWNER"
+                : role === SPACESHIP_ROLE_NAME.OWNER
                 ? handleSpaceshipTransferOwnership
                 : handleSpaceshipExit
             }
