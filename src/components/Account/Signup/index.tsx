@@ -74,19 +74,19 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    VALIDATE.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.user.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
-    VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
+    VALIDATE.user.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
     setNickNameCheck(false);
   };
 
   const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.user.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const handleEmail = (result: boolean, value: string) => {
@@ -168,17 +168,21 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   };
 
   useEffect(() => {
-    if (!socialType) {
-      if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm && nickNameCheck) {
-        setNotAllow(false);
-        return;
-      }
-    } else {
-      if (nameValid && nickNameValid && nickNameCheck) {
-        setNotAllow(false);
-        return;
-      }
+    const isSocialType = socialType && nameValid && nickNameValid && nickNameCheck;
+    const isBasicType =
+      !socialType &&
+      nameValid &&
+      nickNameValid &&
+      passwordValid &&
+      isPasswordMatching &&
+      isEmailConfirm &&
+      nickNameCheck;
+
+    if (isSocialType || isBasicType) {
+      setNotAllow(false);
+      return;
     }
+
     setNotAllow(true);
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 

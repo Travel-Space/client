@@ -30,7 +30,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.user.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const handleEmail = (result: boolean, value: string) => {
