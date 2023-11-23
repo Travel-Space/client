@@ -53,6 +53,7 @@ export interface PlanetBookmark {
   planetId: number;
   planet: Planet;
   createdAt: Date;
+  totalMemberCount: number;
 }
 
 export interface PlanetMembership {

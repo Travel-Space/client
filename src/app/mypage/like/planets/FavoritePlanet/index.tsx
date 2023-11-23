@@ -15,7 +15,7 @@ interface FavoritePlanetProps {
   saveData: (totalCount: number, totalPage: number, planets: Planet[]) => void;
 }
 export default function FavoritePlanet({ data, page, setPage, saveData }: FavoritePlanetProps) {
-  const { planet, planetId } = data;
+  const { planet, planetId, totalMemberCount } = data;
 
   const router = useRouter();
 
@@ -41,7 +41,7 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
               )}
             </div>
             <S.People onClick={goToShip}>
-              {planet.memberCount}/{planet.memberLimit}
+              {totalMemberCount}/{planet.memberLimit}
             </S.People>
           </S.InfoRowCol>
         </S.InfoRow>
