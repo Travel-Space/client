@@ -1,9 +1,9 @@
 import BoxModal from "@/components/common/BoxModal";
 import Member from "@/components/SpaceModal/Member";
-import { Default, ItemType } from "@/@types/Modal";
+import { Default, ITEM_TYPE } from "@/@types/Modal";
 import Button from "@/components/common/Button";
 import * as S from "../index.styled";
-import { Planet, Role } from "@/@types/Planet";
+import { Planet, PLANET_ROLE } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { isAxiosError } from "axios";
@@ -17,8 +17,8 @@ import STATUS_CODE from "@/constants/statusCode";
 
 interface Type extends Default {
   title: string | undefined;
-  type: ItemType;
-  role?: Role;
+  type: ITEM_TYPE;
+  role?: PLANET_ROLE;
   id: string;
   members?: CommonUserInfo[];
 }
@@ -29,19 +29,19 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
   const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
 
-  const deletedMemberships = (id: string, type: ItemType) => {
+  const deletedMemberships = (id: string, type: ITEM_TYPE) => {
     const planets = auth?.memberships.planets.filter(planet => planet?.planetId !== parseInt(id));
     const spaceships = auth?.memberships.spaceships.filter(spaceship => spaceship?.spaceshipId !== parseInt(id));
     const updatedUser = {
       ...auth,
       memberships: {
-        planets: type === ItemType.Planet ? planets : auth?.memberships.planets || [],
-        spaceships: type === ItemType.SpaceShip ? spaceships : auth?.memberships.spaceships || [],
+        planets: type === ITEM_TYPE.PLANET ? planets : auth?.memberships.planets || [],
+        spaceships: type === ITEM_TYPE.SPACESHIP ? spaceships : auth?.memberships.spaceships || [],
       },
     } as UserType;
     setAuth(updatedUser);
     onClose();
-    type === ItemType.Planet && router.push("/");
+    type === ITEM_TYPE.PLANET && router.push("/");
   };
 
   const handlePlanetDelete = async () => {
@@ -50,7 +50,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.OK) {
         alert("행성이 성공적으로 삭제되었습니다!");
-        deletedMemberships(id, ItemType.Planet);
+        deletedMemberships(id, ITEM_TYPE.PLANET);
         return router.push("/");
       }
     } catch (error) {
@@ -67,7 +67,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.CREATED) {
         alert("행성을 성공적으로 떠났습니다!");
-        deletedMemberships(id, ItemType.Planet);
+        deletedMemberships(id, ITEM_TYPE.PLANET);
       }
     } catch (error) {
       console.error("행성 탈출하기 에러", error);
@@ -85,7 +85,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.OK) {
         alert("행성을 성공적으로 위임했습니다!");
-        deletedMemberships(id, ItemType.Planet);
+        deletedMemberships(id, ITEM_TYPE.PLANET);
       }
     } catch (error) {
       console.error("행성 위임하기 에러", error);
@@ -101,7 +101,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.OK) {
         alert("우주선을 성공적으로 떠났습니다!");
-        deletedMemberships(id, ItemType.SpaceShip);
+        deletedMemberships(id, ITEM_TYPE.SPACESHIP);
       }
     } catch (error) {
       console.error("우주선 탈출하기 에러", error);
@@ -123,7 +123,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.OK) {
         alert("우주선을 성공적으로 위임했습니다!");
-        deletedMemberships(id, ItemType.SpaceShip);
+        deletedMemberships(id, ITEM_TYPE.SPACESHIP);
       }
     } catch (error) {
       console.error("우주선 위임하기 에러", error);
@@ -139,7 +139,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       console.log(response);
       if (response.status === STATUS_CODE.OK) {
         alert("우주선이 성공적으로 삭제되었습니다!");
-        deletedMemberships(id, ItemType.SpaceShip);
+        deletedMemberships(id, ITEM_TYPE.SPACESHIP);
       }
     } catch (error) {
       console.error("우주선 삭제하기 에러", error);
@@ -197,7 +197,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
             shape="medium"
             size="big"
             onClick={
-              type === ItemType.Planet
+              type === ITEM_TYPE.PLANET
                 ? role === "OWNER"
                   ? handlePlanetTransferOwnership
                   : handlePlanetExit
@@ -216,7 +216,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
             variant="reverse"
             shape="medium"
             size="big"
-            onClick={type === ItemType.Planet ? handlePlanetDelete : handleSpaceshipDelete}
+            onClick={type === ITEM_TYPE.PLANET ? handlePlanetDelete : handleSpaceshipDelete}
           >
             <S.CenterGroup>
               <img src="/assets/img/icons/trash.svg" />

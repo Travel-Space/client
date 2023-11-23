@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import MESSAGE from "@/constants/message";
+import { PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
 
-export function useAuth(planetId?: number, guardType?: "ADMIN" | "MEMBER") {
+export function useAuth(planetId?: number, guardType?: PLANET_ROLE) {
   const user = useRecoilValue(userAtom);
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,28 +22,28 @@ export function useAuth(planetId?: number, guardType?: "ADMIN" | "MEMBER") {
       return;
     }
 
-    const asMember = user.memberships.planets.some(
-      membership => membership.planetId === planetId && membership.role !== "GUEST",
-    );
     const asAdmin = user.memberships.planets.some(
-      membership => membership.planetId === planetId && membership.role !== "GUEST" && membership.role !== "MEMBER",
+      membership =>
+        membership.planetId === planetId &&
+        membership.role !== PLANET_ROLE_NAME.GUEST &&
+        membership.role !== PLANET_ROLE_NAME.MEMBER,
+    );
+    const asMember = user.memberships.planets.some(
+      membership => membership.planetId === planetId && membership.role !== PLANET_ROLE_NAME.GUEST,
     );
 
-    if (guardType === "ADMIN") {
-      if (asAdmin) {
-        setIsLoggedIn(true);
-      } else {
-        alert(MESSAGE.ERROR.ONLY_ADMIN);
-        router.back();
+    const roleCheck = (requiredRole: PLANET_ROLE, hasRole: boolean, errorMessage: string) => {
+      if (guardType === requiredRole) {
+        if (hasRole) {
+          setIsLoggedIn(true);
+        } else {
+          alert(errorMessage);
+          router.back();
+        }
       }
-    } else if (guardType === "MEMBER") {
-      if (asMember) {
-        setIsLoggedIn(true);
-      } else {
-        alert(MESSAGE.ERROR.ONLY_MEMBER);
-        router.back();
-      }
-    }
+    };
+    roleCheck(PLANET_ROLE_NAME.ADMIN, asAdmin, MESSAGE.ERROR.ONLY_ADMIN);
+    roleCheck(PLANET_ROLE_NAME.MEMBER, asMember, MESSAGE.ERROR.ONLY_MEMBER);
   }, [user, router, planetId]);
 
   return isLoggedIn;

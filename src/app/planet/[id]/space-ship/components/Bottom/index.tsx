@@ -2,7 +2,7 @@ import Button from "@/components/common/Button";
 import * as S from "../index.styled";
 import Exit from "@/components/SpaceModal/Exit";
 import PlanetMember from "../Modal/PlanetMember";
-import { ItemType } from "@/@types/Modal";
+import { ITEM_TYPE } from "@/@types/Modal";
 import { useModal } from "@/hooks/useModal";
 import { useContext } from "react";
 import { userAtom } from "@/recoil/atoms/user.atom";
@@ -23,7 +23,7 @@ export default function SpaceshipBottom() {
       <Exit
         onClose={closeModal}
         title={planetData.name}
-        type={ItemType.Planet}
+        type={ITEM_TYPE.PLANET}
         role={thisPlanet?.role}
         id={planetId}
         members={onlyMember}

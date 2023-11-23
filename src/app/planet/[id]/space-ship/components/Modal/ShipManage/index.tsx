@@ -10,7 +10,7 @@ import SelectBtn, { SelectItem } from "@/components/common/SelectBtn";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
+import { Spaceship, SPACESHIP_STATUS, SPACESHIP_STATUS_NAME } from "@/@types/Spaceship";
 import { isAxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
@@ -34,10 +34,10 @@ interface ShipType {
 }
 
 const shipStatus: SelectItem[] = [
-  { value: "UPCOMING", text: SpaceshipStatusName.UPCOMING },
-  { value: "ONGOING", text: SpaceshipStatusName.ONGOING },
-  { value: "COMPLETED", text: SpaceshipStatusName.COMPLETED },
-  { value: "CANCELED", text: SpaceshipStatusName.CANCELED },
+  { value: SPACESHIP_STATUS_NAME.UPCOMING, text: SPACESHIP_STATUS.UPCOMING },
+  { value: SPACESHIP_STATUS_NAME.ONGOING, text: SPACESHIP_STATUS.ONGOING },
+  { value: SPACESHIP_STATUS_NAME.COMPLETED, text: SPACESHIP_STATUS.COMPLETED },
+  { value: SPACESHIP_STATUS_NAME.CANCELED, text: SPACESHIP_STATUS.CANCELED },
 ];
 
 interface ShipManageType extends Default {

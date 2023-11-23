@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { PlanetDataType, Role, SpaceshipStatus } from "@/@types/Spaceship";
+import { PlanetDataType, SPACESHIP_ROLE, SPACESHIP_STATUS } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -29,7 +29,7 @@ export interface SpaceShipType {
   maxMembers: number;
   memberCount: number;
   ownerId: number;
-  status: SpaceshipStatus;
+  status: SPACESHIP_STATUS;
   startDate: string;
   endDate: string;
   planetId: number;
@@ -45,7 +45,7 @@ export interface SpaceShipMembers {
   nickName: string;
   profileImage: string;
   userId: number;
-  role: Role;
+  role: SPACESHIP_ROLE;
 }
 
 export interface SpaceshipContextType {
