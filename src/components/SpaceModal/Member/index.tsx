@@ -65,7 +65,7 @@ export default function Member({
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
               {(user.role === "MEMBER" || user.role === "ADMIN") && (
-                <S.Kick onClick={() => onKick && onKick(user.userId)}>강제퇴장</S.Kick>
+                <S.Kick onClick={() => onKick && onKick(user.userId)}>강제 퇴장</S.Kick>
               )}
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>

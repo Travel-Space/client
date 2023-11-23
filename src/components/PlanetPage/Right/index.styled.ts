@@ -66,6 +66,7 @@ export const MarginGroup = styled.div`
 `;
 
 export const InputGroup = styled.div`
+  position: relative;
   textarea {
     font-size: inherit;
     transition: all 0.2s;
