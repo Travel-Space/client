@@ -51,6 +51,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
       if (response.status === STATUS_CODE.OK) {
         alert("행성이 성공적으로 삭제되었습니다!");
         deletedMemberships(id, ItemType.Planet);
+        return router.push("/");
       }
     } catch (error) {
       console.error("행성 삭제하기 에러", error);

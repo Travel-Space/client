@@ -8,8 +8,11 @@ const VALIDATE = {
   },
   PLANET: {
     NAME: /^.{1,15}$/,
-    DESCRIPTION: /^.{1,200}$/,
     HASHTAG: /^.{1,8}$/,
+    DESCRIPTION: /^.{1,200}$/,
+    DESCRIPTION_COUNT: 200,
+    MEMBER_LIMIT: 50,
+    SPACESHIP_LIMIT: 10,
   },
   SPACESHIP: {
     NAME: /^.{1,6}$/,
