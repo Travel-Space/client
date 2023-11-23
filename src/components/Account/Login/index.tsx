@@ -108,9 +108,9 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             placeholder="Email"
             onChange={handleEmail}
             value={email}
-            warning={!emailValid && email.length > 0}
+            warning={!emailValid && email}
           />
-          {!emailValid && email.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
+          {!emailValid && email && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
         </InputGroup>
         <InputGroup>
           <Label id="password">비밀번호</Label>
@@ -121,9 +121,9 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             placeholder="Password"
             onChange={handlePassword}
             value={password}
-            warning={!passwordValid && password.length > 0}
+            warning={!passwordValid && password}
           />
-          {!passwordValid && password.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</ErrorMessage>}
+          {!passwordValid && password && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</ErrorMessage>}
           <LOGIN.UnderLine onClick={() => goToResetPassword()} type="button">
             Forgot?
           </LOGIN.UnderLine>

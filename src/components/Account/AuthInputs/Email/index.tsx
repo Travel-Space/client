@@ -122,9 +122,9 @@ export default function Email({ onEmail }: PropsType) {
             placeholder="Email"
             onChange={handleEmail}
             value={email}
-            warning={!emailValid && email.length > 0}
+            warning={!emailValid && email}
           />
-          {!emailValid && email.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
+          {!emailValid && email && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
@@ -146,10 +146,10 @@ export default function Email({ onEmail }: PropsType) {
               placeholder="인증번호 입력"
               onChange={handleCode}
               value={code}
-              warning={!codeValid && code.length > 0}
+              warning={!codeValid && code}
               disabled={confirm}
             />
-            {!codeValid && code.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_CODE}</ErrorMessage>}
+            {!codeValid && code && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_CODE}</ErrorMessage>}
             <SmallBtnGroup>
               <Timer>{`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</Timer>
               <Button

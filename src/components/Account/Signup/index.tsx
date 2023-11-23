@@ -210,9 +210,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           placeholder="Name"
           value={name}
           onChange={handleName}
-          warning={!nameValid && name.length > 0}
+          warning={!nameValid && name}
         />
-        {!nameValid && name.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
+        {!nameValid && name && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
       </InputGroup>
       <InputGroup>
         <Label id="nickName">닉네임</Label>
@@ -224,9 +224,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
             placeholder="NickName"
             value={nickName}
             onChange={handleNickName}
-            warning={!nickNameValid && nickName.length > 0}
+            warning={!nickNameValid && nickName}
           />
-          {!nickNameValid && nickName.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NICKNAME}</ErrorMessage>}
+          {!nickNameValid && nickName && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NICKNAME}</ErrorMessage>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
@@ -245,7 +245,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         <>
           {/* 일반 회원가입 시 추가 입력 */}
           <Email onEmail={handleEmail} />
-          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password} />
         </>
       )}
 
