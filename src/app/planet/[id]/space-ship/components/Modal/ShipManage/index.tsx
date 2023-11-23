@@ -6,7 +6,7 @@ import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
-import SelectBtn, { ListType } from "@/components/common/SelectBtn";
+import SelectBtn, { SelectItem } from "@/components/common/SelectBtn";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -25,7 +25,7 @@ const todayString = getDateFormat(today);
 interface ShipType {
   name: string;
   description: string;
-  maxMembers?: number;
+  maxMembers: number;
   startDate: string;
   endDate: string;
   planetId: number;
@@ -33,7 +33,7 @@ interface ShipType {
   image: string;
 }
 
-const shipStatus: ListType[] = [
+const shipStatus: SelectItem[] = [
   { value: "UPCOMING", text: SpaceshipStatusName.UPCOMING },
   { value: "ONGOING", text: SpaceshipStatusName.ONGOING },
   { value: "COMPLETED", text: SpaceshipStatusName.COMPLETED },
@@ -68,7 +68,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     }));
   };
 
-  const handleMaxMembers = (value: number | undefined) => {
+  const handleMaxMembers = (value: number) => {
     setShipInfo(info => ({
       ...info,
       maxMembers: value,
@@ -82,7 +82,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     }));
   };
 
-  const handleStatus = (status: ListType) => {
+  const handleStatus = (status: SelectItem) => {
     setShipInfo(info => ({
       ...info,
       status: status.value,
