@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -17,24 +17,23 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
 import STATUS_CODE from "@/constants/statusCode";
+import VALIDATE from "@/constants/regex";
+import MESSAGE from "@/constants/message";
+import { ErrorMessage } from "@/styles/common";
 
 export default function Right() {
-  const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+  const { planetInfo, nameValid, notAllow, setPlanetInfo, setNameValid, setDescriptionValid } =
+    useContext<PlanetContextType>(PlanetContext);
   const user = useRecoilValue(userAtom);
   const [auth, setAuth] = useRecoilState(userAtom);
   const router = useRouter();
-
-  if (!planetContext) {
-    return;
-  }
-
-  const { planetInfo, setPlanetInfo } = planetContext;
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlanetInfo({
       ...planetInfo,
       name: e.target.value,
     });
+    VALIDATE.PLANET.NAME.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   };
 
   const handlePublished = (isPublic: boolean) => {
@@ -49,16 +48,17 @@ export default function Right() {
       ...planetInfo,
       description: e.target.value,
     });
+    VALIDATE.PLANET.DESCRIPTION.test(e.target.value) ? setDescriptionValid(true) : setDescriptionValid(false);
   };
 
-  const handleMemberLimit = (number: number | undefined) => {
+  const handleMemberLimit = (number: number) => {
     setPlanetInfo({
       ...planetInfo,
       memberLimit: number,
     });
   };
 
-  const handleSpaceshipLimit = (number: number | undefined) => {
+  const handleSpaceshipLimit = (number: number) => {
     setPlanetInfo({
       ...planetInfo,
       spaceshipLimit: number,
@@ -109,6 +109,11 @@ export default function Right() {
     }
   };
 
+  useEffect(() => {
+    !planetInfo.name.length ? setNameValid(false) : setNameValid(true);
+    !planetInfo.description.length ? setDescriptionValid(false) : setDescriptionValid(true);
+  }, [planetInfo]);
+
   return (
     <S.Wrap>
       <div>
@@ -158,7 +163,9 @@ export default function Right() {
           placeholder="행성 이름"
           onChange={handleName}
           value={planetInfo.name}
+          warning={!nameValid && planetInfo.name}
         />
+        {!nameValid && planetInfo.name && <ErrorMessage>{MESSAGE.PLANET.SYNTAX_NAME}</ErrorMessage>}
       </S.InputGroup>
       <S.InputGroup>
         <Label id="planet-description">행성 소개</Label>
@@ -166,7 +173,7 @@ export default function Right() {
           size="planet"
           placeholder="행성 소개"
           name="planet-description"
-          maxLength={100}
+          maxLength={VALIDATE.PLANET.DESCRIPTION_COUNT}
           onChange={handleDescription}
           value={planetInfo.description}
         />
@@ -179,7 +186,7 @@ export default function Right() {
             id="planet-member-limit"
             value={planetInfo.memberLimit}
             min={1}
-            max={100}
+            max={VALIDATE.PLANET.MEMBER_LIMIT}
             onNumber={handleMemberLimit}
           />
         </S.InputGroup>
@@ -190,7 +197,7 @@ export default function Right() {
             id="planet-ship-limit"
             value={planetInfo.spaceshipLimit}
             min={1}
-            max={100}
+            max={VALIDATE.PLANET.SPACESHIP_LIMIT}
             onNumber={handleSpaceshipLimit}
           />
         </S.InputGroup>
@@ -199,13 +206,14 @@ export default function Right() {
       <Line color="gray" size="horizontal" />
 
       <S.BetweenGroup>
-        <Button variant="reverse" shape="medium" size="big">
+        <Button variant="reverse" shape="medium" size="big" onClick={() => router.back()}>
           취소
         </Button>
         <Button
           variant="confirm"
           shape="medium"
           size="big"
+          disabled={notAllow}
           onClick={planetInfo.id ? submitModifyPlanet : submitCreatePlanet}
         >
           {planetInfo.id ? "수정" : "완료"}

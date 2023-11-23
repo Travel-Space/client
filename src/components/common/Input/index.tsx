@@ -16,7 +16,7 @@ interface InputType {
   readOnly: boolean;
   rounded: boolean;
   thin: boolean;
-  warning: boolean;
+  warning: boolean | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClick: (e: React.MouseEvent<HTMLInputElement>) => void;

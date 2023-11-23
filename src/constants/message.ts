@@ -1,7 +1,7 @@
 const MESSAGE = {
   JOIN: {
-    SYNTAX_NAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
-    SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
+    SYNTAX_NAME: "한글 또는 영문으로 2글자 이상 15글자 이하 입력해 주세요.",
+    SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 15글자 이하 입력해 주세요.",
     SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
     SYNTAX_CODE: "숫자만 입력해 주세요.",
     FAILURE: "회원 가입에 실패했습니다.",
@@ -34,6 +34,7 @@ const MESSAGE = {
     JOIN: "행성 탑승 신청이 완료되었습니다. 승인을 기다려 주세요!",
     JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
+    SYNTAX_NAME: "15글자 이하 입력해 주세요.",
   },
   REPORTS: {
     COMPLETE: "신고가 완료되었습니다.",

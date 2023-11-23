@@ -23,7 +23,7 @@ export const Label = styled.label`
 interface Props {
   $rounded: boolean;
   $thin: boolean;
-  $warning: boolean;
+  $warning: boolean | string;
 }
 
 export const Input = styled.input<Partial<Props>>`

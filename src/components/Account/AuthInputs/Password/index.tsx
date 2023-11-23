@@ -3,11 +3,12 @@ import MESSAGE from "@/constants/message";
 
 import Input, { Label } from "@/components/common/Input";
 
-import { Error, InputGroup } from "../../index.styled";
+import { InputGroup } from "@/components/Account/index.styled";
+import { ErrorMessage } from "@/styles/common";
 
 interface PropsType {
   onPasswordCompare: (result: boolean, value: string) => void;
-  valid: boolean;
+  valid: boolean | string;
 }
 
 export default function Password({ onPasswordCompare, valid }: PropsType) {
@@ -39,7 +40,7 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
           warning={valid}
           value={password}
         />
-        {valid && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
+        {valid && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</ErrorMessage>}
       </InputGroup>
       <InputGroup>
         <Label id="passwordCheck">비밀번호 확인</Label>
@@ -50,9 +51,11 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
           placeholder="Password Check"
           onChange={handleChange}
           value={passwordCheck}
-          warning={password !== passwordCheck && passwordCheck.length > 0}
+          warning={password !== passwordCheck && passwordCheck}
         />
-        {password !== passwordCheck && passwordCheck.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_PASSWORD_CHECK}</Error>}
+        {password !== passwordCheck && passwordCheck && (
+          <ErrorMessage>{MESSAGE.JOIN.SYNTAX_PASSWORD_CHECK}</ErrorMessage>
+        )}
       </InputGroup>
     </>
   );
