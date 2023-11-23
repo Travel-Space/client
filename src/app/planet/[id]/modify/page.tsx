@@ -6,10 +6,11 @@ import { useParams } from "next/navigation";
 
 export default function ModifyPlanet() {
   const params = useParams();
-  const isLoggedIn = useAuth(parseInt(params.id as string), "ADMIN");
+  const isLoggedIn = useAuth(Number(params.id), "ADMIN");
 
   if (!isLoggedIn) {
     return null;
   }
+
   return <PlanetPage planetId={params.id} />;
 }

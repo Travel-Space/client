@@ -20,7 +20,6 @@ import { PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
 import { CommonUserInfo } from "@/@types/User";
-import { useAuth } from "@/hooks/useAuth";
 
 export interface SpaceShipType {
   id: number;
@@ -156,12 +155,6 @@ export default function SpaceshipPage() {
     fetchSpaceshipData();
     fetchMemberListData();
   }, []);
-
-  const isLoggedIn = useAuth(parseInt(planetId), "MEMBER");
-
-  if (!isLoggedIn) {
-    return null;
-  }
 
   return (
     <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, fetchMemberListData, fetchSpaceshipData }}>
