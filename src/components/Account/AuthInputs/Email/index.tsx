@@ -53,12 +53,12 @@ export default function Email({ onEmail }: PropsType) {
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.user.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   };
 
   const handleCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
-    VALIDATE.onlyNumber.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
+    VALIDATE.user.code.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
   };
 
   const sendCode = async () => {

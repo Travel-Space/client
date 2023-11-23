@@ -1,10 +1,12 @@
 import axios from "axios";
+import authInterceptor from "./authInterceptor";
 
 const allowMethod: string[] = ["get", "post", "put", "patch", "delete"];
 
 // Axios 인스턴스 생성
 const instance = axios.create({
-  baseURL: "http://travelspace.world/api", // http://localhost:8080/api
+  baseURL: "https://travelspace.world/api",
+  // baseURL: "http://localhost:8080/api",
   timeout: 10000,
   withCredentials: true,
 });
@@ -12,7 +14,7 @@ const instance = axios.create({
 // instance.defaults.headers.post["Content-Type"] = "application/json";
 // instance.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
-// authInterceptor(instance);
+authInterceptor(instance);
 
 type Headers = {
   Accept: string;
@@ -54,7 +56,7 @@ const axiosRequest: AxiosRequest = {
 
       return response as T;
     } catch (error) {
-      //TODO: 에러 처리를 클라이언트에서 바로 할 수 있도록 구성 해야 한다.
+      // TODO: 에러 처리를 클라이언트에서 바로 할 수 있도록 구성 해야 한다.
       // react error boundary
       console.log(error);
       throw error;
