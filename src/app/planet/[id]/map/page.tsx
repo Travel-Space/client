@@ -54,17 +54,11 @@ export default function Map({ params }: { params: { id: number } }) {
       );
       const data = response.data;
       const locations = data.articles.flatMap((article: Posting) => article.locations); // [{}, {}, {}, {} ... {}]
-      // const uniqueLocations = Array.from(
-      //   new Set(locations.map((item: Locations) => `${item.latitude}-${item.longitude}`)),
-      // ).map(key => locations.find((obj: Locations) => `${obj.latitude}-${obj.longitude}` === key));
-
       const uniqueLocations = Array.from(
         new Set(locations.map((item: Locations) => `${item.latitude}-${item.longitude}`)),
       )
         .map(key => locations.find((obj: Locations) => `${obj.latitude}-${obj.longitude}` === key))
         .filter((location): location is Locations => location !== undefined);
-
-      console.log(uniqueLocations);
 
       setMarker(uniqueLocations);
     } catch (error) {
