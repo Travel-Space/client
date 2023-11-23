@@ -1,14 +1,21 @@
-import { ItemType } from "@/@types/Modal";
+import { ITEM_TYPE } from "@/@types/Modal";
 import * as S from "./index.styled";
-import { RoleName } from "@/@types/Planet";
+import { PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
 import { CommonUserInfo } from "@/@types/User";
 import { useEffect, useState } from "react";
 
+export const MODE_TYPE = {
+  SELECT: "select",
+  MANAGE: "manage",
+} as const;
+
+export type MODE_TYPE = (typeof MODE_TYPE)[keyof typeof MODE_TYPE];
+
 interface Type {
-  mode: "select" | "manage";
-  type?: ItemType;
+  mode: MODE_TYPE;
+  type?: ITEM_TYPE;
   user: CommonUserInfo;
   onSelectMember?: (value: number) => void;
   onInvite?: (value: number) => void;
@@ -29,13 +36,13 @@ export default function Member({
   onKick,
   onRoleMember,
 }: Type) {
-  const roleName = user.role && RoleName[user.role];
-  const [selectedMenu, setSelectedMenu] = useState(roleName as string);
+  const roleName = (user.role && PLANET_ROLE[user.role]) || "게스트";
+  const [selectedMenu, setSelectedMenu] = useState<string>(roleName);
   const [roleEdit, setRoleEdit] = useState(false);
   // console.log("user", user);
 
   const dropDownProps = {
-    menuList: [RoleName.ADMIN, RoleName.MEMBER],
+    menuList: [PLANET_ROLE.ADMIN, PLANET_ROLE.MEMBER],
     selectedMenu: selectedMenu,
     handleClick: setSelectedMenu,
   };
@@ -46,13 +53,13 @@ export default function Member({
 
   return (
     <S.Wrap>
-      {mode === "select" ? (
+      {mode === MODE_TYPE.SELECT ? (
         <S.Label>
           <S.ProfileImg src={user.profileImage} />
           <S.InfoGroup>
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
-              {type === ItemType.Planet && <span className="role">{roleName}</span>}
+              {type === ITEM_TYPE.PLANET && <span className="role">{roleName}</span>}
             </S.NicknameRole>
             <S.Email>{user.email}</S.Email>
           </S.InfoGroup>
@@ -64,7 +71,7 @@ export default function Member({
           <S.InfoGroup>
             <S.NicknameRole>
               <span className="nickname">{user.nickName}</span>
-              {(user.role === "MEMBER" || user.role === "ADMIN") && (
+              {(user.role === PLANET_ROLE_NAME.MEMBER || user.role === PLANET_ROLE_NAME.ADMIN) && (
                 <S.Kick onClick={() => onKick && onKick(user.userId)}>강제 퇴장</S.Kick>
               )}
             </S.NicknameRole>
@@ -72,7 +79,7 @@ export default function Member({
           </S.InfoGroup>
           <S.Group>
             {/* 멤버 권한 관리 */}
-            {user.role === "MEMBER" || user.role === "ADMIN" ? (
+            {user.role === PLANET_ROLE_NAME.MEMBER || user.role === PLANET_ROLE_NAME.ADMIN ? (
               <S.MemberGroup>
                 {roleEdit ? (
                   <>
@@ -100,7 +107,7 @@ export default function Member({
                   </>
                 )}
               </S.MemberGroup>
-            ) : user.role === "GUEST" ? (
+            ) : user.role === PLANET_ROLE_NAME.GUEST ? (
               <>
                 {user.invited ? (
                   <Button disabled variant="confirm" shape="medium" size="smallWithSmFont">

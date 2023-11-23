@@ -12,7 +12,7 @@ import { useRouter, useParams } from "next/navigation";
 
 import { useModal } from "@/hooks/useModal";
 import Delete from "@/components/SpaceModal/Delete";
-import { ItemType } from "@/@types/Modal";
+import { ITEM_TYPE } from "@/@types/Modal";
 
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
@@ -35,7 +35,7 @@ export default function Left() {
   const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
   const deleteModal = {
     title: "행성 삭제",
-    content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} id={planetInfo.id} />,
+    content: <Delete onClose={closeModal} title={planetInfo.name} type={ITEM_TYPE.PLANET} id={planetInfo.id} />,
   };
 
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {

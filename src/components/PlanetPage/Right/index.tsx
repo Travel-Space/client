@@ -11,7 +11,7 @@ import Button from "@/components/common/Button";
 import { PlanetContext, PlanetContextType } from "..";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Planet } from "@/@types/Planet";
+import { PLANET_ROLE_NAME, Planet } from "@/@types/Planet";
 import { isAxiosError } from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
@@ -75,7 +75,7 @@ export default function Right() {
         const updatedUser = {
           ...auth,
           memberships: {
-            planets: [...(auth?.memberships.planets || []), { planetId: data.id, role: "OWNER" }],
+            planets: [...(auth?.memberships.planets || []), { planetId: data.id, role: PLANET_ROLE_NAME.OWNER }],
             spaceships: auth?.memberships.spaceships || [],
           },
         } as UserType;

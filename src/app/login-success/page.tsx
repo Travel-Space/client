@@ -17,7 +17,7 @@ export default function LoginSuccess() {
 
   useEffect(() => {
     if (idString && roleString && nickName && membershipsString) {
-      const id = parseInt(idString);
+      const id = Number(idString);
       const role = roleString as UserRole;
       const memberships = JSON.parse(decodeURIComponent(membershipsString));
 

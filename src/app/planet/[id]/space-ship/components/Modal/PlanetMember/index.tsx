@@ -11,6 +11,7 @@ import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { SpaceshipContext, SpaceshipContextType } from "../..";
 import STATUS_CODE from "@/constants/statusCode";
+import { PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
 
 export default function PlanetMember({ onClose }: Default) {
   const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
@@ -105,13 +106,12 @@ export default function PlanetMember({ onClose }: Default) {
   // 멤버 권한 수정
   const handleRoleMember = async (userId: number, role: string) => {
     console.log(userId, role);
-    const isAdmin = "부관리자";
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "put",
         `/planet/members/${planetId}/${userId}`,
         {
-          role: role === isAdmin ? "ADMIN" : "MEMBER",
+          role: role === PLANET_ROLE.ADMIN ? PLANET_ROLE_NAME.ADMIN : PLANET_ROLE_NAME.MEMBER,
         },
       );
       console.log("handleRoleMember", response);
