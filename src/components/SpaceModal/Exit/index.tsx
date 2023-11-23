@@ -162,7 +162,7 @@ export default function Exit({ onClose, title, type, role, id, members }: Type) 
           {hasMember ? (
             <>
               <b>{title}</b> {type} 멤버 중 한 명에게 <b>관리자를 위임</b>하시고 <br />
-              {type} 나가기 버튼을 눌러주세요.
+              {type} 나가기 버튼을 눌러 주세요.
               <S.MemberList>
                 {members?.map((member, index) => (
                   <Member
