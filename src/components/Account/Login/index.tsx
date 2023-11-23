@@ -15,7 +15,8 @@ import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
 import Line from "@/components/common/Line";
 import * as LOGIN from "./index.styled";
-import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
+import { Container, FormGroup, InputGroup, MarginGroup } from "@/components/Account/index.styled";
+import { ErrorMessage } from "@/styles/common";
 
 interface PropsType extends Default {
   goToSignup: () => void;
@@ -38,12 +39,12 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    VALIDATE.user.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.USER.EMAIL.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    VALIDATE.user.password.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const submitLogin = async () => {
@@ -109,7 +110,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             value={email}
             warning={!emailValid && email.length > 0}
           />
-          {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
+          {!emailValid && email.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
         </InputGroup>
         <InputGroup>
           <Label id="password">비밀번호</Label>
@@ -122,7 +123,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             value={password}
             warning={!passwordValid && password.length > 0}
           />
-          {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
+          {!passwordValid && password.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</ErrorMessage>}
           <LOGIN.UnderLine onClick={() => goToResetPassword()} type="button">
             Forgot?
           </LOGIN.UnderLine>

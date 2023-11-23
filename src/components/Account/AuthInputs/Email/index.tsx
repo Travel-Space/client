@@ -9,8 +9,9 @@ import MESSAGE from "@/constants/message";
 import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
-import { Error, InputGroup, SmallBtnGroup, Timer } from "../../index.styled";
+import { InputGroup, SmallBtnGroup, Timer } from "@/components/Account/index.styled";
 import STATUS_CODE from "@/constants/statusCode";
+import { ErrorMessage } from "@/styles/common";
 
 interface PropsType {
   onEmail: (result: boolean, value: string) => void;
@@ -53,12 +54,12 @@ export default function Email({ onEmail }: PropsType) {
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    VALIDATE.user.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.USER.EMAIL.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   };
 
   const handleCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
-    VALIDATE.user.code.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
+    VALIDATE.USER.CODE.test(e.target.value) ? setCodeValid(true) : setCodeValid(false);
   };
 
   const sendCode = async () => {
@@ -123,7 +124,7 @@ export default function Email({ onEmail }: PropsType) {
             value={email}
             warning={!emailValid && email.length > 0}
           />
-          {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
+          {!emailValid && email.length > 0 && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
@@ -148,7 +149,7 @@ export default function Email({ onEmail }: PropsType) {
               warning={!codeValid && code.length > 0}
               disabled={confirm}
             />
-            {!codeValid && code.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_CODE}</Error>}
+            {!codeValid && code.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_CODE}</ErrorMessage>}
             <SmallBtnGroup>
               <Timer>{`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</Timer>
               <Button

@@ -12,11 +12,12 @@ import Input, { Label } from "@/components/common/Input";
 import Password from "../AuthInputs/Password";
 import Email from "../AuthInputs/Email";
 
-import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
+import { Container, CountryGroup, InputGroup, SmallBtnGroup } from "@/components/Account/index.styled";
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
 import { useRouter, useSearchParams } from "next/navigation";
 import STATUS_CODE from "@/constants/statusCode";
+import { ErrorMessage } from "@/styles/common";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -74,19 +75,19 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    VALIDATE.user.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.USER.NAME.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
-    VALIDATE.user.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
+    VALIDATE.USER.NICKNAME.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
     setNickNameCheck(false);
   };
 
   const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.user.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const handleEmail = (result: boolean, value: string) => {
@@ -211,7 +212,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           onChange={handleName}
           warning={!nameValid && name.length > 0}
         />
-        {!nameValid && name.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NAME}</Error>}
+        {!nameValid && name.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
       </InputGroup>
       <InputGroup>
         <Label id="nickName">닉네임</Label>
@@ -225,7 +226,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
             onChange={handleNickName}
             warning={!nickNameValid && nickName.length > 0}
           />
-          {!nickNameValid && nickName.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NICKNAME}</Error>}
+          {!nickNameValid && nickName.length > 0 && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NICKNAME}</ErrorMessage>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
