@@ -36,6 +36,9 @@ const MESSAGE = {
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
     SYNTAX_NAME: "15글자 이하로 입력해 주세요.",
   },
+  SPACESHIP: {
+    SYNTAX_NAME: "6글자 이하로 입력해 주세요.",
+  },
   CHAT: {
     NO_CHATROOM: "현재 이용 중인 채팅방이 없습니다.",
     SUG_PLANET_JOIN: "행성 및 우주선에 가입 후 멤버들과 채팅을 나눠 보세요!",

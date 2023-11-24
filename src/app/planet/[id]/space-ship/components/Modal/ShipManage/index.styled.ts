@@ -17,6 +17,7 @@ export const Center = styled.div`
 
 export const Group = styled.div`
   width: 100%;
+  position: relative;
 `;
 
 export const DefaultImg = styled.div`
