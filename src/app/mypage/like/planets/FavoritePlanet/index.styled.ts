@@ -37,10 +37,6 @@ export const People = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
-  &:hover {
-    cursor: pointer;
-    font-weight: 500;
-  }
 `;
 
 export const TagList = styled.div`

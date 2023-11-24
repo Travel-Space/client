@@ -14,6 +14,7 @@ export const Container = styled.div`
 `;
 export const Profile = styled.div`
   cursor: pointer;
+  ${flexColumnCenter};
 
   & > img {
     border-radius: 38px;

@@ -22,9 +22,6 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
   const goToPlanet = () => {
     router.push(`/planet/${planetId}/map/`);
   };
-  const goToShip = () => {
-    router.push(`/planet/${planetId}/space-ship/`);
-  };
 
   return (
     <S.Container>
@@ -40,7 +37,7 @@ export default function FavoritePlanet({ data, page, setPage, saveData }: Favori
                 <Image src="/assets/img/icons/lock.svg" alt="lock" width={20} height={20} />
               )}
             </div>
-            <S.People onClick={goToShip}>
+            <S.People>
               {totalMemberCount}/{planet.memberLimit}
             </S.People>
           </S.InfoRowCol>

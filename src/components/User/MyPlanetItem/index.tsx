@@ -14,6 +14,7 @@ interface MyPlanetProps {
 export default function MyPlanetItem({ data }: MyPlanetProps) {
   const { id, name, memberLimit, published, shape, planetBookMark, members } = data;
 
+  const approvedMembers = members.filter(v => v.status === "APPROVED");
   const router = useRouter();
   const pathname = usePathname();
   const parentPath = pathname.split("/");
@@ -27,7 +28,7 @@ export default function MyPlanetItem({ data }: MyPlanetProps) {
     <S.Container onClick={goToPlanet}>
       <S.Header>
         <S.People>
-          {members ? members.length : 1}/{memberLimit ? memberLimit : 15}
+          {approvedMembers.length}/{memberLimit ? memberLimit : 15}
         </S.People>
         {published ? (
           <Image src="/assets/img/icons/unlock.svg" alt="lock" width={20} height={20} />

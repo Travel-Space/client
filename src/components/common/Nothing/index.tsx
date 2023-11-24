@@ -10,12 +10,13 @@ interface NothingProps {
   comment: string;
   suggest?: string;
   font: "sm" | "lg";
+  color?: "white";
 }
-export default function Nothing({ src, alt, width, height, comment, suggest, font }: NothingProps) {
+export default function Nothing({ src, alt, width, height, comment, suggest, font, color }: NothingProps) {
   return (
     <S.Container>
       <Image src={src} alt={alt} width={width} height={height} />
-      <S.Text font={font}>
+      <S.Text font={font} color={color}>
         <S.Comment>{comment}</S.Comment>
         <S.Suggest>{suggest}</S.Suggest>
       </S.Text>
