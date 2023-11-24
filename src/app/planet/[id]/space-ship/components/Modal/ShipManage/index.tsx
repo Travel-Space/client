@@ -22,7 +22,8 @@ import VALIDATE from "@/constants/regex";
 import { ErrorMessage } from "@/styles/common";
 import MESSAGE from "@/constants/message";
 
-const today = new Date();
+let today = new Date();
+today.setDate(today.getDate() + 1);
 const todayString = getDateFormat(today);
 
 interface ShipType {
@@ -235,7 +236,8 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
             <Label id="">여행 종료일</Label>
             <CalendarBtn
               onSelected={date => setShipInfo(info => ({ ...info, endDate: date }))}
-              selected={shipInfo.endDate}
+              selected={shipInfo.endDate < shipInfo.startDate ? shipInfo.startDate : shipInfo.endDate}
+              minDate={shipInfo.startDate}
             />
           </S.BtnInput>
         </S.Center>
