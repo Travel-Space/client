@@ -53,7 +53,12 @@ export default function Map({ params }: { params: { id: number } }) {
         `/articles/byPlanet?planetId=${params.id}`,
       );
       const data = response.data;
-      const locations = data.articles.flatMap((article: Posting) => article.locations); // [{}, {}, {}, {} ... {}]
+
+      const locations = data.articles.map((article: Posting) => ({
+        latitude: article.latitude,
+        longitude: article.longitude,
+      }));
+
       const uniqueLocations = Array.from(
         new Set(locations.map((item: Locations) => `${item.latitude}-${item.longitude}`)),
       )
