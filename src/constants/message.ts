@@ -35,6 +35,7 @@ const MESSAGE = {
     JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
     SYNTAX_NAME: "15글자 이하로 입력해 주세요.",
+    DELETE: "행성을 삭제할까요?",
   },
   CHAT: {
     NO_CHATROOM: "현재 이용 중인 채팅방이 없습니다.",
@@ -45,6 +46,18 @@ const MESSAGE = {
   },
   REPORTS: {
     COMPLETE: "신고가 완료되었습니다.",
+    SELECTEDREASON: "사유를 선택해 주세요.",
+    REASON: "사유를 입력해 주세요.",
+    REFUSE: "신고 요청을 거절할까요?",
+    REFUSEFIN: "신고 요청을 거절했어요.",
+    SYNTAX_ACCEPT: "30자 이하로 입력해 주세요.",
+    ACCEPT: "요청을 수락할까요?",
+    ACCEPTFIN: "요청을 수락했어요.",
+    SUSPEND: "활동을 제한할까요?",
+    SUSPENDFIN: "활동을 제한 했어요.",
+  },
+  USER: {
+    DELETE: "유저를 삭제할까요?",
   },
   MYPAGE: {
     NICKNAME: "닉네임을 입력해 주세요.",

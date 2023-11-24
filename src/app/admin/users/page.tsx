@@ -5,12 +5,15 @@ import { User, UsersType } from "@/@types/User";
 
 import { Select, Button, Space } from "antd";
 import * as S from "../admin.styled";
+
+import { getDateInfo } from "@/utils/getDateInfo";
 import TotalText from "../TotalText";
 import SearchBar from "../SearchBar";
 import { useState, useEffect } from "react";
 
 import AdminTable from "../Table";
 import ReasonsRestrictionActivityModal from "../Modal/ReasonsRestrictionActivityModal";
+import MESSAGE from "@/constants/message";
 
 export default function Users() {
   const [userData, setUserData] = useState<User[]>([]);
@@ -28,7 +31,7 @@ export default function Users() {
 
   const [filterName, setFilterName] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
-  const [filterNickName, setFilterNickName] = useState<string>("");
+  const [filterNickName, setFilterNickName] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
   const getUsers = async () => {
@@ -52,10 +55,9 @@ export default function Users() {
       // console.log(response.data.data);
       setTotal(response.data.total);
     } catch (error) {
-      alert("정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   };
-  // console.log(filterStatus);
 
   useEffect(() => {
     getUsers();
@@ -66,40 +68,24 @@ export default function Users() {
     getUsers();
   }, [filterName, filterEmail, filterNickName, filterStatus]);
 
-  // console.log(userData, "유저데이터");
-
-  const formatSuspensionDate = (suspensionDate: Date | undefined) => {
-    if (suspensionDate instanceof Date) {
-      const date = suspensionDate;
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const day = date.getDate().toString().padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    }
-    return suspensionDate;
-  };
-
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  // 유저 삭제시 - 행성 소유하고 있을 때 관리자가 행성 및 게시글 삭제 해줘야 함 => 이 부분 백엔드, 기획이랑 의논 필요
   const onDeleteUser = async (id: number) => {
-    try {
-      // const idAsString = id.toString();
-      const response = await axiosRequest.requestAxios<ResData<User[]>>("delete", `/user/${id}`);
-      // setUserData(prev => prev.filter(user => user.id !== id));
-    } catch (error) {
-      alert("에러가 발생했습니다. 다시 시도해주세요.");
+    if (confirm(MESSAGE.USER.DELETE)) {
+      try {
+        const response = await axiosRequest.requestAxios<ResData<User[]>>("delete", `/user/${id}`);
+        setUserData(prev => prev.filter(user => user.id !== id));
+      } catch (error) {
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
+      }
     }
   };
 
   const onSuspendUser = (user: User) => {
     setSelectedUser(user);
-    // setIsOpen((prev) => {
-    //   ... prev,
-    //   reportReason : true
-    // });
-
     setIsOpen(prevState => ({ ...prevState, reportReason: true }));
   };
 
@@ -139,8 +125,14 @@ export default function Users() {
         </Select>
       ),
       key: "isSuspended",
-      render: (record: User) =>
-        record.isSuspended ? `활동 제한 ${formatSuspensionDate(record.userSuspensionDate)}` : "활동 가능",
+      render: (record: User) => {
+        if (record.isSuspended && record.userSuspensionDate) {
+          const { dateString, dayName } = getDateInfo(record.userSuspensionDate);
+          return `활동 제한 ${dateString} ${dayName}`;
+        } else {
+          return "활동 가능";
+        }
+      },
     },
     {
       title: "제한",
