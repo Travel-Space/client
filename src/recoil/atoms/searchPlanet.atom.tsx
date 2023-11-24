@@ -18,3 +18,11 @@ export const planetListState = atom({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+export const searchStateAtom = atom({
+  key: "searchState",
+  default: {
+    query: "",
+    currentPage: 1,
+  },
+});

@@ -74,7 +74,11 @@ export default function PostWrite() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${planetId}`);
       if (Array.isArray(response.data)) {
-        setSpaceships([{ id: null, name: "나 홀로 여행" }, ...response.data]);
+        // 사용자의 멤버십 정보를 이용하여 필터링
+        const userSpaceships = user?.memberships.spaceships.map(membership => membership.spaceshipId);
+        const filteredSpaceships = response.data.filter(spaceship => userSpaceships?.includes(spaceship.id));
+
+        setSpaceships([{ id: null, name: "나 홀로 여행" }, ...filteredSpaceships]);
         // 현재 게시글의 spaceshipId와 일치하는 우주선이 있는지 확인
         const matchingSpaceship = response.data.find(spaceship => spaceship.id === currentSpaceshipId);
         // 일치하는 우주선이 있으면 해당 ID를 선택된 상태로 설정
@@ -246,7 +250,7 @@ export default function PostWrite() {
             "get",
             `/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`,
           );
-          
+
           if (response.data) {
             const { title, content, hashtags, address, locations, spaceshipId } = response.data;
             setTitle(title);
