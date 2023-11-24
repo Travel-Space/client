@@ -8,9 +8,9 @@ import useSocket from "@/hooks/useSocket";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { getDateInfo } from "@/utils/getDateInfo";
 import { Message } from "@/@types/Chat";
-import { Planet, ResData } from "@/@types";
-import axiosRequest from "@/api";
+import { Planet } from "@/@types";
 import MESSAGE from "@/constants/message";
+import useImageUpload from "@/hooks/useImageUpload";
 
 import Modal from "./Content/Modal";
 
@@ -71,7 +71,7 @@ export default function Chat() {
         socket.off("userRooms", getRooms);
       };
     }
-  }, [socket]);
+  }, [socket, chat]);
 
   const handleClickChatRoom = useCallback(
     (roomId: number, type: string, planet: Planet, maxMember: number, totalMember: number, members: []) => {
@@ -117,26 +117,21 @@ export default function Chat() {
     }
   };
 
-  const handleImage = async (e: any) => {
-    try {
-      const formData = new FormData();
-      formData.append("files", e.target.files[0]);
+  const { imageUrl, handleImage } = useImageUpload();
+  const [sendImage, setSendImage] = useState<string | null>("");
 
-      const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
+  useEffect(() => {
+    if (imageUrl && imageUrl !== sendImage) {
+      const message = {
+        chatRoomId: clickedRoomInfo.roomId,
+        senderId: user?.id,
+        content: imageUrl,
+      };
 
-      if (response.data[0]) {
-        const message = {
-          chatRoomId: clickedRoomInfo.roomId,
-          senderId: user?.id,
-          content: response.data[0],
-        };
-
-        socket.emit("sendMessage", message);
-      }
-    } catch (error) {
-      console.error(error);
+      socket.emit("sendMessage", message);
+      setSendImage(imageUrl);
     }
-  };
+  }, [imageUrl]);
 
   const submitSendMessage = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
@@ -152,7 +147,7 @@ export default function Chat() {
         };
 
         socket.emit("sendMessage", message);
-        setSendMessage(""); // Clear the input after sending the message
+        setSendMessage("");
       }
     }
   };
@@ -168,6 +163,7 @@ export default function Chat() {
           comment={MESSAGE.CHAT.NO_CHATROOM}
           suggest={MESSAGE.CHAT.SUG_PLANET_JOIN}
           font="lg"
+          color="white"
         />
       ) : (
         <>
@@ -227,6 +223,7 @@ export default function Chat() {
               comment={MESSAGE.CHAT.NO_CLICK_CHATROOM}
               suggest={MESSAGE.CHAT.SUG_CHATTING}
               font="lg"
+              color="white"
             />
           ) : (
             <S.ContentBox>
@@ -283,7 +280,7 @@ export default function Chat() {
                       type="file"
                       id="file"
                       name="imageUrl"
-                      onChange={handleImage}
+                      onChange={e => handleImage(e.target.files)}
                     />
                   </div>
 
