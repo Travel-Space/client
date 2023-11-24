@@ -34,12 +34,6 @@ export default function PlanetList() {
     }
   }, [planetListFromRecoil]);
 
-  useEffect(() => {
-    if (currentPage <= totalPages) {
-      fetchPlanetList(currentPage, 5);
-    }
-  }, [currentPage, totalPages]);
-
   //행성 리스트 불러오기
   const fetchPlanetList = async (page: number, limit: number) => {
     try {

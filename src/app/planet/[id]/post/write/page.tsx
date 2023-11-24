@@ -74,11 +74,7 @@ export default function PostWrite() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Spaceship>>("get", `/spaceship/by-planet/${planetId}`);
       if (Array.isArray(response.data)) {
-        // 사용자의 멤버십 정보를 이용하여 필터링
-        const userSpaceships = user?.memberships.spaceships.map(membership => membership.spaceshipId);
-        const filteredSpaceships = response.data.filter(spaceship => userSpaceships?.includes(spaceship.id));
-
-        setSpaceships([{ id: null, name: "나 홀로 여행" }, ...filteredSpaceships]);
+        setSpaceships([{ id: null, name: "나 홀로 여행" }, ...response.data]);
         // 현재 게시글의 spaceshipId와 일치하는 우주선이 있는지 확인
         const matchingSpaceship = response.data.find(spaceship => spaceship.id === currentSpaceshipId);
         // 일치하는 우주선이 있으면 해당 ID를 선택된 상태로 설정
@@ -199,7 +195,7 @@ export default function PostWrite() {
   const handlePostWrite = async () => {
     try {
       if (!isAddressChecked) {
-        alert("주소를 검색 후 선택 버튼을 눌러주세요.");
+        alert("주소를 검색 후 작성 완료 버튼을 눌러주세요.");
         return;
       }
 
@@ -208,18 +204,14 @@ export default function PostWrite() {
         content,
         published,
         planetId: Math.round(planetId),
-        address,
-        locations: [
-          {
-            latitude,
-            longitude,
-          },
-        ],
+        address: address?.formatted_address,
+        latitude: latitude,
+        longitude: longitude,
         imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId,
       };
-      console.log(imageUrls);
+      console.log(address);
 
       const response = await axiosRequest.requestAxios<ResData<PostWriteProps>>("post", "/articles", postData);
       if (response.data && response.data.id && planetId) {
@@ -252,25 +244,25 @@ export default function PostWrite() {
           );
 
           if (response.data) {
-            const { title, content, hashtags, address, locations, spaceshipId } = response.data;
+            const { title, content, hashtags, address, latitude, longitude, spaceshipId } = response.data;
             setTitle(title);
-            setContent(response?.data?.content);
+            setContent(content);
             setHashtags(hashtags);
-            fetchSpaceships(planetId, spaceshipId);
-            if (address) {
-              setIsAddressChecked(true);
-              setAddress({
-                formatted_address: address,
-                geometry: {
-                  location: {
-                    lat: locations[0].latitude,
-                    lng: locations[0].longitude,
-                  },
+
+            const locationData: GeocoderResult = {
+              formatted_address: address,
+              geometry: {
+                location: {
+                  lat: latitude,
+                  lng: longitude,
                 },
-              });
-            }
-            console.log(address);
-            console.log(response?.data?.content);
+              },
+            };
+
+            setAddress(locationData);
+            setLocation(locationData);
+            setIsAddressChecked(true);
+            fetchSpaceships(planetId, spaceshipId);
           }
         } catch (error) {
           console.error("Error fetching post data:", error);
@@ -284,7 +276,7 @@ export default function PostWrite() {
   const handlePostEdit = async () => {
     try {
       if (!isAddressChecked) {
-        alert("주소를 검색 후 선택 버튼을 눌러주세요.");
+        alert("주소를 검색 후 작성 완료 버튼을 눌러주세요.");
         return;
       }
 
@@ -294,13 +286,9 @@ export default function PostWrite() {
         content,
         published,
         planetId: Math.round(planetId),
-        address,
-        locations: [
-          {
-            latitude,
-            longitude,
-          },
-        ],
+        address: address?.formatted_address,
+        latitude: latitude,
+        longitude: longitude,
         imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId,
@@ -314,7 +302,6 @@ export default function PostWrite() {
         `/articles/${postId}?replyPageSize=5&commentPageSize=10&commentPage=1`,
         postData,
       );
-
       if (response.data && response.data.id) {
         // 리디렉션 처리
         router.push(`/planet/${planetId}/post?detail=${response.data.id}`);

@@ -30,9 +30,10 @@ export default function LocationInput({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isAddressActive, setIsAddressActive] = useState(false); // 주소 입력 시 아이콘 변경
 
+
   useEffect(() => {
     if (initialValue) {
-      setAddress(initialValue);
+      setAddress(initialValue || "");
       searchAddress(initialValue);
     }
   }, [initialValue]);
@@ -47,14 +48,20 @@ export default function LocationInput({
 
       autocomplete.addListener("place_changed", function () {
         const selectedPlace = autocomplete.getPlace();
-        if (selectedPlace.formatted_address) {
+        if (selectedPlace.formatted_address && selectedPlace.geometry?.location) {
           const fullAddress = selectedPlace.formatted_address;
+          const location = {
+            formatted_address: fullAddress,
+            geometry: {
+              location: selectedPlace.geometry.location.toJSON() 
+            },
+          };
           setAddress(fullAddress);
-          searchAddress(fullAddress);
+          onLocationSelect(location, location); 
+          setIsAddressChecked(true);
         }
       });
     };
-
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
     script.defer = true;
@@ -62,7 +69,7 @@ export default function LocationInput({
 
     return () => {
       document.body.removeChild(script);
-    };
+    }
   }, []);
 
   const searchAddress = async (searchTerm: string) => {
@@ -83,7 +90,7 @@ export default function LocationInput({
           },
         };
         setAddress(selectedAddress);
-        onLocationSelect(selectedAddress, location);
+        onLocationSelect(location, location);
         setIsAddressChecked(true);
       } else {
         setIsAddressChecked(false);
