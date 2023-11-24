@@ -18,6 +18,11 @@ export interface Comment {
   children: Comment[] | null;
   replies: Comment[] | null;
   repliesCount: number;
+  _count?: {
+    children: number;
+  };
+
+  childCommentCount?: number;
 }
 
 export interface Comments {
@@ -25,4 +30,9 @@ export interface Comments {
   page: number;
   limit: number;
   totalCount: number;
+  _count?: {
+    children: number;
+  };
+
+  childCommentCount?: number;
 }
