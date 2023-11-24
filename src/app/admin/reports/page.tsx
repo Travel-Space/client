@@ -47,7 +47,6 @@ export default function Reports() {
 
       const response = await axiosRequest.requestAxios<ResData<Report>>("get", apiUrl);
       setReportsData(response.data.reports);
-      // console.log("신고", response.data);
       setTotal(response.data.totalCount);
     } catch (error) {
       alert("오류");
@@ -67,9 +66,8 @@ export default function Reports() {
     try {
       const response = await axiosRequest.requestAxios<ResData<Report>>("get", `/reports/${id}`);
       openReportModal(response.data);
-      // console.log(response, "GetReportDetail");
     } catch (error) {
-      console.error("특정 신고 내용을 불러오는 중 에러 발생:", error);
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -79,7 +77,7 @@ export default function Reports() {
       setSelectedReport(response.data);
       setIsOpen(prevState => ({ ...prevState, reportDetail: true }));
     } catch (error) {
-      console.error("특정 신고 내용을 불러오는 중 에러 발생:", error);
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -128,7 +126,7 @@ export default function Reports() {
       key: "reporter.email",
     },
     {
-      title: "신고내용",
+      title: "신고 내용",
       key: "reason",
       render: (record: Report) => (
         <Space size="middle">

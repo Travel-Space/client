@@ -27,7 +27,7 @@ export default function NotificationList({ notifications, setNotifications }: No
       );
       setNotifications(prev => prev.filter(notification => notification.id !== notificationId));
     } catch (error) {
-      alert("에러가 발생했습니다. 다시 시도해주세요.");
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -49,7 +49,14 @@ export default function NotificationList({ notifications, setNotifications }: No
 
         if (status == "ACCEPTED") {
           const updatedMemberships = user?.memberships?.planets ? [...user.memberships.planets] : [];
-          updatedMemberships.push({ planetId: planetId!, role: "MEMBER" });
+          const existingMembershipIndex = updatedMemberships.findIndex(membership => membership.planetId === planetId);
+
+          if (existingMembershipIndex !== -1) {
+            updatedMemberships[existingMembershipIndex].role = "MEMBER";
+          } else {
+            updatedMemberships.push({ planetId: planetId!, role: "MEMBER" });
+          }
+
           setAuth(prev => ({
             ...prev!,
             memberships: {
@@ -61,7 +68,27 @@ export default function NotificationList({ notifications, setNotifications }: No
           router.replace(`/planet/${planetId}/map/`);
         }
       } catch (err) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
+      }
+    }
+  };
+
+  const handlePlanetJoinRequest = async (
+    id: number,
+    planetId: number | undefined,
+    requestUserId: number | undefined,
+    action: "approve" | "reject",
+  ) => {
+    const confirmationText = action === "approve" ? "수락" : "거절";
+    if (confirm(`요청에 ${confirmationText}하면 해당 알림 리스트는 자동으로 삭제됩니다.\n${confirmationText}할까요?`)) {
+      try {
+        const response = await axiosRequest.requestAxios<ResData<Notification>>(
+          "post",
+          `/planet/${action}/${planetId}/${requestUserId}`,
+        );
+        deleteNotificationList(id);
+      } catch (error) {
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };
@@ -84,7 +111,7 @@ export default function NotificationList({ notifications, setNotifications }: No
   return (
     <>
       {notifications.map(notification => {
-        const { id, content, createdAt, invitationId, planetId, articleId, type } = notification;
+        const { id, content, createdAt, invitationId, planetId, articleId, type, requestUserId } = notification;
         const { dateString, dayName, time } = getDateInfo(createdAt);
         let iconImage = "";
         if (id) {
@@ -98,6 +125,7 @@ export default function NotificationList({ notifications, setNotifications }: No
               break;
             case "PLANET_INVITE":
             case "ARTICLE":
+            case "PLANET_JOIN_REQUEST":
               iconImage = `${imgPath}planet.svg`;
               break;
             case "FOLLOW":
@@ -129,6 +157,17 @@ export default function NotificationList({ notifications, setNotifications }: No
                     수락
                   </S.AcceptButton>
                   <S.RejectButton onClick={() => sendInvitationResponse(id, planetId, invitationId, "REJECTED")}>
+                    거절
+                  </S.RejectButton>
+                </S.ButtonBox>
+              </>
+            ) : type === "PLANET_JOIN_REQUEST" ? (
+              <>
+                <S.ButtonBox>
+                  <S.AcceptButton onClick={() => handlePlanetJoinRequest(id, planetId, requestUserId, "approve")}>
+                    수락
+                  </S.AcceptButton>
+                  <S.RejectButton onClick={() => handlePlanetJoinRequest(id, planetId, requestUserId, "reject")}>
                     거절
                   </S.RejectButton>
                 </S.ButtonBox>

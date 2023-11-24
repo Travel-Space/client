@@ -1,13 +1,18 @@
-import AdminModalContainer from "../AdminModalContainer";
-import Textarea from "@/components/common/Textarea";
+import { useState, useEffect } from "react";
 import * as S from "./index.styled";
+
+import MESSAGE from "@/constants/message";
+
 import Button from "@/components/common/Button";
-import { useState } from "react";
+import Textarea from "@/components/common/Textarea";
 import DropDown from "@/components/common/DropDown";
+import AdminModalContainer from "../AdminModalContainer";
+
 import REPORT from "@/constants/reports";
-import { useEffect } from "react";
+
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";
+
 interface ReasonsRestrictionActivityModalProps {
   user: User;
   setIsOpen: React.Dispatch<
@@ -48,8 +53,9 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
   const isEtcSelected = selectedReason === REPORT.ETC;
 
   const patchReportReason = async (id: number) => {
-    if (selectedReason === dropDownProps.comment) return alert("제한 사유를 선택해 주세요.");
-    if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert("제한 사유를 입력해 주세요.");
+    if (selectedReason === dropDownProps.comment) return alert(MESSAGE.REPORTS.SELECTEDREASON);
+    if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert(MESSAGE.REPORTS.REASON);
+    if (selectedReason === REPORT.ETC && approvalReason.length > 30) return alert(MESSAGE.REPORTS.SYNTAX_ACCEPT);
 
     let formattedSuspensionEndDate = "";
 
@@ -64,13 +70,12 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
       ? { suspensionReason: approvalReason, suspensionEndDate: formattedSuspensionEndDate }
       : { suspensionReason: selectedReason, suspensionEndDate: formattedSuspensionEndDate };
 
-    if (confirm("유저 활동을 제한할까요?")) {
+    if (confirm(MESSAGE.REPORTS.SUSPEND)) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/user/${id}/suspend`, data);
-        alert("유저 활동을 제한 했어요.");
-        // console.log(response, "제한");
+        alert(MESSAGE.REPORTS.SUSPENDFIN);
       } catch (error) {
-        alert("에러");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };
@@ -94,7 +99,7 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
             size="admin"
             placeholder="사유를 작성해 주세요. 작성한 사유는 유저에게 알림으로 전송됩니다."
             name="adminComments"
-            maxLength={200}
+            maxLength={30}
             value={approvalReason}
             onChange={e => setApprovalReason(e.target.value)}
             disabled={!isEtcSelected}

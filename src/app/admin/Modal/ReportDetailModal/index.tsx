@@ -20,7 +20,6 @@ interface ReportDetailModalProps {
 }
 
 export default function ReportDetailModal({ report, setIsOpen }: ReportDetailModalProps) {
-  // console.log(report, " ~~~~~~~~~~~~~~~~~~~~ report");
   const [isSelected, setIsSelected] = useState({
     name: true,
     processingDetails: false,
