@@ -47,7 +47,7 @@ export default function Planets() {
       setPlanetData(response.data.planets);
       setTotal(response.data.totalCount);
     } catch (error) {
-      alert("에러가 발생했습니다. 다시 시도해주세요.");
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -74,7 +74,7 @@ export default function Planets() {
         setPlanetData(prev => prev.filter(el => el.id !== planetId));
         getPlanet();
       } catch (error) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };

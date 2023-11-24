@@ -75,7 +75,7 @@ export default function ReasonsRestrictionActivityModal({ user, setIsOpen }: Rea
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/user/${id}/suspend`, data);
         alert(MESSAGE.REPORTS.SUSPENDFIN);
       } catch (error) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };

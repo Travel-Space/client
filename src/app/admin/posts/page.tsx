@@ -42,7 +42,7 @@ export default function Posts() {
       setPostData(response.data.articles);
       setTotal(response.data.total);
     } catch (error) {
-      alert("에러가 발생했습니다. 다시 시도해주세요.");
+      alert("에러가 발생했습니다. 다시 시도해 주세요.");
     }
   }
 
@@ -65,7 +65,7 @@ export default function Posts() {
         const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/admin/${articleId}`);
         getPosts();
       } catch (error) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };

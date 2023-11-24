@@ -88,7 +88,7 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
         setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
         // console.log(response, "수락Response");
       } catch (error) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };
