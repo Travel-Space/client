@@ -16,6 +16,7 @@ WORKDIR /app
 
 COPY --from=build /app/package.json ./
 COPY --from=build /app/.next ./.next
+COPY --from=build /app/src/app ./src/app
 
 RUN npm install --only=production
 
