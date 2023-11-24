@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import MESSAGE from "@/constants/message";
+import REPORT from "@/constants/reports";
 
 import * as S from "./index.styled";
 import DropDown from "../DropDown";
@@ -28,15 +29,15 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
   });
 
   const dropDownProps = {
-    comment: "신고 사유를 선택해 주세요.", //미선택시 보여질 문구(필요할 때만 추가)
+    comment: REPORT.SELECT, //미선택시 보여질 문구(필요할 때만 추가)
     menuList: [
-      "스팸 홍보/도배글입니다.",
-      "음란물입니다.",
-      "불법 정보를 포함하고 있습니다.",
-      "청소년에게 유해한 내용입니다.",
-      "욕설/생명 경시/혐오/차별적 표현입니다.",
-      "개인정보 노출 게시물입니다.",
-      "불쾌한 표현이 있습니다.",
+      REPORT.SPAM,
+      REPORT.PORNOGRAPHY,
+      REPORT.ILLEGAL,
+      REPORT.HARMFUL_TO_ADOLESCENTS,
+      REPORT.HATE,
+      REPORT.PERSONAL_INFORMATION_EXPOSURE,
+      REPORT.UNPLEASANT_CONTENT,
     ],
     selectedMenu, //선택한 메뉴를 저장할 변수
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요

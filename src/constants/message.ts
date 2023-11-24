@@ -1,14 +1,14 @@
 const MESSAGE = {
   JOIN: {
-    SYNTAX_NAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
-    SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 8글자 이하 입력해 주세요.",
+    SYNTAX_NAME: "한글 또는 영문으로 2글자 이상 15글자 이하로 입력해 주세요.",
+    SYNTAX_NICKNAME: "한글 또는 영문으로 2글자 이상 15글자 이하로 입력해 주세요.",
     SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
     SYNTAX_CODE: "숫자만 입력해 주세요.",
     FAILURE: "회원 가입에 실패했습니다.",
   },
   LOGIN: {
     SYNTAX_EMAIL: "올바른 이메일을 입력해 주세요.",
-    SYNTAX_PASSWORD: "영문, 숫자, 특수 문자 조합으로 8글자 이상 입력해 주세요.",
+    SYNTAX_PASSWORD: "영문, 숫자, 특수 문자 조합으로 8글자 이상으로 입력해 주세요.",
     FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
     REQUIRED: "로그인이 필요한 서비스입니다. 로그인 후에 이용해 주세요!",
@@ -34,6 +34,14 @@ const MESSAGE = {
     JOIN: "행성 탑승 신청이 완료되었습니다. 승인을 기다려 주세요!",
     JOIN_POST: "행성에 가입한 후 글을 작성해 보세요.",
     FIRST_POST: "먼저 게시글을 작성해 보세요.",
+    SYNTAX_NAME: "15글자 이하로 입력해 주세요.",
+  },
+  CHAT: {
+    NO_CHATROOM: "현재 이용 중인 채팅방이 없습니다.",
+    SUG_PLANET_JOIN: "행성 및 우주선에 가입 후 멤버들과 채팅을 나눠 보세요!",
+    NO_CLICK_CHATROOM: "현재 선택된 채팅방이 없습니다.",
+    SUG_CHATTING: "채팅방을 선택해서 행성 및 우주선 멤버들과 대화해 보세요!",
+    NOT_MESSAGE: "현재 메시지가 없습니다.",
   },
   REPORTS: {
     COMPLETE: "신고가 완료되었습니다.",

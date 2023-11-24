@@ -8,7 +8,7 @@ export interface Spaceship {
   description: string;
   maxMembers: number;
   ownerId: number;
-  status: SpaceshipStatus;
+  status: SPACESHIP_STATUS;
   startDate: Date;
   endDate: Date;
   planetId: number;
@@ -27,7 +27,7 @@ export interface SpaceshipMember {
   joinedAt: Date;
   spaceship: Spaceship;
   user: User;
-  role: Role;
+  role: SPACESHIP_ROLE;
 }
 
 export interface SpaceshipApplication {
@@ -40,18 +40,35 @@ export interface SpaceshipApplication {
   spaceship: Spaceship;
 }
 
-export type SpaceshipStatus = keyof typeof SpaceshipStatusName;
+export const SPACESHIP_STATUS = {
+  UPCOMING: "여행 준비",
+  ONGOING: "여행 중",
+  COMPLETED: "여행 끝",
+  CANCELED: "여행 취소",
+} as const;
 
-export enum SpaceshipStatusName {
-  UPCOMING = "여행 준비",
-  ONGOING = "여행 중",
-  COMPLETED = "여행 끝",
-  CANCELED = "여행 취소",
-}
+export const SPACESHIP_STATUS_NAME = {
+  UPCOMING: "UPCOMING",
+  ONGOING: "ONGOING",
+  COMPLETED: "COMPLETED",
+  CANCELED: "CANCELED",
+} as const;
+
+export type SPACESHIP_STATUS = keyof typeof SPACESHIP_STATUS;
 
 export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
 
-export type Role = "OWNER" | "MEMBER";
+export const SPACESHIP_ROLE = {
+  OWNER: "우주선 방장",
+  MEMBER: "일반",
+} as const;
+
+export const SPACESHIP_ROLE_NAME = {
+  OWNER: "OWNER",
+  MEMBER: "MEMBER",
+} as const;
+
+export type SPACESHIP_ROLE = keyof typeof SPACESHIP_ROLE;
 
 export interface PlanetDataType {
   name: string;

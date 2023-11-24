@@ -12,10 +12,11 @@ import { useRouter, useParams } from "next/navigation";
 
 import { useModal } from "@/hooks/useModal";
 import Delete from "@/components/SpaceModal/Delete";
-import { ItemType } from "@/@types/Modal";
+import { ITEM_TYPE } from "@/@types/Modal";
 
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import VALIDATE from "@/constants/regex";
 
 const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name, src })) as {
   name: PlanetShape;
@@ -25,29 +26,26 @@ const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name, src 
 export default function Left() {
   const router = useRouter();
   const params = useParams();
-  const planetContext = useContext<PlanetContextType | undefined>(PlanetContext);
+  const { planetInfo, hashtagValid, setPlanetInfo, setHashtagValid, setHashtagCountValid } =
+    useContext<PlanetContextType>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
   const { modalDataState, openModal, closeModal } = useModal();
   const user = useRecoilValue(userAtom);
 
-  if (!planetContext) {
-    return;
-  }
-
-  const { planetInfo, setPlanetInfo } = planetContext;
   const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
   const deleteModal = {
     title: "행성 삭제",
-    content: <Delete onClose={closeModal} title={planetInfo.name} type={ItemType.Planet} id={planetInfo.id} />,
+    content: <Delete onClose={closeModal} title={planetInfo.name} type={ITEM_TYPE.PLANET} id={planetInfo.id} />,
   };
 
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
+    VALIDATE.PLANET.HASHTAG.test(e.target.value) ? setHashtagValid(true) : setHashtagValid(false);
   };
 
   const handleTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
-    if (!tagInput) return;
+    if (!tagInput || !hashtagValid) return;
 
     const newTag = tagInput.trim().split(" ").join("_");
 
@@ -94,6 +92,7 @@ export default function Left() {
 
   useEffect(() => {
     setImgPosition(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
+    !planetInfo.hashtags.length ? setHashtagCountValid(false) : setHashtagCountValid(true);
   }, [planetInfo]);
 
   return (
@@ -128,7 +127,7 @@ export default function Left() {
           다음
         </S.ArrowRight>
       </S.CenterGroup>
-      <S.Title>{planetInfo.name}</S.Title>
+      <S.Title>{planetInfo.name ? planetInfo.name : "행성 이름"}</S.Title>
       <S.Group>
         <Input
           type="text"
@@ -138,6 +137,7 @@ export default function Left() {
           onKeyDown={handleTags}
           onChange={handleTagInput}
           value={tagInput}
+          warning={!hashtagValid && tagInput}
         />
         <S.TagGroup>
           {planetInfo.hashtags?.map((tag, index) => (

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Travle Space: 트래블 스페이스",
     description: "다녀온 여행을 기록하는 나만의 공간",
-    url: "http://travelspace.world/",
+    url: "https://travelspace.world/",
     siteName: "Travel Space",
     images: [
       {

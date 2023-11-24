@@ -30,7 +30,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const handleEmail = (result: boolean, value: string) => {
@@ -69,7 +69,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
         <Line size="horizontal" color="gray" />
       </MarginGroup>
 
-      <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+      <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password} />
 
       <Button variant="confirm" shape="medium" size="big" onClick={submitSignin} disabled={notAllow}>
         Reset Password

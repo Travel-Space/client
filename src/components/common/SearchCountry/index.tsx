@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import * as S from "./index.styled";
 import { CountryInfo } from "@/@types/User";
 import { Default } from "@/@types/Modal";
+
+import * as S from "./index.styled";
 
 interface PropsType extends Default {
   onCountry: (country: CountryInfo) => void;
@@ -11,35 +12,31 @@ interface PropsType extends Default {
 
 let initCountryList: CountryInfo[];
 
-const fetchCountryList = async () => {
+const getCountryList = async () => {
   try {
-    if (typeof window !== "undefined") {
-      const response = await axios.get(`${window.location.origin}/data/getCountryFlagList.json`);
-      initCountryList = response.data;
-    }
+    const response = await axios.get(`${window.location.origin}/data/getCountryFlagList.json`);
+    initCountryList = response.data;
   } catch (error) {
     console.error(error);
   }
 };
-if (typeof window !== "undefined") {
-  fetchCountryList();
-}
+getCountryList();
 
 export default function SearchCountry({ onCountry, onClose }: PropsType) {
   const [searchInput, setSearchInput] = useState("");
   const [countryList, setCountryList] = useState<CountryInfo[]>(initCountryList);
 
-  const onSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  const onChangeCountry = (value: CountryInfo) => {
+  const handleChangeCountry = (value: CountryInfo) => {
     onCountry(value);
     onClose();
   };
 
   useEffect(() => {
-    fetchCountryList();
+    getCountryList();
   }, []);
 
   useEffect(() => {
@@ -53,11 +50,11 @@ export default function SearchCountry({ onCountry, onClose }: PropsType) {
   return (
     <S.SearchBox>
       <S.Search>
-        <input type="text" onChange={onSearchInput} placeholder="나라 이름을 검색해 보세요." />
+        <input type="text" onChange={handleSearch} placeholder="나라 이름을 검색해 보세요." />
       </S.Search>
       <S.SearchList>
         {countryList.map((country: CountryInfo) => (
-          <li key={country.country_eng_nm} onClick={() => onChangeCountry(country)}>
+          <li key={country.country_eng_nm} onClick={() => handleChangeCountry(country)}>
             <p>
               {country.country_nm}, <span>{country.country_eng_nm}</span>
             </p>

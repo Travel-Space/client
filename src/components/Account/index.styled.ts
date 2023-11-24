@@ -98,14 +98,6 @@ export const MarginGroup = styled.div`
   margin: 8px 0;
 `;
 
-export const Error = styled.span`
-  color: ${({ theme }) => theme.PALETTE.error};
-  position: absolute;
-  right: 0;
-  bottom: -20px;
-  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-`;
-
 export const CountryGroup = styled(InputGroup)`
   ${flexSpaceBetweenCenter}
   height: 53px;

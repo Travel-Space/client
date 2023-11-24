@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ModalBackground = css`
   position: fixed;
@@ -41,4 +41,12 @@ export const flexSpaceBetweenCenter = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const ErrorMessage = styled.span`
+  color: ${({ theme }) => theme.PALETTE.error};
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
 `;

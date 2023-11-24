@@ -1,22 +1,22 @@
 import { isAxiosError } from "axios";
-import axiosRequest from "@/api";
-import { ResData } from "@/@types";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
+
+import axiosRequest from "@/api";
+import { ResData } from "@/@types";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+import { Default } from "@/@types/Modal";
 
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
+import STATUS_CODE from "@/constants/statusCode";
 
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
 import Line from "@/components/common/Line";
-
-import * as S from "./index.styled";
-import { Container, Error, FormGroup, InputGroup, MarginGroup } from "../index.styled";
-import { Default } from "@/@types/Modal";
-import STATUS_CODE from "@/constants/statusCode";
+import * as LOGIN from "./index.styled";
+import { Container, FormGroup, InputGroup, MarginGroup } from "@/components/Account/index.styled";
+import { ErrorMessage } from "@/styles/common";
 
 interface PropsType extends Default {
   goToSignup: () => void;
@@ -31,21 +31,20 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const [notAllow, setNotAllow] = useState(true);
 
   const setAuth = useSetRecoilState(userAtom);
-  const router = useRouter();
 
   const googleLogin = async () => {
     console.log("구글 로그인");
-    window.location.href = "http://travelspace.world/api/auth/google";
+    window.location.href = "https://travelspace.world/api/auth/google";
   };
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    VALIDATE.email.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
+    VALIDATE.USER.EMAIL.test(e.target.value) ? setEmailValid(true) : setEmailValid(false);
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    VALIDATE.password.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(e.target.value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const submitLogin = async () => {
@@ -86,13 +85,13 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   return (
     <Container>
       <Button variant="gradient" shape="large" size="big" onClick={googleLogin}>
-        <S.CenterGroup>
+        <LOGIN.CenterGroup>
           <img src="/assets/img/icons/google.svg" />
           <span>Log in with Google</span>
-        </S.CenterGroup>
+        </LOGIN.CenterGroup>
       </Button>
 
-      <S.LineWithText>or Log in with email</S.LineWithText>
+      <LOGIN.LineWithText>or Log in with email</LOGIN.LineWithText>
 
       <FormGroup
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -109,9 +108,9 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             placeholder="Email"
             onChange={handleEmail}
             value={email}
-            warning={!emailValid && email.length > 0}
+            warning={!emailValid && email}
           />
-          {!emailValid && email.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_EMAIL}</Error>}
+          {!emailValid && email && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_EMAIL}</ErrorMessage>}
         </InputGroup>
         <InputGroup>
           <Label id="password">비밀번호</Label>
@@ -122,12 +121,12 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
             placeholder="Password"
             onChange={handlePassword}
             value={password}
-            warning={!passwordValid && password.length > 0}
+            warning={!passwordValid && password}
           />
-          {!passwordValid && password.length > 0 && <Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</Error>}
-          <S.UnderLine onClick={() => goToResetPassword()} type="button">
+          {!passwordValid && password && <ErrorMessage>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</ErrorMessage>}
+          <LOGIN.UnderLine onClick={() => goToResetPassword()} type="button">
             Forgot?
-          </S.UnderLine>
+          </LOGIN.UnderLine>
         </InputGroup>
         <Button variant="reverse" shape="medium" size="big" disabled={notAllow}>
           LOGIN

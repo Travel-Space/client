@@ -6,11 +6,11 @@ import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import { Default } from "@/@types/Modal";
 import Textarea from "@/components/common/Textarea";
 import Button from "@/components/common/Button";
-import SelectBtn, { ListType } from "@/components/common/SelectBtn";
+import SelectBtn, { SelectItem } from "@/components/common/SelectBtn";
 import { useContext, useEffect, useState } from "react";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
-import { Spaceship, SpaceshipStatusName } from "@/@types/Spaceship";
+import { Spaceship, SPACESHIP_ROLE_NAME, SPACESHIP_STATUS, SPACESHIP_STATUS_NAME } from "@/@types/Spaceship";
 import { isAxiosError } from "axios";
 import CalendarBtn from "@/components/common/CalendarBtn";
 import getDateFormat from "@/utils/getDateFormat";
@@ -25,7 +25,7 @@ const todayString = getDateFormat(today);
 interface ShipType {
   name: string;
   description: string;
-  maxMembers?: number;
+  maxMembers: number;
   startDate: string;
   endDate: string;
   planetId: number;
@@ -33,11 +33,11 @@ interface ShipType {
   image: string;
 }
 
-const shipStatus: ListType[] = [
-  { value: "UPCOMING", text: SpaceshipStatusName.UPCOMING },
-  { value: "ONGOING", text: SpaceshipStatusName.ONGOING },
-  { value: "COMPLETED", text: SpaceshipStatusName.COMPLETED },
-  { value: "CANCELED", text: SpaceshipStatusName.CANCELED },
+const shipStatus: SelectItem[] = [
+  { value: SPACESHIP_STATUS_NAME.UPCOMING, text: SPACESHIP_STATUS.UPCOMING },
+  { value: SPACESHIP_STATUS_NAME.ONGOING, text: SPACESHIP_STATUS.ONGOING },
+  { value: SPACESHIP_STATUS_NAME.COMPLETED, text: SPACESHIP_STATUS.COMPLETED },
+  { value: SPACESHIP_STATUS_NAME.CANCELED, text: SPACESHIP_STATUS.CANCELED },
 ];
 
 interface ShipManageType extends Default {
@@ -68,7 +68,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     }));
   };
 
-  const handleMaxMembers = (value: number | undefined) => {
+  const handleMaxMembers = (value: number) => {
     setShipInfo(info => ({
       ...info,
       maxMembers: value,
@@ -82,7 +82,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     }));
   };
 
-  const handleStatus = (status: ListType) => {
+  const handleStatus = (status: SelectItem) => {
     setShipInfo(info => ({
       ...info,
       status: status.value,
@@ -99,7 +99,10 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
           ...auth,
           memberships: {
             planets: auth?.memberships.planets || [],
-            spaceships: [...(auth?.memberships.spaceships || []), { spaceshipId: response.data.id, role: "OWNER" }],
+            spaceships: [
+              ...(auth?.memberships.spaceships || []),
+              { spaceshipId: response.data.id, role: SPACESHIP_ROLE_NAME.OWNER },
+            ],
           },
         } as UserType;
         setAuth(updatedUser);

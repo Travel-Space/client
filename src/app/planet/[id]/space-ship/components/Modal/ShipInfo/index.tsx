@@ -1,8 +1,8 @@
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
 import Line from "@/components/common/Line";
-import { Default, ItemType } from "@/@types/Modal";
-import { Role, SpaceshipStatusName } from "@/@types/Spaceship";
+import { Default, ITEM_TYPE } from "@/@types/Modal";
+import { SPACESHIP_ROLE, SPACESHIP_ROLE_NAME, SPACESHIP_STATUS } from "@/@types/Spaceship";
 import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
@@ -17,6 +17,7 @@ import ShipManage from "../ShipManage";
 import Exit from "@/components/SpaceModal/Exit";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
 import STATUS_CODE from "@/constants/statusCode";
+import { PLANET_ROLE_NAME } from "@/@types/Planet";
 
 interface ShipInfoType extends Default {
   shipId: number;
@@ -46,15 +47,15 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const { planetId } = useContext<SpaceshipContextType>(SpaceshipContext);
   const thisPlanet = user?.memberships.planets.find(planet => planet?.planetId === parseInt(planetId));
   const thisSpaceship = user?.memberships.spaceships.find(spaceship => spaceship?.spaceshipId === shipId);
-  const [role, setRole] = useState<Role>();
-  const imSpaceshipOwner = role === "OWNER";
-  const imSpaceshipMember = role === "MEMBER";
-  const imPlanetOwner = thisPlanet?.role === "OWNER";
+  const [role, setRole] = useState<SPACESHIP_ROLE>();
+  const imSpaceshipOwner = role === SPACESHIP_ROLE_NAME.OWNER;
+  const imSpaceshipMember = role === SPACESHIP_ROLE_NAME.MEMBER;
+  const imPlanetOwner = thisPlanet?.role === PLANET_ROLE_NAME.OWNER;
 
   const [openDelete, setOpenDelete] = useState(false);
   const [openExit, setOpenExit] = useState(false);
   const { openModal, closeModal } = useModal();
-  const onlyMember = spaceshipInfo.members.filter(m => m.role !== "OWNER");
+  const onlyMember = spaceshipInfo.members.filter(m => m.role !== SPACESHIP_ROLE_NAME.OWNER);
   const [auth, setAuth] = useRecoilState(userAtom);
 
   const shipManageModal = {
@@ -78,7 +79,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
   const handleSpaceshipJoin = async () => {
     try {
       const response = await axiosRequest.requestAxios<
-        ResData<{ id: number; joinedAt: string; role: Role; spaceshipId: number; userId: number }>
+        ResData<{ id: number; joinedAt: string; role: SPACESHIP_ROLE; spaceshipId: number; userId: number }>
       >("post", `/spaceship/board/${shipId}`, {});
       console.log(response);
       if (response.status === STATUS_CODE.CREATED) {
@@ -89,7 +90,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
             planets: auth?.memberships.planets || [],
             spaceships: [
               ...(auth?.memberships.spaceships || []),
-              { spaceshipId: response.data.spaceshipId, role: "MEMBER" },
+              { spaceshipId: response.data.spaceshipId, role: SPACESHIP_ROLE_NAME.MEMBER },
             ],
           },
         } as UserType;
@@ -120,7 +121,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           <h2>
             {spaceshipInfo.id}. {spaceshipInfo.name}
           </h2>
-          <span>{SpaceshipStatusName[spaceshipInfo.status]}</span>
+          <span>{SPACESHIP_STATUS[spaceshipInfo.status]}</span>
         </S.Title>
         <Line color="gray" size="horizontal" />
         <S.Detail>
@@ -156,7 +157,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
                 <div>
                   <p>
                     {member.nickName}
-                    {member.role === "OWNER" && <span>우주선 방장</span>}
+                    {member.role === SPACESHIP_ROLE_NAME.OWNER && <span>우주선 방장</span>}
                   </p>
                   <p>{member.email}</p>
                 </div>
@@ -198,7 +199,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
           depth={true}
           onClose={() => setOpenDelete(false)}
           title={spaceshipInfo.name}
-          type={ItemType.SpaceShip}
+          type={ITEM_TYPE.SPACESHIP}
           id={shipId}
         />
       )}
@@ -206,7 +207,7 @@ export default function ShipInfo({ onClose, shipId }: ShipInfoType) {
         <Exit
           onClose={() => setOpenExit(false)}
           title={spaceshipInfo.name}
-          type={ItemType.SpaceShip}
+          type={ITEM_TYPE.SPACESHIP}
           role={thisSpaceship?.role}
           id={`${shipId}`}
           members={onlyMember}

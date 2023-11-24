@@ -10,6 +10,7 @@ import { Planet, PlanetShape } from "@/@types/Planet";
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import { isAxiosError } from "axios";
+import VALIDATE from "@/constants/regex";
 
 export interface PlanetType {
   id?: number;
@@ -19,29 +20,56 @@ export interface PlanetType {
   published: boolean;
   shape: PlanetShape;
   hashtags: string[];
-  memberLimit?: number;
-  spaceshipLimit?: number;
+  memberLimit: number;
+  spaceshipLimit: number;
 }
 
-export interface PlanetContextType {
+const initPlanetInfo: PlanetType = {
+  name: "",
+  description: "",
+  published: true,
+  shape: "SHAPE1",
+  hashtags: [],
+  memberLimit: VALIDATE.PLANET.MEMBER_LIMIT,
+  spaceshipLimit: VALIDATE.PLANET.SPACESHIP_LIMIT,
+};
+
+interface PlanetState {
   planetInfo: PlanetType;
-  setPlanetInfo: React.Dispatch<React.SetStateAction<PlanetType>>;
+  nameValid: boolean;
+  hashtagValid: boolean;
+  notAllow: boolean;
 }
 
-export const PlanetContext = createContext<PlanetContextType | undefined>(undefined);
+export interface PlanetContextType extends PlanetState {
+  setPlanetInfo: React.Dispatch<React.SetStateAction<PlanetType>>;
+  setNameValid: React.Dispatch<React.SetStateAction<boolean>>;
+  setDescriptionValid: React.Dispatch<React.SetStateAction<boolean>>;
+  setHashtagValid: React.Dispatch<React.SetStateAction<boolean>>;
+  setHashtagCountValid: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const PlanetContext = createContext<PlanetContextType>({
+  planetInfo: initPlanetInfo,
+  nameValid: false,
+  hashtagValid: false,
+  notAllow: false,
+  setPlanetInfo: () => {},
+  setNameValid: () => {},
+  setDescriptionValid: () => {},
+  setHashtagValid: () => {},
+  setHashtagCountValid: () => {},
+});
 
 export default function PlanetPage({ planetId }: { planetId?: string[] | string }) {
-  const [planetInfo, setPlanetInfo] = useState<PlanetType>({
-    name: "",
-    description: "",
-    published: true,
-    shape: "SHAPE1",
-    hashtags: [],
-    memberLimit: 10,
-    spaceshipLimit: 10,
-  });
+  const [planetInfo, setPlanetInfo] = useState<PlanetType>(initPlanetInfo);
+  const [nameValid, setNameValid] = useState(false);
+  const [descriptionValid, setDescriptionValid] = useState(false);
+  const [hashtagValid, setHashtagValid] = useState(false);
+  const [hashtagCountValid, setHashtagCountValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
 
-  const fetchPlanetData = async () => {
+  const getPlanetData = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<Planet>>("get", `/planet/${planetId}`, {});
       const { id, name, description, published, shape, hashtags, memberLimit, spaceshipLimit, ownerId } = response.data;
@@ -56,11 +84,31 @@ export default function PlanetPage({ planetId }: { planetId?: string[] | string 
   };
 
   useEffect(() => {
-    planetId && fetchPlanetData();
+    planetId && getPlanetData();
   }, [planetId]);
 
+  useEffect(() => {
+    if (nameValid && descriptionValid && hashtagCountValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [nameValid, descriptionValid, hashtagCountValid]);
+
   return (
-    <PlanetContext.Provider value={{ planetInfo, setPlanetInfo }}>
+    <PlanetContext.Provider
+      value={{
+        planetInfo,
+        nameValid,
+        hashtagValid,
+        notAllow,
+        setPlanetInfo,
+        setNameValid,
+        setDescriptionValid,
+        setHashtagValid,
+        setHashtagCountValid,
+      }}
+    >
       <S.Wrap>
         <Left />
         <Right />

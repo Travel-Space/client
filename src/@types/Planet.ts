@@ -60,7 +60,7 @@ export interface PlanetMembership {
   planetId: number;
   userId: number;
   user: User;
-  role: Role;
+  role: PLANET_ROLE;
   status: MembershipStatus;
 }
 
@@ -84,14 +84,21 @@ export type PlanetShape =
   | "SHAPE17"
   | "SHAPE18";
 
-export type Role = keyof typeof RoleName;
+export const PLANET_ROLE = {
+  OWNER: "행성 관리자",
+  ADMIN: "부관리자",
+  MEMBER: "일반",
+  GUEST: "게스트",
+} as const;
 
-export enum RoleName {
-  OWNER = "행성 관리자",
-  ADMIN = "부관리자",
-  MEMBER = "일반멤버",
-  GUEST = "게스트",
-}
+export const PLANET_ROLE_NAME = {
+  OWNER: "OWNER",
+  ADMIN: "ADMIN",
+  MEMBER: "MEMBER",
+  GUEST: "GUEST",
+} as const;
+
+export type PLANET_ROLE = keyof typeof PLANET_ROLE;
 
 export interface CancelLikePlanet {
   planetId: number;

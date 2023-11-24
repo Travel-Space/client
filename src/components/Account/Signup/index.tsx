@@ -12,11 +12,12 @@ import Input, { Label } from "@/components/common/Input";
 import Password from "../AuthInputs/Password";
 import Email from "../AuthInputs/Email";
 
-import { Container, CountryGroup, Error, InputGroup, SmallBtnGroup } from "../index.styled";
+import { Container, CountryGroup, InputGroup, SmallBtnGroup } from "@/components/Account/index.styled";
 import { CountryInfo } from "@/@types/User";
 import SearchCountry from "@/components/common/SearchCountry";
 import { useRouter, useSearchParams } from "next/navigation";
 import STATUS_CODE from "@/constants/statusCode";
+import { ErrorMessage } from "@/styles/common";
 
 // 소셜 최초 가입 - 이름, 닉네임, 국적
 // 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
@@ -74,19 +75,19 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    VALIDATE.name.test(e.target.value) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.USER.NAME.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   };
 
   const handleNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
-    VALIDATE.nickName.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
+    VALIDATE.USER.NICKNAME.test(e.target.value) ? setNickNameValid(true) : setNickNameValid(false);
     setNickNameCheck(false);
   };
 
   const handlePasswordCompare = (result: boolean, value: string) => {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   };
 
   const handleEmail = (result: boolean, value: string) => {
@@ -168,17 +169,21 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   };
 
   useEffect(() => {
-    if (!socialType) {
-      if (nameValid && nickNameValid && passwordValid && isPasswordMatching && isEmailConfirm && nickNameCheck) {
-        setNotAllow(false);
-        return;
-      }
-    } else {
-      if (nameValid && nickNameValid && nickNameCheck) {
-        setNotAllow(false);
-        return;
-      }
+    const isSocialType = socialType && nameValid && nickNameValid && nickNameCheck;
+    const isBasicType =
+      !socialType &&
+      nameValid &&
+      nickNameValid &&
+      passwordValid &&
+      isPasswordMatching &&
+      isEmailConfirm &&
+      nickNameCheck;
+
+    if (isSocialType || isBasicType) {
+      setNotAllow(false);
+      return;
     }
+
     setNotAllow(true);
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
@@ -205,9 +210,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           placeholder="Name"
           value={name}
           onChange={handleName}
-          warning={!nameValid && name.length > 0}
+          warning={!nameValid && name}
         />
-        {!nameValid && name.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NAME}</Error>}
+        {!nameValid && name && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
       </InputGroup>
       <InputGroup>
         <Label id="nickName">닉네임</Label>
@@ -219,9 +224,9 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
             placeholder="NickName"
             value={nickName}
             onChange={handleNickName}
-            warning={!nickNameValid && nickName.length > 0}
+            warning={!nickNameValid && nickName}
           />
-          {!nickNameValid && nickName.length > 0 && <Error>{MESSAGE.JOIN.SYNTAX_NICKNAME}</Error>}
+          {!nickNameValid && nickName && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NICKNAME}</ErrorMessage>}
           <SmallBtnGroup>
             <Button
               variant="confirm"
@@ -240,7 +245,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         <>
           {/* 일반 회원가입 시 추가 입력 */}
           <Email onEmail={handleEmail} />
-          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password.length > 0} />
+          <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password} />
         </>
       )}
 

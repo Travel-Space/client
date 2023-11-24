@@ -1,3 +1,4 @@
+import STATUS_CODE from "@/constants/statusCode";
 import { AxiosInstance } from "axios";
 
 export default function authInterceptor(instance: AxiosInstance) {
@@ -14,9 +15,8 @@ export default function authInterceptor(instance: AxiosInstance) {
         config,
       } = axiosError;
 
-      if (status === 401 && error?.error === "Unauthorized") {
-        const res = await instance.post("/auth/refresh");
-        console.log("res", res);
+      if (status === STATUS_CODE.UNAUTHORIZED && error?.error === "Unauthorized") {
+        await instance.post("/auth/refresh");
 
         return instance(config); // 기존 요청을 재요청
       }

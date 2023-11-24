@@ -4,14 +4,14 @@ import * as S from "./index.styled";
 interface InputType {
   name: string;
   id: string;
-  value?: number;
+  value: number;
   min: number;
   max: number;
-  onNumber: (value: number | undefined) => void;
+  onNumber: (value: number) => void;
 }
 
 export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: InputType) {
-  const [number, setNumber] = useState<number | undefined>(value);
+  const [number, setNumber] = useState<number>(value);
 
   const calcNumber = (newNumber: number) => {
     if (max && newNumber > max) {
@@ -24,16 +24,14 @@ export default function AdjustBtnInput({ name, id, value, min, max, onNumber }: 
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newNumber = parseFloat(e.target.value);
+    let newNumber = Number(e.target.value);
 
     setNumber(calcNumber(newNumber));
   };
 
   const handleDirection = (value: number) => {
     setNumber(prev => {
-      if (!prev) return;
       let newNumber = prev + value;
-
       return calcNumber(newNumber);
     });
   };

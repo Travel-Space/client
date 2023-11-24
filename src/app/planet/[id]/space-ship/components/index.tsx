@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 import { Planet, ResData } from "@/@types";
-import { PlanetDataType, Role, SpaceshipStatus } from "@/@types/Spaceship";
+import { PlanetDataType, SPACESHIP_ROLE, SPACESHIP_STATUS } from "@/@types/Spaceship";
 import { useModal } from "@/hooks/useModal";
 
 import { SwiperSlide } from "swiper/react";
@@ -16,11 +16,10 @@ import "swiper/css/pagination";
 import * as S from "./index.styled";
 
 import Ship from "./Ship";
-import { PlanetMembership } from "@/@types/Planet";
+import { PLANET_ROLE_NAME, PlanetMembership } from "@/@types/Planet";
 import SpaceshipTop from "./Top";
 import SpaceshipBottom from "./Bottom";
 import { CommonUserInfo } from "@/@types/User";
-import { useAuth } from "@/hooks/useAuth";
 
 export interface SpaceShipType {
   id: number;
@@ -30,7 +29,7 @@ export interface SpaceShipType {
   maxMembers: number;
   memberCount: number;
   ownerId: number;
-  status: SpaceshipStatus;
+  status: SPACESHIP_STATUS;
   startDate: string;
   endDate: string;
   planetId: number;
@@ -46,7 +45,7 @@ export interface SpaceShipMembers {
   nickName: string;
   profileImage: string;
   userId: number;
-  role: Role;
+  role: SPACESHIP_ROLE;
 }
 
 export interface SpaceshipContextType {
@@ -131,7 +130,7 @@ export default function SpaceshipPage() {
       console.log(response);
       // 행성 관리자 제외한 멤버
       const member = response.data;
-      const filteredMember = member.filter(m => m.role !== "OWNER");
+      const filteredMember = member.filter(m => m.role !== PLANET_ROLE_NAME.OWNER);
       const resultMember = filteredMember.map(
         (member: PlanetMembership): CommonUserInfo => ({
           email: member.user.email,
@@ -156,12 +155,6 @@ export default function SpaceshipPage() {
     fetchSpaceshipData();
     fetchMemberListData();
   }, []);
-
-  const isLoggedIn = useAuth(parseInt(planetId), "MEMBER");
-
-  if (!isLoggedIn) {
-    return null;
-  }
 
   return (
     <SpaceshipContext.Provider value={{ planetData, planetId, planetMember, fetchMemberListData, fetchSpaceshipData }}>
