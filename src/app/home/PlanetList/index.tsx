@@ -34,6 +34,12 @@ export default function PlanetList() {
     }
   }, [planetListFromRecoil]);
 
+  useEffect(() => {
+    if (currentPage <= totalPages) {
+      fetchPlanetList(currentPage, 5);
+    }
+  }, [currentPage, totalPages]);
+
   //행성 리스트 불러오기
   const fetchPlanetList = async (page: number, limit: number) => {
     try {
@@ -52,14 +58,14 @@ export default function PlanetList() {
     }
   };
 
-const onSlideChange = async (swiper: any) => {
-  const nextPage = Math.floor(swiper.activeIndex / 5) + 2; 
-  if (nextPage > currentPage && nextPage <= totalPages) {
-    setCurrentPage(nextPage);
+  const onSlideChange = async (swiper: any) => {
+    const nextPage = Math.floor(swiper.activeIndex / 5) + 2;
+    if (nextPage > currentPage && nextPage <= totalPages) {
+      setCurrentPage(nextPage);
 
-    await fetchPlanetList(nextPage, 5);
-  }
-};
+      await fetchPlanetList(nextPage, 5);
+    }
+  };
 
   const getShapeNumber = (shape: string) => {
     return shape.replace(/\D/g, "");
@@ -67,19 +73,19 @@ const onSlideChange = async (swiper: any) => {
 
   return (
     <SwiperContainer className="swiper">
-<Swiper
-  key={'planet-swiper'}
-  spaceBetween={40}
-  pagination={{
-    clickable: true,
-    dynamicBullets: true,
-    dynamicMainBullets: Math.ceil(totalPages / 5),
-  }}
-  modules={[Pagination]}
-  onSlideNextTransitionEnd={onSlideChange}
-  slidesPerView={5}
-  slidesPerGroup={5}
->
+      <Swiper
+        key={"planet-swiper"}
+        spaceBetween={40}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+          dynamicMainBullets: Math.ceil(totalPages / 5),
+        }}
+        modules={[Pagination]}
+        onSlideNextTransitionEnd={onSlideChange}
+        slidesPerView={5}
+        slidesPerGroup={5}
+      >
         {planetList.map(planet => (
           <SwiperSlide key={planet.id}>
             <StyledSwiperSlide>
@@ -92,9 +98,7 @@ const onSlideChange = async (swiper: any) => {
                     src={`/assets/img/planet/planet-${getShapeNumber(planet.shape)}.svg`}
                     alt={`Planet ${planet.name}`}
                   />
-                  {hoveredPlanet === planet.id && (
-                    <PlanetName>{planet.name}</PlanetName>
-                  )}
+                  {hoveredPlanet === planet.id && <PlanetName>{planet.name}</PlanetName>}
                 </PlanetImageContainer>
               </Link>
             </StyledSwiperSlide>
