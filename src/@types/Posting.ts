@@ -2,7 +2,6 @@ import { User } from "./User";
 import { Planet } from "./Planet";
 import { Like } from "./Like";
 import { Comment } from "./Comment";
-import { Locations } from "./Locations";
 
 export interface Posting {
   id: number;
@@ -13,7 +12,8 @@ export interface Posting {
   planetId: number;
   address: string;
   images: Images[];
-  locations: Locations[];
+  longitude: number;
+  latitude: number;
   createdAt: Date;
   deletedAt: Date | null;
   author: User;
