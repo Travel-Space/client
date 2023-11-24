@@ -16,12 +16,10 @@ WORKDIR /app
 
 COPY --from=build /app/package.json ./
 COPY --from=build /app/.next ./.next
-COPY --from=build /app/tsconfig.json ./
-COPY --from=build /app/src ./src
-COPY --from=build /app/public ./public  
+RUN rm -rf ./.next/cache  
 
 RUN npm install --only=production
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]  
