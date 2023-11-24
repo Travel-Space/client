@@ -4,7 +4,7 @@ import * as S from "./index.styled";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import DropDown from "@/components/common/DropDown";
-import { REPORT } from "@/constants/reports";
+import REPORT from "@/constants/reports";
 import { useEffect } from "react";
 import axiosRequest from "@/api";
 import { ResData, User } from "@/@types";

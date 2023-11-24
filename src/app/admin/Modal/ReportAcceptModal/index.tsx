@@ -4,7 +4,7 @@ import { ResData } from "@/@types";
 import AdminModalContainer from "../AdminModalContainer";
 import Textarea from "@/components/common/Textarea";
 import { Report } from "@/@types/Report";
-import { REPORT } from "@/constants/reports";
+import REPORT from "@/constants/reports";
 
 import * as S from "./index.styled";
 import { useEffect, useState } from "react";
