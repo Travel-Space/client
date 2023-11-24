@@ -17,6 +17,7 @@ const VALIDATE = {
   SPACESHIP: {
     NAME: /^.{1,6}$/,
     DESCRIPTION: /^.{1,100}$/,
+    DESCRIPTION_COUNT: 100,
   },
 } as const;
 

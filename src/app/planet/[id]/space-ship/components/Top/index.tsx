@@ -60,7 +60,7 @@ export default function SpaceshipTop() {
           <input
             ref={inputRef}
             style={{ opacity: 0, pointerEvents: "none", position: "absolute" }}
-            value={window.location.href}
+            defaultValue={window.location.href}
           />
         </S.CenterGroup>
       </Button>

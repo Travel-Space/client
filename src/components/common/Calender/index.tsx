@@ -4,10 +4,11 @@ import Image from "next/image";
 
 interface CalendarType {
   thisDate: Date;
+  minDate?: Date;
   onThisDate: (value: Date) => void;
 }
 
-export default function Calendar({ thisDate, onThisDate }: CalendarType) {
+export default function Calendar({ thisDate, minDate, onThisDate }: CalendarType) {
   const [selectedDate, setSelectedDate] = useState(thisDate);
 
   const today = new Date();
@@ -29,16 +30,16 @@ export default function Calendar({ thisDate, onThisDate }: CalendarType) {
   };
 
   const goToPrevMonth = () => {
-    if (month === today.getMonth() && year === today.getFullYear()) {
-      return;
-    }
-    if (month === today.getMonth() + 1) {
-      const lastPrevMonth = new Date(year, month - 1, today.getDate() + 1);
-      setSelectedDate(lastPrevMonth);
-    } else {
-      const prevMonth = new Date(year, month - 1, 1);
-      setSelectedDate(prevMonth);
-    }
+    // if (month === today.getMonth() && year === today.getFullYear()) {
+    //   return;
+    // }
+    // if (month === today.getMonth() + 1) {
+    //   const lastPrevMonth = new Date(year, month - 1, today.getDate() + 1);
+    //   setSelectedDate(lastPrevMonth);
+    // } else {
+    const prevMonth = new Date(year, month - 1, 1);
+    setSelectedDate(prevMonth);
+    // }
   };
 
   return (
@@ -63,13 +64,15 @@ export default function Calendar({ thisDate, onThisDate }: CalendarType) {
         ))}
         {days.map(day => {
           const date = new Date(year, month, day);
-          const isPast = date < today;
+          const startOfDay = minDate && new Date(minDate);
+          startOfDay && startOfDay.setHours(0, 0, 0, 0);
+          const isDisabled = minDate && startOfDay && date < startOfDay;
           return (
             <S.Day
               key={day}
               $selected={selectedDate.getDate() === day}
-              onClick={() => !isPast && handleDateClick(day)}
-              disabled={isPast}
+              onClick={() => !isDisabled && handleDateClick(day)}
+              disabled={isDisabled}
             >
               {day}
             </S.Day>

@@ -16,8 +16,12 @@ export default function authInterceptor(instance: AxiosInstance) {
       } = axiosError;
 
       if (status === STATUS_CODE.UNAUTHORIZED && error?.error === "Unauthorized") {
-        await instance.post("/auth/refresh");
+        if (config.url === `${config.baseURL}/auth/login`) {
+          alert("아이디 또는 비밀번호를 다시 확인해 주세요!");
+          return;
+        }
 
+        await instance.post("/auth/refresh");
         return instance(config); // 기존 요청을 재요청
       }
 

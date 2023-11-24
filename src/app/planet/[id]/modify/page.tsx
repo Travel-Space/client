@@ -13,5 +13,5 @@ export default function ModifyPlanet() {
     return null;
   }
 
-  return <PlanetPage planetId={params.id} />;
+  return <PlanetPage planetId={Number(params.id)} />;
 }
