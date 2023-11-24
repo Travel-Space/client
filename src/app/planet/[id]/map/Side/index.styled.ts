@@ -73,11 +73,13 @@ export const Button = styled.button`
 export const ScrollBox = styled.div`
   ${flexColumn}
   overflow: scroll;
-  padding-bottom: 40px;
-  height: calc(100vh - 300px);
+  height: calc(100vh - 400px);
+
+  > button {
+    margin-top: 10px;
+  }
 `;
 
 export const ObserverRef = styled.div`
-  height: 10px;
   border: none;
 `;

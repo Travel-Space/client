@@ -3,14 +3,14 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { useEffect, useRef, useState } from "react";
 
-import { Posting, PostingsType } from "@/@types/Posting";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import axiosRequest from "@/api";
-import { Planet, ResData, User } from "@/@types";
+import { Planet, ResData } from "@/@types";
+import { Posting, PostingsType } from "@/@types/Posting";
 import { Spaceship } from "@/@types/Spaceship";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { MembershipStatus } from "@/@types/Member";
 import { Locations } from "@/@types/Locations";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 import PlanetInfo from "./Planet-Info";
 import PostPreview from "./Post-Preview";
@@ -24,14 +24,6 @@ export interface ArticleProps {
   params: Number;
   clickMarker?: boolean;
   onClose?: () => void;
-  // article: {
-  //   id: number;
-  //   title: string;
-  //   content: string;
-  //   images: { url: string }[];
-  //   createdAt: Date;
-  //   author: User;
-  // };
   article?: Posting;
   markerLocation?: Locations;
 }
@@ -55,61 +47,63 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
   const [totalData, setTotalData] = useState(0);
 
   // 게시글 불러오기 스탑
-  const [disableLoadData, setDisableLoadDate] = useState(false);
-
-  // 무한 스크롤 옵저버 인식 부분
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  const [disableLoadData, setDisableLoadData] = useState(false);
 
   // 지도 페이지 들어가서 전체 게시글 조회해서 무한 스크롤 되는 api (우주선 상관 o) = 사이드 바만 열었을 경우
   // 지도 페이지 들어가서 마커에 해당하는 게시글만 조회해서 무한 스크롤 되는 api (우주선 상관 o) = 마커 클릭했을 경우
-  const getArticle = async () => {
+  const getArticle = async (page = 0) => {
     try {
+      setDisableLoadData(true);
+
       const dropdown = selectedMenu === "전체" ? "" : `&spaceshipName=${selectedMenu}`;
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>(
         "get",
         clickMarker
-          ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=${currentPage}&limit=10${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
-          : `/articles/byPlanet?planetId=${params}&page=${currentPage}&limit=10${dropdown}`,
+          ? `/articles/byLocation?planetId=${params}&latitude=${latitude}&longitude=${longitude}&radius=100&page=${
+              page || currentPage
+            }&limit=10${dropdown}` // 마커 클릭 시 좌표 값 넘겨서 게시글 가져오기
+          : `/articles/byPlanet?planetId=${params}&page=${page || currentPage}&limit=10${dropdown}`,
       );
       const data = response.data.articles;
       const totalData = response.data.total;
 
       setTotalData(totalData);
 
-      console.log(currentPage, "currentpage");
-      console.log(article, `${currentPage}번째 페이지`);
-
       if (!data.length) {
         !totalData && setArticle(data);
-        setDisableLoadDate(true);
+        setDisableLoadData(false);
+        setCurrentPage(1);
         return;
       }
 
-      if (currentPage === 1) setArticle(data);
+      if (page === 1) setArticle(data);
       else setArticle(prev => [...prev, ...data]);
 
       setCurrentPage(prev => prev + 1);
+      setDisableLoadData(false);
     } catch (error) {
-      console.error("에러 발생: ", error);
+      setDisableLoadData(false);
     }
   };
 
-  const loadData = async () => {
+  useEffect(() => {
+    setCurrentPage(1);
+    getArticle(1);
+  }, [selectedMenu, latitude, longitude]);
+
+  const loadData = () => {
     if (disableLoadData) return;
-    await getArticle();
+    getArticle();
   };
 
   const { setTargetRef } = useInfiniteScroll(loadData, [currentPage]);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (observerRef.current) {
       setTargetRef(observerRef);
     }
-  }, [observerRef, setTargetRef]);
-
-  useEffect(() => {
-    getArticle();
-  }, [selectedMenu, latitude, longitude]);
+  }, [observerRef.current, setTargetRef]);
 
   // ===================================== 드롭 다운 메뉴 가져오기 =====================================
 
@@ -165,7 +159,7 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
 
   useEffect(() => {
     getPlanetInfo();
-  }, []);
+  }, [user?.memberships]);
 
   // ===================================== 멤버 롤 체크 =====================================
 
@@ -179,8 +173,8 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
     },
     ADMIN: {
       roles: "부관리자",
-      tag: "행성 관리",
-      link: `/planet/${params}/modify`,
+      tag: ["행성 관리", "우주선"],
+      link: [`/planet/${params}/modify`, `/planet/${params}/space-ship`],
     },
     MEMBER: {
       roles: "일반",
@@ -194,11 +188,11 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
     },
   };
 
-  const planetJoinRoleCheck = () => {
-    const memberCheck = user?.memberships.planets.find(el => el?.planetId === Number(params));
+  const memberCheck = user?.memberships.planets.find(el => el?.planetId === Number(params));
 
+  const planetJoinRoleCheck = () => {
     const checkJoin = () => {
-      if (memberCheck === undefined) return false;
+      if (memberCheck === undefined || memberCheck.role === "GUEST") return false;
       return true;
     };
 
@@ -239,14 +233,14 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                   <DropDown color="none" font="md" shape="round" props={dropDownProps} />
                 </div>
 
-                {user?.isAuth && checkJoin() && (
+                {user?.isAuth && roleCheck() !== role.GUEST && (
                   <Link href={`/planet/${params}/post/write`}>
                     <S.Button>새 글 작성</S.Button>
                   </Link>
                 )}
               </S.Middle>
 
-              <S.ScrollBox>
+              <div>
                 <S.ScrollBox>
                   {!totalData ? (
                     <Nothing
@@ -262,9 +256,9 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                     article.map(article => <PostPreview article={article} params={params} />)
                   )}
 
-                  <S.ObserverRef ref={observerRef} />
+                  {article.length && totalData > article.length && <S.ObserverRef ref={observerRef} />}
                 </S.ScrollBox>
-              </S.ScrollBox>
+              </div>
             </div>
           </S.Wrapper>
 

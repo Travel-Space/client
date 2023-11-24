@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import axiosRequest from "@/api";
 import { ResData } from "@/@types";
 import MESSAGE from "@/constants/message";
 import REPORT from "@/constants/reports";
+import useImageUpload from "@/hooks/useImageUpload";
 
 import * as S from "./index.styled";
 import DropDown from "../DropDown";
@@ -18,8 +19,7 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
   const targetType = title === "게시글" ? "ARTICLE" : title === "댓글" ? "COMMENT" : "MESSAGE";
 
   const [selectedMenu, setSelectedMenu] = useState("");
-
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const { status, imageUrl, handleImage } = useImageUpload();
 
   const [report, setReport] = useState({
     reason: selectedMenu, // 신고 내용
@@ -43,30 +43,7 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
     handleClick: setSelectedMenu, //메뉴를 클릭했을 때 실행될 메서드를 전달해주세요
   };
 
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const formData = new FormData();
-      if (e.target.files && e.target.files.length > 0) {
-        formData.append("files", e.target.files[0]);
-
-        const response = await axiosRequest.requestAxios<ResData<string[]>>("post", "/upload", formData);
-
-        setImageUrl(response.data[0]);
-      } else {
-        // 파일이 선택되지 않았을 때의 처리
-        alert(MESSAGE.FILE.NOT_FILE);
-      }
-    } catch (error) {
-      alert("이미지 업로드 안 됨");
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    console.log(typeof imageUrl, "useEffect 안에서 값이 변경될 때마다 1");
-  }, [imageUrl]);
-
-  const handleComplete = async () => {
+  const handleReport = async () => {
     try {
       const updatedReport = {
         ...report,
@@ -100,16 +77,24 @@ export default function DeclarationModal({ title, onClick, targetId }: ReportPro
           <S.Picture>
             <span>신고 사진</span>
             <S.File>
-              <input readOnly value={report.imageUrl || ""} placeholder="파일을 업로드해 주세요." />
+              <input readOnly value={imageUrl || ""} placeholder="파일을 업로드해 주세요." />
               <label htmlFor="file">사진 첨부</label>
-              <input accept="image/*" id="file" type="file" name="imageUrl" onChange={handleImage} />
+              <input
+                accept="image/*"
+                id="file"
+                type="file"
+                name="imageUrl"
+                onChange={e => handleImage(e.target.files)}
+              />
             </S.File>
           </S.Picture>
         </S.Middle>
 
         <S.Bottom>
           <S.CancelBtn onClick={onClick}>취소</S.CancelBtn>
-          <S.CheckBtn onClick={handleComplete}>확인</S.CheckBtn>
+          <S.CheckBtn onClick={handleReport} disabled={status}>
+            확인
+          </S.CheckBtn>
         </S.Bottom>
       </S.Container>
     </S.Background>
