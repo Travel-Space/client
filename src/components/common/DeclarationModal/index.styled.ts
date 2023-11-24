@@ -109,4 +109,8 @@ export const CancelBtn = styled.button`
 export const CheckBtn = styled(CancelBtn)`
   background: ${({ theme }) => theme.PALETTE.mainColor};
   color: ${({ theme }) => theme.PALETTE.white};
+
+  &:disabled {
+    background: ${({ theme }) => theme.PALETTE.gray[100]};
+  }
 `;
