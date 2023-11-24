@@ -53,12 +53,12 @@ export const CommentWrite: React.FC<CommentWriteProps> = ({ onCommentChange, pos
   const handleCommentWrite = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
-  
+
   return (
     <CW.Wrapper>
       <Textarea
         placeholder="댓글 내용을 입력해 주세요."
-        maxLength={200}
+        maxLength={500}
         size="comment"
         onChange={handleCommentWrite}
         name={""}

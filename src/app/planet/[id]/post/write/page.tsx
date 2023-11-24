@@ -209,12 +209,8 @@ export default function PostWrite() {
         published,
         planetId: Math.round(planetId),
         address,
-        locations: [
-          {
-            latitude,
-            longitude,
-          },
-        ],
+        latitude: latitude, 
+        longitude: longitude, 
         imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId,
@@ -295,12 +291,8 @@ export default function PostWrite() {
         published,
         planetId: Math.round(planetId),
         address,
-        locations: [
-          {
-            latitude,
-            longitude,
-          },
-        ],
+        latitude: latitude, 
+        longitude: longitude, 
         imageUrls: imageUrls.flat(),
         hashtags,
         spaceshipId: selectedSpaceshipId,
@@ -337,7 +329,7 @@ export default function PostWrite() {
           <PW.TitleAndLocation>
             <PW.TitleInput
               type="text"
-              placeholder="제목을 입력해 주세요"
+              placeholder="제목을 입력해 주세요."
               onChange={handleTitleChange}
               maxLength={50}
               value={title}
@@ -363,6 +355,7 @@ export default function PostWrite() {
                 onKeyPress={handleTagInputKeyPress}
                 onFocus={handleTagInputFocus}
                 onBlur={handleTagInputBlur}
+                maxLength={8}
               />
             </PW.TagsInputWrapper>
             <PW.RocketInputWrapper>
