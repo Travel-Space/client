@@ -68,7 +68,7 @@ export default function NotificationList({ notifications, setNotifications }: No
           router.replace(`/planet/${planetId}/map/`);
         }
       } catch (err) {
-        alert("에러가 발생했습니다. 다시 시도해주세요.");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };
