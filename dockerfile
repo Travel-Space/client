@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY tsconfig.json ./
-COPY nest.config.js ./
+COPY next.config.js ./
 COPY src ./src
 COPY public ./public  
 
