@@ -37,16 +37,17 @@ export const Container = styled.div`
 
 interface TextProp {
   font: "sm" | "lg";
+  color?: "white";
 }
 export const Text = styled.div<TextProp>`
   ${({ font }) => fontCSS[font]}
   ${flexColumnCenter};
+
+  & > div {
+    color: ${({ color }) => (color ? "#ffffff" : "#898989")};
+  }
 `;
 
-export const Comment = styled.div`
-  color: ${({ theme }) => theme.PALETTE.gray[200]};
-`;
+export const Comment = styled.div``;
 
-export const Suggest = styled.div`
-  color: ${({ theme }) => theme.PALETTE.gray[200]};
-`;
+export const Suggest = styled.div``;
