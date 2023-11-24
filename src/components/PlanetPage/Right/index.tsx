@@ -1,25 +1,30 @@
 import { useContext, useEffect } from "react";
+import { isAxiosError } from "axios";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import * as S from "./index.styled";
+import { ErrorMessage } from "@/styles/common";
 
 import Line from "@/components/common/Line";
 import Input, { Label } from "@/components/common/Input";
 import Textarea from "@/components/common/Textarea";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import Button from "@/components/common/Button";
-import { PlanetContext, PlanetContextType } from "..";
+import { PlanetContext, PlanetContextType } from "@/components/PlanetPage";
+
 import axiosRequest from "@/api";
+
 import { ResData } from "@/@types";
 import { PLANET_ROLE_NAME, Planet } from "@/@types/Planet";
-import { isAxiosError } from "axios";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
-import { useRouter } from "next/navigation";
+
 import STATUS_CODE from "@/constants/statusCode";
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
-import { ErrorMessage } from "@/styles/common";
 
 export default function Right() {
   const { planetInfo, nameValid, notAllow, setPlanetInfo, setNameValid, setDescriptionValid } =

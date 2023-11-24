@@ -1,15 +1,17 @@
 "use client";
 
+import { createContext, useEffect, useState } from "react";
+import { isAxiosError } from "axios";
+import axiosRequest from "@/api";
+
+import { ResData } from "@/@types";
+import { Planet, PlanetShape } from "@/@types/Planet";
+
 import * as S from "./index.styled";
 
 import Left from "./Left";
 import Right from "./Right";
 
-import { createContext, useEffect, useState } from "react";
-import { Planet, PlanetShape } from "@/@types/Planet";
-import axiosRequest from "@/api";
-import { ResData } from "@/@types";
-import { isAxiosError } from "axios";
 import VALIDATE from "@/constants/regex";
 
 export interface PlanetType {
@@ -61,7 +63,7 @@ export const PlanetContext = createContext<PlanetContextType>({
   setHashtagCountValid: () => {},
 });
 
-export default function PlanetPage({ planetId }: { planetId?: string[] | string }) {
+export default function PlanetPage({ planetId }: { planetId?: number }) {
   const [planetInfo, setPlanetInfo] = useState<PlanetType>(initPlanetInfo);
   const [nameValid, setNameValid] = useState(false);
   const [descriptionValid, setDescriptionValid] = useState(false);

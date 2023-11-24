@@ -1,26 +1,27 @@
 "use client";
 
-import axios, { isAxiosError } from "axios";
-import { ResData, User } from "@/@types";
-import axiosRequest from "@/api";
 import { useEffect, useState } from "react";
+import axios, { isAxiosError } from "axios";
+import axiosRequest from "@/api";
+
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
+import STATUS_CODE from "@/constants/statusCode";
 
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
+import SearchCountry from "@/components/common/SearchCountry";
+import { Container, CountryGroup, InputGroup, SmallBtnGroup } from "@/components/Account/index.styled";
+
 import Password from "../AuthInputs/Password";
 import Email from "../AuthInputs/Email";
 
-import { Container, CountryGroup, InputGroup, SmallBtnGroup } from "@/components/Account/index.styled";
+import { ResData, User } from "@/@types";
 import { CountryInfo } from "@/@types/User";
-import SearchCountry from "@/components/common/SearchCountry";
-import { useRouter, useSearchParams } from "next/navigation";
-import STATUS_CODE from "@/constants/statusCode";
-import { ErrorMessage } from "@/styles/common";
 
-// 소셜 최초 가입 - 이름, 닉네임, 국적
-// 일반 가입 - 이름, 닉네임, 이메일, 이메일인증, 비밀번호, 비밀번호 확인, 국적
+import { useRouter, useSearchParams } from "next/navigation";
+
+import { ErrorMessage } from "@/styles/common";
 
 const PROFILE_IMAGE: string = "/assets/img/icons/default-user.svg";
 
@@ -57,17 +58,15 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   });
   const [showSearch, setShowSearch] = useState(false);
 
-  const currentCountry = async () => {
+  const getCurrentCountry = async () => {
     try {
-      if (typeof window !== "undefined") {
-        // 현재 ip 기준 국적 코드
-        const countryCode = await axios.get(`${window.location.origin}/country`);
-        // 국적 정보
-        const country = await axios.get(
-          `${window.location.origin}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
-        );
-        setCountry(country.data.data[0]);
-      }
+      // 현재 ip 기준 국적 코드
+      const countryCode = await axios.get(`${window.location.origin}/country`);
+      // 국적 정보
+      const country = await axios.get(
+        `${window.location.origin}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
+      );
+      setCountry(country.data.data[0]);
     } catch (error) {
       console.error(error);
     }
@@ -99,7 +98,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     setCountry(country);
   };
 
-  const socialSignup = async () => {
+  const submitSocialSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register/google", {
         email,
@@ -122,7 +121,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     }
   };
 
-  const submitSignup = async () => {
+  const submitBasicSignup = async () => {
     try {
       const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/register", {
         email,
@@ -188,21 +187,15 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
   useEffect(() => {
-    currentCountry();
+    getCurrentCountry();
     nameParams && setName(nameParams);
     emailParams && setEmail(emailParams);
   }, []);
 
-  useEffect(() => {
-    console.log(name);
-  }, [name]);
-
   return (
     <Container>
-      {/* 필수 */}
       <InputGroup>
         <Label id="name">이름</Label>
-        {/* 소셜 로그인 시 disabled */}
         <Input
           id="name"
           type="text"
@@ -211,6 +204,7 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           value={name}
           onChange={handleName}
           warning={!nameValid && name}
+          disabled={socialType}
         />
         {!nameValid && name && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
       </InputGroup>
@@ -241,15 +235,14 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
         </InputGroup>
       </InputGroup>
 
+      {/* 일반 회원가입 시 입력 */}
       {!socialType && (
         <>
-          {/* 일반 회원가입 시 추가 입력 */}
           <Email onEmail={handleEmail} />
           <Password onPasswordCompare={handlePasswordCompare} valid={!passwordValid && password} />
         </>
       )}
 
-      {/* 필수 */}
       <InputGroup>
         <Label id="nationality">국적</Label>
         <CountryGroup>
@@ -262,12 +255,11 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
         </CountryGroup>
       </InputGroup>
-
       <Button
         variant="confirm"
         shape="medium"
         size="big"
-        onClick={socialType ? socialSignup : submitSignup}
+        onClick={socialType ? submitSocialSignup : submitBasicSignup}
         disabled={notAllow}
       >
         Sign Up
