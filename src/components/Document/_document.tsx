@@ -9,7 +9,12 @@ class MyDocument extends Document {
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
             async
             defer
-          ></script>
+          />
+          <script
+            async
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&callback=initMap`}
+          />
         </Head>
         <body>
           <Main />
