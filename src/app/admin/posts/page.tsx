@@ -12,6 +12,7 @@ import SearchBar from "../SearchBar";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import AdminTable from "../Table";
+import MESSAGE from "@/constants/message";
 
 export default function Posts() {
   const [postData, setPostData] = useState<Posting[]>([]);
@@ -37,13 +38,11 @@ export default function Posts() {
         apiUrl += `&title=${filterTitle}`;
       }
       const response = await axiosRequest.requestAxios<ResData<PostingsType>>("get", apiUrl);
-      // 아래 data.articles아닌지 확인
+      // 아래 data.articles 아닌지 확인
       setPostData(response.data.articles);
       setTotal(response.data.total);
-      // console.log(response, " 필터!!");
-      // console.log(filterPlanetName, filterAuthorNickname, filterTitle, " 필터선택값");
     } catch (error) {
-      alert("오류");
+      alert("에러가 발생했습니다. 다시 시도해주세요.");
     }
   }
 
@@ -61,12 +60,13 @@ export default function Posts() {
   };
 
   const onDeleteArticle = async (articleId: number) => {
-    // console.log("ARTICLEID", articleId);
-    try {
-      const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/admin/${articleId}`);
-      getPosts();
-    } catch (error) {
-      alert("오류");
+    if (confirm(MESSAGE.POST.DELETE)) {
+      try {
+        const response = await axiosRequest.requestAxios<ResData<Posting[]>>("delete", `/articles/admin/${articleId}`);
+        getPosts();
+      } catch (error) {
+        alert("에러가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 

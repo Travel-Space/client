@@ -9,6 +9,7 @@ import { ResData } from "@/@types/index";
 import ReportAcceptModal from "../ReportAcceptModal";
 import ImageModal from "../ImageModal";
 import { useState } from "react";
+import MESSAGE from "@/constants/message";
 
 interface ReportNameModalProps {
   report: Report;
@@ -18,8 +19,6 @@ interface ReportNameModalProps {
 }
 
 export default function ReportNameModal({ report, setIsOpen }: ReportNameModalProps) {
-  // console.log("REPORT", report);
-
   const [openImageModal, setIsOpenImageModal] = useState(false);
 
   const {
@@ -41,16 +40,13 @@ export default function ReportNameModal({ report, setIsOpen }: ReportNameModalPr
   };
 
   const refuseReport = async (id: number) => {
-    // console.log(id, "거절 ID");
-    if (confirm("신고 요청을 거절할까요?")) {
+    if (confirm(MESSAGE.REPORTS.REFUSE)) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>("patch", `/reports/${id}/reject`);
-        // console.log("성공", response);
-        alert("신고 요청을 거절했어요.");
+        alert(MESSAGE.REPORTS.REFUSEFIN);
         setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
       } catch (error) {
-        alert("에러");
-        // console.log(error);
+        alert("에러가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };

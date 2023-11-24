@@ -12,6 +12,7 @@ import { Select, Button, Space, Tag } from "antd";
 import { Planet } from "@/@types/Planet";
 import { useEffect, useState } from "react";
 import AdminTable from "../Table";
+import MESSAGE from "@/constants/message";
 
 const itemsPerPage = 10;
 
@@ -45,9 +46,8 @@ export default function Planets() {
 
       setPlanetData(response.data.planets);
       setTotal(response.data.totalCount);
-      // console.log(response.data);
     } catch (error) {
-      alert("정보를 가져오는중 에러가 발생했습니다. 다시 시도해주세요.");
+      alert("에러가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -64,11 +64,8 @@ export default function Planets() {
     getPlanet();
   }, [filterName, filterHashtag, filterownerNickname, filterStatus]);
 
-  // console.log("planet", planetData);
-  // console.log(filterName, "행성명");
-
   const onDeletePlanet = async (planetId: number) => {
-    if (confirm("행성을 삭제할까요?")) {
+    if (confirm(MESSAGE.PLANET.DELETE)) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Planet[]>>(
           "delete",
@@ -77,7 +74,7 @@ export default function Planets() {
         setPlanetData(prev => prev.filter(el => el.id !== planetId));
         getPlanet();
       } catch (error) {
-        alert("삭제 에러");
+        alert("에러가 발생했습니다. 다시 시도해주세요.");
       }
     }
   };
