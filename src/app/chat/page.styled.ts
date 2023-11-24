@@ -15,7 +15,7 @@ export const ChatBox = styled.div`
   border: 1px solid #d9d9d9;
   background-color: ${({ theme }) => theme.PALETTE.white};
   width: 370px;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 `;
 
 export const ListTitle = styled.div`
@@ -226,6 +226,7 @@ export const TextContent = styled.span`
   border: 1px solid #d9d9d9;
   background: ${({ theme }) => theme.PALETTE.white};
   ${flexAlignCenter}
+  cursor: pointer;
 `;
 
 export const Images = styled.div`
