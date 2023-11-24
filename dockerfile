@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine as build
 
 WORKDIR /app
 
@@ -8,8 +8,16 @@ COPY src ./src
 COPY public ./public  
 
 RUN npm install
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
+RUN npm run build
+RUN npm run export 
 
-EXPOSE 3000
+FROM nginx:alpine
 
-CMD ["npm", "run", "dev"]
+COPY --from=build /app/out /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]
