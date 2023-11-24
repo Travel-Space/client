@@ -59,7 +59,7 @@ export default function Profile() {
   function handlePasswordCompare(result: boolean, value: string) {
     setIsPasswordMatching(result);
     setPassword(value);
-    VALIDATE.password.test(value) ? setPasswordValid(true) : setPasswordValid(false);
+    VALIDATE.USER.PASSWORD.test(value) ? setPasswordValid(true) : setPasswordValid(false);
   }
 
   //국적 변경
