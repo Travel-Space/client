@@ -12,6 +12,10 @@ export const AdminTable = styled(Table)`
   table > thead > tr > th {
     text-align: center !important ;
   }
+
+  table > tbody > tr td {
+    max-width: 250px;
+  }
 `;
 
 export const PaginationWrapper = styled.div`

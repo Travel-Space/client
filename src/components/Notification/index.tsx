@@ -1,41 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
-import useSocket from "@/hooks/useSocket";
 import * as S from "./index.styled";
 import Side from "../../components/common/Side";
 import NotificationList from "./NotificationList";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { Notification } from "@/@types/Notification";
 
-type ClickNotificationFunction = () => void;
-
 interface NotificationProps {
-  onClickNotification: ClickNotificationFunction;
-  setNewNotificationReceived: React.Dispatch<React.SetStateAction<boolean>>;
+  onClickNotification: () => void;
+  notifications: Notification[];
+  setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
 
-export default function Notification({ onClickNotification, setNewNotificationReceived }: NotificationProps) {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const user = useRecoilValue(userAtom);
-
-  const socket = useSocket("");
-
-  useEffect(() => {
-    if (socket) {
-      const handleNotifications = (data: Notification[]) => {
-        setNotifications(prev => [...prev, ...data]);
-      };
-
-      socket.emit("subscribeToNotifications", { userId: user?.id });
-      socket.on("notifications", handleNotifications);
-
-      return () => {
-        socket.off("notifications", handleNotifications);
-      };
-    }
-  }, []);
-
+export default function Notification({
+  onClickNotification,
+  notifications,
+  setNotifications, // setNewNotificationReceived,
+}: NotificationProps) {
   return (
     <Side>
       <S.TitleContainer>

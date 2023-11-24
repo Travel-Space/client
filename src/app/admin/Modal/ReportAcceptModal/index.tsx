@@ -5,6 +5,7 @@ import AdminModalContainer from "../AdminModalContainer";
 import Textarea from "@/components/common/Textarea";
 import { Report } from "@/@types/Report";
 import REPORT from "@/constants/reports";
+import MESSAGE from "@/constants/message";
 
 import * as S from "./index.styled";
 import { useEffect, useState } from "react";
@@ -49,9 +50,6 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     }
   }, [selectedReason]);
 
-  // console.log(approvalReason, "이유 상세");
-  // console.log(selectedReason, "선택이유");
-
   const dropDownProps = {
     comment: "사유 선택",
     menuList,
@@ -59,13 +57,12 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
     handleClick: setSelectedReason,
   };
 
-  // console.log(approvalReason, "approvalReason");
-  // console.log(selectedReason, "selectedReason");
   const isEtcSelected = selectedReason === REPORT.ETC;
 
   const patchReportReason = async (reportId: number) => {
-    if (selectedReason === dropDownProps.comment) return alert("수락 사유를 선택해 주세요.");
-    if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert("수락 사유를 입력해 주세요.");
+    if (selectedReason === dropDownProps.comment) return alert(MESSAGE.REPORTS.SELECTEDREASON);
+    if (selectedReason === REPORT.ETC && approvalReason.length === 0) return alert(MESSAGE.REPORTS.REASON);
+    if (selectedReason === REPORT.ETC && approvalReason.length > 30) return alert(MESSAGE.REPORTS.SYNTAX_ACCEPT);
 
     const data: { approvalReason?: string; suspensionEndDate?: string; selectedReason?: string } = isEtcSelected
       ? { approvalReason }
@@ -80,20 +77,18 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
         .padStart(2, "0")}-${nextWeekDate.getDate().toString().padStart(2, "0")}`;
     }
 
-    // console.log("수락할 때 보내는 데이터 -------- ", data);
-
-    if (confirm("요청을 수락할까요?")) {
+    if (confirm(MESSAGE.REPORTS.ACCEPT)) {
       try {
         const response = await axiosRequest.requestAxios<ResData<Report[]>>(
           "patch",
           `/reports/${reportId}/approve`,
           data,
         );
-        alert("신고 요청을 수락했어요.");
+        alert(MESSAGE.REPORTS.ACCEPTFIN);
         setIsOpen(prevState => ({ ...prevState, reportName: false, reportReason: false }));
         // console.log(response, "수락Response");
       } catch (error) {
-        alert("에러");
+        alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
     }
   };
@@ -150,7 +145,7 @@ export default function ReportAcceptModal({ report, setIsOpen }: ReportAcceptMod
             size="admin"
             placeholder="사유를 작성해 주세요."
             name="adminComments"
-            maxLength={200}
+            maxLength={30}
             value={approvalReason}
             onChange={e => setApprovalReason(e.target.value)}
             disabled={!isEtcSelected}

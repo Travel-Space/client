@@ -6,4 +6,5 @@ export interface Notification {
   articleId?: number;
   planetId?: number;
   invitationId?: number;
+  requestUserId?: number;
 }

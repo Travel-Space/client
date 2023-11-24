@@ -1,11 +1,12 @@
 import { isAxiosError } from "axios";
 import { ResData, User } from "@/@types";
+import { Notification as NotificationType } from "@/@types/Notification";
 import axiosRequest from "@/api";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 
@@ -13,6 +14,7 @@ import * as HEADER from "./index.styled";
 import Account from "@/components/Account";
 import Notification from "@/components/Notification";
 import STATUS_CODE from "@/constants/statusCode";
+import useSocket from "@/hooks/useSocket";
 
 export default function Header() {
   const [loginVisible, setLoginVisible] = useState<boolean>(false);
@@ -21,6 +23,38 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const socket = useSocket("");
+
+  useEffect(() => {
+    if (socket && user?.isAuth) {
+      const handleNotifications = (data: NotificationType[]) => {
+        setNotifications(prev => [
+          ...prev.filter(
+            existingNotification => !data.some(newNotification => newNotification.id === existingNotification.id),
+          ),
+          ...data,
+        ]);
+        setNewNotificationReceived(true);
+      };
+
+      // console.log("알림", notifications);
+      socket.emit("subscribeToNotifications", { userId: user?.id });
+      socket.on("notifications", handleNotifications);
+
+      if (notifications.length === 0) {
+        setNewNotificationReceived(false);
+      }
+
+      // return () => {
+      //   socket.off("notifications", handleNotifications);
+      // };
+    }
+  }, [socket, user?.isAuth]);
+
+  // console.log(newNotificationReceived, "newNotificationReceived");
+  // console.log(notifications, "notifications");
 
   const setLogout = () => {
     setUser(null);
@@ -70,8 +104,9 @@ export default function Header() {
                 </button>
                 {isOpen && (
                   <Notification
+                    notifications={notifications}
+                    setNotifications={setNotifications}
                     onClickNotification={openNotification}
-                    setNewNotificationReceived={setNewNotificationReceived}
                   />
                 )}
               </li>
