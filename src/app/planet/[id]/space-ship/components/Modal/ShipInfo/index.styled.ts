@@ -90,7 +90,8 @@ export const Member = styled.li`
       font-weight: 600;
       span {
         font-weight: 400;
-        margin-left: 8px;
+        margin-top: 4px;
+        display: block;
         color: ${({ theme }) => theme.PALETTE.mainColor};
       }
     }

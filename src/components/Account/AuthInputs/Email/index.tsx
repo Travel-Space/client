@@ -1,16 +1,18 @@
+import { useEffect, useState } from "react";
 import { isAxiosError } from "axios";
+import axiosRequest from "@/api";
+
 import { ResData } from "@/@types";
 import { User } from "@/@types/User";
-import axiosRequest from "@/api";
-import { useEffect, useState } from "react";
+
 import VALIDATE from "@/constants/regex";
 import MESSAGE from "@/constants/message";
+import STATUS_CODE from "@/constants/statusCode";
 
 import Input, { Label } from "@/components/common/Input";
 import Button from "@/components/common/Button";
 
 import { InputGroup, SmallBtnGroup, Timer } from "@/components/Account/index.styled";
-import STATUS_CODE from "@/constants/statusCode";
 import { ErrorMessage } from "@/styles/common";
 
 interface PropsType {

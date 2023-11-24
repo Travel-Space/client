@@ -1,10 +1,11 @@
-import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
-
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
-import { ResData } from "@/@types";
+
+import { useSetRecoilState } from "recoil";
 import { UserType, userAtom } from "@/recoil/atoms/user.atom";
+
+import { ResData } from "@/@types";
 import { Default } from "@/@types/Modal";
 
 import VALIDATE from "@/constants/regex";
@@ -14,9 +15,10 @@ import STATUS_CODE from "@/constants/statusCode";
 import Button from "@/components/common/Button";
 import Input, { Label } from "@/components/common/Input";
 import Line from "@/components/common/Line";
+
 import * as LOGIN from "./index.styled";
-import { Container, FormGroup, InputGroup, MarginGroup } from "@/components/Account/index.styled";
 import { ErrorMessage } from "@/styles/common";
+import { Container, FormGroup, InputGroup, MarginGroup } from "@/components/Account/index.styled";
 
 interface PropsType extends Default {
   goToSignup: () => void;
@@ -32,8 +34,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   const setAuth = useSetRecoilState(userAtom);
 
-  const googleLogin = async () => {
-    console.log("구글 로그인");
+  const submitGoogleLogin = async () => {
     window.location.href = "https://travelspace.world/api/auth/google";
   };
 
@@ -84,7 +85,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
 
   return (
     <Container>
-      <Button variant="gradient" shape="large" size="big" onClick={googleLogin}>
+      <Button variant="gradient" shape="large" size="big" onClick={submitGoogleLogin}>
         <LOGIN.CenterGroup>
           <img src="/assets/img/icons/google.svg" />
           <span>Log in with Google</span>

@@ -1,27 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
+
 import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import { PlanetContext, PlanetContextType } from "..";
+import { PlanetContext, PlanetContextType } from "@/components/PlanetPage";
+import Delete from "@/components/SpaceModal/Delete";
+
 import PLANETSHAPE from "@/constants/planetShape";
+import VALIDATE from "@/constants/regex";
+
 import { PlanetShape } from "@/@types/Planet";
-import Image from "next/image";
-import { useRouter, useParams } from "next/navigation";
+import { ITEM_TYPE } from "@/@types/Modal";
 
 import { useModal } from "@/hooks/useModal";
-import Delete from "@/components/SpaceModal/Delete";
-import { ITEM_TYPE } from "@/@types/Modal";
 
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
-import VALIDATE from "@/constants/regex";
 
-const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name, src })) as {
-  name: PlanetShape;
-  src: string;
-}[];
+const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name: name as PlanetShape, src }));
 
 export default function Left() {
   const router = useRouter();

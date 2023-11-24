@@ -30,7 +30,7 @@ export default function PostDetail() {
   const hasMoreComments = totalComments > currentCommentsPage * commentsPerPage;
 
   const [currentRepliesPage, setCurrentRepliesPage] = useState(1); // 대 댓글 페이지
-  const [replyPagePage] = useState(5); // 대댓글 페이지
+  const replyPagePage = 5; // 대댓글 페이지
   const [totalReplies, setTotalReplies] = useState(0); // 전체 대 댓글 수
   const hasMoreReplies = totalReplies > currentRepliesPage * replyPagePage;
 

@@ -18,8 +18,12 @@ import { UserType, userAtom } from "@/recoil/atoms/user.atom";
 import { useRecoilState } from "recoil";
 import { SpaceShipType, SpaceshipContext, SpaceshipContextType } from "../..";
 import STATUS_CODE from "@/constants/statusCode";
+import VALIDATE from "@/constants/regex";
+import { ErrorMessage } from "@/styles/common";
+import MESSAGE from "@/constants/message";
 
-const today = new Date();
+let today = new Date();
+today.setDate(today.getDate() + 1);
 const todayString = getDateFormat(today);
 
 interface ShipType {
@@ -60,12 +64,16 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
     status: "UPCOMING",
     image: "",
   });
+  const [nameValid, setNameValid] = useState(false);
+  const [descriptionValid, setDescriptionValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(true);
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShipInfo(info => ({
       ...info,
       name: e.target.value,
     }));
+    VALIDATE.SPACESHIP.NAME.test(e.target.value) ? setNameValid(true) : setNameValid(false);
   };
 
   const handleMaxMembers = (value: number) => {
@@ -80,6 +88,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       ...info,
       description: e.target.value,
     }));
+    VALIDATE.SPACESHIP.DESCRIPTION.test(e.target.value) ? setDescriptionValid(true) : setDescriptionValid(false);
   };
 
   const handleStatus = (status: SelectItem) => {
@@ -88,6 +97,21 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
       status: status.value,
     }));
   };
+
+  useEffect(() => {
+    const { maxMembers, status, startDate, endDate } = shipInfo;
+    if (nameValid && descriptionValid && maxMembers && status && startDate && endDate) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [nameValid, descriptionValid, shipInfo]);
+
+  useEffect(() => {
+    const { name, description } = shipInfo;
+    !name.length ? setNameValid(false) : setNameValid(true);
+    !description.length ? setDescriptionValid(false) : setDescriptionValid(true);
+  }, [shipInfo]);
 
   const submitCreateSpaceship = async () => {
     try {
@@ -160,7 +184,9 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
             placeholder="우주선 이름"
             onChange={handleName}
             value={shipInfo.name}
+            warning={!nameValid && shipInfo.name}
           />
+          {!nameValid && shipInfo.name && <ErrorMessage>{MESSAGE.SPACESHIP.SYNTAX_NAME}</ErrorMessage>}
         </S.Group>
         <S.Group>
           <Label id="spaceship-description">우주선 설명</Label>
@@ -169,7 +195,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
             size="spaceShip"
             placeholder="우주선 설명"
             name="spaceship-description"
-            maxLength={100}
+            maxLength={VALIDATE.SPACESHIP.DESCRIPTION_COUNT}
             onChange={handleDescription}
             value={shipInfo.description}
           />
@@ -210,7 +236,8 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
             <Label id="">여행 종료일</Label>
             <CalendarBtn
               onSelected={date => setShipInfo(info => ({ ...info, endDate: date }))}
-              selected={shipInfo.endDate}
+              selected={shipInfo.endDate < shipInfo.startDate ? shipInfo.startDate : shipInfo.endDate}
+              minDate={shipInfo.startDate}
             />
           </S.BtnInput>
         </S.Center>
@@ -223,6 +250,7 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
             variant="confirm"
             shape="medium"
             size="big"
+            disabled={notAllow}
             onClick={isSpaceShip ? submitModifySpaceship : submitCreateSpaceship}
           >
             {isSpaceShip ? "수정" : "완료"}

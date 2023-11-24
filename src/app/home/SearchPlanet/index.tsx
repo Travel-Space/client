@@ -87,6 +87,7 @@ export default function SearchPlanet() {
             placeholder="행성을 해시태그로 검색해 보세요."
             value={searchInput}
             onChange={handleSearchPlanet}
+            maxLength={8}
           />
           <S.SearchBtn onClick={handleSearchBtn}>
             <S.SerachBtnImg src="/assets/img/icons/search.svg" />

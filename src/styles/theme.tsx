@@ -28,7 +28,7 @@ const FONT_SIZE = {
   em: "18px",
   big: "20px",
   lg: "24px",
-  hg: "40px",
+  hg: "38px",
 };
 
 // font-weight

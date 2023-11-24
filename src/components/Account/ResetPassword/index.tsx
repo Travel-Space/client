@@ -1,16 +1,17 @@
+import { useEffect, useState } from "react";
 import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
+
 import { ResData, User } from "@/@types";
-import { useEffect, useState } from "react";
 
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
+
 import Email from "../AuthInputs/Email";
 import Password from "../AuthInputs/Password";
+import { Container, MarginGroup } from "../index.styled";
 
 import VALIDATE from "@/constants/regex";
-
-import { Container, MarginGroup } from "../index.styled";
 import STATUS_CODE from "@/constants/statusCode";
 
 interface PropsType {

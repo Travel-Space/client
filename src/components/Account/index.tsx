@@ -1,11 +1,13 @@
 import { useState } from "react";
+
 import { Default } from "@/@types/Modal";
 
-import * as ACCOUNT from "./index.styled";
 import Side from "@/components/common/Side";
+
 import Login from "./Login";
 import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
+import * as ACCOUNT from "./index.styled";
 
 const ACCOUNT_PAGE = {
   LOGIN: "Log in",

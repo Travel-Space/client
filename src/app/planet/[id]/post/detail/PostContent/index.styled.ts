@@ -10,6 +10,7 @@ export const TitleSection = styled.div`
   width: 100%;
   margin-bottom: 24px;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  gap: 8px;
 `;
 
 export const Title = styled.div`
@@ -19,9 +20,14 @@ export const Title = styled.div`
 `;
 
 export const Date = styled.div`
+  display: flex;
+  align-self: flex-end;
   font-size: ${({ theme }) => theme.FONT_SIZE.big};
   font-weight: 400;
   color: ${({ theme }) => theme.PALETTE.gray[200]};
+  min-width: 250px;
+  height: 100%;
+  margin-bottom: 24px;
 `;
 
 export const PostInfoSection = styled.div`
