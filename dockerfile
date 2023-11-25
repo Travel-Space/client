@@ -8,15 +8,20 @@ COPY src ./src
 COPY public ./public  
 
 RUN npm install
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
-FROM nginx:alpine
+FROM node:18-alpine
 
-COPY --from=build /app/out /usr/share/nginx/html
+WORKDIR /app
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/package.json ./
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/tsconfig.json ./
+COPY --from=build /app/public ./public  
+COPY --from=build /app/src ./src
 
-EXPOSE 80 443
+RUN npm install --only=production
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
