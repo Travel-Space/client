@@ -35,7 +35,7 @@ export default function Login({ goToSignup, goToResetPassword, onClose }: PropsT
   const setAuth = useSetRecoilState(userAtom);
 
   const submitGoogleLogin = async () => {
-    window.location.href = "http://travelspace.world/api/auth/google";
+    window.location.href = "https://travelspace.world/api/auth/google";
   };
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {

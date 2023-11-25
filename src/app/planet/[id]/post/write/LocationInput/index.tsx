@@ -62,7 +62,7 @@ export default function LocationInput({
       });
     };
     const script = document.createElement("script");
-    script.src = `http://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
     script.defer = true;
     document.body.appendChild(script);
 
@@ -73,7 +73,7 @@ export default function LocationInput({
 
   const searchAddress = async (searchTerm: string) => {
     const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
-    const GEOCODE_ENDPOINT = `http://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+    const GEOCODE_ENDPOINT = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
       searchTerm,
     )}&key=${GOOGLE_API_KEY}&language=ko`;
 
