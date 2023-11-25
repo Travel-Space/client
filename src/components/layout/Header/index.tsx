@@ -36,7 +36,7 @@ export default function Header() {
           ),
           ...data,
         ]);
-        setNewNotificationReceived(true);
+        if (data.length) setNewNotificationReceived(true);
       };
 
       // console.log("알림", notifications);
