@@ -30,7 +30,6 @@ export default function LocationInput({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isAddressActive, setIsAddressActive] = useState(false); // 주소 입력 시 아이콘 변경
 
-
   useEffect(() => {
     if (initialValue) {
       setAddress(initialValue || "");
@@ -53,28 +52,28 @@ export default function LocationInput({
           const location = {
             formatted_address: fullAddress,
             geometry: {
-              location: selectedPlace.geometry.location.toJSON() 
+              location: selectedPlace.geometry.location.toJSON(),
             },
           };
           setAddress(fullAddress);
-          onLocationSelect(location, location); 
+          onLocationSelect(location, location);
           setIsAddressChecked(true);
         }
       });
     };
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
+    script.src = `http://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&callback=initializeAutocomplete`;
     script.defer = true;
     document.body.appendChild(script);
 
     return () => {
       document.body.removeChild(script);
-    }
+    };
   }, []);
 
   const searchAddress = async (searchTerm: string) => {
     const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
-    const GEOCODE_ENDPOINT = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+    const GEOCODE_ENDPOINT = `http://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
       searchTerm,
     )}&key=${GOOGLE_API_KEY}&language=ko`;
 
