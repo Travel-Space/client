@@ -40,6 +40,10 @@ const nextConfig = {
       `opendata.mofa.go.kr`,
     ],
   },
+  experimental: {
+    appDir: true,
+  },
+  output: "export",
 };
 
 module.exports = nextConfig;
