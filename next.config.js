@@ -21,6 +21,14 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "travelspace-bucket.s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/",
+      },
+    ],
     domains: [
       `travelspace-bucket.s3.ap-northeast-2.amazonaws.com`,
       `example.com`,
