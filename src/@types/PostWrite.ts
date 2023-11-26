@@ -1,4 +1,4 @@
-export interface PostWrite {
+export interface PostWriteType {
   title: string;
   content: string;
   published: boolean;

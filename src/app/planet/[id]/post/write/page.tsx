@@ -1,7 +1,7 @@
 "use client";
 
 import axiosRequest from "@/api";
-import { PostWrite } from "@/@types/PostWrite";
+import { PostWriteType } from "@/@types/PostWrite";
 import React, { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import * as PW from "./page.styled";
@@ -22,7 +22,7 @@ import Image from "next/image";
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
-  data?: PostWrite; // PostWrite 타입을 그대로 유지
+  data?: PostWriteType;
   params: {
     id: number;
   };
