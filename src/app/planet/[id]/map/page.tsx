@@ -40,6 +40,9 @@ export default function Map({ params }: { params: { id: number } }) {
   // 구글 맵 키
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY || "";
 
+  console.log("googleMapsApiKey - ", googleMapsApiKey);
+  console.log("구글 맵 api env - ", process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY);
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey,
@@ -101,6 +104,7 @@ export default function Map({ params }: { params: { id: number } }) {
 
   // 마커 클릭 시 사이드 바에 마커에 해당하는 게시글만 담기
   const handleMarkerClick = (location: Locations) => {
+    console.log(location, "마커 클릭 시 나오는 좌표");
     const newLocation = location;
     setIsOpen(true);
     setClickedMarkerLocation(newLocation);
