@@ -10,11 +10,16 @@ import { userAtom, UserType } from "@/recoil/atoms/user.atom";
 import { useRouter } from "next/navigation";
 
 interface NotificationListProps {
+  onClickNotification: () => void;
   notifications: Notification[];
   setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
 
-export default function NotificationList({ notifications, setNotifications }: NotificationListProps) {
+export default function NotificationList({
+  notifications,
+  setNotifications,
+  onClickNotification,
+}: NotificationListProps) {
   const setAuth = useSetRecoilState<UserType | null>(userAtom);
   const user = useRecoilValue(userAtom);
   const router = useRouter();
@@ -67,6 +72,8 @@ export default function NotificationList({ notifications, setNotifications }: No
           }));
           router.replace(`/planet/${planetId}/map/`);
         }
+
+        onClickNotification();
       } catch (err) {
         alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
@@ -87,6 +94,7 @@ export default function NotificationList({ notifications, setNotifications }: No
           `/planet/${action}/${planetId}/${requestUserId}`,
         );
         deleteNotificationList(id);
+        onClickNotification();
       } catch (error) {
         alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
@@ -96,13 +104,17 @@ export default function NotificationList({ notifications, setNotifications }: No
   const handleNotificationClick = (type: string, articleId: number | undefined, planetId: number | undefined) => {
     if (type === "LIKE" || type === "ARTICLE" || type === "COMMENT" || type === "SUB_COMMENT") {
       router.replace(`/planet/${planetId}/post/?detail=${articleId}`);
+      onClickNotification();
     } else {
       switch (type) {
         case "PLANET_INVITE":
           router.replace(`/planet/${planetId}/map/`);
+          onClickNotification();
+
           break;
         case "FOLLOW":
           router.replace(`/mypage/friend/list/`);
+          onClickNotification();
           break;
       }
     }
