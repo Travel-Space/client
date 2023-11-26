@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   async redirects() {
     return [
@@ -13,6 +14,11 @@ const nextConfig = {
         permanent: true,
       },
     ];
+  },
+  env: {
+    NEXT_PUBLIC_SOCKET_CHAT_URI: process.env.NEXT_PUBLIC_SOCKET_CHAT_URI,
+    NEXT_PUBLIC_SOCKET_NOTIFICATION_URI: process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI,
+    NEXT_PUBLIC_GOOGLE_MAP_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
   },
   trailingSlash: true,
   compiler: {
