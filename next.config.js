@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-require("dotenv").config();
-
 const nextConfig = {
   async redirects() {
     return [
@@ -36,6 +34,7 @@ const nextConfig = {
       `example.com`,
       `item.kakaocdn.net`,
       `opendata.mofa.go.kr`,
+      `travelspace.world`,
     ],
   },
 };
