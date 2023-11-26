@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { isAxiosError } from "axios";
 
 import Image from "next/image";
@@ -113,11 +113,6 @@ export default function Right() {
       }
     }
   };
-
-  useEffect(() => {
-    !planetInfo.name.length ? setNameValid(false) : setNameValid(true);
-    !planetInfo.description.length ? setDescriptionValid(false) : setDescriptionValid(true);
-  }, [planetInfo]);
 
   return (
     <S.Wrap>

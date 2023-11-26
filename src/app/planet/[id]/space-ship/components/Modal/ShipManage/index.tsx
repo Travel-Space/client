@@ -109,8 +109,10 @@ export default function ShipManage({ onClose, ship }: ShipManageType) {
 
   useEffect(() => {
     const { name, description } = shipInfo;
-    !name.length ? setNameValid(false) : setNameValid(true);
-    !description.length ? setDescriptionValid(false) : setDescriptionValid(true);
+    if (isSpaceShip) {
+      !name.length ? setNameValid(false) : setNameValid(true);
+      !description.length ? setDescriptionValid(false) : setDescriptionValid(true);
+    }
   }, [shipInfo]);
 
   const submitCreateSpaceship = async () => {
