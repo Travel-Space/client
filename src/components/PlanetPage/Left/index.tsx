@@ -92,7 +92,6 @@ export default function Left() {
 
   useEffect(() => {
     setImgPosition(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
-    !planetInfo.hashtags.length ? setHashtagCountValid(false) : setHashtagCountValid(true);
   }, [planetInfo]);
 
   return (
