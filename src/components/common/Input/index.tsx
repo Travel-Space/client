@@ -17,6 +17,7 @@ interface InputType {
   rounded: boolean;
   thin: boolean;
   warning: boolean | string;
+  maxLength: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
@@ -41,6 +42,7 @@ export default React.forwardRef(function Input(
     rounded,
     thin,
     warning,
+    maxLength,
   }: Partial<InputType>,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
@@ -60,6 +62,7 @@ export default React.forwardRef(function Input(
       disabled={disabled}
       readOnly={readOnly}
       ref={ref}
+      maxLength={maxLength}
     />
   );
 });

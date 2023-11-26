@@ -87,7 +87,7 @@ export default function PlanetPage({ planetId }: { planetId?: number }) {
 
   useEffect(() => {
     planetId && getPlanetData();
-  }, [planetId]);
+  }, []);
 
   useEffect(() => {
     if (nameValid && descriptionValid && hashtagCountValid) {

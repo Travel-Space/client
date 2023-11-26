@@ -41,10 +41,6 @@ export const ExitBtn = styled.button`
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.white};
 `;
 
-export const MemberBtn = styled.div`
-  width: 336px;
-`;
-
 import { Swiper } from "swiper/react";
 
 export const List = styled(Swiper)`

@@ -115,8 +115,8 @@ export default function Right() {
   };
 
   useEffect(() => {
-    !planetInfo.name.length ? setNameValid(false) : setNameValid(true);
-    !planetInfo.description.length ? setDescriptionValid(false) : setDescriptionValid(true);
+    VALIDATE.PLANET.NAME.test(planetInfo.name) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.PLANET.DESCRIPTION.test(planetInfo.description) ? setDescriptionValid(true) : setDescriptionValid(false);
   }, [planetInfo]);
 
   return (
@@ -169,6 +169,7 @@ export default function Right() {
           onChange={handleName}
           value={planetInfo.name}
           warning={!nameValid && planetInfo.name}
+          maxLength={VALIDATE.PLANET.NAME_COUNT}
         />
         {!nameValid && planetInfo.name && <ErrorMessage>{MESSAGE.PLANET.SYNTAX_NAME}</ErrorMessage>}
       </S.InputGroup>
