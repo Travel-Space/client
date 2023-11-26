@@ -5,12 +5,12 @@ import * as S from "./index.styled";
 import Side from "../../components/common/Side";
 import NotificationList from "./NotificationList";
 import { userAtom } from "@/recoil/atoms/user.atom";
-import { Notification } from "@/@types/Notification";
+import { Notification as NotificationType } from "@/@types/Notification";
 
 interface NotificationProps {
   onClickNotification: () => void;
-  notifications: Notification[];
-  setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
+  notifications: NotificationType[];
+  setNotifications: React.Dispatch<React.SetStateAction<NotificationType[]>>;
 }
 
 export default function Notification({
@@ -37,7 +37,11 @@ export default function Notification({
         </>
       ) : (
         <S.NotificationListContainer>
-          <NotificationList notifications={notifications} setNotifications={setNotifications} />
+          <NotificationList
+            notifications={notifications}
+            setNotifications={setNotifications}
+            onClickNotification={onClickNotification}
+          />
         </S.NotificationListContainer>
       )}
     </Side>
