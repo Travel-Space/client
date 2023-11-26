@@ -6,7 +6,9 @@ import { userAtom } from "@/recoil/atoms/user.atom";
 
 const useSocket = (type: string) => {
   const socketUri =
-    type === "CHAT" ? process.env.NEXT_PUBLIC_SOCKET_CHAT_URI : process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI;
+    type === "CHAT"
+      ? `${process.env.NEXT_PUBLIC_SOCKET_CHAT_URI}`
+      : `${process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI}`;
 
   console.log("소켓 uri - ", socketUri);
   console.log("채팅 env - ", process.env.NEXT_PUBLIC_SOCKET_CHAT_URI);
