@@ -1,7 +1,5 @@
-import Button from "@/components/common/Button";
 import * as S from "../index.styled";
 import Exit from "@/components/SpaceModal/Exit";
-import PlanetMember from "../Modal/PlanetMember";
 import { ITEM_TYPE } from "@/@types/Modal";
 import { useModal } from "@/hooks/useModal";
 import { useContext } from "react";
@@ -32,23 +30,8 @@ export default function SpaceshipBottom() {
     ),
   };
 
-  const planetMemberModal = {
-    title: "행성 멤버 관리",
-    content: <PlanetMember onClose={closeModal} />,
-  };
-
   return (
     <S.Footer>
-      {thisPlanet?.role === PLANET_ROLE_NAME.OWNER && (
-        <S.MemberBtn>
-          <Button variant="gradient" shape="large" size="big" onClick={() => openModal(planetMemberModal)}>
-            <S.CenterGroup>
-              <img src="/assets/img/icons/users.svg" />
-              <span>행성 멤버 관리</span>
-            </S.CenterGroup>
-          </Button>
-        </S.MemberBtn>
-      )}
       {thisPlanet?.role !== PLANET_ROLE_NAME.GUEST && (
         <S.ExitBtn onClick={() => openModal(exitModal)}>행성 탈출 💥</S.ExitBtn>
       )}

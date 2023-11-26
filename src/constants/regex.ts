@@ -10,6 +10,7 @@ const VALIDATE = {
     NAME: /^.{1,15}$/,
     HASHTAG: /^.{1,8}$/,
     DESCRIPTION: /^.{1,200}$/,
+    NAME_COUNT: 15,
     DESCRIPTION_COUNT: 200,
     MEMBER_LIMIT: 50,
     SPACESHIP_LIMIT: 10,
@@ -17,6 +18,7 @@ const VALIDATE = {
   SPACESHIP: {
     NAME: /^.{1,6}$/,
     DESCRIPTION: /^.{1,100}$/,
+    NAME_COUNT: 6,
     DESCRIPTION_COUNT: 100,
   },
 } as const;

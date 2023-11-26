@@ -9,12 +9,14 @@ import { ResData } from "@/@types";
 import { isAxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
-import { SpaceshipContext, SpaceshipContextType } from "../..";
 import STATUS_CODE from "@/constants/statusCode";
-import { PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
+import { PLANET_ROLE, PLANET_ROLE_NAME, PlanetMembership } from "@/@types/Planet";
+import { PlanetContext, PlanetContextType } from "../..";
 
 export default function PlanetMember({ onClose }: Default) {
-  const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
+  const { planetInfo } = useContext<PlanetContextType>(PlanetContext);
+
+  const [planetMember, setPlanetMember] = useState<CommonUserInfo[]>([]);
   const [updatedPlanetMember, setUpdatedPlanetMember] = useState<CommonUserInfo[]>([]);
   const [followingList, setFollowingList] = useState<CommonUserInfo[]>([]);
   const [searchUsers, setSearchUsers] = useState<CommonUserInfo[]>([]);
@@ -23,12 +25,42 @@ export default function PlanetMember({ onClose }: Default) {
   const [searchEmail, setSearchEmail] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
+  const fetchMemberListData = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>(
+        "get",
+        `/planet/members/${planetInfo.id}`,
+        {},
+      );
+      console.log(response);
+      // 행성 관리자 제외한 멤버
+      const member = response.data;
+      const filteredMember = member.filter(m => m.role !== PLANET_ROLE_NAME.OWNER);
+      const resultMember = filteredMember.map(
+        (member: PlanetMembership): CommonUserInfo => ({
+          email: member.user.email,
+          nickName: member.user.nickName,
+          profileImage: member.user.profileImage,
+          role: member.role,
+          userId: member.user.id,
+          invited: member.user.invited,
+        }),
+      );
+      setPlanetMember(resultMember);
+    } catch (error) {
+      console.error("멤버 조회 에러", error);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
+    }
+  };
+
   // 초대하기
   const handleInvite = async (userId: number) => {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/${planetId}/invite/${userId}`,
+        `/planet/${planetInfo.id}/invite/${userId}`,
         {},
       );
       console.log("handleInvite", response);
@@ -48,7 +80,7 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/approve/${planetId}/${userId}`,
+        `/planet/approve/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleApprove", response);
@@ -68,7 +100,7 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/reject/${planetId}/${userId}`,
+        `/planet/reject/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleReject", response);
@@ -88,7 +120,7 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "delete",
-        `/planet/kick/${planetId}/${userId}`,
+        `/planet/kick/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleKick", response);
@@ -109,7 +141,7 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "put",
-        `/planet/members/${planetId}/${userId}`,
+        `/planet/members/${planetInfo.id}/${userId}`,
         {
           role: role === PLANET_ROLE.ADMIN ? PLANET_ROLE_NAME.ADMIN : PLANET_ROLE_NAME.MEMBER,
         },

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import * as S from "./index.styled";
@@ -20,12 +20,12 @@ import { useModal } from "@/hooks/useModal";
 
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
+import PlanetMember from "../Modal/PlanetMember";
 
 const planetImg = Object.entries(PLANETSHAPE).map(([name, src]) => ({ name: name as PlanetShape, src }));
 
 export default function Left() {
   const router = useRouter();
-  const params = useParams();
   const { planetInfo, hashtagValid, setPlanetInfo, setHashtagValid, setHashtagCountValid } =
     useContext<PlanetContextType>(PlanetContext);
   const [tagInput, setTagInput] = useState("");
@@ -33,9 +33,15 @@ export default function Left() {
   const user = useRecoilValue(userAtom);
 
   const [imgPosition, setImgPosition] = useState(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
+
   const deleteModal = {
     title: "행성 삭제",
     content: <Delete onClose={closeModal} title={planetInfo.name} type={ITEM_TYPE.PLANET} id={planetInfo.id} />,
+  };
+
+  const planetMemberModal = {
+    title: "행성 멤버 관리",
+    content: <PlanetMember onClose={closeModal} />,
   };
 
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +98,7 @@ export default function Left() {
 
   useEffect(() => {
     setImgPosition(planetImg.findIndex(img => img.name === planetInfo.shape) * -100);
+    !planetInfo.hashtags.length ? setHashtagCountValid(false) : setHashtagCountValid(true);
   }, [planetInfo]);
 
   return (
@@ -151,22 +158,29 @@ export default function Left() {
       </S.Group>
       {/* 행성 수정 시 */}
       {planetInfo.id && (
-        <div>
+        <S.CenterGroup>
           <Button
-            variant="gradient"
+            variant="white"
             shape="large"
             size="big"
-            onClick={() => router.push(`/planet/${params.id}/space-ship`)}
+            onClick={() => router.push(`/planet/${planetInfo.id}/space-ship`)}
           >
             탑승 우주선으로 이동
           </Button>
-          {/* 행성 관리자만 삭제 가능 */}
           {planetInfo.ownerId === user?.id && (
-            <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
-              행성 삭제 💥
-            </S.DeleteBtn>
+            <>
+              <Button variant="gradient" shape="large" size="big" onClick={() => openModal(planetMemberModal)}>
+                <S.CenterGroup $gap={20}>
+                  <img src="/assets/img/icons/users.svg" />
+                  <span>행성 멤버 관리</span>
+                </S.CenterGroup>
+              </Button>
+              <S.DeleteBtn type="button" onClick={() => openModal(deleteModal)}>
+                행성 삭제 💥
+              </S.DeleteBtn>
+            </>
           )}
-        </div>
+        </S.CenterGroup>
       )}
     </S.Wrap>
   );
