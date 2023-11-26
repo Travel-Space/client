@@ -20,7 +20,7 @@ import Pagination from "@/components/common/Pagination";
 
 import MESSAGE from "@/constants/message";
 
-export default function Planet() {
+export default function PlanetPage() {
   const userId = useRecoilState(userAtom)[0]?.id;
 
   const [myPlanets, setMyPlanets] = useRecoilState(myPlanetsState);
