@@ -87,7 +87,7 @@ export default function PlanetPage({ planetId }: { planetId?: number }) {
 
   useEffect(() => {
     planetId && getPlanetData();
-  }, [planetId]);
+  }, []);
 
   useEffect(() => {
     if (nameValid && descriptionValid && hashtagCountValid) {
@@ -96,14 +96,6 @@ export default function PlanetPage({ planetId }: { planetId?: number }) {
     }
     setNotAllow(true);
   }, [nameValid, descriptionValid, hashtagCountValid]);
-
-  useEffect(() => {
-    if (planetId) {
-      !planetInfo.name.length ? setNameValid(false) : setNameValid(true);
-      !planetInfo.description.length ? setDescriptionValid(false) : setDescriptionValid(true);
-      !planetInfo.hashtags.length ? setHashtagCountValid(false) : setHashtagCountValid(true);
-    }
-  }, [planetInfo]);
 
   return (
     <PlanetContext.Provider
