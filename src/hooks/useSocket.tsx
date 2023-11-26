@@ -8,11 +8,13 @@ const useSocket = (type: string) => {
   const socketUri =
     type === "CHAT" ? process.env.NEXT_PUBLIC_SOCKET_CHAT_URI : process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI;
 
-  console.log(socketUri);
+  console.log("소켓 uri - ", socketUri);
+  console.log("채팅 env - ", process.env.NEXT_PUBLIC_SOCKET_CHAT_URI);
+  console.log("알림 env - ", process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI);
 
   const user = useRecoilValue(userAtom);
 
-  console.log(user?.id);
+  console.log("유저 아이디 - ", user?.id);
 
   const socket = useMemo(
     () =>
