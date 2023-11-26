@@ -64,8 +64,7 @@ export default function PlanetInfo({ role, liked, membership, planetInfo, setLik
 
       setLiked((prev: boolean) => !prev);
     } catch (error) {
-      alert("좋아요 안 되고 있음");
-      console.log(error);
+      console.error(error);
     }
   };
 
