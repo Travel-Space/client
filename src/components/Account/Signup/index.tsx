@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios, { isAxiosError } from "axios";
+import { isAxiosError } from "axios";
 import axiosRequest from "@/api";
 
 import VALIDATE from "@/constants/regex";
@@ -22,6 +22,7 @@ import { CountryInfo } from "@/@types/User";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { ErrorMessage } from "@/styles/common";
+import getCurrentCountry from "../getCurrentCountry";
 
 const PROFILE_IMAGE: string = "/assets/img/icons/default-user.svg";
 
@@ -57,20 +58,6 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     download_url: "",
   });
   const [showSearch, setShowSearch] = useState(false);
-
-  const getCurrentCountry = async () => {
-    try {
-      // 현재 ip 기준 국적 코드
-      const countryCode = await axios.get(`${window.location.origin}/country`);
-      // 국적 정보
-      const country = await axios.get(
-        `${window.location.origin}/countryData/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${countryCode.data}`,
-      );
-      setCountry(country.data.data[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -187,7 +174,15 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
   }, [nameValid, nickNameValid, passwordValid, isPasswordMatching, isEmailConfirm, nickNameCheck]);
 
   useEffect(() => {
-    getCurrentCountry();
+    const fetchCountryData = async () => {
+      try {
+        const data = await getCurrentCountry();
+        setCountry(data);
+      } catch (error) {
+        console.error("Error fetching country data:", error);
+      }
+    };
+    fetchCountryData();
     nameParams && setName(nameParams);
     emailParams && setEmail(emailParams);
   }, []);
