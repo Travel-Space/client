@@ -34,6 +34,7 @@ const nextConfig = {
       `example.com`,
       `item.kakaocdn.net`,
       `opendata.mofa.go.kr`,
+      `travelspace.world`,
     ],
   },
 };
