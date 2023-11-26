@@ -13,7 +13,7 @@ import usePagination from "@/hooks/usePagination";
 
 import MESSAGE from "@/constants/message";
 
-export default function Comments() {
+export default function CommentsPage() {
   const [comments, setComments] = useState<Comment[]>();
 
   //댓글 불러오기
