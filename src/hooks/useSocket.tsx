@@ -13,10 +13,10 @@ const useSocket = (type: string) => {
   console.log("소켓 uri - ", socketUri);
   console.log("채팅 env - ", process.env.NEXT_PUBLIC_SOCKET_CHAT_URI);
   console.log("알림 env - ", process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI);
+  console.log("구글 맵 api env - ", process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
+  console.log("국가 env - ", process.env.NEXT_PUBLIC_COUNTRY_API_KEY);
 
   const user = useRecoilValue(userAtom);
-
-  console.log("유저 아이디 - ", user?.id);
 
   const socket = useMemo(
     () =>
