@@ -8,7 +8,11 @@ const useSocket = (type: string) => {
   const socketUri =
     type === "CHAT" ? process.env.NEXT_PUBLIC_SOCKET_CHAT_URI : process.env.NEXT_PUBLIC_SOCKET_NOTIFICATION_URI;
 
+  console.log(socketUri);
+
   const user = useRecoilValue(userAtom);
+
+  console.log(user?.id);
 
   const socket = useMemo(
     () =>
