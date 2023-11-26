@@ -97,6 +97,7 @@ export const MemberRole = styled.span`
 export const MemberGroup = styled(Group)`
   & > div:first-child {
     flex: 1;
+    width: 100px;
     > div:first-child {
       padding: 0 16px;
     }
