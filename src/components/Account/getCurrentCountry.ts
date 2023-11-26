@@ -10,8 +10,6 @@ const getCurrentCountry = async () => {
       `https://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2?serviceKey=${process.env.NEXT_PUBLIC_COUNTRY_API_KEY}&returnType=JSON&cond[country_iso_alp2::EQ]=${data}`,
     );
 
-    console.log("컨트리 api env - ", process.env.NEXT_PUBLIC_COUNTRY_API_KEY);
-
     if (!response2.ok) {
       throw new Error("공공데이터 서버 응답 실패");
     }
