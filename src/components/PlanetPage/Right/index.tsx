@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { isAxiosError } from "axios";
 
 import Image from "next/image";
@@ -114,6 +114,11 @@ export default function Right() {
     }
   };
 
+  useEffect(() => {
+    VALIDATE.PLANET.NAME.test(planetInfo.name) ? setNameValid(true) : setNameValid(false);
+    VALIDATE.PLANET.DESCRIPTION.test(planetInfo.description) ? setDescriptionValid(true) : setDescriptionValid(false);
+  }, [planetInfo]);
+
   return (
     <S.Wrap>
       <div>
@@ -164,6 +169,7 @@ export default function Right() {
           onChange={handleName}
           value={planetInfo.name}
           warning={!nameValid && planetInfo.name}
+          maxLength={VALIDATE.PLANET.NAME_COUNT}
         />
         {!nameValid && planetInfo.name && <ErrorMessage>{MESSAGE.PLANET.SYNTAX_NAME}</ErrorMessage>}
       </S.InputGroup>

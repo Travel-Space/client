@@ -40,9 +40,9 @@ export const DeleteBtn = styled.button`
   top: 0;
 `;
 
-export const CenterGroup = styled.div`
+export const CenterGroup = styled.div<{ $gap?: number }>`
   ${flexCenter}
-  gap: 48px;
+  gap: ${props => (props.$gap ? props.$gap : 48)}px;
 `;
 
 export const Title = styled.p`

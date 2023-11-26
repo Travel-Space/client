@@ -9,17 +9,22 @@ import { ResData } from "@/@types";
 import { isAxiosError } from "axios";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
-import { SpaceshipContext, SpaceshipContextType } from "../..";
 import STATUS_CODE from "@/constants/statusCode";
-import { PLANET_ROLE, PLANET_ROLE_NAME } from "@/@types/Planet";
+import { PLANET_ROLE, PLANET_ROLE_NAME, PlanetMembership } from "@/@types/Planet";
+import { PlanetContext, PlanetContextType } from "../..";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/recoil/atoms/user.atom";
 
 export default function PlanetMember({ onClose }: Default) {
-  const { planetId, planetMember, fetchMemberListData } = useContext<SpaceshipContextType>(SpaceshipContext);
-  const [updatedPlanetMember, setUpdatedPlanetMember] = useState<CommonUserInfo[]>([]);
-  const [followingList, setFollowingList] = useState<CommonUserInfo[]>([]);
+  const { planetInfo } = useContext<PlanetContextType>(PlanetContext);
+
+  const [planetMember, setPlanetMember] = useState<CommonUserInfo[]>([]);
+  const [followingUsers, setFollowingUsers] = useState<CommonUserInfo[]>([]);
+  const [totalMemberList, setTotalMemberList] = useState<CommonUserInfo[]>([]);
   const [searchUsers, setSearchUsers] = useState<CommonUserInfo[]>([]);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const userInfo = useRecoilValue(userAtom);
   const [searchEmail, setSearchEmail] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -28,13 +33,13 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/${planetId}/invite/${userId}`,
+        `/planet/${planetInfo.id}/invite/${userId}`,
         {},
       );
       console.log("handleInvite", response);
       if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
-        fetchMemberListData();
+        getMemberList();
       }
     } catch (error) {
       console.error("초대하기 에러", error);
@@ -48,13 +53,13 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/approve/${planetId}/${userId}`,
+        `/planet/approve/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleApprove", response);
       if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
-        fetchMemberListData();
+        getMemberList();
       }
     } catch (error) {
       console.error("가입 승인하기 에러", error);
@@ -68,13 +73,13 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "post",
-        `/planet/reject/${planetId}/${userId}`,
+        `/planet/reject/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleReject", response);
       if (response.status === STATUS_CODE.CREATED) {
         alert(response.data.message);
-        fetchMemberListData();
+        getMemberList();
       }
     } catch (error) {
       console.error("가입 거절하기 에러", error);
@@ -88,13 +93,13 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "delete",
-        `/planet/kick/${planetId}/${userId}`,
+        `/planet/kick/${planetInfo.id}/${userId}`,
         {},
       );
       console.log("handleKick", response);
       if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
-        fetchMemberListData();
+        getMemberList();
       }
     } catch (error) {
       console.error("멤버 추방하기 에러", error);
@@ -109,7 +114,7 @@ export default function PlanetMember({ onClose }: Default) {
     try {
       const response = await axiosRequest.requestAxios<ResData<{ message: string }>>(
         "put",
-        `/planet/members/${planetId}/${userId}`,
+        `/planet/members/${planetInfo.id}/${userId}`,
         {
           role: role === PLANET_ROLE.ADMIN ? PLANET_ROLE_NAME.ADMIN : PLANET_ROLE_NAME.MEMBER,
         },
@@ -117,7 +122,7 @@ export default function PlanetMember({ onClose }: Default) {
       console.log("handleRoleMember", response);
       if (response.status === STATUS_CODE.OK) {
         alert(response.data.message);
-        fetchMemberListData();
+        getMemberList();
       }
     } catch (error) {
       console.error("멤버 권한 수정 에러", error);
@@ -127,25 +132,60 @@ export default function PlanetMember({ onClose }: Default) {
     }
   };
 
-  // 팔로우 리스트 조회
-  const fetchFollowingData = async () => {
+  // 행성 멤버 조회
+  const getMemberList = async () => {
     try {
-      const response = await axiosRequest.requestAxios<
-        ResData<{ data: { friend: { id: number; profileImage: string; nickName: string; email: string } }[] }>
-      >("get", "/user/following", {});
-      console.log("fetchFollowingData", response);
-      const data = response.data;
-      const resultMember = data.data.map(
-        (member: { friend: { id: number; profileImage: string; nickName: string; email: string } }) => ({
-          userId: member.friend.id,
-          nickName: member.friend.nickName,
-          email: member.friend.email,
-          profileImage: member.friend.profileImage,
-          role: undefined,
-          invited: false,
+      const response = await axiosRequest.requestAxios<ResData<PlanetMembership[]>>(
+        "get",
+        `/planet/members/${planetInfo.id}`,
+        {},
+      );
+      console.log(response);
+      // 본인 제외한 멤버
+      const members = response.data;
+      const filteredMember = members.filter(member => member.role !== PLANET_ROLE_NAME.OWNER);
+      const resultMember = filteredMember.map(
+        (member: PlanetMembership): CommonUserInfo => ({
+          email: member.user.email,
+          nickName: member.user.nickName,
+          profileImage: member.user.profileImage,
+          role: member.role,
+          userId: member.user.id,
+          invited: member.user.invited,
         }),
       );
-      setFollowingList(resultMember);
+      setPlanetMember(resultMember);
+    } catch (error) {
+      console.error("멤버 조회 에러", error);
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message);
+      }
+    }
+  };
+
+  // 팔로우 리스트 조회
+  interface FriendType {
+    friend: {
+      id: number;
+      profileImage: string;
+      nickName: string;
+      email: string;
+    };
+  }
+  const getFollowingList = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<{ data: FriendType[] }>>("get", "/user/following", {});
+      console.log("내가 팔로우하는 친구 리스트", response);
+      const data = response.data;
+      const resultMember = data.data.map((member: FriendType) => ({
+        userId: member.friend.id,
+        nickName: member.friend.nickName,
+        email: member.friend.email,
+        profileImage: member.friend.profileImage,
+        role: undefined,
+        invited: false,
+      }));
+      setFollowingUsers(resultMember);
     } catch (error) {
       console.error("내가 팔로우하는 친구 조회 에러", error);
       if (isAxiosError(error)) {
@@ -160,7 +200,6 @@ export default function PlanetMember({ onClose }: Default) {
       nativeEvent: { isComposing: false },
     } as React.KeyboardEvent<HTMLInputElement>);
   };
-
   const getSearchUsers = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
 
@@ -170,8 +209,10 @@ export default function PlanetMember({ onClose }: Default) {
           "get",
           `/user?page=${page}&limit=${limit}&email=${searchEmail}`,
         );
-        console.log("getSearchUsers", response.data.data);
-        const resultUser = response.data.data.map((user: User) => ({
+        const users = response.data.data;
+        // 본인 제외한 유저
+        const filteredUser = users.filter(user => user.id !== userInfo?.id);
+        const resultUser = filteredUser.map((user: User) => ({
           userId: user.id,
           nickName: user.nickName,
           email: user.email,
@@ -182,7 +223,7 @@ export default function PlanetMember({ onClose }: Default) {
         console.log("resultUser", resultUser);
         if (!resultUser.length) {
           setTotalCount(0);
-          setUpdatedPlanetMember([]);
+          setTotalMemberList([]);
           return;
         }
         setSearchUsers(resultUser);
@@ -196,17 +237,19 @@ export default function PlanetMember({ onClose }: Default) {
   };
 
   useEffect(() => {
-    fetchFollowingData();
-    fetchMemberListData();
+    getFollowingList();
+    getMemberList();
   }, []);
 
   useEffect(() => {
-    const planetFollowingMember = [...planetMember, ...followingList].filter(
+    // 행성 멤버와 팔로우 유저 중복 제거
+    const planetFollowingMember = [...planetMember, ...followingUsers].filter(
       (value, index, self) => self.findIndex(el => el.userId === value.userId) === index,
     );
-    setUpdatedPlanetMember(planetFollowingMember);
-    if (!searchUsers.length) return;
+    setTotalMemberList(planetFollowingMember);
 
+    if (!searchUsers.length) return;
+    // 행성 멤버와 검색 유저 중복 제거
     const searchUsersMember = [...planetMember, ...searchUsers]
       .filter((value, index, self) => self.findIndex(el => el.userId === value.userId) === index)
       .filter(
@@ -214,12 +257,17 @@ export default function PlanetMember({ onClose }: Default) {
           planetMember.some(planetUser => planetUser.userId === updatedUser.userId) &&
           searchUsers.some(searchUser => searchUser.userId === updatedUser.userId),
       );
+    // 순수 검색 유저
+    const uniqueSearchUsers = searchUsers.filter(
+      searchUser => !searchUsersMember.some(member => member.userId === searchUser.userId),
+    );
+
     if (!searchUsersMember.length) {
-      setUpdatedPlanetMember(searchUsers);
+      setTotalMemberList(searchUsers);
       return;
     }
-    setUpdatedPlanetMember(searchUsersMember);
-  }, [followingList, planetMember, searchUsers]);
+    setTotalMemberList([...searchUsersMember, ...uniqueSearchUsers]);
+  }, [followingUsers, planetMember, searchUsers]);
 
   useEffect(() => {
     if (!searchEmail) {
@@ -228,15 +276,15 @@ export default function PlanetMember({ onClose }: Default) {
   }, [searchEmail]);
 
   useEffect(() => {
-    setTotalCount(updatedPlanetMember?.length);
-  }, [updatedPlanetMember]);
+    setTotalCount(totalMemberList?.length);
+  }, [totalMemberList]);
 
   return (
     <BoxModal onClose={onClose} title="행성 멤버 관리" size="lg">
       <S.Notification>
         <S.SearchGroup>
           <Input
-            placeholder="이메일을 검색해보세요."
+            placeholder="이메일을 검색해 보세요."
             value={searchEmail || ""}
             onChange={e => setSearchEmail(e.target.value)}
             onKeyDown={getSearchUsers}
@@ -251,14 +299,14 @@ export default function PlanetMember({ onClose }: Default) {
           <S.NoList>
             <img src="/assets/img/icons/user-profile-default.svg" height={100} />
             <p>
-              <b>해당 사용자가 없습니다.</b>
+              <b>탑승된 멤버가 없습니다.</b>
               <br />
               <span>이메일을 검색해 보세요.</span>
             </p>
           </S.NoList>
         ) : (
           <S.MemberList>
-            {updatedPlanetMember?.map(member => (
+            {totalMemberList?.map(member => (
               <Member
                 key={member.userId}
                 mode="manage"
