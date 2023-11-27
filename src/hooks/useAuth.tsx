@@ -13,7 +13,7 @@ export function useAuth(planetId?: number, guardType?: PLANET_ROLE) {
   useEffect(() => {
     if (!user) {
       alert(MESSAGE.LOGIN.REQUIRED);
-      router.back();
+      router.push("/");
       return;
     }
 
@@ -38,7 +38,7 @@ export function useAuth(planetId?: number, guardType?: PLANET_ROLE) {
           setIsLoggedIn(true);
         } else {
           alert(errorMessage);
-          router.back();
+          router.push("/");
         }
       }
     };
