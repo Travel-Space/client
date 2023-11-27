@@ -5,11 +5,11 @@ import { useState, useEffect, useRef } from "react";
 
 import * as S from "./index.styled";
 
-import PlanetItem from "@/components/User/PlanetItem";
+import PlanetItem from "@/components/common/User/PlanetItem";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
-import MyPlanetItem from "@/components/User/MyPlanetItem";
+import MyPlanetItem from "@/components/common/User/MyPlanetItem";
 
 export default function Planets({ id }: { id: number }) {
   const [userPlanets, setUserPlanets] = useState<Planet[]>([]);

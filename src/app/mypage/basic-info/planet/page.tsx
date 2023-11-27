@@ -13,8 +13,8 @@ import * as S from "./page.styled";
 import Link from "next/link";
 import Image from "next/image";
 import Nothing from "@/components/common/Nothing";
-import MyPlanetItem from "@/components/User/MyPlanetItem";
-import PlanetItem from "@/components/User/PlanetItem";
+import MyPlanetItem from "@/components/common/User/MyPlanetItem";
+import PlanetItem from "@/components/common/User/PlanetItem";
 import Button from "@/components/common/Button";
 import Pagination from "@/components/common/Pagination";
 

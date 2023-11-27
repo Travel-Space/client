@@ -10,7 +10,7 @@ import usePagination from "@/hooks/usePagination";
 import * as S from "./page.styled";
 
 import Image from "next/image";
-import MyPlanetItem from "@/components/User/MyPlanetItem";
+import MyPlanetItem from "@/components/common/User/MyPlanetItem";
 import SearchForm from "@/app/mypage/SearchForm";
 import FavoritePlanet from "./FavoritePlanet";
 import Nothing from "@/components/common/Nothing";

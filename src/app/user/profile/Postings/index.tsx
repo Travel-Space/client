@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 
 import * as S from "./index.styled";
 
-import PostingItem from "@/components/User/PostingItem";
+import PostingItem from "@/components/common/User/PostingItem";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import Nothing from "@/components/common/Nothing";
 import MESSAGE from "@/constants/message";
