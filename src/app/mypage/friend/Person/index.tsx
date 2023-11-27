@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 import * as S from "./index.styled";
 
-import Image from "next/image";
 import FollowBtn from "../FollowBtn";
 
 interface PersonProps {
@@ -27,7 +26,7 @@ export default function Person({ data, isMutual, updateData }: PersonProps) {
   return (
     <S.Container>
       <S.Profile onClick={goToProfile}>
-        <Image src={data.profileImage || defaultImage} alt="profileImage" width={76} height={76} />
+        <img src={data.profileImage || defaultImage} alt="profileImage" />
         <S.Info>
           <S.Name>{data.nickName}</S.Name>
           <S.Email>{data.email}</S.Email>

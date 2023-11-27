@@ -8,7 +8,6 @@ import { totalFollowersState, totalFollowingsState } from "@/recoil/atoms/friend
 
 import * as S from "./index.styled";
 
-import Image from "next/image";
 import Line from "@/components/common/Line";
 import FollowBtn from "@/app/mypage/friend/FollowBtn";
 
@@ -42,12 +41,7 @@ export default function ProfileSummary({ id }: { id: number }) {
   return (
     <S.Container>
       <S.UserInfo>
-        <Image
-          src={userProfile?.profileImage || "/assets/img/icons/default-user.svg"}
-          alt="user-img"
-          width={120}
-          height={120}
-        />
+        <img src={userProfile?.profileImage || "/assets/img/icons/default-user.svg"} alt="user-img" />
         <S.Profile>
           <S.Nickname>{userProfile?.nickName}</S.Nickname>
           <S.Email>{userProfile?.email}</S.Email>

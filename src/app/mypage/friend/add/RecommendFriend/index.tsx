@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 import * as S from "./index.styled";
 
-import Image from "next/image";
 import FollowBtn from "../../FollowBtn";
 
 interface RecommendFriendProps {
@@ -21,7 +20,7 @@ export default function RecommendFriend({ data, updateData }: RecommendFriendPro
   return (
     <S.Container>
       <S.Profile onClick={goToProfile}>
-        <Image src={data.user.profileImage} alt="default-user" width={76} height={76} />
+        <img src={data.user.profileImage} alt="default-user" />
         <S.Nickname>{data.user.nickName}</S.Nickname>
       </S.Profile>
       <FollowBtn userId={data.user.id} isMutual={data.isMutual} updateData={updateData} />

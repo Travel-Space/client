@@ -8,8 +8,6 @@ import useImageCompress from "@/hooks/useImageCompess";
 
 import * as S from "./index.styled";
 
-import Image from "next/image";
-
 import { dataURItoFile } from "@/utils/dataURItoFile";
 import MESSAGE from "@/constants/message";
 
@@ -75,13 +73,13 @@ export default function ProfileImage({ imgSrc, onChange }: ProfileImageProps) {
       <S.DeleteImgBtn onClick={deleteImg} />
       <S.ProfileImage>
         {compressedImage ? (
-          <Image src={compressedImage} alt="profile-image" width={120} height={120} />
+          <img src={compressedImage} alt="profile-image" />
         ) : (
           <S.ProfileCover>
             {isCompressLoading ? (
               <S.Loading>이미지 압축 중..</S.Loading>
             ) : (
-              <Image src={imgSrc || defaultImage} alt="profile-image" width={120} height={120} />
+              <img src={imgSrc || defaultImage} alt="profile-image" />
             )}
           </S.ProfileCover>
         )}

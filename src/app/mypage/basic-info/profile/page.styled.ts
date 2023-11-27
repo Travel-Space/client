@@ -101,6 +101,8 @@ export const Save = styled.div`
 export const Nationality = styled.div`
   position: relative;
   & > img {
+    width:30px;
+    height=20px;
     position: absolute;
     top: 50%;
     right: 10px;
