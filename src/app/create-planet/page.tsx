@@ -1,6 +1,6 @@
 "use client";
 
-import PlanetPage from "@/components/PlanetPage";
+import PlanetPage from "@/components/common/PlanetPage";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function CreatePlanet() {
