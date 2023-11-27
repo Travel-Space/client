@@ -64,7 +64,7 @@ export default function ResetPassword({ goToLogin }: PropsType) {
   }, [passwordValid, isPasswordMatching, isEmailConfirm]);
   return (
     <Container>
-      <Email onEmail={handleEmail} />
+      <Email onEmail={handleEmail} isResetPw />
 
       <MarginGroup>
         <Line size="horizontal" color="gray" />

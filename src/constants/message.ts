@@ -18,6 +18,7 @@ const MESSAGE = {
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
     ONLY_ADMIN: "관리자 및 부관리자만 접근이 가능합니다.",
     ONLY_MEMBER: "행성 멤버만 접근이 가능합니다.",
+    WRONG: "잘못된 접근입니다.",
   },
   POST: {
     COMPLETE: "게시글 작성이 완료되었습니다.",

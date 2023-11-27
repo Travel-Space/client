@@ -187,6 +187,10 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
     emailParams && setEmail(emailParams);
   }, []);
 
+  useEffect(() => {
+    VALIDATE.USER.NAME.test(name) ? setNameValid(true) : setNameValid(false);
+  }, [name]);
+
   return (
     <Container>
       <InputGroup>
@@ -199,7 +203,6 @@ export default function Signup({ goToLogin, socialType }: PropsType) {
           value={name}
           onChange={handleName}
           warning={!nameValid && name}
-          disabled={socialType}
         />
         {!nameValid && name && <ErrorMessage>{MESSAGE.JOIN.SYNTAX_NAME}</ErrorMessage>}
       </InputGroup>
