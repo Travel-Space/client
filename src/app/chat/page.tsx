@@ -11,8 +11,9 @@ import { Message } from "@/@types/Chat";
 import { Planet } from "@/@types";
 import MESSAGE from "@/constants/message";
 import useImageUpload from "@/hooks/useImageUpload";
+import { useAuth } from "@/hooks/useAuth";
 
-import Modal from "./Content/Modal";
+import Modal from "./components/Modal";
 
 import * as S from "./page.styled";
 import Line from "@/components/common/Line";
@@ -21,6 +22,12 @@ import Input from "@/components/common/Input";
 import Nothing from "@/components/common/Nothing";
 
 export default function Chat() {
+  const isLoggedIn = useAuth();
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const user = useRecoilValue(userAtom);
 
   // ===================================== useModal 사용 =====================================

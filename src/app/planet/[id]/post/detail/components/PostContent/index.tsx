@@ -13,7 +13,7 @@ import { getDateInfo } from "@/utils/getDateInfo";
 import axiosRequest from "@/api";
 import Link from "next/link";
 import MESSAGE from "@/constants/message";
-import ShipInfo from "../../../space-ship/components/Modal/ShipInfo";
+import ShipInfo from "@/app/planet/[id]/space-ship/components/Modal/ShipInfo";
 
 interface PostContentProps {
   data?: Posting;

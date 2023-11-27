@@ -1,9 +1,9 @@
 "use client";
 
-import HomeTitle from "./home/HomeTitle";
+import HomeTitle from "./home/components/HomeTitle";
+import PlanetList from "./home/components/PlanetList";
+import SearchPlanet from "./home/components/SearchPlanet";
 import * as H from "./home/page.styled";
-import PlanetList from "./home/PlanetList";
-import SearchPlanet from "./home/SearchPlanet";
 
 export default function Home() {
   return (
