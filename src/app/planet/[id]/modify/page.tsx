@@ -1,7 +1,7 @@
 "use client";
 
 import { PLANET_ROLE_NAME } from "@/@types/Planet";
-import PlanetPage from "@/components/PlanetPage";
+import PlanetPage from "@/components/common/PlanetPage";
 import { useAuth } from "@/hooks/useAuth";
 import { useParams } from "next/navigation";
 

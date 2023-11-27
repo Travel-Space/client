@@ -12,7 +12,7 @@ import Input, { Label } from "@/components/common/Input";
 import Textarea from "@/components/common/Textarea";
 import AdjustBtnInput from "@/components/common/AdjustBtnInput";
 import Button from "@/components/common/Button";
-import { PlanetContext, PlanetContextType } from "@/components/PlanetPage";
+import { PlanetContext, PlanetContextType } from "@/components/common/PlanetPage";
 
 import axiosRequest from "@/api";
 
