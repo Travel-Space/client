@@ -12,7 +12,7 @@ import { Planet } from "@/@types";
 import MESSAGE from "@/constants/message";
 import useImageUpload from "@/hooks/useImageUpload";
 
-import Modal from "./Content/Modal";
+import Modal from "./components/Modal";
 
 import * as S from "./page.styled";
 import Line from "@/components/common/Line";
