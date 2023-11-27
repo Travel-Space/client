@@ -1,5 +1,5 @@
 import BoxModal from "@/components/common/BoxModal";
-import Member from "@/components/SpaceModal/Member";
+import Member from "@/components/common/SpaceModal/Member";
 import { Default, ITEM_TYPE } from "@/@types/Modal";
 import Button from "@/components/common/Button";
 import * as S from "../index.styled";
