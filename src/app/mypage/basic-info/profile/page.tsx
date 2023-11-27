@@ -10,7 +10,6 @@ import { profileState } from "@/recoil/atoms/user.atom";
 import * as S from "./page.styled";
 
 import Link from "next/link";
-import Image from "next/image";
 import Line from "@/components/common/Line";
 import Button from "@/components/common/Button";
 import ProfileImage from "./ProfileImage";
@@ -207,7 +206,7 @@ export default function Profile() {
         <Item name="국적">
           <S.Nationality>
             <S.Input type="text" value={country.country_nm} onClick={() => setShowSearch(prev => !prev)} />
-            <Image src={country.download_url} alt="nationImage" width={30} height={20} />
+            <img src={country.download_url} alt="nationImage" />
             {showSearch && <SearchCountry onCountry={handleCountry} onClose={() => setShowSearch(false)} />}
           </S.Nationality>
         </Item>
