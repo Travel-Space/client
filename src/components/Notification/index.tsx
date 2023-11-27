@@ -15,7 +15,7 @@ export default function Notification({
   setNotifications, // setNewNotificationReceived,
 }: NotificationProps) {
   return (
-    <Side>
+    <Side onClick={onClickNotification}>
       <S.TitleContainer>
         <p>알림이 도착했어요!</p>
         <S.CloseButton type="button" onClick={onClickNotification}>
