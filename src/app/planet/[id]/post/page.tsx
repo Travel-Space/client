@@ -8,9 +8,9 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "@/recoil/atoms/user.atom";
 import { AxiosResponse } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import PostContent from "./detail/PostContent";
-import LikeAndShare from "./detail/LikeAndShare";
-import CommentList from "./detail/CommentList";
+import PostContent from "./detail/components/PostContent";
+import LikeAndShare from "./detail/components/LikeAndShare";
+import CommentList from "./detail/components/CommentList";
 
 interface PostDetailProps {
   data?: Posting;
