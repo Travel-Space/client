@@ -1,19 +1,20 @@
 "use client";
+import { useState, useEffect } from "react";
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
-import { User, UsersType } from "@/@types/User";
 
-import { Select, Button, Space } from "antd";
 import * as S from "../admin.styled";
+import { Select, Button, Space } from "antd";
 
 import { getDateInfo } from "@/utils/getDateInfo";
-import TotalText from "../TotalText";
-import SearchBar from "../SearchBar";
-import { useState, useEffect } from "react";
 
-import AdminTable from "../Table";
-import ReasonsRestrictionActivityModal from "../Modal/ReasonsRestrictionActivityModal";
+import TotalText from "../components/TotalText";
+import SearchBar from "../components/SearchBar";
+import AdminTable from "../components/Table";
+import ReasonsRestrictionActivityModal from "../components/Modal/ReasonsRestrictionActivityModal";
+
 import MESSAGE from "@/constants/message";
+import { User, UsersType } from "@/@types/User";
 
 export default function Users() {
   const [userData, setUserData] = useState<User[]>([]);

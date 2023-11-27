@@ -1,16 +1,17 @@
+import { useEffect, useState } from "react";
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types";
 
+import * as S from "./index.styled";
+
 import AdminModalContainer from "../AdminModalContainer";
 import Textarea from "@/components/common/Textarea";
+import DropDown from "@/components/common/DropDown";
+import Button from "@/components/common/Button";
+
 import { Report } from "@/@types/Report";
 import REPORT from "@/constants/reports";
 import MESSAGE from "@/constants/message";
-
-import * as S from "./index.styled";
-import { useEffect, useState } from "react";
-import DropDown from "@/components/common/DropDown";
-import Button from "@/components/common/Button";
 
 const menuList = [
   REPORT.SPAM,

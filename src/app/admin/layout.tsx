@@ -1,7 +1,7 @@
 "use client";
 
 import * as S from "./admin.styled";
-import AdminNav from "./AdminNav";
+import AdminNav from "./components/AdminNav";
 import { useEffect } from "react";
 
 import { useRecoilValue } from "recoil";

@@ -1,17 +1,17 @@
 "use client";
+import { useState, useEffect } from "react";
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
 
-import { PostingsType, Posting } from "@/@types/Posting";
 import { Button, Space } from "antd";
+import TotalText from "../components/TotalText";
+import AdminTable from "../components/Table";
+import SearchBar from "../components/SearchBar";
+import { PostingsType, Posting } from "@/@types/Posting";
 
 import * as S from "../admin.styled";
-import TotalText from "../TotalText";
-
-import SearchBar from "../SearchBar";
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import AdminTable from "../Table";
+
 import MESSAGE from "@/constants/message";
 
 export default function Posts() {
