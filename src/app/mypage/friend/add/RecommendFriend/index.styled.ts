@@ -17,8 +17,8 @@ export const Profile = styled.div`
   ${flexColumnCenter};
 
   & > img {
-    width=76px; 
-    height=76px; 
+    width: 76px;
+    height: 76px;
     border-radius: 38px;
   }
 `;
