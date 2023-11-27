@@ -8,7 +8,7 @@ import * as S from "./page.styled";
 
 import Nothing from "@/components/common/Nothing";
 import SearchForm from "@/app/mypage/SearchForm";
-import PostingItem from "@/components/User/PostingItem";
+import PostingItem from "@/components/common/User/PostingItem";
 import Pagination from "@/components/common/Pagination";
 import usePagination from "@/hooks/usePagination";
 
