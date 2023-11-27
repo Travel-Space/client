@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import axiosRequest from "@/api";
+import { ResData, User } from "@/@types";
+
 import * as S from "./index.styled";
 
 import MESSAGE from "@/constants/message";
@@ -9,9 +12,6 @@ import DropDown from "@/components/common/DropDown";
 import AdminModalContainer from "../AdminModalContainer";
 
 import REPORT from "@/constants/reports";
-
-import axiosRequest from "@/api";
-import { ResData, User } from "@/@types";
 
 interface ReasonsRestrictionActivityModalProps {
   user: User;

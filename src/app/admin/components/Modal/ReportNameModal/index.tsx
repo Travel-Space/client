@@ -1,14 +1,16 @@
-import AdminModalContainer from "../AdminModalContainer";
+import { useState } from "react";
+import axiosRequest from "@/api/index";
+import { ResData } from "@/@types/index";
+
 import Link from "next/link";
 import * as S from "./index.styled";
 
-import { Report } from "@/@types/Report";
 import { getDateInfo } from "@/utils/getDateInfo";
-import axiosRequest from "@/api/index";
-import { ResData } from "@/@types/index";
-import ReportAcceptModal from "../ReportAcceptModal";
+
+import AdminModalContainer from "../AdminModalContainer";
 import ImageModal from "../ImageModal";
-import { useState } from "react";
+
+import { Report } from "@/@types/Report";
 import MESSAGE from "@/constants/message";
 
 interface ReportNameModalProps {

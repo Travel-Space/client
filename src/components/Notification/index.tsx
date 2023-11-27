@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-
 import * as S from "./index.styled";
 import Side from "../../components/common/Side";
 import NotificationList from "./NotificationList";
-import { userAtom } from "@/recoil/atoms/user.atom";
 import { Notification as NotificationType } from "@/@types/Notification";
 
 interface NotificationProps {

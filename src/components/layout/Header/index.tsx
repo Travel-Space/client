@@ -39,7 +39,6 @@ export default function Header() {
         if (data.length) setNewNotificationReceived(true);
       };
 
-      // console.log("알림", notifications);
       socket.emit("subscribeToNotifications", { userId: user?.id });
       socket.on("notifications", handleNotifications);
 
@@ -52,9 +51,6 @@ export default function Header() {
       // };
     }
   }, [socket, user?.isAuth]);
-
-  // console.log(newNotificationReceived, "newNotificationReceived");
-  // console.log(notifications, "notifications");
 
   const setLogout = () => {
     setUser(null);
@@ -110,6 +106,11 @@ export default function Header() {
                   />
                 )}
               </li>
+              {user?.role == "ADMIN" && (
+                <li>
+                  <Link href="/admin/users">ADMIN</Link>
+                </li>
+              )}
               <li>
                 <Link href="/mypage/statistics">MYPAGE</Link>
               </li>
