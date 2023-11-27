@@ -17,9 +17,10 @@ import { ErrorMessage } from "@/styles/common";
 
 interface PropsType {
   onEmail: (result: boolean, value: string) => void;
+  isResetPw?: boolean;
 }
 
-export default function Email({ onEmail }: PropsType) {
+export default function Email({ onEmail, isResetPw }: PropsType) {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [emailValid, setEmailValid] = useState(false);
@@ -66,9 +67,13 @@ export default function Email({ onEmail }: PropsType) {
 
   const sendCode = async () => {
     try {
-      const response = await axiosRequest.requestAxios<ResData<User>>("post", "/auth/send-verification-code", {
-        email,
-      });
+      const response = await axiosRequest.requestAxios<ResData<User>>(
+        "post",
+        `${!isResetPw ? "/auth/send-verification-code" : "/auth/password-change/request"}`,
+        {
+          email,
+        },
+      );
       console.log(response);
       if (response.status === STATUS_CODE.CREATED) {
         setCodeValid(true);
