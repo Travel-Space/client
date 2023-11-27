@@ -9,7 +9,7 @@ import { ResData } from "@/@types";
 import { Posting, PostingsType } from "@/@types/Posting";
 
 import * as S from "./page.styled";
-import Side from "./Side";
+import Side from "./components/Side";
 import { Locations } from "@/@types/Locations";
 
 const Marker = dynamic(() => import("@react-google-maps/api").then(module => module.Marker), { ssr: false });
