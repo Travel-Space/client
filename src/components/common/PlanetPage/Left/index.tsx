@@ -7,8 +7,8 @@ import * as S from "./index.styled";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import { PlanetContext, PlanetContextType } from "@/components/PlanetPage";
-import Delete from "@/components/SpaceModal/Delete";
+import { PlanetContext, PlanetContextType } from "@/components/common/PlanetPage";
+import Delete from "@/components/common/SpaceModal/Delete";
 
 import PLANETSHAPE from "@/constants/planetShape";
 import VALIDATE from "@/constants/regex";

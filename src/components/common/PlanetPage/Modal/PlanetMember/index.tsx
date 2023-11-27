@@ -1,6 +1,6 @@
 import BoxModal from "@/components/common/BoxModal";
 import * as S from "./index.styled";
-import Member from "@/components/SpaceModal/Member";
+import Member from "@/components/common/SpaceModal/Member";
 import { Default } from "@/@types/Modal";
 import { CommonUserInfo, User, UsersType } from "@/@types/User";
 import { useContext, useEffect, useState } from "react";

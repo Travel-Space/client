@@ -94,7 +94,7 @@ export default function NotificationList({
           `/planet/${action}/${planetId}/${requestUserId}`,
         );
         deleteNotificationList(id);
-        onClickNotification();
+        // onClickNotification();
       } catch (error) {
         alert("에러가 발생했습니다. 다시 시도해 주세요.");
       }
@@ -125,6 +125,7 @@ export default function NotificationList({
       {notifications.map(notification => {
         const { id, content, createdAt, invitationId, planetId, articleId, type, requestUserId } = notification;
         const { dateString, dayName, time } = getDateInfo(createdAt);
+
         let iconImage = "";
         if (id) {
           const imgPath = "/assets/img/icons/notification/noti-";

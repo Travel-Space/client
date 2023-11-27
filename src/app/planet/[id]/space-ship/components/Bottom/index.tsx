@@ -1,5 +1,5 @@
 import * as S from "../index.styled";
-import Exit from "@/components/SpaceModal/Exit";
+import Exit from "@/components/common/SpaceModal/Exit";
 import { ITEM_TYPE } from "@/@types/Modal";
 import { useModal } from "@/hooks/useModal";
 import { useContext } from "react";
