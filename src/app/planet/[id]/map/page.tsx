@@ -38,16 +38,10 @@ export default function Map({ params }: { params: { id: number } }) {
   });
 
   // 구글 맵 키
-  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY || "";
-
-  console.log(googleMapsApiKey, "구글 맵 키");
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}` || "",
   });
-
-  console.log("isloaded", isLoaded);
 
   // 지도 페이지 들어갔을 때 게시글 전체 조회하는 api (우주선 상관 x) = 마커 찍어주는 용도
   const getMarker = async () => {
