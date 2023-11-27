@@ -7,12 +7,12 @@ import * as S from "../admin.styled";
 import { Report } from "@/@types/Report";
 import { Select, Button, Space } from "antd";
 
-import TotalText from "../TotalText";
-import SearchBar from "../SearchBar";
-import ReportNameModal from "../Modal/ReportNameModal";
-import ReportAcceptModal from "../Modal/ReportAcceptModal";
-import ReportDetailModal from "../Modal/ReportDetailModal";
-import AdminTable from "../Table";
+import TotalText from "../components/TotalText";
+import SearchBar from "../components/SearchBar";
+import ReportNameModal from "../components/Modal/ReportNameModal";
+import ReportAcceptModal from "../components/Modal/ReportAcceptModal";
+import ReportDetailModal from "../components/Modal/ReportDetailModal";
+import AdminTable from "../components/Table";
 
 export default function Reports() {
   const [reportsData, setReportsData] = useState<Report[]>([]);

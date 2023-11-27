@@ -1,17 +1,17 @@
 "use client";
+import { useEffect, useState } from "react";
 import axiosRequest from "@/api/index";
 import { ResData } from "@/@types/index";
 
 import Link from "next/link";
 import * as S from "../admin.styled";
 
-import TotalText from "../TotalText";
-import SearchBar from "../SearchBar";
 import { Select, Button, Space, Tag } from "antd";
+import TotalText from "../components/TotalText";
+import SearchBar from "../components/SearchBar";
+import AdminTable from "../components/Table";
 
 import { Planet } from "@/@types/Planet";
-import { useEffect, useState } from "react";
-import AdminTable from "../Table";
 import MESSAGE from "@/constants/message";
 
 const itemsPerPage = 10;
