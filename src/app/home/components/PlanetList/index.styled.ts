@@ -13,8 +13,6 @@ const rotation = keyframes`
   }
 `;
 
-
-
 export const SwiperContainer = styled.div`
   ${bodyContainer}
   width: 100%;

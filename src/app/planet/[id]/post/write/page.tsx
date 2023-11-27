@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import * as PW from "./page.styled";
 import Button from "@/components/common/Button";
 import DropDown from "@/components/common/DropDown";
-import LocationInput from "./LocationInput";
+import LocationInput from "./components/LocationInput";
 import { GeocoderResult } from "@/@types/GeocoderResult";
 import { useSearchParams, useRouter, useParams } from "next/navigation";
 import { Posting, ResData } from "@/@types";
@@ -19,7 +19,7 @@ import { userAtom } from "@/recoil/atoms/user.atom";
 import Error from "@/app/error";
 import Image from "next/image";
 
-const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
+const QuillEditor = dynamic(() => import("@/app/planet/[id]/post/write/components/QuillEditor"), { ssr: false });
 
 interface PostWriteProps {
   data?: PostWriteType;
@@ -324,7 +324,7 @@ export default function PostWrite() {
           <PW.TitleAndLocation>
             <PW.TitleInput
               type="text"
-              placeholder="제목을 입력해 주세요"
+              placeholder="제목을 입력해 주세요."
               onChange={handleTitleChange}
               maxLength={50}
               value={title}
