@@ -1,10 +1,10 @@
 {
-  "presets": ["next/babel"],
+  "presets": ["next/babel"], // -> 이거 설정안하면 빌드안됨
   "plugins": [
     [
-      "styled-components",
+      "babel-plugin-styled-components",
       {
-        "ssr": true,
+        "ssr": false
       }
     ]
   ]
