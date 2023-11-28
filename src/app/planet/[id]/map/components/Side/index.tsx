@@ -256,7 +256,11 @@ export default function Side({ onClose, clickMarker, params, markerLocation }: A
                     article.map(article => <PostPreview article={article} params={params} />)
                   )}
 
-                  {article.length && totalData > article.length && <S.ObserverRef ref={observerRef} />}
+                  {article.length ? (
+                    <>{article.length && totalData > article.length && <S.ObserverRef ref={observerRef} />}</>
+                  ) : (
+                    <></>
+                  )}
                 </S.ScrollBox>
               </div>
             </div>
