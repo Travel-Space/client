@@ -101,6 +101,31 @@ export default function NotificationList({
     }
   };
 
+  const handleMembershipUpdate = async (planetId: number | undefined) => {
+    const updatedMemberships = user?.memberships?.planets ? [...user.memberships.planets] : [];
+    const existingMembershipIndex = updatedMemberships.findIndex(membership => membership.planetId === planetId);
+
+    if (existingMembershipIndex !== -1) {
+      const updatedMembership = {
+        ...updatedMemberships[existingMembershipIndex],
+        role: "MEMBER" as "MEMBER",
+      };
+      const newMemberships = [
+        ...updatedMemberships.slice(0, existingMembershipIndex),
+        updatedMembership,
+        ...updatedMemberships.slice(existingMembershipIndex + 1),
+      ];
+
+      setAuth(prev => ({
+        ...prev!,
+        memberships: {
+          ...prev!.memberships,
+          planets: newMemberships,
+        },
+        isAuth: true,
+      }));
+    }
+  };
   const handleNotificationClick = (type: string, articleId: number | undefined, planetId: number | undefined) => {
     if (type === "LIKE" || type === "ARTICLE" || type === "COMMENT" || type === "SUB_COMMENT") {
       router.replace(`/planet/${planetId}/post/?detail=${articleId}`);
@@ -110,10 +135,15 @@ export default function NotificationList({
         case "PLANET_INVITE":
           router.replace(`/planet/${planetId}/map/`);
           onClickNotification();
-
           break;
         case "FOLLOW":
           router.replace(`/mypage/friend/list/`);
+          onClickNotification();
+          break;
+
+        case "PLANET_JOIN_APPROVED":
+          handleMembershipUpdate(planetId);
+          router.replace(`/planet/${planetId}/map/`);
           onClickNotification();
           break;
       }
@@ -139,6 +169,7 @@ export default function NotificationList({
             case "PLANET_INVITE":
             case "ARTICLE":
             case "PLANET_JOIN_REQUEST":
+            case "PLANET_JOIN_APPROVED":
               iconImage = `${imgPath}planet.svg`;
               break;
             case "FOLLOW":
