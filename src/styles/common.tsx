@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ModalBackground = css`
   position: fixed;
@@ -7,6 +7,7 @@ export const ModalBackground = css`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99;
 `;
 
 export const bodyContainer = css`
@@ -30,8 +31,22 @@ export const flexColumn = css`
   flex-direction: column;
 `;
 
+export const flexColumnCenter = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const flexSpaceBetweenCenter = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const ErrorMessage = styled.span`
+  color: ${({ theme }) => theme.PALETTE.error};
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
 `;

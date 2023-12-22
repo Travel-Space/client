@@ -1,19 +1,20 @@
 "use client";
-import GlobalStyles from "@/styles/global";
-import theme from "@/styles/theme";
-import { ThemeProvider } from "styled-components";
 
-export default function App() {
-  const a: String = "abe";
+import HomeTitle from "./home/components/HomeTitle";
+import PlanetList from "./home/components/PlanetList";
+import SearchPlanet from "./home/components/SearchPlanet";
+import * as H from "./home/page.styled";
 
+export default function Home() {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <main>
-          그럼이건모지? 괜찮군 ㅋ<a href="/post">post</a>
-        </main>
-      </ThemeProvider>
+      <H.Wrapper>
+        <HomeTitle />
+        <H.Content>
+          <SearchPlanet />
+          <PlanetList />
+        </H.Content>
+      </H.Wrapper>
     </>
   );
 }
