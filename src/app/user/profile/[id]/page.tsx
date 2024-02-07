@@ -1,68 +1,60 @@
-"use client";
-import { useState } from "react";
+import axiosRequest from "@/api/index";
+import { ResData, User } from "@/@types";
 
 import * as S from "./page.styled";
 
-import Line from "@/components/common/Line";
-import Planets from "@/app/user/profile/Planets";
-import Postings from "@/app/user/profile/Postings";
 import ProfileSummary from "@/app/user/profile/ProfileSummary";
-import Followers from "../Followers";
-import Followings from "../Followings";
+import Contents from "./Contents";
+
+import MESSAGE from "@/constants/message";
 
 interface ProfileParams {
   id: number;
 }
-export default function Profile({ params }: { params: ProfileParams }) {
+
+export async function generateMetadata({ params }: { params: ProfileParams }) {
   const userId = Number(params.id);
 
-  const [tabIndex, setTabIndex] = useState(0);
+  //프로필 조회
+  const getUserProfile = async () => {
+    try {
+      const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/other/${userId}`);
+      const profile = response.data;
+      return profile;
 
-  const selectTab = (idx: number) => {
-    setTabIndex(idx);
+      // console.log("profile", profile);
+    } catch (error) {
+      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+      alert(MESSAGE.ERROR.DEFAULT);
+    }
   };
 
-  const TabList = [
-    {
-      title: "팔로워",
-      content: tabIndex === 0 && <Followers id={userId} />,
+  const user = await getUserProfile();
+  if (!user) return null;
+  return {
+    title: `${user.nickName} (${user.id}) / Travel Space`,
+    description: `${user.nickName} (${user.id}) 프로필`,
+    openGraph: {
+      title: `${user.nickName} (${user.id}) / Z`,
+      description: `${user.nickName} (${user.id}) 프로필`,
+      images: [
+        {
+          url: `${user.profileImage}`,
+          width: 400,
+          height: 400,
+        },
+      ],
     },
-    {
-      title: "팔로잉",
-      content: tabIndex === 1 && <Followings id={userId} />,
-    },
-    {
-      title: "행성목록",
-      content: tabIndex === 2 && <Planets id={userId} />,
-    },
-    {
-      title: "게시글",
-      content: tabIndex === 3 && <Postings id={userId} />,
-    },
-  ];
+  };
+}
+
+export default function Profile({ params }: { params: ProfileParams }) {
+  const userId = Number(params.id);
 
   return (
     <S.Container>
       <ProfileSummary id={userId} />
-      <S.MainContainer>
-        <S.TabListWrap selectedTab={tabIndex}>
-          {TabList.map((el, idx) => (
-            <S.Tab
-              key={idx}
-              title={el.title}
-              onClick={() => {
-                selectTab(idx);
-              }}
-            >
-              {el.title}
-            </S.Tab>
-          ))}
-        </S.TabListWrap>
-
-        <Line color="gray" size="horizontal" />
-
-        <S.MainContent>{TabList[tabIndex].content}</S.MainContent>
-      </S.MainContainer>
+      <Contents id={userId} />
     </S.Container>
   );
 }
