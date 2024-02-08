@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Input, Select } from "antd";
+import { DefaultOptionType } from "antd/es/select";
 
 const { Option } = Select;
 
@@ -56,8 +57,10 @@ export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
       <S.SearchSelect
         placeholder="선택"
         value={selectedOption}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        onChange={(value: string, _: any) => setSelectedOption(value as string)}
+        //
+        onChange={(value: string, option: DefaultOptionType | DefaultOptionType[]) =>
+          setSelectedOption(value as string)
+        }
       >
         {searchOptions[searchType].map(option => (
           <Option key={option.value} value={option.value}>
