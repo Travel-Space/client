@@ -56,7 +56,8 @@ export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
       <S.SearchSelect
         placeholder="선택"
         value={selectedOption}
-        onChange={(value: string, option) => setSelectedOption(value)}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onChange={(value: string, _: any) => setSelectedOption(value as string)}
       >
         {searchOptions[searchType].map(option => (
           <Option key={option.value} value={option.value}>
