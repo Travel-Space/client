@@ -39,7 +39,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
-  const [selectedOption, setSelectedOption] = useState<string>("선택");
+  const [selectedOption, setSelectedOption] = useState<string | unknown>("선택");
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSearch = () => {
@@ -52,7 +52,7 @@ export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
     }
   };
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: unknown) => {
     setSelectedOption(value);
   };
 
