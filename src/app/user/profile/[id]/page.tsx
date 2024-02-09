@@ -15,37 +15,32 @@ interface ProfileParams {
 export async function generateMetadata({ params }: { params: ProfileParams }) {
   const userId = Number(params.id);
 
-  //프로필 조회
-  const getUserProfile = async () => {
-    try {
-      const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/other/${userId}`);
-      const profile = response.data;
-      return profile;
+  try {
+    const response = await axiosRequest.requestAxios<ResData<User>>("get", `/user/other/${userId}`);
+    const user = response.data;
 
-      // console.log("profile", profile);
-    } catch (error) {
-      console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
-      alert(MESSAGE.ERROR.DEFAULT);
-    }
-  };
-
-  const user = await getUserProfile();
-  if (!user) return null;
-  return {
-    title: `${user.nickName} (${user.id}) / Travel Space`,
-    description: `${user.nickName} (${user.id}) 프로필`,
-    openGraph: {
-      title: `${user.nickName} (${user.id}) / Z`,
+    const metadata = {
+      title: `${user.nickName} (${user.id}) / Travel Space`,
       description: `${user.nickName} (${user.id}) 프로필`,
-      images: [
-        {
-          url: `${user.profileImage}`,
-          width: 400,
-          height: 400,
-        },
-      ],
-    },
-  };
+      openGraph: {
+        title: `${user.nickName} (${user.id}) / Z`,
+        description: `${user.nickName} (${user.id}) 프로필`,
+        images: [
+          {
+            url: user.profileImage,
+            width: 400,
+            height: 400,
+          },
+        ],
+      },
+    };
+
+    return metadata;
+  } catch (error) {
+    console.error("프로필 정보를 가져오는 중 에러가 발생했습니다.", error);
+    alert(MESSAGE.ERROR.DEFAULT);
+    return null;
+  }
 }
 
 export default function Profile({ params }: { params: ProfileParams }) {
