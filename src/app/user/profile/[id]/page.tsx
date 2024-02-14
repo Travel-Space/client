@@ -2,6 +2,7 @@ import * as S from "./page.styled";
 
 import ProfileSummary from "@/app/user/profile/ProfileSummary";
 import Contents from "./Contents";
+import { cookies } from "next/headers";
 
 interface ProfileParams {
   id: string;
@@ -9,14 +10,17 @@ interface ProfileParams {
 
 export async function generateMetadata({ params }: { params: ProfileParams }) {
   const url = `https://travelspace.world/api/user/other/${params.id}`;
-  const user = await fetch(url).then(res => res.json());
-  console.log("user", user, "params", params);
+  const user = await fetch(url, {
+    credentials: "include",
+    headers: { Cookie: cookies().toString() },
+    cache: "no-store",
+  }).then(res => res.json());
   return {
-    title: `${user.nickname} (${user.email}) / Travel Space`,
-    description: `${user.nickname} (${user.email}) 프로필`,
+    title: `${user.nickName} (${user.email}) / Travel Space`,
+    description: `${user.nickName} (${user.email}) 프로필`,
     openGraph: {
-      title: `${user.nickname} (${user.email}) / Travel Space`,
-      description: `${user.nickname} (${user.email}) 프로필`,
+      title: `${user.nickName} (${user.email}) / Travel Space`,
+      description: `${user.nickName} (${user.email}) 프로필`,
       images: [
         {
           url: `${user.profileImage}`,
