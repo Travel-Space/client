@@ -18,17 +18,6 @@ export async function generateMetadata({ params }: { params: ProfileParams }) {
   return {
     title: `${user.nickName} (${user.email}) / Travel Space`,
     description: `${user.nickName} (${user.email}) 프로필`,
-    openGraph: {
-      title: `${user.nickName} (${user.email}) / Travel Space`,
-      description: `${user.nickName} (${user.email}) 프로필`,
-      images: [
-        {
-          url: `${user.profileImage}`,
-          width: 400,
-          height: 400,
-        },
-      ],
-    },
   };
 }
 
