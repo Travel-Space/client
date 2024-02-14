@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   ${bodyContainer}
   overflow: auto;
 `;
-
 export const Content = styled.div`
   ${bodyContainer}
   ${flexColumnCenter};
