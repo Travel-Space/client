@@ -10,7 +10,7 @@ interface ProfileParams {
 export async function generateMetadata({ params }: { params: ProfileParams }) {
   const url = `https://travelspace.world/api/user/other/${params.id}`;
   const user = await fetch(url).then(res => res.json());
-
+  console.log("user", user, "params", params);
   return {
     title: `${user.nickname} (${user.email}) / Travel Space`,
     description: `${user.nickname} (${user.email}) 프로필`,
