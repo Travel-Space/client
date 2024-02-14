@@ -5,9 +5,10 @@ interface Context {
 }
 export async function generateMetadata({ searchParams }: Context) {
   const postId = searchParams.detail;
-  const url = `https://travelspace.world/api/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`;
+  const baseURL = "https://travelspace.world/api";
+  // const baseURL = "http://localhost:8080/api";
+  const url = `${baseURL}/articles/${postId}?commentPage=1&commentPageSize=10&replyPage=1&replyPageSize=5`;
   const post = await fetch(url).then(res => res.json());
-
   return {
     title: post.title,
     description: `${post.title} : ${post.author.nickName} 님의 게시글`,
@@ -16,7 +17,7 @@ export async function generateMetadata({ searchParams }: Context) {
       description: `${post.title} : ${post.author.nickName} 님의 게시글`,
       images:
         post.images?.length > 0
-          ? post.Images?.map((v: { url: string }) => ({
+          ? post.images?.map((v: { url: string }) => ({
               url: v.url,
               width: 600,
               height: 400,
