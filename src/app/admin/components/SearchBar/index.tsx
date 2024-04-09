@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Input, Select } from "antd";
+import { DefaultOptionType } from "antd/es/select";
 
 const { Option } = Select;
 
@@ -38,7 +39,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
-  const [selectedOption, setSelectedOption] = useState<string>("선택");
+  const [selectedOption, setSelectedOption] = useState<string | unknown>("선택");
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSearch = () => {
@@ -51,9 +52,18 @@ export default function SearchBar({ searchType, onSearch }: SearchBarProps) {
     }
   };
 
+  const handleChange = (value: unknown) => {
+    setSelectedOption(value);
+  };
+
   return (
     <S.SearchBarContainer>
-      <S.SearchSelect placeholder="선택" value={selectedOption} onChange={(value: string) => setSelectedOption(value)}>
+      <S.SearchSelect
+        placeholder="선택"
+        value={selectedOption}
+        //
+        onChange={handleChange}
+      >
         {searchOptions[searchType].map(option => (
           <Option key={option.value} value={option.value}>
             {option.label}

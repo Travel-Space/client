@@ -1,3 +1,4 @@
+"use client";
 import axiosRequest from "@/api/index";
 import { ResData, User } from "@/@types";
 
