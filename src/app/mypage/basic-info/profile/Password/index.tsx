@@ -33,8 +33,8 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
         <S.InputGroup>
           <Input
             id="newPassword"
-            type="text"
-            name="newPassword"
+            type="password"
+            name="password"
             placeholder="Password"
             onChange={handleChange}
             warning={valid}
@@ -55,6 +55,7 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
             onChange={handleChange}
             value={passwordCheck}
             warning={password !== passwordCheck && passwordCheck.length > 0}
+            autoComplete="new-password"
           />
           {password !== passwordCheck && passwordCheck.length > 0 && (
             <S.Error>{MESSAGE.JOIN.SYNTAX_PASSWORD_CHECK}</S.Error>
