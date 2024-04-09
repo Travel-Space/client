@@ -18,6 +18,7 @@ interface InputType {
   thin: boolean;
   warning: boolean | string;
   maxLength: number;
+  autoComplete: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
@@ -43,6 +44,7 @@ export default React.forwardRef(function Input(
     thin,
     warning,
     maxLength,
+    autoComplete,
   }: Partial<InputType>,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
@@ -63,6 +65,7 @@ export default React.forwardRef(function Input(
       readOnly={readOnly}
       ref={ref}
       maxLength={maxLength}
+      autoComplete={autoComplete}
     />
   );
 });

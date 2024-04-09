@@ -32,13 +32,14 @@ export default function Password({ onPasswordCompare, valid }: PropsType) {
       <Item name="새 비밀번호">
         <S.InputGroup>
           <Input
-            id="password"
-            type="password"
-            name="password"
+            id="newPassword"
+            type="text"
+            name="newPassword"
             placeholder="Password"
             onChange={handleChange}
             warning={valid}
             value={password}
+            autoComplete="new-password"
           />
           {valid && <S.Error>{MESSAGE.LOGIN.SYNTAX_PASSWORD}</S.Error>}
         </S.InputGroup>

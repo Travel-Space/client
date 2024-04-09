@@ -20,6 +20,9 @@ export const Error = styled.span`
   margin-left: 16px;
 `;
 export const InputGroup = styled.div`
+  & > input:first-child {
+    -webkit-text-security: disc;
+  }
   & > input {
     line-height: 17px;
     width: 244px;
