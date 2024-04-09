@@ -7,7 +7,11 @@ import { useParams } from "next/navigation";
 
 export default function Spaceship() {
   const params = useParams();
-  const isLoggedIn = useAuth(Number(params.id), PLANET_ROLE_NAME.MEMBER);
+  const isLoggedIn = useAuth(Number(params.id), [
+    PLANET_ROLE_NAME.OWNER,
+    PLANET_ROLE_NAME.ADMIN,
+    PLANET_ROLE_NAME.MEMBER,
+  ]);
 
   if (!isLoggedIn) {
     return null;

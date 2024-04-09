@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 
 export default function ModifyPlanet() {
   const params = useParams();
-  const isLoggedIn = useAuth(Number(params.id), PLANET_ROLE_NAME.ADMIN);
+  const isLoggedIn = useAuth(Number(params.id), [PLANET_ROLE_NAME.OWNER, PLANET_ROLE_NAME.ADMIN]);
 
   if (!isLoggedIn) {
     return null;
