@@ -1,8 +1,6 @@
 # 🌏 Travel Space : 다녀온 여행을 기록하는 나만의 공간
 <p align="center">
-<a href=https://travelspace.world target=_blank>Travel Space로 여행 떠나보실까요?</a></p>
-
-<p align="center">
+🌍 <a href=https://travelspace.world target=_blank>Travel Space로 여행 떠나보실까요?</a><br /><br />
 <img src=https://github.com/Travel-Space/server/assets/110807563/fba003c3-9a96-4c48-8cf0-030d01a8384b width="900" />
 </p>
 
@@ -189,17 +187,19 @@
 ![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white)
 ![nginx](https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white)
 <br />
+
 # 협업 방법
-- Notion
-- Figma
-- Discord
-- Gather Town
+- Notion: 회의 기록 및 배포 방법을 작성하는 등 진행
+- Figma: 웹 페이지 디자인 및 기획을 진행
+- Discord 및 Gather Town: 팀원들과 실시간으로 소통하며 진행
+<br />
 
 ## 💿 프로젝트 관련 자료 및 주소
 - 배포 주소 : <a href=https://travelspace.world target=_blank>https://travelspace.world/</a>
 - 피그마 : https://www.figma.com/file/HNPr0zzVnOXJB09UhLdXzb/Pick-ME?type=design&mode=design
 - 백엔드 서버 : https://github.com/Pro-Portfolio/server
 <br />
+
 ## 🌐 Browser Support
 
 | ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/main/src/safari/safari_48x48.png) | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_48x48.png) |
